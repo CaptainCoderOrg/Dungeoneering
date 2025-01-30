@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca0afe17284ac44993e7b8d2e91f5c6, type: 3}
   m_Name: Ikea
   m_EditorClassIdentifier: 
-  <ManifestJson>k__BackingField: {fileID: 4900000, guid: cabf1b521d9720f4ca4bcc594246d615, type: 3}
+  <ManifestJson>k__BackingField: {fileID: 4900000, guid: 55916a7c12a631841b1b400c8ecb0bb3, type: 3}

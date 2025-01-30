@@ -1,0 +1,70 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "DungeonCrawler.Lua/1.0.0": {
+        "dependencies": {
+          "DungeonCrawler": "1.0.0",
+          "DungeonCrawler.Combat": "1.0.0",
+          "MoonSharp": "2.0.0"
+        },
+        "runtime": {
+          "DungeonCrawler.Lua.dll": {}
+        }
+      },
+      "MoonSharp/2.0.0": {
+        "runtime": {
+          "lib/netstandard1.6/MoonSharp.Interpreter.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "DungeonCrawler/1.0.0": {
+        "runtime": {
+          "DungeonCrawler.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "DungeonCrawler.Combat/1.0.0": {
+        "runtime": {
+          "DungeonCrawler.Combat.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DungeonCrawler.Lua/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MoonSharp/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uiAcRh7d+53k3xW9pFDJfAFVw4RnjHVCJG05M3oPAVEVwPtFavhg1H/IpC6So4X1j9kJlzuLlA3OghhPcIvc5A==",
+      "path": "moonsharp/2.0.0",
+      "hashPath": "moonsharp.2.0.0.nupkg.sha512"
+    },
+    "DungeonCrawler/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DungeonCrawler.Combat/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
