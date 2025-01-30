@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <_ProjectName>DungeonCrawler.Combat</_ProjectName>
+    <_UnityProjectDir>$(ProjectDir)..\..\DC Jam 2024 Unity\Assets\Dependencies</_UnityProjectDir>
+    <_ScriptingDir>$(_UnityProjectDir)\$(_ProjectName)</_ScriptingDir>
+  </PropertyGroup>
+
+  <Target Name="CopyToUnity" AfterTargets="Build">
+    <ItemGroup>
+      <_FilesToCopy Include="$(TargetDir)\$(_ProjectName).*" />
+    </ItemGroup>
+    <Message Text="_FilesToCopy: @(_FilesToCopy)" Importance="high" />
+    <Message Text="Destination: @(_FilesToCopy->'$(_ScriptingDir)\%(RecursiveDir)%(Filename)%(Extension)')" Importance="high" />
+    <Copy SourceFiles="@(_FilesToCopy)" DestinationFiles="@(_FilesToCopy->'$(_ScriptingDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

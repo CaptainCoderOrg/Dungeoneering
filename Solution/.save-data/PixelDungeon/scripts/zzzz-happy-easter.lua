@@ -1,0 +1,1 @@
+context.WriteInfo("<size=18><color=yellow>Happy Easter Zooperegg!</color></size>")

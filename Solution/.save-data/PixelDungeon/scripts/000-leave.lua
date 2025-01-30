@@ -1,0 +1,7 @@
+context.WriteInfo("The sound of meat reforming can be heard in the showroom.")
+context.SetVariable("respawn-meatballs", true)
+context.SetVariable("final-count", 0)
+context.SetVariable("final-0", false)
+context.SetVariable("final-1", false)
+context.SetVariable("final-2", false)
+context.SetVariable("final-3", false)

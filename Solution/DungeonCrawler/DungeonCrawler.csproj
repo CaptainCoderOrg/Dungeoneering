@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <_UnityProjectDir>$(ProjectDir)..\..\DC Jam 2024 Unity\Assets\Dependencies\DungeonCrawler</_UnityProjectDir>
+  </PropertyGroup>
+
+  <Target Name="CopyToUnity" AfterTargets="Build">
+      <ItemGroup>
+      <_FilesToCopy Include="$(TargetDir)\DungeonCrawler.*" />
+    </ItemGroup>
+    <ItemGroup>
+
+    </ItemGroup>
+    <Message Text="_FilesToCopy: @(_FilesToCopy)" Importance="high" />
+    <Message Text="Destination: @(_FilesToCopy->'$(_UnityProjectDir)\%(RecursiveDir)%(Filename)%(Extension)')" Importance="high" />
+    <Copy SourceFiles="@(_FilesToCopy)" DestinationFiles="@(_FilesToCopy->'$(_UnityProjectDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

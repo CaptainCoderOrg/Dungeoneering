@@ -1,0 +1,5 @@
+context.SetVariable("second-cosmic-mirror", true)
+context.SetVariable("ronadrok-in-party", true)
+context.AddPartyMember(2)
+context.WriteInfo("Ronadrok joins the party")
+context.ShowDialogue(Dialogue([[As Kordanor watches, mesmerized, the reflection steps out of the mirror, its form shimmering with the same otherworldly colors that had so captivated him. This spectral version of himself moves with a fluid grace, its eyes glowing with an ethereal light, hinting at knowledge and realms beyond Kordanor's understanding. The air around them seems to hum with a strange energy, as if the very fabric of reality is bending, welcoming this being from a place where the laws of physics as Kordanor knows them do not apply.]]))

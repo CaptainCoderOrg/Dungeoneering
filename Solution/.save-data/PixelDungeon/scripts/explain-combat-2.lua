@@ -1,0 +1,5 @@
+context.HealParty()
+local dialogue = Dialogue([[In the following combat, the skeleton is too far away to attack without moving. Select a move action to gain movement points. Then, select an attack action to gain 1 attack point. During your turn, spend movement points to move next to the skeleton and attack it.]])
+dialogue.AddOption(RunScriptDialogueOption("Fight a Skeleton", "fight-a-skeleton-2.lua"))
+dialogue.AddOption(CloseDialogueOption("Leave"))
+context.ShowDialogue(dialogue)

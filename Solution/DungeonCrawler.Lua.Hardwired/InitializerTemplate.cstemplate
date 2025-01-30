@@ -1,0 +1,14 @@
+
+namespace CaptainCoder.Dungeoneering.Lua {
+    
+    
+    public abstract class LuaInitializer {
+        
+        private LuaInitializer() {
+        }
+        
+        public static void Initialize() {
+           
+        }
+    }
+}

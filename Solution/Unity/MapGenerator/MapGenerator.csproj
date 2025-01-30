@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <!-- <_UnityManagedPath>D:\Unity  Editors\2022.3.6f1\Editor\Data\Managed</_UnityManagedPath> -->
+    <_UnityManagedPath>$(ProjectDir)..\ManagedLibs\</_UnityManagedPath>
+    <_UnityProjectDir>$(ProjectDir)..\..\..\DC Jam 2024 Unity</_UnityProjectDir>
+    <_OutDepsDir>$(_UnityProjectDir)\Assets\Dependencies\MapGenerator</_OutDepsDir>
+    <_ScriptAssembliesDir>$(_UnityProjectDir)\Library\ScriptAssemblies</_ScriptAssembliesDir>
+  </PropertyGroup>
+
+  <Target Name="CopyToUnity" AfterTargets="Build">
+      <ItemGroup>
+      <_FilesToCopy Include="$(TargetDir)\MapGenerator.*"/>
+    </ItemGroup>
+    <ItemGroup>
+
+    </ItemGroup>
+    <Message Text="_FilesToCopy: @(_FilesToCopy)" Importance="high"/>
+    <Message Text="Destination: @(_FilesToCopy->'$(_OutDepsDir)\%(RecursiveDir)%(Filename)%(Extension)')" Importance="high"/>
+    <Copy 
+      SourceFiles="@(_FilesToCopy)" 
+      DestinationFiles="@(_FilesToCopy->'$(_OutDepsDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true"
+      />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DungeonCrawler\DungeonCrawler.csproj" />
+    <ProjectReference Include="..\..\DungeonCrawler.IO\DungeonCrawler.IO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>$(_UnityManagedPath)\Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(_UnityManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="NaughtyAttributes.Core">
+      <HintPath>$(_UnityManagedPath)\NaughtyAttributes.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(_UnityManagedPath)\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

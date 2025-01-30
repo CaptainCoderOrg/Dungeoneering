@@ -1,0 +1,7 @@
+local dialogue = Dialogue([[Kordanor thanks you for the assitance and joins you on your quest.]])
+local findKey = Dialogue([[You search through the piles of rotting meat and find a green key!]])
+findKey.AddOption(CloseDialogueOption("Take Key"))
+dialogue.AddOption(ContinueDialogueOption("Awesome!", findKey))
+context.SetVariable("kordanor-saved", true)
+context.SetVariable("has-green-key", true)
+context.ShowDialogue(dialogue)

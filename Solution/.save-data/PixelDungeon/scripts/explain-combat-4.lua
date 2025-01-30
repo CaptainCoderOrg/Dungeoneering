@@ -1,0 +1,5 @@
+context.HealParty()
+local dialogue = Dialogue([[The Guard action allows you to attack the enemy on their turn. In the following combat, select Guard and Move. Move toward the skeleton, you won't be able to reach it. However, when the skeleton moves to attack, interrupt it with your guard and defeat it without taking damage.]])
+dialogue.AddOption(RunScriptDialogueOption("Fight a Skeleton", "fight-a-skeleton-4.lua"))
+dialogue.AddOption(CloseDialogueOption("Leave"))
+context.ShowDialogue(dialogue)

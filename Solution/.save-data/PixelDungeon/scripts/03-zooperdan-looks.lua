@@ -1,0 +1,5 @@
+context.SetVariable("first-cosmic-mirror", true)
+context.SetVariable("nadrepooz-in-party", true)
+context.AddPartyMember(3)
+context.WriteInfo("Nadrepooz joins the party")
+context.ShowDialogue(Dialogue([[As Zooperdan watches, mesmerized, the reflection steps out of the mirror, its form shimmering with the same otherworldly colors that had so captivated him. This spectral version of himself moves with a fluid grace, its eyes glowing with an ethereal light, hinting at knowledge and realms beyond Zooperdan's understanding. The air around them seems to hum with a strange energy, as if the very fabric of reality is bending, welcoming this being from a place where the laws of physics as Zooperdan knows them do not apply.]]))

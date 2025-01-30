@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\DungeonCrawler.Lua\DungeonCrawler.Lua.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MoonSharp" Version="2.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    
+  </PropertyGroup>
+
+
+  <!-- 
+      This builds LuaInitializer.cs which modifies DungeonCrawler.Lua which is a
+      dependency of this project. This is a cyclical dependency. However, this
+      should be sufficient *most* of the time. Essentially, running build twice
+      should resolve the problem. There is likely a way to detect when this should
+      be run.
+    -->
+  <!-- <Target Name="UpdateLuaInitializer" AfterTargets="Build">
+    
+    <Exec Command="dotnet $(TargetDir)$(TargetFileName)" />
+    <Exec Command="bash build.sh" />
+  </Target> -->
+
+</Project>

@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <_UnityProjectDir>$(ProjectDir)..\..\DC Jam 2024 Unity\Assets\Dependencies</_UnityProjectDir>
+    <_ScriptingDir>$(_UnityProjectDir)\DungeonCrawler.Lua</_ScriptingDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MoonSharp" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DungeonCrawler\DungeonCrawler.csproj" />
+    <ProjectReference Include="..\DungeonCrawler.Combat\DungeonCrawler.Combat.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyToUnity" AfterTargets="Build">
+    <ItemGroup>
+      <_FilesToCopy Include="$(TargetDir)\DungeonCrawler.Lua.*" />
+      <_MoonSharpDll Include="$(TargetDir)\MoonSharp.Interpreter.dll" />
+    </ItemGroup>
+    <Message Text="_FilesToCopy: @(_FilesToCopy)" Importance="high" />
+    <Message Text="Destination: @(_FilesToCopy->'$(_ScriptingDir)\%(RecursiveDir)%(Filename)%(Extension)')" Importance="high" />
+    <Copy SourceFiles="@(_FilesToCopy)" DestinationFiles="@(_FilesToCopy->'$(_ScriptingDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_MoonSharpDll)" DestinationFiles="$(_UnityProjectDir)\MoonSharp.Interpreter\MoonSharp.Interpreter.dll" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

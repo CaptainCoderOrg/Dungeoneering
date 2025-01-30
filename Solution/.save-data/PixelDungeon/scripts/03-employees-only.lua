@@ -1,0 +1,1 @@
+context.WriteInfo("A sign on the door read 'Employees Only'")
