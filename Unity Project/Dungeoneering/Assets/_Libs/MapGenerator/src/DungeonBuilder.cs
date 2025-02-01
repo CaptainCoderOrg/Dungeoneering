@@ -20,12 +20,21 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonTile TilePrefab { get; private set; } = null!;
         [field: SerializeField]
         public DungeonManifestData Manifest { get; private set; } = null!;
+        [field: SerializeField]
+        public string DungeonKey { get; private set; }
+        [field: SerializeField]
+        public string[] Keys { get; private set; }
         [Button]
         public void BuildManifest()
         {
             DungeonCrawlerManifest manifest = Manifest.LoadManifest();
             InitializeMaterialCache(manifest);
-            Dungeon d = manifest.Dungeons[manifest.Dungeons.Keys.First()];
+            Keys = manifest.Dungeons.Keys.ToArray();
+            if (!manifest.Dungeons.TryGetValue(DungeonKey, out Dungeon d))
+            {
+                d = manifest.Dungeons[manifest.Dungeons.Keys.First()];
+            }
+            
             Build(d);
         }
         public static Dictionary<string, Material> InitializeMaterialCache(DungeonCrawlerManifest manifest)
