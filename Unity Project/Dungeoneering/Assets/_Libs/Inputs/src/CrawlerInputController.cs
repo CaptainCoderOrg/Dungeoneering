@@ -30,6 +30,22 @@ namespace CaptainCoder.Dungeoneering.DungeonCrawler.Input
                 if (action.HasValue) { OnMovement.Invoke(action.Value); }
             }
         }
+
+        public void HandleRotateCW(CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                OnMovement.Invoke(MovementAction.RotateRight);
+            }
+        }
+
+        public void HandleRotateCounterCW(CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                OnMovement.Invoke(MovementAction.RotateLeft);
+            }
+        }
     }
 
 
