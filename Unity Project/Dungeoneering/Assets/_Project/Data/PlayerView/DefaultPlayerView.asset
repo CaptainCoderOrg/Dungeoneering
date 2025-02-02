@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DefaultPlayerView
   m_EditorClassIdentifier: 
   <X>k__BackingField: 0
-  <Y>k__BackingField: 0
-  <Facing>k__BackingField: 0
+  <Y>k__BackingField: 19
+  <Facing>k__BackingField: 2

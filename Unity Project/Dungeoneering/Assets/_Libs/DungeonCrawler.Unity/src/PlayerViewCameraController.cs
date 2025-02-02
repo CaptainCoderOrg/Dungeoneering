@@ -1,26 +1,30 @@
 using CaptainCoder.Dungeoneering.Player;
-using CaptainCoder.Dungeoneering.Unity;
 using UnityEngine;
-
-public class PlayerViewCameraController : MonoBehaviour
+namespace CaptainCoder.Dungeoneering.Unity
 {
-    [field: SerializeField]
-    public PlayerViewData PlayerView { get; private set; }
-
-    public void OnEnable()
+    public class PlayerViewCameraController : MonoBehaviour
     {
-        PlayerView.OnChange.AddListener(HandlePlayerViewChanged);
-    }
+        [field: SerializeField]
+        public CameraMode CameraMode { get; private set; }
+        [field: SerializeField]
+        public PlayerViewData PlayerView { get; private set; }
 
-    public void OnDisable()
-    {
-        PlayerView.OnChange.RemoveListener(HandlePlayerViewChanged);
-    }
+        public void OnEnable()
+        {
+            PlayerView.OnChange.AddListener(HandlePlayerViewChanged);
+        }
 
-    private void HandlePlayerViewChanged(PlayerView view)
-    {
-        Debug.Log($"Player View Changed: {view}");
-        transform.position = view.Position.ToVector3();
-        transform.rotation = view.Facing.ToQuaternion();
+        public void OnDisable()
+        {
+            PlayerView.OnChange.RemoveListener(HandlePlayerViewChanged);
+        }
+
+        private void HandlePlayerViewChanged(PlayerView exit, PlayerView enter)
+        {
+            // print("Hello world!")
+            Debug.Log($"Player View Changed: {exit} => {enter}");
+            StartCoroutine(CameraMode.HandlePlayerViewChanged(transform, exit, enter));
+        }
+
     }
 }

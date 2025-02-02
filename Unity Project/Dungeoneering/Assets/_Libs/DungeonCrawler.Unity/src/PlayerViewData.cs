@@ -7,7 +7,7 @@ namespace CaptainCoder.Dungeoneering.Unity
     [CreateAssetMenu(menuName = "DC/PlayerView")]   
     public class PlayerViewData : ObservableSO
     {
-        public UnityEvent<PlayerView> OnChange { get; private set; } = new();
+        public UnityEvent<PlayerView, PlayerView> OnChange { get; private set; } = new();
 
         [field: SerializeField]
         public int X { get; set; }
@@ -23,11 +23,12 @@ namespace CaptainCoder.Dungeoneering.Unity
             private set
             {
                 if (_view == value) { return; }
+                PlayerView exit = _view;
                 _view = value;
                 X = _view.Position.X;
                 Y = _view.Position.Y;
                 Facing = _view.Facing;
-                OnChange.Invoke(_view);
+                OnChange.Invoke(exit, _view);
             }
         }
 
