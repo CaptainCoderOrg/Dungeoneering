@@ -1,3 +1,17 @@
 {
-	"name": "DungeonCrawler.Unity"
+    "name": "DungeonCrawler.Unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0154b05739446c44996a5b00a4c68c2b",
+        "GUID:ec88aec9f2bba5f4a8732813932550c3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -24,6 +24,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public string DungeonKey { get; private set; }
         [field: SerializeField]
         public string[] Keys { get; private set; }
+        [field: SerializeField]
+        public DungeonData DungeonData { get; private set; }
+
+        public void Start()
+        {
+            BuildManifest();
+        }
+
         [Button]
         public void BuildManifest()
         {
@@ -34,6 +42,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 d = manifest.Dungeons[manifest.Dungeons.Keys.First()];
             }
+            DungeonData.Dungeon = d;
             
             Build(d);
         }

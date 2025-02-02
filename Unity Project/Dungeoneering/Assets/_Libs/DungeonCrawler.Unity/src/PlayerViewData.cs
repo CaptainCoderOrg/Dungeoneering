@@ -10,17 +10,17 @@ namespace CaptainCoder.Dungeoneering.Unity
         public UnityEvent<PlayerView, PlayerView> OnChange { get; private set; } = new();
 
         [field: SerializeField]
-        public int X { get; set; }
+        public int X { get; private set; }
         [field: SerializeField]
-        public int Y { get; set; }
+        public int Y { get; private set; }
         [field: SerializeField]
-        public Facing Facing { get; set; }
+        public Facing Facing { get; private set; }
         
         private PlayerView _view;
         public PlayerView View 
         { 
             get => _view;
-            private set
+         set
             {
                 if (_view == value) { return; }
                 PlayerView exit = _view;
