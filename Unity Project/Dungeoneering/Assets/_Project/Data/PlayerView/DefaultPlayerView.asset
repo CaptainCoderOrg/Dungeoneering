@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec99ff395692d1343af448d89a9de525, type: 3}
   m_Name: DefaultPlayerView
   m_EditorClassIdentifier: 
-  <X>k__BackingField: 0
-  <Y>k__BackingField: 0
-  <Facing>k__BackingField: 2
+  <X>k__BackingField: 17
+  <Y>k__BackingField: 4
+  <Facing>k__BackingField: 1

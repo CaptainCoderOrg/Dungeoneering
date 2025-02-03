@@ -29,5 +29,10 @@ namespace CaptainCoder.Dungeoneering.Unity
             float Percent() => elapsedTime / Duration;
         }
 
+        public override (Vector3 Position, Quaternion Rotation) EndPositionAndRotation(PlayerView view)
+        {
+            return (view.Position.ToVector3() + Offset, Quaternion.Euler(90, -90, 0));
+        }
+
     }
 }

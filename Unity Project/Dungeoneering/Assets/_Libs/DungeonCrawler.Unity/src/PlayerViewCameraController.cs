@@ -12,6 +12,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         public void OnEnable()
         {
             PlayerView.OnChange.AddListener(HandlePlayerViewChanged);
+            (transform.position, transform.rotation) = CameraMode.EndPositionAndRotation(PlayerView.View);            
         }
 
         public void OnDisable()
