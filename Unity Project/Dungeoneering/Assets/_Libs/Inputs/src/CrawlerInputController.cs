@@ -15,10 +15,8 @@ namespace CaptainCoder.Dungeoneering.DungeonCrawler.Input
         {
             if (ctx.performed)
             {
-                Debug.Log($"Input: {ctx.ReadValue<Vector2>()}");
                 Vector2 raw = ctx.ReadValue<Vector2>();
                 (int x, int y) = (System.Math.Sign(raw.x), System.Math.Sign(raw.y));
-                Debug.Log($"Signed: {x}, {y}");
                 MovementAction? action = (x, y) switch
                 {
                     (_, 1) => MovementAction.StepForward,

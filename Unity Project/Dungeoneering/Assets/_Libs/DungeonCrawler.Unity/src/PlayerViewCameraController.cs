@@ -22,8 +22,6 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         private void HandlePlayerViewChanged(PlayerView exit, PlayerView enter)
         {
-            // print("Hello world!")
-            Debug.Log($"Player View Changed: {exit} => {enter}");
             StartCoroutine(CameraMode.HandlePlayerViewChanged(transform, exit, enter));
         }
 

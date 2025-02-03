@@ -13,7 +13,6 @@ namespace CaptainCoder.Dungeoneering.Unity
         public DungeonData Dungeon { get; private set; }
         public void HandleInput(MovementAction action)
         {
-            Debug.Log($"Dungeon: {Dungeon.Dungeon} / View: {PlayerView.View}");
             PlayerView.View = PlayerControls.Move(Dungeon.Dungeon, PlayerView.View, action);
         }
     }
