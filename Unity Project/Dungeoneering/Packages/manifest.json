@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.needle.compilation-visualizer": "1.8.4",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.6.0",
     "com.unity.feature.2d": "2.0.1",
@@ -45,5 +46,15 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com/",
+      "scopes": [
+        "com.needle.compilation-visualizer"
+      ],
+      "overrideBuiltIns": false
+    }
+  ]
 }

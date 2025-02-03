@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.needle.compilation-visualizer": {
+      "version": "1.8.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,
