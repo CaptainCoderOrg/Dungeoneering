@@ -10,7 +10,8 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         public void OnEnable()
         {
-            PlayerView.OnChange.AddListener(HandlePlayerViewChanged);         
+            PlayerView.OnChange.AddListener(HandlePlayerViewChanged);
+            HandlePlayerViewChanged(PlayerView.View, PlayerView.View);
         }
 
         public void OnDisable()
