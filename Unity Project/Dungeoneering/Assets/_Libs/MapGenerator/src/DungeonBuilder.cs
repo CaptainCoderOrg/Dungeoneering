@@ -7,13 +7,14 @@ using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Unity;
 
 using NaughtyAttributes;
+using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonBuilder : MonoBehaviour
     {
-        private static Dictionary<string, Material> s_materialCache;
-        public static Dictionary<string, Material> MaterialCache => s_materialCache ?? throw new System.Exception("Material Cache has not yet been initialized.");
+        private Dictionary<string, Material> s_materialCache;
+        public Dictionary<string, Material> MaterialCache => s_materialCache ?? throw new System.Exception("Material Cache has not yet been initialized.");
         [field: SerializeField]
         public Transform TileParent { get; private set; } = null!;
         [field: SerializeField]
@@ -26,6 +27,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public string[] Keys { get; private set; }
         [field: SerializeField]
         public DungeonData DungeonData { get; private set; }
+        [field: SerializeField]
+        public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
 
         public void Start()
         {
@@ -44,16 +47,16 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
             DungeonData.Dungeon = d;
             
-            Build(d);
+            Build(d, manifest);
         }
-        public static Dictionary<string, Material> InitializeMaterialCache(DungeonCrawlerManifest manifest)
+        public Dictionary<string, Material> InitializeMaterialCache(DungeonCrawlerManifest manifest)
         {
             s_materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
             return s_materialCache;
         }
-        public void Build(Dungeon dungeon) => BuildDungeon(TileParent, TilePrefab, dungeon);
+        public void Build(Dungeon dungeon, DungeonCrawlerManifest manifest) => BuildDungeon(TileParent, TilePrefab, dungeon, manifest);
 
-        public static void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon)
+        public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon, DungeonCrawlerManifest manifest)
         {
             Dictionary<Position, DungeonTile> allTiles = new();
             parent.DestroyAllChildren();
@@ -62,12 +65,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 for (int y = 0; y < 24; y++)
                 {
-                    DungeonTile newTile = Instantiate(tilePrefab, parent);
-                    newTile.name = $"({x}, {y})";
-                    newTile.transform.position = new Vector3(y, 0, x);
                     Position position = new(x, y);
-                    newTile.UpdateFloor(MaterialCache.GetTileMaterial(dungeon, position));
-                    newTile.UpdateWalls(dungeon.GetTile(position).Walls, MaterialCache.GetTileWallMaterials(dungeon, position));
+                    DungeonTile newTile = DungeonTile.Create(tilePrefab, parent, MaterialCache, manifest, dungeon, position);
+                    newTile.OnClicked.AddListener(HandleTileClicked);
                     allTiles[new Position(x, y)] = newTile;
                 }
             }
@@ -85,5 +85,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 toUpdate.UpdateWalls(dungeon.GetTile(position).Walls, MaterialCache.GetTileWallMaterials(dungeon, position));
             }
         }
+
+        private void HandleTileClicked(DungeonTile clicked) => OnDungeonTileClicked.Invoke(clicked);
     }
 }

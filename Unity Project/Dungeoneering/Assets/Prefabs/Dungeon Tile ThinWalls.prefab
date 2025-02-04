@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f09120be6cea0444af589d2d1f1d255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <OnClicked>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   <NorthWall>k__BackingField: {fileID: 3580846524133671530}
   <EastWall>k__BackingField: {fileID: 4324305055512040746}
   <SouthWall>k__BackingField: {fileID: 4140806235390735206}
@@ -1225,6 +1228,7 @@ GameObject:
   - component: {fileID: 5110878112998582658}
   - component: {fileID: 8748196856519374685}
   - component: {fileID: 5161793062444465022}
+  - component: {fileID: 8512456297142408079}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -1563,6 +1567,34 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &8512456297142408079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568162887805626294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ad1498070c9c44daceb10a87c01673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnClick>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5189569618308452288}
+        m_TargetAssemblyTypeName: CaptainCoder.Dungeoneering.DungeonMap.Unity.DungeonTile,
+          MapGenerator
+        m_MethodName: Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7207584568321606776
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,18 @@
+using System.Collections.Generic;
+using CaptainCoder.Dungeoneering.DungeonCrawler;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonTile : MonoBehaviour
     {
+        public DungeonCrawlerManifest Manifest { get; private set; }
+        public Dungeon Dungeon { get; private set; }
+        public Position Position { get; private set; }
+        [field: SerializeField]
+        public UnityEvent<DungeonTile> OnClicked { get; private set; }
+
         [field: SerializeField]
         public DungeonWallController NorthWall { get; private set; } = default!;
         [field: SerializeField]
@@ -14,6 +23,25 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonWallController WestWall { get; private set; } = default!;
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
+
+        public void Click() => OnClicked.Invoke(this);
+
+        public static DungeonTile Create(DungeonTile prefab, Transform parent, Dictionary<string, Material> cache, DungeonCrawlerManifest manifest, Dungeon dungeon, Position position)
+        {
+            bool wasActive = prefab.gameObject.activeSelf;
+            prefab.gameObject.SetActive(false);
+            DungeonTile newTile = Instantiate(prefab, parent);
+            newTile.Manifest = manifest;
+            newTile.Dungeon = dungeon;
+            newTile.Position = position;
+            newTile.name = $"({position.X}, {position.Y})";
+            newTile.transform.position = new Vector3(position.Y, 0, position.X);
+            newTile.UpdateFloor(cache.GetTileMaterial(dungeon, position));
+            newTile.UpdateWalls(dungeon.GetTile(position).Walls, cache.GetTileWallMaterials(dungeon, position));
+            prefab.gameObject.SetActive(wasActive);
+            newTile.gameObject.SetActive(wasActive);
+            return newTile;
+        }
 
         public void UpdateFloor(Material material)
         {
