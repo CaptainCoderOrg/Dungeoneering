@@ -8,7 +8,16 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonData : ObservableSO
     {
         public UnityEvent<Dungeon> OnChange { get; private set; } = new();
-        public Dungeon Dungeon { get; set; }
+        private Dungeon _dungeon;
+        public Dungeon Dungeon 
+        { 
+            get => _dungeon; 
+            set
+            {
+                _dungeon = value;
+                OnChange.Invoke(_dungeon);
+            } 
+        }
 
         protected override void OnEnterPlayMode()
         {

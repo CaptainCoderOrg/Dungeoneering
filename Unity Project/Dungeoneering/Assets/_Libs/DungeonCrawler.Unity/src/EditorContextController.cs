@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-using CaptainCoder.Dungeoneering.Player;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity
 {

@@ -49,6 +49,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             
             Build(d, manifest);
         }
+        [Button]
+        public void ClearDungeon() => TileParent.DestroyAllChildren();
         public Dictionary<string, Material> InitializeMaterialCache(DungeonCrawlerManifest manifest)
         {
             s_materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
