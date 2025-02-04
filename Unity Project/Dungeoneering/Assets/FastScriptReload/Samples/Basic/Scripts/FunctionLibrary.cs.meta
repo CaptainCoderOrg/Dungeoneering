@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ff5926a24e7bc470db9c770a10f08815
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Samples/Basic/Scripts/FunctionLibrary.cs
+  uploadId: 710802

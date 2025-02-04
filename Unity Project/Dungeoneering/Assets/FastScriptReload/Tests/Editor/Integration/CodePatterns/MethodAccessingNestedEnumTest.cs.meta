@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e69f17e8e2b34d0598177ddf52587260
+timeCreated: 1680876313
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Editor/Integration/CodePatterns/MethodAccessingNestedEnumTest.cs
+  uploadId: 710802

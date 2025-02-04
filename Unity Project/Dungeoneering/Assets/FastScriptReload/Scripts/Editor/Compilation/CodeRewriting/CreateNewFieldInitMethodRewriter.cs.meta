@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 6bbeaafe1bf54bda9b46e237bec3ccc0
+timeCreated: 1674215064
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/CreateNewFieldInitMethodRewriter.cs
+  uploadId: 710802

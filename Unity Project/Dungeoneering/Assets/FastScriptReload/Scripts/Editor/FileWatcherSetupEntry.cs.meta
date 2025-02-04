@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 126f0c053848416c88113f41793c7310
+timeCreated: 1672215630
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/FileWatcherSetupEntry.cs
+  uploadId: 710802

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 1259153f60d44926bab184251760d203
+timeCreated: 1697791934
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Runtime/Integration/CodePatterns/NewFieldInitDictionariesWithLocalFunction.cs
+  uploadId: 710802

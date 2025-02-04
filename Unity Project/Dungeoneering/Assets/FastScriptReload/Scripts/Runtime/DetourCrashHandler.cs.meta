@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 823fc1cf4b6e45c19d6bc7261b980bb9
+timeCreated: 1670258035
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Runtime/DetourCrashHandler.cs
+  uploadId: 710802

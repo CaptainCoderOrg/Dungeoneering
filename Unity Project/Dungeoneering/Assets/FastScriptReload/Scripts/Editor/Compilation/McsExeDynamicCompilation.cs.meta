@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 5a359917ce85466389622feaf196d024
+timeCreated: 1669637866
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/McsExeDynamicCompilation.cs
+  uploadId: 710802

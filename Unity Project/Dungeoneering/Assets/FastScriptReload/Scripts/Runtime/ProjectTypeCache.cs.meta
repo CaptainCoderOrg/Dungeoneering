@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 5aeccbff964049a39b81fe0fe5714b31
+timeCreated: 1676280697
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Runtime/ProjectTypeCache.cs
+  uploadId: 710802

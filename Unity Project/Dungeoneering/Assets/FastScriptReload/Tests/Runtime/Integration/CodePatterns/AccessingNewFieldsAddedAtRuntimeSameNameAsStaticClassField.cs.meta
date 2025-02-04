@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: ddb97ae516ba487889da696ce441c0a3
+timeCreated: 1697442187
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Runtime/Integration/CodePatterns/AccessingNewFieldsAddedAtRuntimeSameNameAsStaticClassField.cs
+  uploadId: 710802

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: ad6e49db99ff4065b14a3fc416af560b
+timeCreated: 1673019285
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/NewFieldDeclaration.cs
+  uploadId: 710802

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a4956e7a124b944509c8517dfaea5e82
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Samples/Basic/Point/Point.mat
+  uploadId: 710802

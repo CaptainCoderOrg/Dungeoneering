@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 465e84f7c06b44e05a7ae6f3dccab691
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Samples/Basic/Point/Point Surface.shader
+  uploadId: 710802

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 29bd7fad38034046a8dd4c7eea68907c
+timeCreated: 1673017013
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/RoslynUtils.cs
+  uploadId: 710802

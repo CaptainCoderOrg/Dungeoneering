@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: b2f64e1d1e2642f9ab712970582c0b45
+timeCreated: 1678785285
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/AssemblyPostProcess/AddInternalsVisibleToForAllUserAssembliesPostProcess.cs
+  uploadId: 710802

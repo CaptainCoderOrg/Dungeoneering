@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: ccf9421e7bd646d09606fb394b6b95a9
+timeCreated: 1681213826
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Editor/Integration/CodePatterns/AccessingIdentifierNamedSameAsMethodTest.cs
+  uploadId: 710802

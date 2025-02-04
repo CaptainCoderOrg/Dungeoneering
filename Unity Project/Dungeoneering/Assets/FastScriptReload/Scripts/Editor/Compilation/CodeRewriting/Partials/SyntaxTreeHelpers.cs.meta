@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 1c2f0e22f1a24fcda6d0c0516b428420
+timeCreated: 1719954970
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/Partials/SyntaxTreeHelpers.cs
+  uploadId: 710802

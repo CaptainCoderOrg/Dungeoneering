@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 4aafad9b85b44ebe902ba3cee7bda205
+timeCreated: 1719954990
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/Partials/PartialTreeProcessor.cs
+  uploadId: 710802

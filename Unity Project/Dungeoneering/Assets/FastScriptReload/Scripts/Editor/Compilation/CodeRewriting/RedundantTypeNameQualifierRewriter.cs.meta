@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 80a540048e524157a41df1241bd5c168
+timeCreated: 1679325667
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/RedundantTypeNameQualifierRewriter.cs
+  uploadId: 710802

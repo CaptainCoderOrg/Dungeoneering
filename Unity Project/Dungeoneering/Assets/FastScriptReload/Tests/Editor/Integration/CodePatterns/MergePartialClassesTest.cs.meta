@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 80204021db1542d68285b24331058642
+timeCreated: 1719873041
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Editor/Integration/CodePatterns/MergePartialClassesTest.cs
+  uploadId: 710802

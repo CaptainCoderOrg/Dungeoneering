@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d2060b4187aa13b4f86125cb8077f21c
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Tests/Editor/FastScriptReload.Tests.Editor.asmdef
+  uploadId: 710802

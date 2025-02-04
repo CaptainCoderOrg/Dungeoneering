@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2995ab795c7c4854d991cb7b672c14aa
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Plugins/Roslyn/2021+/System.Reflection.Metadata.xml
+  uploadId: 710802

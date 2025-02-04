@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 1d2a76467ecd40529f59bc68be8d7289
+timeCreated: 1672992987
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Editor/Compilation/CodeRewriting/ConstructorRewriter.cs
+  uploadId: 710802

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: a284bdff76434719b039471af39579fc
+timeCreated: 1668620568
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239351
+  packageName: Fast Script Reload
+  packageVersion: 1.6.1
+  assetPath: Assets/FastScriptReload/Scripts/Runtime/AssemblyChangesLoader.cs
+  uploadId: 710802
