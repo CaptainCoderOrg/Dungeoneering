@@ -43,9 +43,9 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnChange.RemoveAllListeners();
         }
 
-        public override void OnEnable()
+        protected override void AfterEnabled()
         {
-            base.OnEnable();
+            base.AfterEnabled();
             View = new PlayerView(new (X, Y), Facing);
         }
 

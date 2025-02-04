@@ -17,11 +17,17 @@ public class ObservableSO : ScriptableObject
 
     }
 
-    public virtual void OnEnable()
+    private void OnEnable()
     {
         #if UNITY_EDITOR
-            EditorApplication.playModeStateChanged += OnPlayModeStateChange;
+        EditorApplication.playModeStateChanged += OnPlayModeStateChange;
         #endif
+        AfterEnabled();
+    }
+
+    protected virtual void AfterEnabled()
+    {
+        // Debug.Log($"SO Enabled: {this}");
     }
 
     #if UNITY_EDITOR

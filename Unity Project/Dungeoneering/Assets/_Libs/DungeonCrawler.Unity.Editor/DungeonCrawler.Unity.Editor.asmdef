@@ -1,3 +1,18 @@
 {
-	"name": "DungeonCrawler.Unity.Editor"
+    "name": "DungeonCrawler.Unity.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ec88aec9f2bba5f4a8732813932550c3",
+        "GUID:dbab740e27c16ee4197a333b2f6d6b28",
+        "GUID:0154b05739446c44996a5b00a4c68c2b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

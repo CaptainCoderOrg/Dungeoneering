@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace CaptainCoder.Unity
+namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public static class TextureExtensions
     {

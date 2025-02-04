@@ -30,11 +30,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             OnChange.RemoveAllListeners();
         }
 
-        public override void OnEnable()
-        {
-            base.OnEnable();
-        }
-
         public void OnValidate()
         {
             
