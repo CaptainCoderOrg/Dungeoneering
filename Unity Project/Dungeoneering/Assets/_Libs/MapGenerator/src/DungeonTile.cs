@@ -7,7 +7,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonTile : MonoBehaviour
     {
-        public DungeonCrawlerManifest Manifest { get; private set; }
+        
+        public DungeonManifestData Manifest { get; private set; }
         public Dungeon Dungeon { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -24,9 +25,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
 
+        public string FloorTextureName => Dungeon.TileTextures.GetTileTextureName(Position);
         public void Click() => OnClicked.Invoke(this);
 
-        public static DungeonTile Create(DungeonTile prefab, Transform parent, Dictionary<string, Material> cache, DungeonCrawlerManifest manifest, Dungeon dungeon, Position position)
+        public static DungeonTile Create(DungeonTile prefab, Transform parent, Dictionary<string, Material> cache, DungeonManifestData manifest, Dungeon dungeon, Position position)
         {
             bool wasActive = prefab.gameObject.activeSelf;
             prefab.gameObject.SetActive(false);

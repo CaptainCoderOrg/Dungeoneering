@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap.IO;

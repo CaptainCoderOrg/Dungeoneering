@@ -59,7 +59,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 for (int y = 0; y < 24; y++)
                 {
                     Position position = new(x, y);
-                    DungeonTile newTile = DungeonTile.Create(tilePrefab, parent, ManifestData.MaterialCache, manifest, dungeon, position);
+                    DungeonTile newTile = DungeonTile.Create(tilePrefab, parent, ManifestData.MaterialCache, ManifestData, dungeon, position);
                     newTile.OnClicked.AddListener(HandleTileClicked);
                     allTiles[new Position(x, y)] = newTile;
                 }

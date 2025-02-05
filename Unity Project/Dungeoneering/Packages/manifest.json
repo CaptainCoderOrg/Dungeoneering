@@ -56,5 +56,8 @@
       ],
       "overrideBuiltIns": false
     }
+  ],
+  "testables": [
+    "com.needle.compilation-visualizer"
   ]
 }
