@@ -11,7 +11,7 @@ public static class TransformExtensions
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Transform child = transform.GetChild(i);
-            child.parent = null;
+            child.SetParent(null, true);
             destroy.Invoke(child.gameObject);
         }
     }

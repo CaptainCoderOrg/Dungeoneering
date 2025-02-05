@@ -1,5 +1,7 @@
+using System;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -7,6 +9,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [field: SerializeField]
         public RawImage Image { get; private set; }
+        [field: SerializeField]
+        public string TextureName { get; set; }
         
+        [field: SerializeField]
+        public UnityEvent<DungeonTextureButton> OnClick { get; private set; }
+
+        private Button _button;
+
+        void Awake()
+        {
+            _button = GetComponentInChildren<Button>();
+            Debug.Assert(_button != null);
+            _button.onClick.AddListener(Clicked);
+        }
+
+        private void Clicked() => OnClick.Invoke(this);
     }
 }

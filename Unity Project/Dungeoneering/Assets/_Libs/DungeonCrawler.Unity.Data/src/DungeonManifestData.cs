@@ -1,9 +1,12 @@
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap.IO;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
@@ -11,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
     public class DungeonManifestData : ObservableSO
     {
+        public UnityEvent<Dungeon, Position> OnTileChanged { get; private set; } = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest ??= LoadManifest();
         private Dictionary<string, Material> _materialCache;
@@ -34,6 +38,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             base.AfterEnabled();
             _materialCache = null;
             _manifest = null;
+            OnTileChanged.RemoveAllListeners();
         }
 
         protected override void OnEnterPlayMode()
@@ -48,6 +53,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             base.OnExitPlayMode();
             _materialCache = null;
             _manifest = null;
+            OnTileChanged.RemoveAllListeners();            
+        }
+
+        public void SetFloorTexture(Dungeon dungeon, Position position, string textureName)
+        {
+            dungeon.TileTextures.Textures[position] = textureName;
+            OnTileChanged.Invoke(dungeon, position);
+            File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
         }
     }
 }

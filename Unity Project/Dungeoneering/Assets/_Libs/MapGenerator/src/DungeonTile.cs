@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using UnityEngine;
@@ -63,6 +64,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
             SouthWall.Material = materials.South;
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
+        }
+
+        public void SetTexture(string textureName)
+        {
+            Manifest.SetFloorTexture(Dungeon, Position, textureName);
         }
     }
 }
