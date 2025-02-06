@@ -10,12 +10,15 @@ namespace CaptainCoder.Dungeoneering.Unity
         [field: SerializeField]
         public DungeonEditorSelectionData SelectionData { get; private set; }
 
-        private SingleTileSelectedInfo _singleTile;
+        private SingleTileSelectedInfo _singleTileInfo;
+        private MultiTileSelectedInfo _multiTileInfo;
 
         void Awake()
         {
-            _singleTile = GetComponentInChildren<SingleTileSelectedInfo>();
-            Debug.Assert(_singleTile != null);
+            _singleTileInfo = GetComponentInChildren<SingleTileSelectedInfo>();
+            Debug.Assert(_singleTileInfo != null, this);
+            _multiTileInfo = GetComponentInChildren<MultiTileSelectedInfo>();
+            Debug.Assert(_multiTileInfo != null, this);
         }
 
         void OnEnable()
@@ -28,17 +31,22 @@ namespace CaptainCoder.Dungeoneering.Unity
             SelectionData.RemoveListener(HandleSelectionChanged);
         }
 
-        private void HandleSelectionChanged(List<DungeonTile> tiles)
+        private void HandleSelectionChanged(IEnumerable<DungeonTile> tiles)
         {
-            if (tiles.Count == 0) { Debug.Log("No selection"); }
-            else if (tiles.Count == 1) 
+            _singleTileInfo.gameObject.SetActive(false);
+            _multiTileInfo.gameObject.SetActive(false);
+            if (tiles.Count() == 0) { Debug.Log("No selection"); }
+            else if (tiles.Count() == 1)
             {
-                _singleTile.Selected = tiles.First();
+                _singleTileInfo.Selected = tiles.First();
+                _singleTileInfo.gameObject.SetActive(true);
             }
-            foreach (DungeonTile tile in tiles)
+            else
             {
-                Debug.Log($"Tile selected: {tile.Position}");
+                _multiTileInfo.Selected = tiles;
+                _multiTileInfo.gameObject.SetActive(true);
             }
+            Debug.Log($"Tiles Selected: {string.Join(", ", tiles.Select(t => t.Position))}");
         }
     }
 }

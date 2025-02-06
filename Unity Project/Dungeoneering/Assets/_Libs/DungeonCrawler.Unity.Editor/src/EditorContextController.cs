@@ -8,6 +8,16 @@ namespace CaptainCoder.Dungeoneering.Unity
         public DungeonEditorSelectionData SelectionData { get; private set; }
         
 
-        public void Click(DungeonTile clicked) => SelectionData.SetSelection(clicked);
+        public void Click(DungeonTile clicked)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                SelectionData.AddSelection(clicked);
+            }
+            else
+            {
+                SelectionData.SetSelection(clicked);
+            }
+        }
     }
 }

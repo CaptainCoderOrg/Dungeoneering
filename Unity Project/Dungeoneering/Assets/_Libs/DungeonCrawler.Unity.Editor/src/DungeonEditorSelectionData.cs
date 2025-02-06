@@ -1,7 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-using CaptainCoder.Dungeoneering.Player;
 using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity
@@ -10,18 +9,17 @@ namespace CaptainCoder.Dungeoneering.Unity
     public class DungeonEditorSelectionData : ObservableSO
     {
         [field: SerializeField]
-        public UnityEvent<List<DungeonTile>> OnSelectionChanged { get; private set; } = new();
-        private List<DungeonTile> _originalElements;
-        [field: SerializeField]
-        private List<DungeonTile> SelectedTiles { get; set; } = new();
+        public UnityEvent<IEnumerable<DungeonTile>> OnSelectionChanged { get; private set; } = new();
+        // private List<DungeonTile> _originalElements;
+        private HashSet<DungeonTile> SelectedTiles { get; set; } = new();
 
-        public void AddListener(UnityAction<List<DungeonTile>> onChange)
+        public void AddListener(UnityAction<IEnumerable<DungeonTile>> onChange)
         {
             OnSelectionChanged.AddListener(onChange);
             onChange.Invoke(SelectedTiles);
         }
 
-        public void RemoveListener(UnityAction<List<DungeonTile>> onChange) => OnSelectionChanged.RemoveListener(onChange);
+        public void RemoveListener(UnityAction<IEnumerable<DungeonTile>> onChange) => OnSelectionChanged.RemoveListener(onChange);
 
         public void ClearSelection()
         {
@@ -35,25 +33,30 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnSelectionChanged.Invoke(SelectedTiles);
         }
 
+        public void AddSelection(params DungeonTile[] tiles)
+        {
+            SelectedTiles.UnionWith(tiles);
+            OnSelectionChanged.Invoke(SelectedTiles);
+        }
+
         public void SetSelection(params DungeonTile[] tiles)
         {
             SelectedTiles.Clear();
-            SelectedTiles.AddRange(tiles);
-            OnSelectionChanged.Invoke(SelectedTiles);
+            AddSelection(tiles);
         }
 
         protected override void OnEnterPlayMode()
         {
             base.OnEnterPlayMode();
-            _originalElements = SelectedTiles.ToList();
+            // _originalElements = SelectedTiles.ToList();
         }
 
         protected override void OnExitPlayMode()
         {
             base.OnEnterPlayMode();
             SelectedTiles.Clear();
-            SelectedTiles.AddRange(_originalElements);
             OnSelectionChanged.RemoveAllListeners();
         }
+
     }
 }

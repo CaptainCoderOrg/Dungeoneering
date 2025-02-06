@@ -11,7 +11,6 @@ namespace CaptainCoder.Dungeoneering.Unity
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent {get; private set; } = new();
 
-        public GameObject LocationChecker; 
         public void OnPointerClick(PointerEventData eventData)
         {
             Vector2 position = eventData.position;
@@ -26,9 +25,6 @@ namespace CaptainCoder.Dungeoneering.Unity
             if (hit && hitInfo.collider.TryGetComponent(out MouseEvents events))
             {
                 events.OnClick.Invoke();
-                Vector3 v3 = events.gameObject.transform.position;
-                v3.y = 1;
-                LocationChecker.transform.position = v3;
             }
             
         }
