@@ -60,7 +60,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             dungeon.TileTextures.Textures[position] = textureName;
             OnTileChanged.Invoke(dungeon, position);
-            File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
+            // File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
         }
     }
 }

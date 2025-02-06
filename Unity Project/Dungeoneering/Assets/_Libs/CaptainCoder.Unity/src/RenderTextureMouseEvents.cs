@@ -6,25 +6,29 @@ namespace CaptainCoder.Dungeoneering.Unity
     public class RenderTextureMouseEvents : MonoBehaviour, IScrollHandler, IPointerClickHandler
     {
         public Camera TargetCamera;
+        public RenderTexture TargetTexture;
 
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent {get; private set; } = new();
 
+        public GameObject LocationChecker; 
         public void OnPointerClick(PointerEventData eventData)
         {
             Vector2 position = eventData.position;
             RectTransform rect = (RectTransform)transform;
             Vector3[] corners = {default, default, default, default};
             rect.GetWorldCorners(corners);
-            Vector2 screenP = position - (Vector2)corners[0];
-            // TODO: Scale based on camera size, currently this expects the render texture to match the size of the
-            // element on screen
-            Vector3 worldP = TargetCamera.ScreenToWorldPoint(screenP);
+            Vector2 onScreenSize = rect.rect.size;
+            Vector2 scale = new (TargetTexture.width/onScreenSize.x, TargetTexture.height/onScreenSize.y);
+            Vector2 screenP = (position - (Vector2)corners[0])*scale;
             Ray ray = TargetCamera.ScreenPointToRay(screenP);
             bool hit = Physics.Raycast(ray, out RaycastHit hitInfo);
             if (hit && hitInfo.collider.TryGetComponent(out MouseEvents events))
             {
                 events.OnClick.Invoke();
+                Vector3 v3 = events.gameObject.transform.position;
+                v3.y = 1;
+                LocationChecker.transform.position = v3;
             }
             
         }
