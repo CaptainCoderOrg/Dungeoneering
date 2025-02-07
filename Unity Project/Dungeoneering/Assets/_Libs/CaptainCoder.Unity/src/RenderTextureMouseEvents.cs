@@ -1,7 +1,7 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 namespace CaptainCoder.Dungeoneering.Unity
 {
     public class RenderTextureMouseEvents : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -11,15 +11,38 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent {get; private set; } = new();
-        private MouseEvents _mouseEvents;
-
-        private GameObject _start, _end, _cube;
+        private GameObject _cube;
 
         void Awake()
         {
-            _start = GameObject.Find("Start");
-            _end = GameObject.Find("End");
             _cube = GameObject.Find("Cube");
+        }
+
+        private void ScaleCube(Vector3 corner1, Vector3 corner2)
+        {
+            corner1.y = .25f;
+            corner2.y = -.25f;
+            Vector3 center = (corner1 + corner2) * 0.5f;
+            Vector3 scale = new (
+                1 + Mathf.Abs(corner2.x - corner1.x),
+                Mathf.Abs(corner2.y - corner1.y),
+                1 + Mathf.Abs(corner2.z - corner1.z)
+            );
+            _cube.transform.position = center;
+            _cube.transform.localScale = scale;
+        }
+
+        public Collider[] PerformBoxCast()
+        {
+
+            Vector3 center = _cube.transform.position;
+            Vector3 halfExtents = _cube.transform.localScale * 0.45f;
+            Vector3 direction = Vector3.down;
+            float maxDistance = 0.1f;
+
+            // Perform the BoxCast
+            RaycastHit[] hits = Physics.BoxCastAll(center, halfExtents, direction, transform.rotation, maxDistance);
+            return hits.Select(h => h.collider).Where(c => c != null).ToArray();
         }
 
         /// <summary>
@@ -68,7 +91,7 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         
         private bool _isDrag = false;
-        private Vector2 _startPosition;
+        private Vector3 _startPosition;
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -76,9 +99,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             if (TryGetWorldPoint(eventData.position, out Vector3 worldPoint))
             {
                 _isDrag = true;
-                _startPosition = eventData.position;
-                worldPoint.y = _start.transform.position.y;
-                _start.transform.position = worldPoint;   
+                _startPosition = worldPoint;
             }
         }
 
@@ -89,11 +110,11 @@ namespace CaptainCoder.Dungeoneering.Unity
             Debug.Log("Drag Ended");
             if (TryGetWorldPoint(eventData.position, out Vector3 end))
             {
-                end.y = _end.transform.position.y;
-                _end.transform.position = end;
+                ScaleCube(_startPosition, end);
+                Collider[] all = PerformBoxCast();
+                Debug.Log($"Hits: {all.Length}");
+                Debug.Log(string.Join(", ", (object[])all));
             }
-            
-            
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -101,8 +122,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             if (!_isDrag) { return; }
             if (TryGetWorldPoint(eventData.position, out Vector3 worldPoint))
             {
-                worldPoint.y = _end.transform.position.y;
-                _end.transform.position = worldPoint;
+                ScaleCube(_startPosition, worldPoint);
             }
         }
     }
