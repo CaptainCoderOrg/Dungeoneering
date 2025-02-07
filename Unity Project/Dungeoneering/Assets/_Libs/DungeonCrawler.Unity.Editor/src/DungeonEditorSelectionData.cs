@@ -33,10 +33,22 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnSelectionChanged.Invoke(SelectedTiles);
         }
 
+        public void AddSelection(IEnumerable<DungeonTile> tiles)
+        {
+            SelectedTiles.UnionWith(tiles);
+            OnSelectionChanged.Invoke(SelectedTiles);
+        }
+
         public void AddSelection(params DungeonTile[] tiles)
         {
             SelectedTiles.UnionWith(tiles);
             OnSelectionChanged.Invoke(SelectedTiles);
+        }
+
+        public void SetSelection(IEnumerable<DungeonTile> tiles)
+        {
+            SelectedTiles.Clear();
+            AddSelection(tiles);
         }
 
         public void SetSelection(params DungeonTile[] tiles)
