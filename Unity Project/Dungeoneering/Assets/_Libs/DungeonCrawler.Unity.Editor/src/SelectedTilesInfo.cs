@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Unity.Editor;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         private SingleTileSelectedInfo _singleTileInfo;
         private MultiTileSelectedInfo _multiTileInfo;
+        private SingleWallInfo _singleWallInfo;
+        private MultiWallInfo _multiWallInfo;
 
         void Awake()
         {
@@ -19,22 +22,51 @@ namespace CaptainCoder.Dungeoneering.Unity
             Debug.Assert(_singleTileInfo != null, this);
             _multiTileInfo = GetComponentInChildren<MultiTileSelectedInfo>();
             Debug.Assert(_multiTileInfo != null, this);
+            _singleWallInfo = GetComponentInChildren<SingleWallInfo>();
+            Debug.Assert(_singleWallInfo != null, this);
+            _multiWallInfo = GetComponentInChildren<MultiWallInfo>();
+            Debug.Assert(_multiWallInfo != null, this);
         }
 
         void OnEnable()
         {
-            SelectionData.AddListener(HandleSelectionChanged);
+            SelectionData.AddListener(HandleTilesChanged);
+            SelectionData.AddListener(HandleWallsChanged);
         }
 
         void OnDisable()
         {
-            SelectionData.RemoveListener(HandleSelectionChanged);
+            SelectionData.RemoveListener(HandleTilesChanged);
+            SelectionData.RemoveListener(HandleWallsChanged);
         }
 
-        private void HandleSelectionChanged(IEnumerable<DungeonTile> tiles)
+        private void HideAll()
         {
             _singleTileInfo.gameObject.SetActive(false);
             _multiTileInfo.gameObject.SetActive(false);
+            _singleWallInfo.gameObject.SetActive(false);
+            _multiWallInfo.gameObject.SetActive(false);
+        }
+
+        private void HandleWallsChanged(IEnumerable<DungeonWallController> walls)
+        {
+            HideAll();
+            if (walls.Count() == 0) { Debug.Log("No selection"); }
+            else if (walls.Count() == 1)
+            {
+                _singleWallInfo.Selected = walls.First();
+                _singleWallInfo.gameObject.SetActive(true);
+            }
+            else
+            {
+                _multiWallInfo.Selected = walls;
+                _multiWallInfo.gameObject.SetActive(true);
+            }
+        }
+
+        private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
+        {
+            HideAll();
             if (tiles.Count() == 0) { Debug.Log("No selection"); }
             else if (tiles.Count() == 1)
             {
@@ -46,7 +78,6 @@ namespace CaptainCoder.Dungeoneering.Unity
                 _multiTileInfo.Selected = tiles;
                 _multiTileInfo.gameObject.SetActive(true);
             }
-            Debug.Log($"Tiles Selected: {string.Join(", ", tiles.Select(t => t.Position))}");
         }
     }
 }

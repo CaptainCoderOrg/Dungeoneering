@@ -14,7 +14,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public Position Position { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonTile> OnClicked { get; private set; }
-
+        [field: SerializeField]
+        public UnityEvent<DungeonWallController> OnWallClicked { get; private set; }
         [field: SerializeField]
         public DungeonWallController NorthWall { get; private set; } = default!;
         [field: SerializeField]

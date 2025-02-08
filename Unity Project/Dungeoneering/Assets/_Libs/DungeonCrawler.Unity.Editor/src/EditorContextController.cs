@@ -12,12 +12,27 @@ namespace CaptainCoder.Dungeoneering.Unity
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                SelectionData.AddSelection(clicked);
+                SelectionData.AddTileSelection(clicked);
             }
             else
             {
-                SelectionData.SetSelection(clicked);
+                SelectionData.SetWallSelection();
+                SelectionData.SetTileSelection(clicked);                
             }
+        }
+
+        public void Click(DungeonWallController clicked)
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                SelectionData.AddWallSelection(clicked);
+            }
+            else
+            {
+                SelectionData.SetTileSelection();
+                SelectionData.SetWallSelection(clicked);
+            }
+            
         }
 
         
