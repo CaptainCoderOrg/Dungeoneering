@@ -1,10 +1,11 @@
-Shader "Unlit/Outline"
+Shader "Unlit/OutlineShader"
 {
     Properties
     {
         _BaseColor("Color", Color) = (1,1,1,1)
         _Thickness("Thickness", Float) = 0.1
         _Speed("Flicker Speed", Float) = 1
+        _MinOpacity("Min Opacity", Float) = .1
     }
     SubShader
     {
@@ -36,6 +37,7 @@ Shader "Unlit/Outline"
             float4 _BaseColor;
             float _Thickness;
             float _Speed;
+            float _MinOpacity;
 
             v2f vert (appdata v)
             {
@@ -50,15 +52,22 @@ Shader "Unlit/Outline"
                 return 0.5 * (sin(_Time.w * speed) + 1.0);
             }
 
+            // fixed4 frag (v2f i) : SV_Target
+            // {
+            //     fixed4 col = _BaseColor;
+            //     bool isEdge = i.uv.x < _Thickness || i.uv.x > (1 - _Thickness) || i.uv.y < _Thickness || i.uv.y > (1 - _Thickness);
+            //     if (!isEdge)
+            //     {
+            //         col.a = _MinOpacity + _MinOpacity * flicker(_Speed);
+            //     }
+            //     return col;
+            // }
             fixed4 frag (v2f i) : SV_Target
             {
-                float pxX = i.uv.x * _ScreenParams.x;
-                float pxY = i.uv.y * _ScreenParams.y;
-                // i.uv.x = i.uv.x / _ScreenParams.x * 10;
-                // i.uv.y = i.uv.y / _ScreenParams.y * 10;
                 fixed4 col = _BaseColor;
-                
-                bool isEdge = i.uv.x < _Thickness || i.uv.x > (1 - _Thickness) || i.uv.y < _Thickness || i.uv.y > (1 - _Thickness);
+                float2 uvDerivative = fwidth(i.uv);
+                float2 fragmentThickness = uvDerivative * _Thickness;
+                bool isEdge = i.uv.x < fragmentThickness.x || i.uv.x > (1 - fragmentThickness.x) || i.uv.y < fragmentThickness.y || i.uv.y > (1 - fragmentThickness.y);
                 if (!isEdge)
                 {
                     col.a = 0.1 * flicker(_Speed);
