@@ -6,6 +6,7 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap.IO;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
@@ -59,6 +60,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public void SetFloorTexture(Dungeon dungeon, Position position, string textureName)
         {
             dungeon.TileTextures.Textures[position] = textureName;
+            OnTileChanged.Invoke(dungeon, position);
+            // File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
+        }
+
+        public void SetWallTexture(Dungeon dungeon, Position position, Facing facing, string textureName)
+        {
+            // dungeon.TileTextures.Textures[position] = textureName;
+            dungeon.SetTexture(position, facing, textureName);
             OnTileChanged.Invoke(dungeon, position);
             // File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
         }

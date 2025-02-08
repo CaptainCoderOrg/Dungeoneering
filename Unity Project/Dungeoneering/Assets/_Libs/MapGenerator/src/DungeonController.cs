@@ -27,6 +27,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonData DungeonData { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
+        [field: SerializeField]
+        public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
 
         private Dictionary<Position, DungeonTile> _tiles = new();
 
@@ -63,6 +65,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     Position position = new(x, y);
                     DungeonTile newTile = DungeonTile.Create(tilePrefab, parent, ManifestData.MaterialCache, ManifestData, dungeon, position);
                     newTile.OnClicked.AddListener(HandleTileClicked);
+                    newTile.OnWallClicked.AddListener(HandleWallClicked);
                     _tiles[new Position(x, y)] = newTile;
                 }
             }
@@ -107,6 +110,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
         private void HandleTileClicked(DungeonTile clicked) => OnDungeonTileClicked.Invoke(clicked);
+        private void HandleWallClicked(DungeonWallController clicked) => OnDungeonWallClicked.Invoke(clicked);
 
     }
 }

@@ -71,7 +71,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (tile == null) { continue; }
                 tiles.Add(tile);
             }
-            Debug.Log(string.Join(", ", tiles));
+            
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
                 _selection.AddSelection(tiles);
