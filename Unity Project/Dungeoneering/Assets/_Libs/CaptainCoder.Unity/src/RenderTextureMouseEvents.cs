@@ -8,6 +8,7 @@ namespace CaptainCoder.Dungeoneering.Unity
     {
         public Camera TargetCamera;
         public RenderTexture TargetTexture;
+        private Canvas _parent;
 
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent {get; private set; } = new();
@@ -18,6 +19,11 @@ namespace CaptainCoder.Dungeoneering.Unity
         [field: SerializeField]
         public UnityEvent<Vector3> OnDragEnd { get; private set; } = new();
         private bool _isDrag = false;
+
+        private void Awake()
+        {
+            _parent = GetComponentInParent<Canvas>();
+        }
         
         /// <summary>
         /// Given a screen position, normalizes that position based on the size of the viewport and the size of the render texture.
@@ -30,7 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             RectTransform rect = (RectTransform)transform;
             Vector3[] corners = {default, default, default, default};
             rect.GetWorldCorners(corners);
-            Vector2 onScreenSize = rect.rect.size;
+            Vector2 onScreenSize = new (corners[2].x - corners[0].x, corners[2].y - corners[0].y);
             Vector2 scale = new (TargetTexture.width/onScreenSize.x, TargetTexture.height/onScreenSize.y);
             return (screenPoint - (Vector2)corners[0])*scale;
         }
