@@ -1,6 +1,7 @@
 using UnityEngine;
 using CaptainCoder.Dungeoneering.Player;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity
 {
@@ -13,7 +14,26 @@ namespace CaptainCoder.Dungeoneering.Unity
         public DungeonData Dungeon { get; private set; }
         public void HandleInput(MovementAction action)
         {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                HandleInputIgnoringWalls(action);
+                return;
+            }
             PlayerView.View = PlayerControls.Move(Dungeon.Dungeon, PlayerView.View, action);
+        }
+
+        private void HandleInputIgnoringWalls(MovementAction action)
+        {
+            (Position p, Facing f) = PlayerView.View;
+            PlayerView newView = action switch 
+            {
+                MovementAction.StepForward => new PlayerView(p.Step(f), f),
+                MovementAction.StepBackward => new PlayerView(p.Step(f.Opposite()), f),
+                MovementAction.StrafeLeft => new PlayerView(p.Step(f.RotateCounterClockwise()), f),
+                MovementAction.StrafeRight => new PlayerView(p.Step(f.Rotate()), f),
+                _ => PlayerControls.Move(Dungeon.Dungeon, PlayerView.View, action),
+            };
+            PlayerView.View = newView;
         }
     }
 
