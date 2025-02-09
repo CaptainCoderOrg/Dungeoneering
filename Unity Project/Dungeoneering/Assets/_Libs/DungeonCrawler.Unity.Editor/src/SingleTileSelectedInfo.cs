@@ -6,6 +6,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class SingleTileSelectedInfo : MonoBehaviour
     {
+        [SerializeField]
+        private UndoRedoStackData _undoRedoStack;
         private DungeonTile _selected;
         public DungeonTile Selected
         {
@@ -52,9 +54,20 @@ Floor Texture: {Selected.FloorTextureName}
             }
         }
 
+        private void SetTexture(string textureName)
+        {
+            DungeonManifestData manifest = Selected.Manifest;
+            Dungeon d = Selected.Dungeon;
+            Position p = Selected.Position;
+            string originalTexture = manifest.GetFloorTexture(d, p);
+            System.Action perform = () => manifest.SetFloorTexture(d, p, textureName);
+            System.Action undo = () => manifest.SetFloorTexture(d, p, originalTexture);
+            _undoRedoStack.PerformEdit("SetTexture", perform, undo);
+        }
+
         private void OpenSelector(DungeonTextureButton button)
         {
-            TextureSelector.ShowDialogue(Selected.SetTexture, null);
+            TextureSelector.ShowDialogue(SetTexture, null);
         }
 
 

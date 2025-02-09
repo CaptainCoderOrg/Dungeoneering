@@ -71,5 +71,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             OnTileChanged.Invoke(dungeon, position);
             // File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
         }
+
+        public string GetFloorTexture(Dungeon d, Position p) => d.TileTextures.GetTileTextureName(p);
+        public string GetWallTexture(Dungeon d, Position p, Facing f) => d.GetWallTexture(p, f);
     }
 }

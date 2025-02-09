@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using TMPro;
@@ -8,6 +9,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class MultiTileSelectedInfo : MonoBehaviour
     {
+        [SerializeField]
+        private UndoRedoStackData _undoRedoStack;
         private IEnumerable<DungeonTile> _selected;
         public IEnumerable<DungeonTile> Selected
         {
@@ -35,34 +38,30 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void Render()
         {
-            // TextureButton.Image.texture = _selected.FloorTile.material.mainTexture;
             Text.text = $@"
 Multiple Tiles Selected
 ".Trim();
         }
 
-        // private void RefreshInfo(IEnumerable<DungeonTile>)
-        // {
-        //     if (dungeon == _selected.Dungeon && position == _selected.Position)
-        //     {
-        //         Render();
-        //     }
-        // }
-
         private void MultiSetTexture(string newTexture)
         {
+            System.Action perform = default;
+            System.Action undo = default;
             foreach (DungeonTile tile in _selected)
             {
-                tile.SetTexture(newTexture);
+                DungeonManifestData manifest = tile.Manifest;
+                Dungeon d = tile.Dungeon;
+                Position p = tile.Position;
+                string originalTexture = manifest.GetFloorTexture(d, p);
+                perform += () => manifest.SetFloorTexture(d, p, newTexture);
+                undo += () => manifest.SetFloorTexture(d, p, originalTexture);
             }
+            _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo);
         }
 
         private void OpenSelector(DungeonTextureButton button)
         {
             TextureSelector.ShowDialogue(MultiSetTexture, null);
         }
-
-
-
     }
 }
