@@ -33,12 +33,14 @@ namespace CaptainCoder.Dungeoneering.Unity
         /// <returns></returns>    
         private Vector2 NormalizeScreenPoint(Vector2 screenPoint)
         {
-            RectTransform rect = (RectTransform)transform;
-            Vector3[] corners = {default, default, default, default};
-            rect.GetWorldCorners(corners);
-            Vector2 onScreenSize = new (corners[2].x - corners[0].x, corners[2].y - corners[0].y);
-            Vector2 scale = new (TargetTexture.width/onScreenSize.x, TargetTexture.height/onScreenSize.y);
-            return (screenPoint - (Vector2)corners[0])*scale;
+#if UNITY_EDITOR
+            // The simplified math in this method works because the canvas is in screen space overlay mode.
+            // If it weren't, we'd have to transform to world space through the camera
+            Debug.Assert(_parent.renderMode == RenderMode.ScreenSpaceOverlay);
+#endif
+	
+            RectTransform rectTransform = (RectTransform)transform;
+            return (Vector2)rectTransform.InverseTransformPoint(screenPoint) - rectTransform.rect.position;
         }
         
         private bool TryGetWorldPoint(Vector2 screenPoint, out Vector3 worldPoint)
