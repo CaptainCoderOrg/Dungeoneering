@@ -7,6 +7,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class MultiWallInfo : MonoBehaviour
     {
+        [SerializeField]
+        private UndoRedoStackData _undoRedoStack;
         private IEnumerable<DungeonWallController> _selected;
         public IEnumerable<DungeonWallController> Selected
         {
@@ -42,18 +44,25 @@ Multiple Walls Selected
 
         private void MultiSetTexture(string newTexture)
         {
+            System.Action perform = default;
+            System.Action undo = default;
             foreach (DungeonWallController wall in _selected)
             {
-                wall.SetTexture(newTexture);
+                DungeonManifestData manifest = wall.Parent.Manifest;
+                Dungeon d = wall.Parent.Dungeon;
+                Position p = wall.Parent.Position;
+                Facing f = wall.Facing;
+                string originalTexture = manifest.GetWallTexture(d, p, f);
+                perform += () => manifest.SetWallTexture(d, p, f, newTexture);
+                undo += () => manifest.SetWallTexture(d, p, f, originalTexture);
             }
+            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo);
         }
 
         private void OpenSelector(DungeonTextureButton button)
         {
             TextureSelector.ShowDialogue(MultiSetTexture, null);
         }
-
-
 
     }
 }

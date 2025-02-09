@@ -6,6 +6,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class SingleWallInfo : MonoBehaviour
     {
+        [SerializeField]
+        private UndoRedoStackData _undoRedoStack;
         private DungeonWallController _selected;
         public DungeonWallController Selected
         {
@@ -53,12 +55,21 @@ Type: {Selected.WallType}
             }
         }
 
-        private void OpenSelector(DungeonTextureButton button)
+        private void SetTexture(string textureName)
         {
-            TextureSelector.ShowDialogue(Selected.SetTexture, null);
+            DungeonManifestData manifest = Selected.Parent.Manifest;
+            Dungeon d = Selected.Parent.Dungeon;
+            Position p = Selected.Parent.Position;
+            Facing f = Selected.Facing;
+            string originalTexture = manifest.GetWallTexture(d, p, f);
+            System.Action perform = () => manifest.SetWallTexture(d, p, f, textureName);
+            System.Action undo = () => manifest.SetWallTexture(d, p, f, originalTexture);
+            _undoRedoStack.PerformEdit("Set Wall Texture", perform, undo);
         }
 
-
-
+        private void OpenSelector(DungeonTextureButton button)
+        {
+            TextureSelector.ShowDialogue(SetTexture, null);
+        }
     }
 }
