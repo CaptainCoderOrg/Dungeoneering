@@ -51,7 +51,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         private void HandleWallsChanged(IEnumerable<DungeonWallController> walls)
         {
             HideAll();
-            if (walls.Count() == 0) { Debug.Log("No selection"); }
+            if (walls.Count() == 0) { }
             else if (walls.Count() == 1)
             {
                 _singleWallInfo.Selected = walls.First();
@@ -67,7 +67,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
         {
             HideAll();
-            if (tiles.Count() == 0) { Debug.Log("No selection"); }
+            if (tiles.Count() == 0) { }
             else if (tiles.Count() == 1)
             {
                 _singleTileInfo.Selected = tiles.First();
