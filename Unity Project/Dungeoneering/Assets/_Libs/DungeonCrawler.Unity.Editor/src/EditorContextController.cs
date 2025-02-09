@@ -1,5 +1,6 @@
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using UnityEngine;
+using UnityEngine.InputSystem;
 namespace CaptainCoder.Dungeoneering.Unity
 {
     public class EditorContextController : MonoBehaviour
@@ -10,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         public void Click(DungeonTile clicked)
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Keyboard.current.shiftKey.isPressed)
             {
                 SelectionData.AddTileSelection(clicked);
             }
@@ -23,7 +24,7 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         public void Click(DungeonWallController clicked)
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Keyboard.current.shiftKey.isPressed)
             {
                 SelectionData.AddWallSelection(clicked);
             }

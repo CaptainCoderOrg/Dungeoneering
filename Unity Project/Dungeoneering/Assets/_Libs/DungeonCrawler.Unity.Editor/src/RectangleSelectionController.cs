@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using UnityEngine;
+using UnityEngine.InputSystem;
 namespace CaptainCoder.Dungeoneering.Unity
 {
     public class RectangleSelectionController : MonoBehaviour
@@ -72,7 +73,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 tiles.Add(tile);
             }
             
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Keyboard.current.shiftKey.isPressed)
             {
                 _selection.AddSelection(tiles);
             }

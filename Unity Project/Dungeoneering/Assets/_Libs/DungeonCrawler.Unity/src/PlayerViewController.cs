@@ -2,6 +2,7 @@ using UnityEngine;
 using CaptainCoder.Dungeoneering.Player;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.DungeonMap;
+using UnityEngine.InputSystem;
 
 namespace CaptainCoder.Dungeoneering.Unity
 {
@@ -14,7 +15,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         public DungeonData Dungeon { get; private set; }
         public void HandleInput(MovementAction action)
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Keyboard.current.shiftKey.isPressed)
             {
                 HandleInputIgnoringWalls(action);
                 return;
