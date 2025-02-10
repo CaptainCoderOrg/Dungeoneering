@@ -13,15 +13,15 @@ namespace CaptainCoder.Dungeoneering.Unity
         public UnityEvent<IEnumerable<DungeonTile>> OnTilesChanged { get; private set; } = new();
         [field: SerializeField]
         public UnityEvent<IEnumerable<DungeonWallController>> OnWallsChanged { get; private set; } = new();
-        // private List<DungeonTile> _originalElements;
-        private HashSet<DungeonTile> SelectedTiles { get; set; } = new();
-        [field: SerializeField]
-        private HashSet<DungeonWallController> SelectedWalls { get; set; } = new();
+        private HashSet<DungeonTile> _selectedTiles { get; set; } = new();
+        public IEnumerable<DungeonTile> SelectedTiles => _selectedTiles;
+        private HashSet<DungeonWallController> _selectedWalls { get; set; } = new();
+        public IEnumerable<DungeonWallController> SelectedWalls => _selectedWalls;
 
         public void AddListener(UnityAction<IEnumerable<DungeonWallController>> onChange)
         {
             OnWallsChanged.AddListener(onChange);
-            onChange.Invoke(SelectedWalls);
+            onChange.Invoke(_selectedWalls);
         }
 
         public void RemoveListener(UnityAction<IEnumerable<DungeonWallController>> onChange) => OnWallsChanged.RemoveListener(onChange);
@@ -29,58 +29,58 @@ namespace CaptainCoder.Dungeoneering.Unity
         public void AddListener(UnityAction<IEnumerable<DungeonTile>> onChange)
         {
             OnTilesChanged.AddListener(onChange);
-            onChange.Invoke(SelectedTiles);
+            onChange.Invoke(_selectedTiles);
         }
 
         public void RemoveListener(UnityAction<IEnumerable<DungeonTile>> onChange) => OnTilesChanged.RemoveListener(onChange);
 
         public void AddWallSelection(params DungeonWallController[] walls)
         {
-            SelectedWalls.UnionWith(walls);
-            OnWallsChanged.Invoke(SelectedWalls);
+            _selectedWalls.UnionWith(walls);
+            OnWallsChanged.Invoke(_selectedWalls);
         }
         public void SetWallSelection(params DungeonWallController[] wall)
         {
             ClearSelection();
-            SelectedWalls.UnionWith(wall);
-            OnWallsChanged.Invoke(SelectedWalls);
+            _selectedWalls.UnionWith(wall);
+            OnWallsChanged.Invoke(_selectedWalls);
         }
 
         public void ClearSelection()
         {
-            SelectedWalls.Clear();
-            SelectedTiles.Clear();
-            OnTilesChanged.Invoke(SelectedTiles);
-            OnWallsChanged.Invoke(SelectedWalls);
+            _selectedWalls.Clear();
+            _selectedTiles.Clear();
+            OnTilesChanged.Invoke(_selectedTiles);
+            OnWallsChanged.Invoke(_selectedWalls);
         }
 
         public void AddTile(DungeonTile tile)
         {
-            SelectedTiles.Add(tile);
-            OnTilesChanged.Invoke(SelectedTiles);
+            _selectedTiles.Add(tile);
+            OnTilesChanged.Invoke(_selectedTiles);
         }
 
         public void AddSelection(IEnumerable<DungeonTile> tiles)
         {
-            SelectedTiles.UnionWith(tiles);
-            OnTilesChanged.Invoke(SelectedTiles);
+            _selectedTiles.UnionWith(tiles);
+            OnTilesChanged.Invoke(_selectedTiles);
         }
 
         public void AddTileSelection(params DungeonTile[] tiles)
         {
-            SelectedTiles.UnionWith(tiles);
-            OnTilesChanged.Invoke(SelectedTiles);
+            _selectedTiles.UnionWith(tiles);
+            OnTilesChanged.Invoke(_selectedTiles);
         }
 
         public void SetSelection(IEnumerable<DungeonTile> tiles)
         {
-            SelectedTiles.Clear();
+            _selectedTiles.Clear();
             AddSelection(tiles);
         }
 
         public void SetTileSelection(params DungeonTile[] tiles)
         {
-            SelectedTiles.Clear();
+            _selectedTiles.Clear();
             AddTileSelection(tiles);
         }
 
@@ -93,7 +93,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         protected override void OnExitPlayMode()
         {
             base.OnEnterPlayMode();
-            SelectedTiles.Clear();
+            _selectedTiles.Clear();
             OnTilesChanged.RemoveAllListeners();
         }
 

@@ -18,13 +18,13 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         void Awake()
         {
-            _singleTileInfo = GetComponentInChildren<SingleTileSelectedInfo>();
+            _singleTileInfo = GetComponentInChildren<SingleTileSelectedInfo>(true);
             Debug.Assert(_singleTileInfo != null, this);
-            _multiTileInfo = GetComponentInChildren<MultiTileSelectedInfo>();
+            _multiTileInfo = GetComponentInChildren<MultiTileSelectedInfo>(true);
             Debug.Assert(_multiTileInfo != null, this);
-            _singleWallInfo = GetComponentInChildren<SingleWallInfo>();
+            _singleWallInfo = GetComponentInChildren<SingleWallInfo>(true);
             Debug.Assert(_singleWallInfo != null, this);
-            _multiWallInfo = GetComponentInChildren<MultiWallInfo>();
+            _multiWallInfo = GetComponentInChildren<MultiWallInfo>(true);
             Debug.Assert(_multiWallInfo != null, this);
         }
 
