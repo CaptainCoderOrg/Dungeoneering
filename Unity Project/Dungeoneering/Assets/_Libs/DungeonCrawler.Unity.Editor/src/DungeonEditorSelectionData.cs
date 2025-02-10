@@ -14,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         [field: SerializeField]
         public UnityEvent<IEnumerable<DungeonWallController>> OnWallsChanged { get; private set; } = new();
         private HashSet<DungeonTile> _selectedTiles { get; set; } = new();
+        public IEnumerable<DungeonTile> SelectedTiles => _selectedTiles;
         private HashSet<DungeonWallController> _selectedWalls { get; set; } = new();
         public IEnumerable<DungeonWallController> SelectedWalls => _selectedWalls;
 
