@@ -74,13 +74,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             dungeon.WallTextures.OnTextureChange += UpdateTextures;
             void UpdateWalls(Position position, Facing facing, WallType wall)
             {
-                DungeonTile toUpdate = _tiles[position];
-                toUpdate.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
+                DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
+                toUpdate?.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
             }
             void UpdateTextures(Position position, Facing facing, string textureName)
             {
-                DungeonTile toUpdate = _tiles[position];
-                toUpdate.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
+                DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
+                toUpdate?.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
             }
         }
 
