@@ -9,7 +9,6 @@ namespace CaptainCoder.Unity
         public Camera TargetCamera;
         public RenderTexture TargetTexture;
         private Matrix4x4 screenToTextureMatrix = Matrix4x4.identity;
-        private bool isTransformDirty = true;
         
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent { get; private set; } = new();
@@ -24,10 +23,10 @@ namespace CaptainCoder.Unity
         
         private Matrix4x4 ScreenToTextureMatrix {
             get {
-                if (!transform.hasChanged & !isTransformDirty)
+                if (!transform.hasChanged)
                     return screenToTextureMatrix;
 
-                transform.hasChanged = isTransformDirty = false;
+                transform.hasChanged = false;
                 RectTransform rectTransform = (RectTransform)transform;
                 Rect rect = rectTransform.rect;
                 Vector3 onScreenSize = rectTransform.TransformVector(rect.size);
@@ -44,7 +43,7 @@ namespace CaptainCoder.Unity
         private void Start() => OnRectTransformDimensionsChange();
 
         private void OnRectTransformDimensionsChange() {
-            isTransformDirty = true;
+            transform.hasChanged = true;
             
             RectTransform rect = (RectTransform)transform;
             if (_size != rect.rect.size)
