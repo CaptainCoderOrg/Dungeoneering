@@ -1,6 +1,5 @@
+using CaptainCoder.Unity;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 namespace CaptainCoder.Dungeoneering.Unity
 {
     public class TopDownEditorCameraController : MonoBehaviour
