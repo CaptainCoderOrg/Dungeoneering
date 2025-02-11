@@ -1,8 +1,9 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Unity;
 using TMPro;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -10,44 +11,89 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class MultiTileSelectedInfo : MonoBehaviour
     {
         [SerializeField]
+        private DungeonEditorSelectionData _selection;
+        [SerializeField]
         private UndoRedoStackData _undoRedoStack;
-        private IEnumerable<DungeonTile> _selected;
-        public IEnumerable<DungeonTile> Selected
-        {
-            get => _selected;
-            set
-            {
-                _selected = value;
-                Render();
-            }
-        }
-
-        [field: SerializeField]
-        public TextMeshProUGUI Text { get; private set; }
-        [field: SerializeField]
-        public DungeonTextureButton TextureButton { get; private set; }
         [field: SerializeField]
         public DungeonTextureSelectorController TextureSelector { get; private set; }
+        [SerializeField]
+        private GameObject _content;
+        [SerializeField]
+        private TextMeshProUGUI _tileCountText;
+        [SerializeField]
+        private TextMeshProUGUI _wallCountText;
+        [SerializeField]
+        private TextMeshProUGUI _doorCountText;
+        [SerializeField]
+        private TextMeshProUGUI _secretDoorCountText;
+        [SerializeField]
+        private TextureLabelController _tileTexture;
+        [SerializeField]
+        private TextureLabelController _wallTexture;
+        [SerializeField]
+        private TextureLabelController _doorTexture;
+        [SerializeField]
+        private TextureLabelController _secretDoorTexture;
+        private HashSet<(Position, Facing)> _walls = new();
+        private HashSet<(Position, Facing)> _doors = new();
+        private HashSet<(Position, Facing)> _secretDoors = new();
+
+        void OnEnable()
+        {
+            _selection.AddListener(HandleTilesChanged);
+        }
+
+        void OnDisable()
+        {
+            _selection.RemoveListener(HandleTilesChanged);
+        }
 
         void Awake()
         {
-            Debug.Assert(Text != null, this);
-            Debug.Assert(TextureButton != null, this);
-            TextureButton.OnClick.AddListener(OpenSelector);
+            Assertion.NotNull(this, _selection, _undoRedoStack, TextureSelector, _content, _tileCountText, _wallCountText, _doorCountText, _secretDoorCountText, _tileTexture, _wallTexture, _doorTexture, _secretDoorTexture);
         }
 
-        private void Render()
+        private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
         {
-            Text.text = $@"
-Multiple Tiles Selected
-".Trim();
+            if (tiles.Count() <= 1)
+            {
+                _content.SetActive(false);
+                return;
+            }
+            CountWalls(tiles);
+            _content.SetActive(true);
+            _wallCountText.text = $"Walls: {_walls.Count}";
+            _tileCountText.text = $"Tiles: {tiles.Count()}";
+            _doorCountText.text = $"Doors: {_doors.Count}";
+            _secretDoorCountText.text = $"Secrets: {_secretDoors.Count}";
+
         }
+
+        private void CountWalls(IEnumerable<DungeonTile> tiles)
+        {
+            Facing[] facings = { Facing.North, Facing.East, Facing.South, Facing.West };
+            _walls.Clear();
+            _doors.Clear();
+            _secretDoors.Clear();
+            foreach (var tile in tiles)
+            {
+                foreach (var facing in facings)
+                {
+                    (Position p, Facing f) key = (tile.Position, facing);
+                    WallType wallType = tile.Dungeon.Walls.GetWall(key.p, key.f);
+                    if (wallType == WallType.Solid) { _walls.Add((key.p, key.f)); }
+                    else if (wallType == WallType.Door) { _doors.Add((key.p, key.f)); }
+                    else if (wallType == WallType.SecretDoor) { _secretDoors.Add((key.p, key.f)); }
+                }
+            }
+        }
+
 
         private void MultiSetTexture(string newTexture)
         {
             System.Action perform = default;
             System.Action undo = default;
-            foreach (DungeonTile tile in _selected)
+            foreach (DungeonTile tile in _selection.SelectedTiles)
             {
                 DungeonManifestData manifest = tile.Manifest;
                 Dungeon d = tile.Dungeon;
