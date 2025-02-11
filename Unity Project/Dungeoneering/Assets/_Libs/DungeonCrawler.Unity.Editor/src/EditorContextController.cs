@@ -27,7 +27,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
             else if (Keyboard.current.shiftKey.isPressed)
             {
-                SelectionData.AddTileSelection(clicked);
+                SelectionData.ToggleTileSelected(clicked);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         {
             if (Keyboard.current.shiftKey.isPressed)
             {
-                SelectionData.AddWallSelection(clicked);
+                SelectionData.ToggleWallSelected(clicked);
             }
             else
             {
