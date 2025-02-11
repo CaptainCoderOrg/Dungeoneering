@@ -11,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         
         public DungeonManifestData Manifest { get; private set; }
         public Dungeon Dungeon { get; private set; }
+        public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonTile> OnClicked { get; private set; }
@@ -30,18 +31,19 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public string FloorTextureName => Dungeon.TileTextures.GetTileTextureName(Position);
         public void Click() => OnClicked.Invoke(this);
 
-        public static DungeonTile Create(DungeonTile prefab, Transform parent, Dictionary<string, Material> cache, DungeonManifestData manifest, Dungeon dungeon, Position position)
+        public static DungeonTile Create(DungeonTile prefab, Transform parent, DungeonController controller, Position position)
         {
             bool wasActive = prefab.gameObject.activeSelf;
             prefab.gameObject.SetActive(false);
             DungeonTile newTile = Instantiate(prefab, parent);
-            newTile.Manifest = manifest;
-            newTile.Dungeon = dungeon;
+            newTile.DungeonController = controller;
+            newTile.Manifest = controller.ManifestData;
+            newTile.Dungeon = controller.DungeonData.Dungeon;
             newTile.Position = position;
             newTile.name = $"({position.X}, {position.Y})";
             newTile.transform.position = new Vector3(position.Y, 0, position.X);
-            newTile.UpdateFloor(cache.GetTileMaterial(dungeon, position));
-            newTile.UpdateWalls(dungeon.GetTile(position).Walls, cache.GetTileWallMaterials(dungeon, position));
+            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTileMaterial(newTile.Dungeon, position));
+            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
             prefab.gameObject.SetActive(wasActive);
             newTile.gameObject.SetActive(wasActive);
             return newTile;
