@@ -8,10 +8,8 @@ namespace CaptainCoder.Dungeoneering.Unity
     {
         public Camera TargetCamera;
         public RenderTexture TargetTexture;
-        private Canvas _parent;
-
         [field: SerializeField]
-        public UnityEvent<ScrollData> OnScrollEvent {get; private set; } = new();
+        public UnityEvent<ScrollData> OnScrollEvent { get; private set; } = new();
         [field: SerializeField]
         public UnityEvent<Vector3> OnDragStart { get; private set; } = new();
         [field: SerializeField]
@@ -19,12 +17,23 @@ namespace CaptainCoder.Dungeoneering.Unity
         [field: SerializeField]
         public UnityEvent<Vector3> OnDragEnd { get; private set; } = new();
         private bool _isDrag = false;
+        private Vector2 _size;
 
-        private void Awake()
+        void Update()
         {
-            _parent = GetComponentInParent<Canvas>();
+            RectTransform rect = (RectTransform)transform;
+            if (_size != rect.rect.size)
+            {
+                _size = rect.rect.size;
+                TargetTexture.Release();
+                TargetTexture.width = (int)_size.x;
+                TargetTexture.height = (int)_size.y;
+                TargetTexture.Create();
+                TargetCamera.Render();
+            }
+
         }
-        
+
         /// <summary>
         /// Given a screen position, normalizes that position based on the size of the viewport and the size of the render texture.
         /// This position can be safely passed into ScreenToWorld methods.
@@ -34,13 +43,13 @@ namespace CaptainCoder.Dungeoneering.Unity
         private Vector2 NormalizeScreenPoint(Vector2 screenPoint)
         {
             RectTransform rect = (RectTransform)transform;
-            Vector3[] corners = {default, default, default, default};
+            Vector3[] corners = { default, default, default, default };
             rect.GetWorldCorners(corners);
-            Vector2 onScreenSize = new (corners[2].x - corners[0].x, corners[2].y - corners[0].y);
-            Vector2 scale = new (TargetTexture.width/onScreenSize.x, TargetTexture.height/onScreenSize.y);
-            return (screenPoint - (Vector2)corners[0])*scale;
+            Vector2 onScreenSize = new(corners[2].x - corners[0].x, corners[2].y - corners[0].y);
+            Vector2 scale = new(TargetTexture.width / onScreenSize.x, TargetTexture.height / onScreenSize.y);
+            return (screenPoint - (Vector2)corners[0]) * scale;
         }
-        
+
         private bool TryGetWorldPoint(Vector2 screenPoint, out Vector3 worldPoint)
         {
             worldPoint = default;
