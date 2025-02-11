@@ -75,6 +75,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     Dungeon d = tile.Dungeon;
                     Position p = tile.Position;
                     WallType originalWallType = d.Walls[p, facing];
+                    if (originalWallType != WallType.None) { continue; }
                     perform += () => d.Walls[p, facing] = WallType.Solid;
                     undo += () => d.Walls[p, facing] = originalWallType;
                 }
