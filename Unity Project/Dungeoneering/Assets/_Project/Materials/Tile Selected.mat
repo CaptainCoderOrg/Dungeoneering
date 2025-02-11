@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tile Selected
-  m_Shader: {fileID: 4800000, guid: e8118b1847516bb4da83b1a8ab1b7cd0, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7d4c0491c02dd9e45a2e71278334ab10, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SMOOTH_EDGES_ON
   m_InvalidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _SURFACE_TYPE_TRANSPARENT
@@ -84,7 +85,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
+    m_Ints:
+    - _SMOOTH_EDGES: 1
     m_Floats:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
