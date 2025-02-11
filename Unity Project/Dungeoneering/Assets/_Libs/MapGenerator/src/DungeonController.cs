@@ -29,7 +29,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
-
         private Dictionary<Position, DungeonTile> _tiles = new();
 
         public void Start()
@@ -83,6 +82,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 toUpdate?.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
             }
         }
+
+        public DungeonTile GetDungeonTile(Position position) => _tiles[position];
 
         void OnEnable()
         {

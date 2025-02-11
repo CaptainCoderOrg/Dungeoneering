@@ -79,7 +79,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
             else
             {
-                _selection.SetSelection(tiles);
+                _selection.SetTileSelection(tiles);
             }
             _cube.SetActive(false);
         }

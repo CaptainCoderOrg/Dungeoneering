@@ -72,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnTilesChanged.Invoke(_selectedTiles);
         }
 
-        public void SetSelection(IEnumerable<DungeonTile> tiles)
+        public void SetTileSelection(IEnumerable<DungeonTile> tiles)
         {
             _selectedTiles.Clear();
             AddSelection(tiles);
