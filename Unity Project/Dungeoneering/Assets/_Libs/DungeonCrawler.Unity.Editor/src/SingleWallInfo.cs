@@ -38,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void Render()
         {
-            TextureButton.Image.texture = _selected.Material.mainTexture;
+            TextureButton.Image.texture = _selected.Material?.mainTexture;
             Text.text = $@"
 Wall Tile Selected
 Position: {Selected.Parent.Position}
