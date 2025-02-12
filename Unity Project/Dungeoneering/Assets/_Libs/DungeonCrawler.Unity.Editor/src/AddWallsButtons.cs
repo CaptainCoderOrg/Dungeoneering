@@ -65,14 +65,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             HashSet<Position> tiles = _selectionData.SelectedTiles.Select(t => t.Position).ToHashSet();
             System.Action perform = default;
             System.Action undo = default;
-
+            DungeonManifestData manifest = _selectionData.SelectedTiles.First().Manifest;    
             foreach (Facing facing in facings)
             {
                 foreach (DungeonTile tile in _selectionData.SelectedTiles)
                 {
                     Position neighbor = tile.Position.Step(facing);
                     if (tiles.Contains(neighbor)) { continue; }
-                    DungeonManifestData manifest = tile.Manifest;
                     Dungeon d = tile.Dungeon;
                     Position p = tile.Position;
                     WallType originalWallType = d.Walls[p, facing];
@@ -81,8 +80,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     undo += () => manifest.SetWallType(d, p, facing, originalWallType);
                 }
             }
-
-            _undoRedoStackData.PerformEdit($"Set Wall", perform, undo);
+            _undoRedoStackData.PerformEdit($"Set Wall", perform, undo, manifest);
         }
 
     }

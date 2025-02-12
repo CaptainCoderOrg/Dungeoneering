@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using TMPro;
@@ -44,11 +45,12 @@ Multiple Walls Selected
 
         private void MultiSetTexture(string newTexture)
         {
+            if (!_selected.Any()) { return; }
             System.Action perform = default;
             System.Action undo = default;
+            DungeonManifestData manifest = _selected.First().Parent.Manifest;
             foreach (DungeonWallController wall in _selected)
             {
-                DungeonManifestData manifest = wall.Parent.Manifest;
                 Dungeon d = wall.Parent.Dungeon;
                 Position p = wall.Parent.Position;
                 Facing f = wall.Facing;
@@ -56,7 +58,7 @@ Multiple Walls Selected
                 perform += () => manifest.SetWallTexture(d, p, f, newTexture);
                 undo += () => manifest.SetWallTexture(d, p, f, originalTexture);
             }
-            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo);
+            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, manifest);
         }
 
         private void OpenSelector(DungeonTextureButton button)
