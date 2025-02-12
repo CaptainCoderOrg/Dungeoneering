@@ -10,15 +10,11 @@ namespace CaptainCoder.Dungeoneering.Unity
     {
         [field: SerializeField]
         public DungeonEditorSelectionData SelectionData { get; private set; }
-
-        private SingleTileSelectedInfo _singleTileInfo;
         private SingleWallInfo _singleWallInfo;
         private MultiWallInfo _multiWallInfo;
 
         void Awake()
         {
-            _singleTileInfo = GetComponentInChildren<SingleTileSelectedInfo>(true);
-            Debug.Assert(_singleTileInfo != null, this);
             _singleWallInfo = GetComponentInChildren<SingleWallInfo>(true);
             Debug.Assert(_singleWallInfo != null, this);
             _multiWallInfo = GetComponentInChildren<MultiWallInfo>(true);
@@ -27,19 +23,16 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         void OnEnable()
         {
-            SelectionData.AddListener(HandleTilesChanged);
             SelectionData.AddListener(HandleWallsChanged);
         }
 
         void OnDisable()
         {
-            SelectionData.RemoveListener(HandleTilesChanged);
             SelectionData.RemoveListener(HandleWallsChanged);
         }
 
         private void HideAll()
         {
-            _singleTileInfo.gameObject.SetActive(false);
             _singleWallInfo.gameObject.SetActive(false);
             _multiWallInfo.gameObject.SetActive(false);
         }
@@ -60,15 +53,5 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
         }
 
-        private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
-        {
-            HideAll();
-            if (tiles.Count() == 0) { }
-            else if (tiles.Count() == 1)
-            {
-                _singleTileInfo.Selected = tiles.First();
-                _singleTileInfo.gameObject.SetActive(true);
-            }
-        }
     }
 }
