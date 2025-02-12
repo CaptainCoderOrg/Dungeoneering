@@ -48,7 +48,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 }
             }
         }
- 
+
         private void HandleTilesChanged(TilesChangedData _)
         {
             if (_currentTiles == null) { return; }
@@ -82,7 +82,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
         {
             _currentTiles = tiles.ToHashSet();
-            if (_currentTiles.Count() <= 1)
+            if (!_currentTiles.Any())
             {
                 _content.SetActive(false);
                 return;
