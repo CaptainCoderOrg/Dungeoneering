@@ -8,6 +8,8 @@ namespace CaptainCoder.Unity
     {
         public Camera TargetCamera;
         public RenderTexture TargetTexture;
+        private Matrix4x4 screenToTextureMatrix = Matrix4x4.identity;
+        
         [field: SerializeField]
         public UnityEvent<ScrollData> OnScrollEvent { get; private set; } = new();
         [field: SerializeField]
@@ -18,9 +20,31 @@ namespace CaptainCoder.Unity
         public UnityEvent<Vector3> OnDragEnd { get; private set; } = new();
         private bool _isDrag = false;
         private Vector2 _size;
+        
+        private Matrix4x4 ScreenToTextureMatrix {
+            get {
+                if (!transform.hasChanged)
+                    return screenToTextureMatrix;
 
-        void Update()
-        {
+                transform.hasChanged = false;
+                RectTransform rectTransform = (RectTransform)transform;
+                Rect rect = rectTransform.rect;
+                Vector3 onScreenSize = rectTransform.TransformVector(rect.size);
+                Vector2 bottomLeft = rectTransform.TransformPoint(rect.position);
+                Vector2 scale = new (TargetTexture.width / onScreenSize.x, TargetTexture.height / onScreenSize.y);
+                screenToTextureMatrix.m00 = scale.x;
+                screenToTextureMatrix.m11 = scale.y;
+                screenToTextureMatrix.m03 = -bottomLeft.x * scale.x;
+                screenToTextureMatrix.m13 = -bottomLeft.y * scale.y;
+                return screenToTextureMatrix;
+            }
+        }
+        
+        private void Start() => OnRectTransformDimensionsChange();
+
+        private void OnRectTransformDimensionsChange() {
+            transform.hasChanged = true;
+            
             RectTransform rect = (RectTransform)transform;
             if (_size != rect.rect.size)
             {
@@ -31,7 +55,6 @@ namespace CaptainCoder.Unity
                 TargetTexture.Create();
                 TargetCamera.Render();
             }
-
         }
 
         /// <summary>
@@ -40,16 +63,8 @@ namespace CaptainCoder.Unity
         /// </summary>
         /// <param name="screenPoint"></param>
         /// <returns></returns>    
-        private Vector2 NormalizeScreenPoint(Vector2 screenPoint)
-        {
-            RectTransform rect = (RectTransform)transform;
-            Vector3[] corners = { default, default, default, default };
-            rect.GetWorldCorners(corners);
-            Vector2 onScreenSize = new(corners[2].x - corners[0].x, corners[2].y - corners[0].y);
-            Vector2 scale = new(TargetTexture.width / onScreenSize.x, TargetTexture.height / onScreenSize.y);
-            return (screenPoint - (Vector2)corners[0]) * scale;
-        }
-
+        private Vector2 NormalizeScreenPoint(Vector2 screenPoint) => ScreenToTextureMatrix.MultiplyPoint(screenPoint);
+        
         private bool TryGetWorldPoint(Vector2 screenPoint, out Vector3 worldPoint)
         {
             worldPoint = default;
