@@ -30,7 +30,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Debug.Assert(DoorButton != null, this);
             Debug.Assert(SecretDoorButton != null, this);
         }
-        
+
         void OnEnable()
         {
             NoWallButton.onClick.AddListener(SetNoWall);
@@ -65,8 +65,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Position p = wall.Parent.Position;
                 Facing f = wall.Facing;
                 WallType originalWallType = d.Walls[p, f];
-                perform += () => d.Walls[p, f] = newWallType;
-                undo += () => d.Walls[p, f] = originalWallType;
+                string originalTexture = d.GetWallTexture(p, f);
+                if (originalWallType == newWallType) { continue; }
+                perform += () => manifest.SetWallType(d, p, f, newWallType);
+                undo += () =>
+                {
+                    manifest.SetWallType(d, p, f, originalWallType);
+                    manifest.SetWallTexture(d, p, f, originalTexture);
+                };
             }
 
             _undoRedoStackData.PerformEdit($"Set WallType: {newWallType}", perform, undo, manifest);
