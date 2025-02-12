@@ -84,6 +84,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
         public DungeonTile GetDungeonTile(Position position) => _tiles[position];
+        public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _tiles.TryGetValue(position, out tile);
 
         void OnEnable()
         {

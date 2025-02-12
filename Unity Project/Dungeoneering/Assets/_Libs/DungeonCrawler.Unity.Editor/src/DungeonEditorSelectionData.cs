@@ -40,11 +40,17 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnWallsChanged.Invoke(_selectedWalls);
         }
 
-        public void SetWallSelection(params DungeonWallController[] wall)
+        public void SetWallSelection(params DungeonWallController[] walls) => SetWallSelection((IEnumerable<DungeonWallController>)walls);
+        
+        public void SetWallSelection(IEnumerable<DungeonWallController> walls)
         {
-            ClearTiles();
             _selectedWalls.Clear();
-            _selectedWalls.UnionWith(wall);
+            AddWallSelection(walls);
+        }
+
+        public void AddWallSelection(IEnumerable<DungeonWallController> walls) {
+            ClearTiles();
+            _selectedWalls.UnionWith(walls);
             OnWallsChanged.Invoke(_selectedWalls);
         }
 
@@ -61,7 +67,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             _selectedWalls.Clear();
             OnWallsChanged.Invoke(_selectedWalls);
         }
-
+        
         public void ToggleTileSelected(DungeonTile tile)
         {
             if (_selectedTiles.Contains(tile)) { _selectedTiles.Remove(tile); }

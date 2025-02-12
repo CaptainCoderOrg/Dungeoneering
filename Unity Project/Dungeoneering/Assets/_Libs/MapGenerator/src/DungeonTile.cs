@@ -28,6 +28,18 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
 
+        public DungeonWallController this[Facing facing] {
+            get {
+                return facing switch {
+                    Facing.North => NorthWall,
+                    Facing.East => EastWall,
+                    Facing.South => SouthWall,
+                    Facing.West => WestWall,
+                    _ => throw new ArgumentOutOfRangeException(nameof(facing), facing, null),
+                };
+            }
+        }
+
         public string FloorTextureName => Dungeon.TileTextures.GetTileTextureName(Position);
         public void Click() => OnClicked.Invoke(this);
 
