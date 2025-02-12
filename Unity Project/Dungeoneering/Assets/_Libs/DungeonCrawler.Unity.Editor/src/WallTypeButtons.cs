@@ -66,12 +66,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Facing f = wall.Facing;
                 WallType originalWallType = d.Walls[p, f];
                 string originalTexture = d.GetWallTexture(p, f);
+                string originalBackTexture = d.GetWallTexture(p.Step(f), f.Opposite());
                 if (originalWallType == newWallType) { continue; }
                 perform += () => manifest.SetWallType(d, p, f, newWallType);
                 undo += () =>
                 {
                     manifest.SetWallType(d, p, f, originalWallType);
                     manifest.SetWallTexture(d, p, f, originalTexture);
+                    manifest.SetWallTexture(d, p.Step(f), f.Opposite(), originalBackTexture);
                 };
             }
 

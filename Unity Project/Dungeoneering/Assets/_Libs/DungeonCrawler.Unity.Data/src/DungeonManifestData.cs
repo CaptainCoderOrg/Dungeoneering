@@ -75,6 +75,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             if (dungeon.Walls[position, facing] == type) { return; }
             dungeon.WallTextures.Textures.Remove((position, facing));
+            dungeon.WallTextures.Textures.Remove((position.Step(facing), facing.Opposite()));
             dungeon.Walls.SetWall(position, facing, type);
             _changes.AddChange(dungeon, position);
         }
