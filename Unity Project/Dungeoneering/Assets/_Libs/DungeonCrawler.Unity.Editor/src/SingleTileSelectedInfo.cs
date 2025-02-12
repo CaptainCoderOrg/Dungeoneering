@@ -14,9 +14,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             get => _selected;
             set
             {
-                _selected?.Manifest.OnTileChanged.RemoveListener(RefreshInfo);
+                _selected?.Manifest.OnTilesChanged.RemoveListener(RefreshInfo);
                 _selected = value;
-                _selected?.Manifest.OnTileChanged.AddListener(RefreshInfo);
+                _selected?.Manifest.OnTilesChanged.AddListener(RefreshInfo);
                 Render();
 
             }
@@ -46,13 +46,7 @@ Floor Texture: {Selected.FloorTextureName}
 ".Trim();
         }
 
-        private void RefreshInfo(Dungeon dungeon, Position position)
-        {
-            if (dungeon == _selected.Dungeon && position == _selected.Position)
-            {
-                Render();
-            }
-        }
+        private void RefreshInfo(TilesChangedData _) => Render();
 
         private void SetTexture(string textureName)
         {
@@ -62,7 +56,7 @@ Floor Texture: {Selected.FloorTextureName}
             string originalTexture = manifest.GetFloorTexture(d, p);
             System.Action perform = () => manifest.SetFloorTexture(d, p, textureName);
             System.Action undo = () => manifest.SetFloorTexture(d, p, originalTexture);
-            _undoRedoStack.PerformEdit("SetTexture", perform, undo);
+            _undoRedoStack.PerformEdit("SetTexture", perform, undo, manifest);
         }
 
         private void OpenSelector(DungeonTextureButton button)

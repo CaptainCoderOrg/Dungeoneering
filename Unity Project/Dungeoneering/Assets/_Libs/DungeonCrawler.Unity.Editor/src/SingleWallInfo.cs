@@ -14,9 +14,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             get => _selected;
             set
             {
-                _selected?.Parent.Manifest.OnTileChanged.RemoveListener(RefreshInfo);
+                _selected?.Parent.Manifest.OnTilesChanged.RemoveListener(RefreshInfo);
                 _selected = value;
-                _selected?.Parent.Manifest.OnTileChanged.AddListener(RefreshInfo);
+                _selected?.Parent.Manifest.OnTilesChanged.AddListener(RefreshInfo);
                 Render();
 
             }
@@ -47,14 +47,7 @@ Type: {Selected.WallType}
 ".Trim();
         }
 
-        private void RefreshInfo(Dungeon dungeon, Position position)
-        {
-            if (dungeon == _selected.Parent.Dungeon && position == _selected.Parent.Position)
-            {
-                Render();
-            }
-        }
-
+        private void RefreshInfo(TilesChangedData _) => Render();
         private void SetTexture(string textureName)
         {
             DungeonManifestData manifest = Selected.Parent.Manifest;
@@ -64,7 +57,7 @@ Type: {Selected.WallType}
             string originalTexture = manifest.GetWallTexture(d, p, f);
             System.Action perform = () => manifest.SetWallTexture(d, p, f, textureName);
             System.Action undo = () => manifest.SetWallTexture(d, p, f, originalTexture);
-            _undoRedoStack.PerformEdit("Set Wall Texture", perform, undo);
+            _undoRedoStack.PerformEdit("Set Wall Texture", perform, undo, manifest);
         }
 
         private void OpenSelector(DungeonTextureButton button)

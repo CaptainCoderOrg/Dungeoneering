@@ -39,17 +39,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 if (value == _dungeonManifestData) { return; }
                 if (_dungeonManifestData != null)
                 {
-                    _dungeonManifestData.OnTileChanged.RemoveListener(HandleTilesChanged);
+                    _dungeonManifestData.OnTilesChanged.RemoveListener(HandleTilesChanged);
                 }
                 _dungeonManifestData = value;
                 if (_dungeonManifestData != null)
                 {
-                    _dungeonManifestData.OnTileChanged.AddListener(HandleTilesChanged);
+                    _dungeonManifestData.OnTilesChanged.AddListener(HandleTilesChanged);
                 }
             }
         }
-
-        private void HandleTilesChanged(Dungeon dungeon, Position position)
+ 
+        private void HandleTilesChanged(TilesChangedData _)
         {
             if (_currentTiles == null) { return; }
             HandleTilesChanged(_currentTiles);
@@ -150,21 +150,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-
         private void SetTileTexture(string newTexture)
         {
+            if (!_selection.SelectedTiles.Any()) { return; }
             System.Action perform = default;
             System.Action undo = default;
+            DungeonManifestData manifest = _selection.SelectedTiles.First().Manifest;
             foreach (DungeonTile tile in _selection.SelectedTiles)
             {
-                DungeonManifestData manifest = tile.Manifest;
                 Dungeon d = tile.Dungeon;
                 Position p = tile.Position;
                 string originalTexture = manifest.GetFloorTexture(d, p);
                 perform += () => manifest.SetFloorTexture(d, p, newTexture);
                 undo += () => manifest.SetFloorTexture(d, p, originalTexture);
             }
-            _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo);
+            _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, manifest);
         }
 
         private void SetSolidTextures(string textureName) => SetWallTextures(textureName, _walls);
@@ -183,7 +183,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 perform += () => manifest.SetWallTexture(d, p, f, newTexture);
                 undo += () => manifest.SetWallTexture(d, p, f, originalTexture);
             }
-            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo);
+            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, manifest);
         }
 
         private void OpenTileTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetTileTexture, null);

@@ -54,7 +54,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void SetWallType(WallType newWallType)
         {
-            if (_selectionData.SelectedWalls.Count() == 0) { return; }
+            if (!_selectionData.SelectedWalls.Any()) { return; }
+            DungeonManifestData manifest = _selectionData.SelectedWalls.First().Parent.Manifest;
             System.Action perform = default;
             System.Action undo = default;
 
@@ -68,7 +69,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 undo += () => d.Walls[p, f] = originalWallType;
             }
 
-            _undoRedoStackData.PerformEdit($"Set WallType: {newWallType}", perform, undo);
+            _undoRedoStackData.PerformEdit($"Set WallType: {newWallType}", perform, undo, manifest);
         }
 
     }

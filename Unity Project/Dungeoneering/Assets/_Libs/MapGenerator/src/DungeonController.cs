@@ -87,12 +87,20 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         void OnEnable()
         {
-            ManifestData.OnTileChanged.AddListener(UpdateTile);
+            ManifestData.OnTilesChanged.AddListener(UpdateTiles);
         }
 
         void OnDisable()
         {
-            ManifestData.OnTileChanged.RemoveListener(UpdateTile);
+            ManifestData.OnTilesChanged.RemoveListener(UpdateTiles);
+        }
+
+        private void UpdateTiles(TilesChangedData changes)
+        {
+            foreach ((Dungeon d, Position p) in changes.Tiles)
+            {
+                UpdateTile(d, p);
+            }
         }
 
         private void UpdateTile(Dungeon dungeon, Position position)
