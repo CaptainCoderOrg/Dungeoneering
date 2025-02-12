@@ -25,7 +25,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             corner1.y = .25f;
             corner2.y = -.25f;
             Vector3 center = (corner1 + corner2) * 0.5f;
-            Vector3 scale = new (
+            Vector3 scale = new(
                 1 + Mathf.Abs(corner2.x - corner1.x),
                 Mathf.Abs(corner2.y - corner1.y),
                 1 + Mathf.Abs(corner2.z - corner1.z)
@@ -72,10 +72,10 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (tile == null) { continue; }
                 tiles.Add(tile);
             }
-            
+
             if (Keyboard.current.shiftKey.isPressed)
             {
-                _selection.AddSelection(tiles);
+                _selection.AddTileSelection(tiles);
             }
             else
             {

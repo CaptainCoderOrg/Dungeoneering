@@ -36,61 +36,50 @@ namespace CaptainCoder.Dungeoneering.Unity
         {
             if (_selectedWalls.Contains(wall)) { _selectedWalls.Remove(wall); }
             else { _selectedWalls.Add(wall); }
+            ClearTiles();
             OnWallsChanged.Invoke(_selectedWalls);
         }
 
-        public void AddWallSelection(params DungeonWallController[] walls)
-        {
-            _selectedWalls.UnionWith(walls);
-            OnWallsChanged.Invoke(_selectedWalls);
-        }
         public void SetWallSelection(params DungeonWallController[] wall)
         {
-            ClearSelection();
+            ClearTiles();
+            _selectedWalls.Clear();
             _selectedWalls.UnionWith(wall);
             OnWallsChanged.Invoke(_selectedWalls);
         }
 
-        public void ClearSelection()
+        public void ClearTiles()
         {
-            _selectedWalls.Clear();
+            if (_selectedTiles.Count == 0) { return; }
             _selectedTiles.Clear();
             OnTilesChanged.Invoke(_selectedTiles);
+        }
+
+        public void ClearWalls()
+        {
+            if (_selectedWalls.Count == 0) { return; }
+            _selectedWalls.Clear();
             OnWallsChanged.Invoke(_selectedWalls);
-        }
-
-        public void AddTile(DungeonTile tile)
-        {
-            _selectedTiles.Add(tile);
-            OnTilesChanged.Invoke(_selectedTiles);
-        }
-
-        public void AddSelection(IEnumerable<DungeonTile> tiles)
-        {
-            _selectedTiles.UnionWith(tiles);
-            OnTilesChanged.Invoke(_selectedTiles);
         }
 
         public void ToggleTileSelected(DungeonTile tile)
         {
             if (_selectedTiles.Contains(tile)) { _selectedTiles.Remove(tile); }
             else { _selectedTiles.Add(tile); }
+            ClearWalls();
             OnTilesChanged.Invoke(_selectedTiles);
         }
 
-        public void AddTileSelection(params DungeonTile[] tiles)
+        public void AddTileSelection(params DungeonTile[] tiles) => AddTileSelection((IEnumerable<DungeonTile>)tiles);
+        public void AddTileSelection(IEnumerable<DungeonTile> tiles)
         {
+            ClearWalls();
             _selectedTiles.UnionWith(tiles);
             OnTilesChanged.Invoke(_selectedTiles);
         }
 
+        public void SetTileSelection(params DungeonTile[] tiles) => SetTileSelection((IEnumerable<DungeonTile>)tiles);
         public void SetTileSelection(IEnumerable<DungeonTile> tiles)
-        {
-            _selectedTiles.Clear();
-            AddSelection(tiles);
-        }
-
-        public void SetTileSelection(params DungeonTile[] tiles)
         {
             _selectedTiles.Clear();
             AddTileSelection(tiles);
@@ -99,13 +88,13 @@ namespace CaptainCoder.Dungeoneering.Unity
         protected override void OnEnterPlayMode()
         {
             base.OnEnterPlayMode();
-            // _originalElements = SelectedTiles.ToList();
         }
 
         protected override void OnExitPlayMode()
         {
-            base.OnEnterPlayMode();
+            base.OnExitPlayMode();
             _selectedTiles.Clear();
+            _selectedWalls.Clear();
             OnTilesChanged.RemoveAllListeners();
         }
 
