@@ -72,6 +72,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             // File.WriteAllText("Assets/_Project/Data/Ikea/Test.json", Manifest.ToJson());
         }
 
+        public void SetWallType(Dungeon dungeon, Position position, Facing facing, WallType type)
+        {
+            if (dungeon.Walls[position, facing] == type) { return; }
+            dungeon.Walls[position, facing] = type;
+            OnTileChanged.Invoke(dungeon, position);
+        }
+
         public string GetFloorTexture(Dungeon d, Position p) => d.TileTextures.GetTileTextureName(p);
         public string GetWallTexture(Dungeon d, Position p, Facing f) => d.GetWallTexture(p, f);
     }

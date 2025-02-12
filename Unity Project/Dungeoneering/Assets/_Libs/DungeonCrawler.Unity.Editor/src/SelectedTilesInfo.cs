@@ -12,7 +12,6 @@ namespace CaptainCoder.Dungeoneering.Unity
         public DungeonEditorSelectionData SelectionData { get; private set; }
 
         private SingleTileSelectedInfo _singleTileInfo;
-        private MultiTileSelectedInfo _multiTileInfo;
         private SingleWallInfo _singleWallInfo;
         private MultiWallInfo _multiWallInfo;
 
@@ -20,8 +19,6 @@ namespace CaptainCoder.Dungeoneering.Unity
         {
             _singleTileInfo = GetComponentInChildren<SingleTileSelectedInfo>(true);
             Debug.Assert(_singleTileInfo != null, this);
-            _multiTileInfo = GetComponentInChildren<MultiTileSelectedInfo>(true);
-            Debug.Assert(_multiTileInfo != null, this);
             _singleWallInfo = GetComponentInChildren<SingleWallInfo>(true);
             Debug.Assert(_singleWallInfo != null, this);
             _multiWallInfo = GetComponentInChildren<MultiWallInfo>(true);
@@ -43,7 +40,6 @@ namespace CaptainCoder.Dungeoneering.Unity
         private void HideAll()
         {
             _singleTileInfo.gameObject.SetActive(false);
-            _multiTileInfo.gameObject.SetActive(false);
             _singleWallInfo.gameObject.SetActive(false);
             _multiWallInfo.gameObject.SetActive(false);
         }
@@ -72,11 +68,6 @@ namespace CaptainCoder.Dungeoneering.Unity
             {
                 _singleTileInfo.Selected = tiles.First();
                 _singleTileInfo.gameObject.SetActive(true);
-            }
-            else
-            {
-                _multiTileInfo.Selected = tiles;
-                _multiTileInfo.gameObject.SetActive(true);
             }
         }
     }

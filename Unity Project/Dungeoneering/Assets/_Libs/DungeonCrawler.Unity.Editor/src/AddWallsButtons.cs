@@ -72,12 +72,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 {
                     Position neighbor = tile.Position.Step(facing);
                     if (tiles.Contains(neighbor)) { continue; }
+                    DungeonManifestData manifest = tile.Manifest;
                     Dungeon d = tile.Dungeon;
                     Position p = tile.Position;
                     WallType originalWallType = d.Walls[p, facing];
                     if (originalWallType != WallType.None) { continue; }
-                    perform += () => d.Walls[p, facing] = WallType.Solid;
-                    undo += () => d.Walls[p, facing] = originalWallType;
+                    perform += () => manifest.SetWallType(d, p, facing, WallType.Solid);
+                    undo += () => manifest.SetWallType(d, p, facing, originalWallType);
                 }
             }
 
