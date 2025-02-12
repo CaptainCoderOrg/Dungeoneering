@@ -20,9 +20,13 @@ namespace CaptainCoder.Dungeoneering.Unity
         public void Click(DungeonTile clicked)
         {
             float time = Time.time;
-            if (_lastClicked == clicked && time - _lastClick < DoubleClickTime)
+            bool isDoubleClick = _lastClicked == clicked && time - _lastClick < DoubleClickTime;
+            if (isDoubleClick && Keyboard.current.shiftKey.isPressed)
             {
-                SelectionData.SetWallSelection();
+                SelectionData.AddTileSelection(SelectRoom(clicked));
+            }
+            else if (isDoubleClick)
+            {
                 SelectionData.SetTileSelection(SelectRoom(clicked));
             }
             else if (Keyboard.current.shiftKey.isPressed)
@@ -31,7 +35,6 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
             else
             {
-                SelectionData.SetWallSelection();
                 SelectionData.SetTileSelection(clicked);
             }
             _lastClick = time;
@@ -46,7 +49,6 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
             else
             {
-                SelectionData.SetTileSelection();
                 SelectionData.SetWallSelection(clicked);
             }
 
