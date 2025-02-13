@@ -9,7 +9,7 @@ using CaptainCoder.Unity;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
-    public class MultiTileSelectedInfo : MonoBehaviour
+    public class SelectionInfoPanel : MonoBehaviour
     {
         private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
         [SerializeField]
