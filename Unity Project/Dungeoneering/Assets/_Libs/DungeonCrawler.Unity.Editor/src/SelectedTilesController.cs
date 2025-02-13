@@ -17,13 +17,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            Selected.OnTilesChanged.AddListener(HandleSelectionChanged);
+            Selected.AddListener(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
-            Selected.OnTilesChanged.RemoveListener(HandleSelectionChanged);
+            Selected.RemoveListener(HandleSelectionChanged);
         }
+
+        private void HandleSelectionChanged(SelectionChangedData changes) => HandleSelectionChanged(changes.SelectedTiles);
 
         private void HandleSelectionChanged(IEnumerable<DungeonTile> tiles)
         {

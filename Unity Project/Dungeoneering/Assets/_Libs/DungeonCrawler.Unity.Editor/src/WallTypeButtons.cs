@@ -1,6 +1,8 @@
 using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 using UnityEngine.UI;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -8,9 +10,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class WallTypeButtons : MonoBehaviour
     {
         [SerializeField]
-        public DungeonEditorSelectionData _selectionData;
+        private DungeonEditorSelectionData _selectionData;
         [SerializeField]
-        public UndoRedoStackData _undoRedoStackData;
+        private UndoRedoStackData _undoRedoStackData;
 
         [field: SerializeField]
         public Button NoWallButton { get; private set; }
@@ -54,12 +56,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void SetWallType(WallType newWallType)
         {
-            if (!_selectionData.SelectedWalls.Any()) { return; }
-            DungeonManifestData manifest = _selectionData.SelectedWalls.First().Parent.Manifest;
+            if (!_selectionData.Walls.Any()) { return; }
+            DungeonManifestData manifest = _selectionData.Walls.First().Parent.Manifest;
             System.Action perform = default;
             System.Action undo = default;
 
-            foreach (DungeonWallController wall in _selectionData.SelectedWalls)
+            foreach (DungeonWallController wall in _selectionData.Walls)
             {
                 Dungeon d = wall.Parent.Dungeon;
                 Position p = wall.Parent.Position;

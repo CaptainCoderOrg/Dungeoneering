@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -17,14 +17,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            Selected.OnWallsChanged.AddListener(HandleSelectionChanged);
+            Selected.AddListener(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
-            Selected.OnWallsChanged.RemoveListener(HandleSelectionChanged);
+            Selected.AddListener(HandleSelectionChanged);
         }
 
+        private void HandleSelectionChanged(SelectionChangedData data) => HandleSelectionChanged(data.SelectedWalls);
         private void HandleSelectionChanged(IEnumerable<DungeonWallController> walls)
         {
             IndicatorContainer.DestroyAllChildren();
@@ -35,7 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 indicator.Facing = wall.Facing;
                 indicator.gameObject.SetActive(true);
             }
-            
+
         }
     }
 }
