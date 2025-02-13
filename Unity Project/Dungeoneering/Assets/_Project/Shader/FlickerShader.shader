@@ -37,10 +37,12 @@ Shader "Unlit/FlickerShader"
                 float4 vertex : SV_POSITION;
             };
 
-            float4 _BaseColor;
-            float _Thickness;
-            float _Speed;
-            float _MinOpacity;
+            CBUFFER_START(UnityPerMaterial)
+                float4 _BaseColor;
+                float _Thickness;
+                float _Speed;
+                float _MinOpacity;
+            CBUFFER_END
 
             v2f vert (appdata v)
             {
