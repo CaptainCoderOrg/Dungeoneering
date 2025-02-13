@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 using UnityEngine.UI;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -9,9 +11,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class AddWallsButtons : MonoBehaviour
     {
         [SerializeField]
-        public DungeonEditorSelectionData _selectionData;
+        private DungeonEditorSelectionData _selectionData;
         [SerializeField]
-        public UndoRedoStackData _undoRedoStackData;
+        private UndoRedoStackData _undoRedoStackData;
 
         [field: SerializeField]
         public Button NorthButton { get; private set; }
@@ -34,7 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Debug.Assert(WestButton != null, this);
             Debug.Assert(AllButton != null, this);
         }
-        
+
         void OnEnable()
         {
             NorthButton.onClick.AddListener(SetNorth);
@@ -61,14 +63,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void SetWall(params Facing[] facings)
         {
-            if (_selectionData.SelectedTiles.Count() == 0) { return; }
-            HashSet<Position> tiles = _selectionData.SelectedTiles.Select(t => t.Position).ToHashSet();
+            if (_selectionData.Tiles.Count() == 0) { return; }
+            HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
             System.Action perform = default;
             System.Action undo = default;
-            DungeonManifestData manifest = _selectionData.SelectedTiles.First().Manifest;    
+            DungeonManifestData manifest = _selectionData.Tiles.First().Manifest;
             foreach (Facing facing in facings)
             {
-                foreach (DungeonTile tile in _selectionData.SelectedTiles)
+                foreach (DungeonTile tile in _selectionData.Tiles)
                 {
                     Position neighbor = tile.Position.Step(facing);
                     if (tiles.Contains(neighbor)) { continue; }

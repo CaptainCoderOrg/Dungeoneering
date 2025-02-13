@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -25,9 +25,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Selected.AddListener(HandleSelectionChanged);
         }
 
-        // TODO: Not Implemented
-        private void HandleSelectionChanged(SelectionChangedData data) => throw new System.NotImplementedException();
-
+        private void HandleSelectionChanged(SelectionChangedData data) => HandleSelectionChanged(data.SelectedWalls);
         private void HandleSelectionChanged(IEnumerable<DungeonWallController> walls)
         {
             IndicatorContainer.DestroyAllChildren();
@@ -38,7 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 indicator.Facing = wall.Facing;
                 indicator.gameObject.SetActive(true);
             }
-            
+
         }
     }
 }

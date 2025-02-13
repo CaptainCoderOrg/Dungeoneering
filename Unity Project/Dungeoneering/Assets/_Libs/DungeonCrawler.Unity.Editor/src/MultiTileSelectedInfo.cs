@@ -1,16 +1,17 @@
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Unity;
-using Codice.Client.BaseCommands;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class MultiTileSelectedInfo : MonoBehaviour
     {
+        private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
         [SerializeField]
         private DungeonEditorSelectionData _selection;
         [SerializeField]
@@ -27,12 +28,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private TextureLabelController _doorsLabel;
         [SerializeField]
         private TextureLabelController _secretDoorLabel;
-        private HashSet<(Position, Facing)> _walls = new();
-        private HashSet<(Position, Facing)> _doors = new();
-        private HashSet<(Position, Facing)> _secretDoors = new();
+        private readonly HashSet<(Position, Facing)> _walls = new();
+        private readonly HashSet<(Position, Facing)> _doors = new();
+        private readonly HashSet<(Position, Facing)> _secretDoors = new();
         private DungeonController _dungeonController;
         private DungeonManifestData _dungeonManifestData;
-        private HashSet<DungeonTile> _currentTiles;
         private DungeonManifestData ManifestData
         {
             get => _dungeonManifestData;
@@ -53,14 +53,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void HandleTilesChanged(TilesChangedData _)
         {
-            if (_currentTiles == null) { return; }
-            HandleTilesChanged(_currentTiles);
-            
+            if (_selection.Tiles.Count == 0) { return; }
+            RenderInfo(_selection.Tiles, _selection.Walls);
+
         }
 
         void OnEnable()
         {
             _selection.AddListener(HandleSelectionChanged);
+            RenderInfo(_selection.Tiles, _selection.Walls);
             _tilesLabel.Button.OnClick.AddListener(OpenTileTextureSelector);
             _wallsLabel.Button.OnClick.AddListener(OpenWallTextureSelector);
             _doorsLabel.Button.OnClick.AddListener(OpenDoorsTextureSelector);
@@ -81,24 +82,23 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Assertion.NotNull(this, _selection, _undoRedoStack, TextureSelector, _content, _tilesLabel, _wallsLabel, _doorsLabel, _secretDoorLabel);
         }
 
-        
-        private void HandleSelectionChanged(SelectionChangedData changes) => HandleTilesChanged(changes.SelectedTiles);
+        private void HandleSelectionChanged(SelectionChangedData changes) => RenderInfo(changes.SelectedTiles, changes.SelectedWalls);
 
-        private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
+        private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
         {
-            _currentTiles = tiles.ToHashSet();
-            if (!_currentTiles.Any())
+            if (tiles.Count == 0 && walls.Count == 0)
             {
                 _content.SetActive(false);
                 return;
             }
-            _dungeonController = _currentTiles.First().DungeonController;
+            if (tiles.Count != 0) { _dungeonController = tiles.First().DungeonController; }
+            else { _dungeonController = walls.First().Parent.DungeonController; }
             ManifestData = _dungeonController.ManifestData;
-            CountWalls(_currentTiles);
+            CountWalls(tiles, walls);
             _content.SetActive(true);
 
-            (string tileTextureName, UnityEngine.Texture tileTexture) = TextureLabel(_currentTiles);
-            _tilesLabel.Label.text = $"{_currentTiles.Count()} Tiles: {tileTextureName}";
+            (string tileTextureName, UnityEngine.Texture tileTexture) = TextureLabel(tiles);
+            _tilesLabel.Label.text = $"{tiles.Count()} Tiles: {tileTextureName}";
             _tilesLabel.Button.Image.texture = tileTexture;
 
             UpdateLabel(_wallsLabel, "Walls", _walls);
@@ -106,14 +106,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             UpdateLabel(_secretDoorLabel, "Secret Doors", _secretDoors);
         }
 
-        private void UpdateLabel(TextureLabelController label, string name, HashSet<(Position, Facing)> walls)
+        private void UpdateLabel(TextureLabelController label, string name, ISet<(Position, Facing)> walls)
         {
             (string wallTextureName, UnityEngine.Texture wallTexture) = TextureLabel(walls);
             label.Label.text = $"{walls.Count} {name}: {wallTextureName}";
             label.Button.Image.texture = wallTexture;
         }
 
-        private (string, UnityEngine.Texture) TextureLabel(HashSet<(Position p, Facing f)> walls)
+        private (string, UnityEngine.Texture) TextureLabel(ISet<(Position p, Facing f)> walls)
         {
             if (walls.Count() < 1) { return ("No Selection", null); }
             string textureName = GetTextureName(walls.First());
@@ -125,7 +125,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             string GetTextureName((Position p, Facing f) wall) => _dungeonController.ManifestData.GetWallTexture(_dungeonController.DungeonData.Dungeon, wall.p, wall.f);
         }
 
-        private (string, UnityEngine.Texture) TextureLabel(HashSet<DungeonTile> tiles)
+        private (string, UnityEngine.Texture) TextureLabel(ISet<DungeonTile> tiles)
         {
             if (tiles.Count() < 1) { return ("No Selection", null); }
             string textureName = tiles.First().FloorTextureName;
@@ -136,15 +136,27 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             return ("Multiple textures", null);
         }
 
-        private void CountWalls(IEnumerable<DungeonTile> tiles)
+        private void CountWalls(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
         {
-            Facing[] facings = { Facing.North, Facing.East, Facing.South, Facing.West };
+
             _walls.Clear();
             _doors.Clear();
             _secretDoors.Clear();
+            foreach (var wall in walls)
+            {
+                HashSet<(Position, Facing)> wallSet = wall.WallType switch
+                {
+                    WallType.Solid => _walls,
+                    WallType.Door => _doors,
+                    WallType.SecretDoor => _secretDoors,
+                    _ => null,
+                };
+                if (wallSet == null) { continue; }
+                wallSet.Add((wall.Parent.Position, wall.Facing));
+            }
             foreach (var tile in tiles)
             {
-                foreach (var facing in facings)
+                foreach (var facing in Facings)
                 {
                     (Position p, Facing f) key = (tile.Position, facing);
                     WallType wallType = tile.Dungeon.Walls.GetWall(key.p, key.f);
@@ -157,11 +169,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void SetTileTexture(string newTexture)
         {
-            if (!_selection.SelectedTiles.Any()) { return; }
+            if (!_selection.Tiles.Any()) { return; }
             System.Action perform = default;
             System.Action undo = default;
-            DungeonManifestData manifest = _selection.SelectedTiles.First().Manifest;
-            foreach (DungeonTile tile in _selection.SelectedTiles)
+            DungeonManifestData manifest = _selection.Tiles.First().Manifest;
+            foreach (DungeonTile tile in _selection.Tiles)
             {
                 Dungeon d = tile.Dungeon;
                 Position p = tile.Position;
