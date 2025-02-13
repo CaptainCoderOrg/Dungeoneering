@@ -17,13 +17,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            Selected.OnWallsChanged.AddListener(HandleSelectionChanged);
+            Selected.AddListener(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
-            Selected.OnWallsChanged.RemoveListener(HandleSelectionChanged);
+            Selected.AddListener(HandleSelectionChanged);
         }
+
+        // TODO: Not Implemented
+        private void HandleSelectionChanged(SelectionChangedData data) => throw new System.NotImplementedException();
 
         private void HandleSelectionChanged(IEnumerable<DungeonWallController> walls)
         {

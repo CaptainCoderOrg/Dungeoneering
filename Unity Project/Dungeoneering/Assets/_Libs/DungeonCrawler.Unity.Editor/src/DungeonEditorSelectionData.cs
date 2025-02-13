@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,37 +10,28 @@ namespace CaptainCoder.Dungeoneering.Unity
     [CreateAssetMenu(menuName = "DC/SelectionData")]
     public class DungeonEditorSelectionData : ObservableSO
     {
-        [field: SerializeField]
-        public UnityEvent<IEnumerable<DungeonTile>> OnTilesChanged { get; private set; } = new();
-        [field: SerializeField]
-        public UnityEvent<IEnumerable<DungeonWallController>> OnWallsChanged { get; private set; } = new();
-        private HashSet<DungeonTile> _selectedTiles { get; set; } = new();
-        public IEnumerable<DungeonTile> SelectedTiles => _selectedTiles;
-        private HashSet<DungeonWallController> _selectedWalls { get; set; } = new();
-        public IEnumerable<DungeonWallController> SelectedWalls => _selectedWalls;
+        private HashSet<DungeonTile> _selectedTiles = new();
+        private ReadOnlySetView<DungeonTile> _cachedView;
+        public ReadOnlySetView<DungeonTile> SelectedTiles => _cachedView ??=  new (_selectedTiles);
+        private HashSet<DungeonWallController> _selectedWalls = new();
+        private ReadOnlySetView<DungeonWallController> _cachedWallsView;
+        public ReadOnlySetView<DungeonWallController> SelectedWalls => _cachedWallsView ??= new(_selectedWalls);
+        private UnityEvent<SelectionChangedData> _onDataChanged = new ();
+        private SelectionChangedData _changes;
 
-        public void AddListener(UnityAction<IEnumerable<DungeonWallController>> onChange)
+        public void AddListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.AddListener(onChange);
+        public void RemoveListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.RemoveListener(onChange);
+        private void Notify()
         {
-            OnWallsChanged.AddListener(onChange);
-            onChange.Invoke(_selectedWalls);
+            _changes ??= new SelectionChangedData(this);
+            _onDataChanged.Invoke(_changes);
         }
-
-        public void RemoveListener(UnityAction<IEnumerable<DungeonWallController>> onChange) => OnWallsChanged.RemoveListener(onChange);
-
-        public void AddListener(UnityAction<IEnumerable<DungeonTile>> onChange)
-        {
-            OnTilesChanged.AddListener(onChange);
-            onChange.Invoke(_selectedTiles);
-        }
-
-        public void RemoveListener(UnityAction<IEnumerable<DungeonTile>> onChange) => OnTilesChanged.RemoveListener(onChange);
 
         public void ToggleWallSelected(DungeonWallController wall)
         {
             if (_selectedWalls.Contains(wall)) { _selectedWalls.Remove(wall); }
             else { _selectedWalls.Add(wall); }
-            ClearTiles();
-            OnWallsChanged.Invoke(_selectedWalls);
+            Notify();
         }
 
         public void SetWallSelection(params DungeonWallController[] walls) => SetWallSelection((IEnumerable<DungeonWallController>)walls);
@@ -45,50 +39,34 @@ namespace CaptainCoder.Dungeoneering.Unity
         public void SetWallSelection(IEnumerable<DungeonWallController> walls)
         {
             _selectedWalls.Clear();
-            AddWallSelection(walls);
+            _selectedTiles.Clear();
+            _selectedWalls.UnionWith(walls);
+            Notify();
         }
 
         public void AddWallSelection(IEnumerable<DungeonWallController> walls) {
-            ClearTiles();
             _selectedWalls.UnionWith(walls);
-            OnWallsChanged.Invoke(_selectedWalls);
+            Notify();
         }
-
-        public void ClearTiles()
-        {
-            if (_selectedTiles.Count == 0) { return; }
-            _selectedTiles.Clear();
-            OnTilesChanged.Invoke(_selectedTiles);
-        }
-
-        public void ClearWalls()
-        {
-            if (_selectedWalls.Count == 0) { return; }
-            _selectedWalls.Clear();
-            OnWallsChanged.Invoke(_selectedWalls);
-        }
-        
         public void ToggleTileSelected(DungeonTile tile)
         {
             if (_selectedTiles.Contains(tile)) { _selectedTiles.Remove(tile); }
             else { _selectedTiles.Add(tile); }
-            ClearWalls();
-            OnTilesChanged.Invoke(_selectedTiles);
+            Notify();
         }
-
-        public void AddTileSelection(params DungeonTile[] tiles) => AddTileSelection((IEnumerable<DungeonTile>)tiles);
         public void AddTileSelection(IEnumerable<DungeonTile> tiles)
         {
-            ClearWalls();
             _selectedTiles.UnionWith(tiles);
-            OnTilesChanged.Invoke(_selectedTiles);
+            Notify();
         }
 
         public void SetTileSelection(params DungeonTile[] tiles) => SetTileSelection((IEnumerable<DungeonTile>)tiles);
         public void SetTileSelection(IEnumerable<DungeonTile> tiles)
         {
+            _selectedWalls.Clear();
             _selectedTiles.Clear();
-            AddTileSelection(tiles);
+            _selectedTiles.UnionWith(tiles);
+            Notify();
         }
 
         protected override void OnEnterPlayMode()
@@ -99,10 +77,15 @@ namespace CaptainCoder.Dungeoneering.Unity
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();
-            _selectedTiles.Clear();
-            _selectedWalls.Clear();
-            OnTilesChanged.RemoveAllListeners();
+            _onDataChanged.RemoveAllListeners();
         }
 
+    }
+
+    public class SelectionChangedData
+    {
+        public readonly ReadOnlySetView<DungeonTile> SelectedTiles;
+        public readonly ReadOnlySetView<DungeonWallController> SelectedWalls;
+        public SelectionChangedData(DungeonEditorSelectionData data) => (SelectedTiles, SelectedWalls) = (data.SelectedTiles, data.SelectedWalls);
     }
 }

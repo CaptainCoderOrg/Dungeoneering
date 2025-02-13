@@ -1,9 +1,11 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Unity;
+using Codice.Client.BaseCommands;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -53,21 +55,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (_currentTiles == null) { return; }
             HandleTilesChanged(_currentTiles);
+            
         }
 
         void OnEnable()
         {
-            _selection.AddListener(HandleTilesChanged);
+            _selection.AddListener(HandleSelectionChanged);
             _tilesLabel.Button.OnClick.AddListener(OpenTileTextureSelector);
             _wallsLabel.Button.OnClick.AddListener(OpenWallTextureSelector);
             _doorsLabel.Button.OnClick.AddListener(OpenDoorsTextureSelector);
             _secretDoorLabel.Button.OnClick.AddListener(OpenSecretDoorsTextureSelector);
         }
 
-
         void OnDisable()
         {
-            _selection.RemoveListener(HandleTilesChanged);
+            _selection.RemoveListener(HandleSelectionChanged);
             _tilesLabel.Button.OnClick.RemoveListener(OpenTileTextureSelector);
             _wallsLabel.Button.OnClick.RemoveListener(OpenWallTextureSelector);
             _doorsLabel.Button.OnClick.RemoveListener(OpenDoorsTextureSelector);
@@ -78,6 +80,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             Assertion.NotNull(this, _selection, _undoRedoStack, TextureSelector, _content, _tilesLabel, _wallsLabel, _doorsLabel, _secretDoorLabel);
         }
+
+        
+        private void HandleSelectionChanged(SelectionChangedData changes) => HandleTilesChanged(changes.SelectedTiles);
 
         private void HandleTilesChanged(IEnumerable<DungeonTile> tiles)
         {
