@@ -1,10 +1,11 @@
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Player;
+
 using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity
 {
-    [CreateAssetMenu(menuName = "DC/PlayerView")]   
+    [CreateAssetMenu(menuName = "DC/PlayerView")]
     public class PlayerViewData : ObservableSO
     {
         public UnityEvent<PlayerView, PlayerView> OnChange { get; private set; } = new();
@@ -15,12 +16,12 @@ namespace CaptainCoder.Dungeoneering.Unity
         public int Y { get; private set; }
         [field: SerializeField]
         public Facing Facing { get; private set; }
-        
+
         private PlayerView _view;
-        public PlayerView View 
-        { 
+        public PlayerView View
+        {
             get => _view;
-         set
+            set
             {
                 if (_view == value) { return; }
                 PlayerView exit = _view;
@@ -46,13 +47,13 @@ namespace CaptainCoder.Dungeoneering.Unity
         protected override void AfterEnabled()
         {
             base.AfterEnabled();
-            View = new PlayerView(new (X, Y), Facing);
+            View = new PlayerView(new(X, Y), Facing);
         }
 
         public void OnValidate()
         {
-            View = new PlayerView(new (X, Y), Facing);
+            View = new PlayerView(new(X, Y), Facing);
         }
-        
+
     }
 }

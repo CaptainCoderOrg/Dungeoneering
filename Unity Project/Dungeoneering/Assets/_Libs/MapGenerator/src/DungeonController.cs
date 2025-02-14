@@ -1,18 +1,16 @@
-using UnityEngine;
-
 using System.Collections.Generic;
 using System.Linq;
 
-using CaptainCoder.Dungeoneering.DungeonCrawler;
-
 using NaughtyAttributes;
+
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonController : MonoBehaviour
     {
-        
+
         [field: SerializeField]
         public Transform TileParent { get; private set; } = null!;
         [field: SerializeField]
@@ -29,7 +27,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
-        private Dictionary<Position, DungeonTile> _tiles = new();
+        private readonly Dictionary<Position, DungeonTile> _tiles = new();
 
         public void Start()
         {
@@ -45,14 +43,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 d = ManifestData.Manifest.Dungeons[ManifestData.Manifest.Dungeons.Keys.First()];
             }
             DungeonData.Dungeon = d;
-            
-            Build(d, ManifestData.Manifest);
+
+            Build(d);
         }
         [Button]
         public void ClearDungeon() => TileParent.DestroyAllChildren();
-        public void Build(Dungeon dungeon, DungeonCrawlerManifest manifest) => BuildDungeon(TileParent, TilePrefab, dungeon, manifest);
+        public void Build(Dungeon dungeon) => BuildDungeon(TileParent, TilePrefab, dungeon);
 
-        public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon, DungeonCrawlerManifest manifest)
+        public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon)
         {
             _tiles.Clear();
             parent.DestroyAllChildren();
@@ -109,7 +107,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             if (dungeon == DungeonData.Dungeon)
             {
                 DungeonTile tile = _tiles[position];
-                string name = dungeon.TileTextures.GetTileTextureName(position);
+                _ = dungeon.TileTextures.GetTileTextureName(position);
                 Material mat = ManifestData.MaterialCache.GetTileMaterial(dungeon, position);
                 tile.UpdateFloor(mat);
             }

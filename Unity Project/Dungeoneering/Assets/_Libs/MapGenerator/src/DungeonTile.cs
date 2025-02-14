@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using CaptainCoder.Dungeoneering.DungeonCrawler;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +7,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonTile : MonoBehaviour
     {
-        
+
         public DungeonManifestData Manifest { get; private set; }
         public Dungeon Dungeon { get; private set; }
         public DungeonController DungeonController { get; private set; }
@@ -28,9 +27,12 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
 
-        public DungeonWallController this[Facing facing] {
-            get {
-                return facing switch {
+        public DungeonWallController this[Facing facing]
+        {
+            get
+            {
+                return facing switch
+                {
                     Facing.North => NorthWall,
                     Facing.East => EastWall,
                     Facing.South => SouthWall,

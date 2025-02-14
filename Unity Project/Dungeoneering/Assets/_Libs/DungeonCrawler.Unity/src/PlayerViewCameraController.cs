@@ -1,4 +1,5 @@
 using CaptainCoder.Dungeoneering.Player;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity
 {
@@ -12,7 +13,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         public void OnEnable()
         {
             PlayerView.OnChange.AddListener(HandlePlayerViewChanged);
-            (transform.position, transform.rotation) = CameraMode.EndPositionAndRotation(PlayerView.View);            
+            (transform.position, transform.rotation) = CameraMode.EndPositionAndRotation(PlayerView.View);
         }
 
         public void OnDisable()

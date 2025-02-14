@@ -1,5 +1,7 @@
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using NaughtyAttributes;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -26,7 +28,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public void InitializeGrid(DungeonManifestData manifest)
         {
             Grid.DestroyAllChildren();
-            foreach(var textureEntry in manifest.MaterialCache)
+            foreach (var textureEntry in manifest.MaterialCache)
             {
                 DungeonTextureButton btn = Instantiate(ButtonPrefab, Grid);
                 btn.TextureName = textureEntry.Key;
@@ -45,7 +47,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             gameObject.SetActive(false);
             _onSelectedCallback?.Invoke(textureButton.TextureName);
-            
+
         }
 
         public void ShowDialogue(System.Action<string> onSelected, System.Action onCanceled)

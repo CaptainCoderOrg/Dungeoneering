@@ -4,17 +4,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonWallController : MonoBehaviour
     {
-        
+
         [field: SerializeField]
         public MeshRenderer[] Renderers { get; private set; } = default!;
         private MouseEvents _mouseEvents;
         public DungeonTile Parent { get; private set; }
         [field: SerializeField]
-        public Facing Facing { get; private set; }        
+        public Facing Facing { get; private set; }
         private Material _material;
-        public Material Material 
-        { 
-            get => _material; 
+        public Material Material
+        {
+            get => _material;
             set
             {
                 foreach (var renderer in Renderers)
@@ -51,7 +51,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _mouseEvents.OnClick.RemoveListener(OnClick);
         }
 
-        private void OnClick() 
+        private void OnClick()
         {
             Parent.OnWallClicked.Invoke(this);
         }

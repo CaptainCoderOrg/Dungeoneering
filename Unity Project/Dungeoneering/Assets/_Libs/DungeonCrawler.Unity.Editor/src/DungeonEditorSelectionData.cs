@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 
 using UnityEngine;
@@ -77,6 +78,8 @@ namespace CaptainCoder.Dungeoneering.Unity
         {
             base.OnExitPlayMode();
             _onDataChanged.RemoveAllListeners();
+            _walls.Clear();
+            _selectedTiles.Clear();
         }
 
     }

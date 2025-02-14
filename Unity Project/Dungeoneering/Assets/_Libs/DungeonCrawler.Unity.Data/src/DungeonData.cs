@@ -1,22 +1,20 @@
-using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.Player;
 using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
-    [CreateAssetMenu(menuName = "DC/DungeonData")]   
+    [CreateAssetMenu(menuName = "DC/DungeonData")]
     public class DungeonData : ObservableSO
     {
         public UnityEvent<Dungeon> OnChange { get; private set; } = new();
         private Dungeon _dungeon;
-        public Dungeon Dungeon 
-        { 
-            get => _dungeon; 
+        public Dungeon Dungeon
+        {
+            get => _dungeon;
             set
             {
                 _dungeon = value;
                 OnChange.Invoke(_dungeon);
-            } 
+            }
         }
 
         protected override void OnEnterPlayMode()
@@ -32,8 +30,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void OnValidate()
         {
-            
+
         }
-        
+
     }
 }
