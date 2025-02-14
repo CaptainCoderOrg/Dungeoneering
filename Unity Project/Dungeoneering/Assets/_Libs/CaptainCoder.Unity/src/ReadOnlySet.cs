@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ReadOnlySetView<T> : ISet<T>
 {
-    private ISet<T> _view;
+    private readonly ISet<T> _view;
     public ReadOnlySetView(ISet<T> toView) => _view = toView;
 
     public int Count => _view.Count;

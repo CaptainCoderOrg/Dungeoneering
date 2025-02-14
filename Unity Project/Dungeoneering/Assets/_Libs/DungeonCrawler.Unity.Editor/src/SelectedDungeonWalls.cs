@@ -12,9 +12,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public GameObject SouthWall { get; private set; } = default!;
         [field: SerializeField]
         public GameObject WestWall { get; private set; } = default!;
-        public Facing Facing 
+        public Facing Facing
         {
-            set 
+            set
             {
                 GameObject wall = value switch
                 {
@@ -25,7 +25,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     _ => throw new System.Exception($"Unknown Facing: {value}"),
                 };
                 wall.SetActive(true);
-            } 
+            }
         }
 
         void Awake()

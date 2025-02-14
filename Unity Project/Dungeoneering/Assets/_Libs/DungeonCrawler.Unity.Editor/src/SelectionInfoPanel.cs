@@ -131,7 +131,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             string textureName = tiles.First().FloorTextureName;
             if (tiles.All(t => t.FloorTextureName == textureName))
             {
-                return (textureName, tiles.First().FloorTile.material.mainTexture);
+                return (textureName, tiles.First().FloorTile?.material?.mainTexture);
             }
             return ("Multiple textures", null);
         }

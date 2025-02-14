@@ -1,7 +1,8 @@
-using UnityEngine;
-using CaptainCoder.Dungeoneering.Player;
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.DungeonMap;
+using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Player;
+
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CaptainCoder.Dungeoneering.Unity
@@ -26,7 +27,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         private void HandleInputIgnoringWalls(MovementAction action)
         {
             (Position p, Facing f) = PlayerView.View;
-            PlayerView newView = action switch 
+            PlayerView newView = action switch
             {
                 MovementAction.StepForward => new PlayerView(p.Step(f), f),
                 MovementAction.StepBackward => new PlayerView(p.Step(f.Opposite()), f),

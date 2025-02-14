@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 namespace CaptainCoder.Dungeoneering.Unity
 {
-    public class EditorContextController : MonoBehaviour {
+    public class EditorContextController : MonoBehaviour
+    {
         private const int FACING_ORIENTATION_BIT = 1;
         private const int FACING_DIRECTION_BIT = 2;
-        
+
         [field: SerializeField]
         public DungeonEditorSelectionData SelectionData { get; private set; }
         [field: SerializeField]
@@ -19,7 +22,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         private float _lastClick;
         private DungeonTile _lastClicked;
         private DungeonWallController _lastClickedWall;
-        private static readonly Facing[] _facings = { Facing.North, Facing.East, Facing.South, Facing.West };
+        private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
 
         public void Click(DungeonTile clicked)
         {
@@ -46,7 +49,8 @@ namespace CaptainCoder.Dungeoneering.Unity
             _lastClickedWall = null;
         }
 
-        public void Click(DungeonWallController clicked) {
+        public void Click(DungeonWallController clicked)
+        {
             float time = Time.time;
             bool isDoubleClick = _lastClickedWall == clicked && time - _lastClick <= DoubleClickTime;
             if (isDoubleClick && Keyboard.current.shiftKey.isPressed)
@@ -79,7 +83,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             queue.Enqueue(start.Position);
             while (queue.TryDequeue(out Position position) && allTiles.Count < maxSelect)
             {
-                var neighbors = _facings
+                var neighbors = Facings
                     .Where(f => d.Walls.GetWall(position, f) == WallType.None)
                     .Select(position.Step);
 
@@ -101,19 +105,20 @@ namespace CaptainCoder.Dungeoneering.Unity
 #endif
 
             DungeonTile tile = wall.Parent;
-            if (tile == null) {
+            if (tile == null)
+            {
                 Debug.LogError("No parent tile found!");
                 return default;
             }
-            
+
             Facing exitSide = (Facing)((int)incomingSide ^ FACING_DIRECTION_BIT);
-            
+
             // First check for the next wall as a turn in the current tile
             DungeonWallController candidate = tile[exitSide];
-            
+
             if (candidate.isActiveAndEnabled)
                 return (candidate, wall.Facing);
-            
+
             // Next check for a matching continuation in the neighboring tile
             Position exitSidePosition = wall.Parent.Position.Step(exitSide);
             if (_dungeonController.TryGetDungeonTile(exitSidePosition, out DungeonTile neighborTile))
@@ -122,7 +127,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (candidate.isActiveAndEnabled)
                     return (candidate, incomingSide);
             }
-            
+
             // Next check for a connection through the sibling wall
             if (_dungeonController.TryGetDungeonTile(exitSidePosition.Step(wall.Facing), out neighborTile))
             {
@@ -130,7 +135,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (candidate.isActiveAndEnabled)
                     return (candidate, (Facing)((int)wall.Facing ^ FACING_DIRECTION_BIT));
             }
-            
+
             // Finally, check for this wall's sibling
             if (_dungeonController.TryGetDungeonTile(wall.Parent.Position.Step(wall.Facing), out neighborTile))
             {
@@ -139,31 +144,33 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (candidate.isActiveAndEnabled)
                     return (candidate, exitSide);
             }
-            
+
             // This appears to be a terminal node, so a wall segment on the map border with no connection
             return default;
         }
-        
+
         private IEnumerable<DungeonWallController> GetConnectedWalls(DungeonWallController start)
         {
             yield return start;
-            
+
             Facing initialIncoming = (Facing)((int)start.Facing ^ FACING_ORIENTATION_BIT);
             var (curr, dir) = GetNextWall(start, initialIncoming);
-            while (curr != null && curr != start) {
+            while (curr != null && curr != start)
+            {
                 yield return curr;
                 (curr, dir) = GetNextWall(curr, dir);
             }
 
             if (curr != null)
                 yield break;
-            
+
             // If curr became null, that should mean that we ran into a terminal node (or some unknown condition),
             // meaning there's a map edge tile without a wall at the border of the map. If that happens, continue the
             // search in the opposite direction from the start
             Facing reversedInitialIncoming = (Facing)((int)initialIncoming ^ FACING_DIRECTION_BIT);
             (curr, dir) = GetNextWall(start, reversedInitialIncoming);
-            while (curr != null && curr != start) {
+            while (curr != null && curr != start)
+            {
                 yield return curr;
                 (curr, dir) = GetNextWall(curr, dir);
             }

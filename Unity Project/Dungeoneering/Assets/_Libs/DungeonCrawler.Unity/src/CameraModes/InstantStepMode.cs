@@ -1,5 +1,7 @@
 using System.Collections;
+
 using CaptainCoder.Dungeoneering.Player;
+
 using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.Unity

@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.Player;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity
 {
     public static class PlayerViewExtensions
     {
-        public static Vector3 ToVector3(this Position position) => new Vector3(position.Y, 0, position.X);
+        public static Vector3 ToVector3(this Position position) => new(position.Y, 0, position.X);
         public static Quaternion ToQuaternion(this Facing facing) => facing switch
         {
             Facing.North => Quaternion.Euler(0, 270, 0),

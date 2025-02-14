@@ -1,7 +1,8 @@
-using System;
 using CaptainCoder.Dungeoneering.Player;
+
 using UnityEngine;
 using UnityEngine.Events;
+
 using static UnityEngine.InputSystem.InputAction;
 
 namespace CaptainCoder.Dungeoneering.DungeonCrawler.Input

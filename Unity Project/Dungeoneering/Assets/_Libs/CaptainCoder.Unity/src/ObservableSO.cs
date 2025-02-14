@@ -19,9 +19,9 @@ public class ObservableSO : ScriptableObject
 
     private void OnEnable()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         EditorApplication.playModeStateChanged += OnPlayModeStateChange;
-        #endif
+#endif
         AfterEnabled();
     }
 
@@ -30,7 +30,7 @@ public class ObservableSO : ScriptableObject
         // Debug.Log($"SO Enabled: {this}");
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     private void OnPlayModeStateChange(PlayModeStateChange change)
     {
         if (change == PlayModeStateChange.EnteredEditMode)
@@ -42,7 +42,7 @@ public class ObservableSO : ScriptableObject
             OnExitPlayMode();
         }
     }
-    #endif
+#endif
 
 
 }

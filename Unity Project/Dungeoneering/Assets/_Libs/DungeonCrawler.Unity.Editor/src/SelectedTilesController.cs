@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -36,7 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 indicator.transform.position = tile.Position.ToVector3();
                 indicator.SetActive(true);
             }
-            
+
         }
     }
 }
