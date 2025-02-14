@@ -10,9 +10,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class WallTypeButtons : MonoBehaviour
     {
         [SerializeField]
-        private readonly DungeonEditorSelectionData _selectionData;
+        private DungeonEditorSelectionData _selectionData;
         [SerializeField]
-        private readonly UndoRedoStackData _undoRedoStackData;
+        private UndoRedoStackData _undoRedoStackData;
 
         [field: SerializeField]
         public Button NoWallButton { get; private set; }
