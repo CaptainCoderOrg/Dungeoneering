@@ -53,9 +53,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void HandleTilesChanged(TilesChangedData _)
         {
-            if (_selection.Tiles.Count == 0) { return; }
             RenderInfo(_selection.Tiles, _selection.Walls);
-
         }
 
         void OnEnable()
