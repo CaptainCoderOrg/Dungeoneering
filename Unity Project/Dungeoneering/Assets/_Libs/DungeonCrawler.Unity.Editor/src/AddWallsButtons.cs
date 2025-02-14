@@ -25,6 +25,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public Button WestButton { get; private set; }
         [field: SerializeField]
         public Button AllButton { get; private set; }
+        [field: SerializeField]
+        public Button NoneButton { get; private set; }
 
         void Awake()
         {
@@ -35,6 +37,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Debug.Assert(SouthButton != null, this);
             Debug.Assert(WestButton != null, this);
             Debug.Assert(AllButton != null, this);
+            Debug.Assert(NoneButton != null, this);
         }
 
         void OnEnable()
@@ -44,6 +47,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             SouthButton.onClick.AddListener(SetSouth);
             WestButton.onClick.AddListener(SetWest);
             AllButton.onClick.AddListener(SetAll);
+            NoneButton.onClick.AddListener(SetNone);
         }
 
         void OnDisable()
@@ -53,15 +57,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             SouthButton.onClick.RemoveListener(SetSouth);
             WestButton.onClick.RemoveListener(SetWest);
             AllButton.onClick.RemoveListener(SetAll);
+            NoneButton.onClick.RemoveListener(SetNone);
         }
 
-        private void SetNorth() => SetWall(Facing.North);
-        private void SetEast() => SetWall(Facing.East);
-        private void SetSouth() => SetWall(Facing.South);
-        private void SetWest() => SetWall(Facing.West);
-        private void SetAll() => SetWall(Facing.North, Facing.East, Facing.South, Facing.West);
+        private void SetNorth() => SetWall(WallType.Solid, Facing.North);
+        private void SetEast() => SetWall(WallType.Solid, Facing.East);
+        private void SetSouth() => SetWall(WallType.Solid, Facing.South);
+        private void SetWest() => SetWall(WallType.Solid, Facing.West);
+        private void SetAll() => SetWall(WallType.Solid, Facing.North, Facing.East, Facing.South, Facing.West);
+        private void SetNone() => SetWall(WallType.None, Facing.North, Facing.East, Facing.South, Facing.West);
 
-        private void SetWall(params Facing[] facings)
+        private void SetWall(WallType wallType, params Facing[] facings)
         {
             if (_selectionData.Tiles.Count() == 0) { return; }
             HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
@@ -77,8 +83,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     Dungeon d = tile.Dungeon;
                     Position p = tile.Position;
                     WallType originalWallType = d.Walls[p, facing];
-                    if (originalWallType != WallType.None) { continue; }
-                    perform += () => manifest.SetWallType(d, p, facing, WallType.Solid);
+                    if (wallType != WallType.None && originalWallType != WallType.None) { continue;}
+                    perform += () => manifest.SetWallType(d, p, facing, wallType);
                     undo += () => manifest.SetWallType(d, p, facing, originalWallType);
                 }
             }
