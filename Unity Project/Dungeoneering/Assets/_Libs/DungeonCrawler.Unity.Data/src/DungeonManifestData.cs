@@ -14,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
     public class DungeonManifestData : ObservableSO
     {
+        private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
@@ -22,7 +23,23 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public Dictionary<string, Material> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
-        public DungeonCrawlerManifest LoadManifest() => JsonExtensions.LoadModel<DungeonCrawlerManifest>(ManifestJson.text);
+        public DungeonCrawlerManifest LoadManifest()
+        {
+            DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(ManifestJson.text);
+            _onManifestLoaded.Invoke(manifest);
+            return manifest;
+        }
+
+        public void AddListener(UnityAction<DungeonCrawlerManifest> onChange)
+        {
+            _onManifestLoaded.AddListener(onChange);
+            if (_manifest != null)
+            {
+                onChange.Invoke(_manifest);
+            }
+        }
+
+        public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
         public void Notify()
         {
@@ -58,6 +75,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             base.OnExitPlayMode();
             _materialCache = null;
             _manifest = null;
+            _onManifestLoaded.RemoveAllListeners();
             OnTilesChanged.RemoveAllListeners();
         }
 
