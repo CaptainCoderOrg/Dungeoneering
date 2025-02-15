@@ -24,6 +24,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public DungeonData DungeonData { get; private set; }
         [field: SerializeField]
+        public UnityEvent<DungeonData> OnDungeonChanged { get; private set; } = new();
+        [field: SerializeField]
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
@@ -31,19 +33,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void Start()
         {
+            Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
             BuildSelectedDungeon();
         }
 
         [Button]
         public void BuildSelectedDungeon()
         {
-            Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
             if (!ManifestData.Manifest.Dungeons.TryGetValue(DungeonKey, out Dungeon d))
             {
                 d = ManifestData.Manifest.Dungeons[ManifestData.Manifest.Dungeons.Keys.First()];
             }
-            DungeonData.Dungeon = d;
-
             Build(d);
         }
         [Button]
@@ -52,6 +52,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon)
         {
+            DungeonData.Dungeon = dungeon;
             _tiles.Clear();
             parent.DestroyAllChildren();
 
@@ -66,6 +67,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     _tiles[new Position(x, y)] = newTile;
                 }
             }
+
+            OnDungeonChanged.Invoke(DungeonData);
 
             dungeon.Walls.OnWallChanged += UpdateWalls;
             dungeon.WallTextures.OnTextureChange += UpdateTextures;
