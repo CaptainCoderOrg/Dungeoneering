@@ -83,7 +83,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     Dungeon d = tile.Dungeon;
                     Position p = tile.Position;
                     WallType originalWallType = d.Walls[p, facing];
-                    if (wallType != WallType.None && originalWallType != WallType.None) { continue;}
+                    if (wallType != WallType.None && originalWallType != WallType.None) { continue; }
                     perform += () => manifest.SetWallType(d, p, facing, wallType);
                     undo += () => manifest.SetWallType(d, p, facing, originalWallType);
                 }
