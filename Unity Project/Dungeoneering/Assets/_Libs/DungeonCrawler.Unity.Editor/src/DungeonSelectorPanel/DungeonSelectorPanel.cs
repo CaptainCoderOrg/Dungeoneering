@@ -2,6 +2,7 @@ using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Unity;
+using CaptainCoder.Unity.UI;
 
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -14,6 +15,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private Transform _buttonTransform;
         [SerializeField]
         private DungeonSelectorButton _dungeonButtonPrefab;
+        [SerializeField]
+        private TextEntryDialogPanel _textEntryDialogPanel;
 
         void Awake()
         {
@@ -41,6 +44,30 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
+        public void PromptCreateDungeon()
+        {
+            _textEntryDialogPanel.Prompt("Enter dungeon name", "Create Dungeon", "Cancel", CreateNewDungeon, ValidateDungeonName);
+        }
+
+        private string ValidateDungeonName(string name)
+        {
+            if (!_dungeonController.ManifestData.Manifest.Dungeons.ContainsKey(name)) { return null; }
+            return $"A dungeon named {name} already exists";
+        }
+        public void CreateNewDungeon(string name)
+        {
+            if (_dungeonController.ManifestData.Manifest.Dungeons.ContainsKey(name))
+            {
+                _textEntryDialogPanel.ShowError($"A dungeon named {name} already exists.");
+                return;
+            }
+
+            Dungeon newDungeon = new() { Name = name };
+            _dungeonController.ManifestData.Manifest.AddDungeon(newDungeon.Name, newDungeon);
+            _dungeonController.Build(newDungeon);
+            Hide();
+        }
+
         private void BuildDungeon(Dungeon d)
         {
             Hide();
@@ -48,7 +75,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         }
 
 
-        private void Hide() => gameObject.SetActive(false);
+        public void Hide() => gameObject.SetActive(false);
         public void Toggle() => gameObject.SetActive(!gameObject.activeSelf);
 
     }
