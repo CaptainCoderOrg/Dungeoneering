@@ -127,7 +127,17 @@ namespace CaptainCoder.Dungeoneering.Unity
                 if (candidate.isActiveAndEnabled)
                     return (candidate, incomingSide);
             }
+            else
+            {
+                // There was no neighbor on the exit side, implying we hit the end of the map,
+                // so we can't continue and check for neighbors through the sibling or the
+                // invariant that walls are made in sibling pairs and we'll always complete a
+                // cycle can't be relied upon
+                return default;
+            }
 
+            
+            
             // Next check for a connection through the sibling wall
             if (_dungeonController.TryGetDungeonTile(exitSidePosition.Step(wall.Facing), out neighborTile))
             {
