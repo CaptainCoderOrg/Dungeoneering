@@ -39,8 +39,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             foreach ((string name, Dungeon d) in manifest.Dungeons)
             {
                 DungeonSelectorButton button = Instantiate(_dungeonButtonPrefab, _buttonTransform);
-                button.Label.text = name;
-                button.Button.onClick.AddListener(() => BuildDungeon(d));
+                button.Dungeon = d;
+                button.OnSelected.AddListener(BuildDungeon);
             }
         }
 
