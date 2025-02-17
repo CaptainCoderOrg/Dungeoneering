@@ -136,8 +136,8 @@ namespace CaptainCoder.Dungeoneering.Unity
                 return default;
             }
 
-            
-            
+
+
             // Next check for a connection through the sibling wall
             if (_dungeonController.TryGetDungeonTile(exitSidePosition.Step(wall.Facing), out neighborTile))
             {
