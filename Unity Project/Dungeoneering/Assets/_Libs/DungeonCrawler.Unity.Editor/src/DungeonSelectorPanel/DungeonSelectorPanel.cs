@@ -40,7 +40,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             foreach ((string name, Dungeon d) in manifest.Dungeons)
             {
                 DungeonSelectorButton button = Instantiate(_dungeonButtonPrefab, _buttonTransform);
-                button.Dungeon = d;
+                button.Initialize(d, _dungeonController.DungeonData.Dungeon == d);
                 button.OnSelected.AddListener(BuildDungeon);
                 button.OnRemoved.AddListener(PromptDeleteDungeon);
             }

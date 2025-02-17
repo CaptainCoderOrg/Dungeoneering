@@ -12,15 +12,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class DungeonSelectorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         private Dungeon _dungeon;
-        public Dungeon Dungeon
-        {
-            get => _dungeon;
-            set
-            {
-                _dungeon = value;
-                _label.text = _dungeon.Name;
-            }
-        }
         public UnityEvent<Dungeon> OnSelected { get; private set; } = new();
         public UnityEvent<Dungeon> OnRemoved { get; private set; } = new();
 
@@ -36,6 +27,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void Awake()
         {
             Assertion.NotNull(this, _removeButton, _label, _selectionHighlighter);
+        }
+        public void Initialize(Dungeon dungeon, bool isSelected)
+        {
+            _dungeon = dungeon;
+            if (isSelected)
+            {
+                _label.text = $"<b>{_dungeon.Name} (Open)</b>";
+                _removeButton.interactable = false;
+            }
+            else
+            {
+                _label.text = _dungeon.Name;
+                _removeButton.interactable = true;
+            }
         }
         private void Highlight() => _selectionHighlighter.color = _highlightColor;
         private void Unhighlight() => _selectionHighlighter.color = _hidden;

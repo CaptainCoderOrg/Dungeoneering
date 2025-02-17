@@ -106,7 +106,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void RemoveDungeon(Dungeon dungeon)
         {
-            if(Manifest.Dungeons.Remove(dungeon.Name))
+            if (Manifest.Dungeons.Remove(dungeon.Name))
             {
                 _onManifestLoaded.Invoke(_manifest);
             }
