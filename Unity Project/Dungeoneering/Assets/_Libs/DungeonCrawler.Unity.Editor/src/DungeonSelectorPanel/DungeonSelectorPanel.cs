@@ -17,7 +17,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private DungeonSelectorButton _dungeonButtonPrefab;
         [SerializeField]
         private TextEntryDialogPanel _textEntryDialogPanel;
-
+        [SerializeField]
+        private ConfirmPromptPanel _confirmPromptPanel;
         void Awake()
         {
             Assertion.NotNull(this, _buttonTransform, _dungeonButtonPrefab, _dungeonController);
@@ -41,6 +42,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 DungeonSelectorButton button = Instantiate(_dungeonButtonPrefab, _buttonTransform);
                 button.Dungeon = d;
                 button.OnSelected.AddListener(BuildDungeon);
+                button.OnRemoved.AddListener(PromptDeleteDungeon);
+            }
+        }
+
+        public void PromptDeleteDungeon(Dungeon dungeon)
+        {
+            if (_dungeonController.DungeonData.Dungeon == dungeon)
+            {
+                _confirmPromptPanel.Prompt($"Cannot delete <b>{dungeon.Name}</b> because it is currently open.", null, null);
+                return;
+            }
+            _confirmPromptPanel.Prompt($"Are you sure you want to delete <b>{dungeon.Name}</b>?\n<b><color=red>This cannot be undone!</color></b>", DeleteDungeon);
+            void DeleteDungeon()
+            {
+                _dungeonController.ManifestData.RemoveDungeon(dungeon);
             }
         }
 
