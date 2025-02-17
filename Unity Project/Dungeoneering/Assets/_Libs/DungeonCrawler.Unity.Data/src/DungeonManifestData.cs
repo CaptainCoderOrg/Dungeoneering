@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -102,6 +101,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public string GetFloorTexture(Dungeon d, Position p) => d.TileTextures.GetTileTextureName(p);
         public string GetWallTexture(Dungeon d, Position p, Facing f) => d.GetWallTexture(p, f);
+
+        public void RemoveDungeon(Dungeon dungeon)
+        {
+            if (Manifest.Dungeons.Remove(dungeon.Name))
+            {
+                _onManifestLoaded.Invoke(_manifest);
+            }
+        }
     }
 
     public class TilesChangedData
