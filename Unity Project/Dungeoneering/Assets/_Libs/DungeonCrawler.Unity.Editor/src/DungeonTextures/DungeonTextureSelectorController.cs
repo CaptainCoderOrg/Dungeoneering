@@ -14,6 +14,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
+using CaptainCoder.Unity.UI;
+using CaptainCoder.Unity;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
@@ -26,9 +28,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public DungeonTextureButton ButtonPrefab { get; private set; }
         [field: SerializeField]
         public Button AddTextureButton { get; private set; }
+        [SerializeField]
+        private ConfirmTexturePromptPanel _confirmPanel;
 
         private System.Action<string> _onSelectedCallback;
         private System.Action _onCanceledCallback;
+
+        void Awake()
+        {
+            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, ButtonPrefab, AddTextureButton);
+        }
 
         void OnEnable()
         {
@@ -96,9 +105,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             else
             {
                 string filename = www.uri.Segments.Last();
-                Debug.Log(filename);
-                bool success = Manifest.AddTexture(filename, ((DownloadHandlerTexture)www.downloadHandler).texture);
-                Debug.Log(success);
+                Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                _confirmPanel.Prompt(Manifest, texture, filename, Manifest.AddTexture);
             }
         }
 

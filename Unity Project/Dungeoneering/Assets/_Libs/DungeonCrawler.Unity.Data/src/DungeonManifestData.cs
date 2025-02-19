@@ -66,14 +66,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             return _materialCache;
         }
 
-        public bool AddTexture(string name, Texture2D texture)
+        public void AddTexture(string name, Texture2D texture)
         {
-            if (_manifest.Textures.ContainsKey(name)) { return false; }
+            if (_manifest.Textures.ContainsKey(name)) { return; }
             Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
             _manifest.AddTexture(dungeonTexture);
             _materialCache.Add(name, dungeonTexture.ToMaterial());
             _onCacheChanged.Invoke(_materialCache);
-            return true;
         }
 
         protected override void AfterEnabled()
