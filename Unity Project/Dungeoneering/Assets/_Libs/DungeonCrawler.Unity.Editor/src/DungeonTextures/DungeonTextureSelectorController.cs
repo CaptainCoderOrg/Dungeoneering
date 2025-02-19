@@ -5,17 +5,15 @@ using System.Collections;
 
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 
-using NaughtyAttributes;
-
 using SFB;
 
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using System.Linq;
 using CaptainCoder.Unity.UI;
 using CaptainCoder.Unity;
+using System.Collections.Generic;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
@@ -30,13 +28,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public Button AddTextureButton { get; private set; }
         [SerializeField]
         private ConfirmTexturePromptPanel _confirmPanel;
+        [SerializeField]
+        private ScrollRect _scrollRect;
+        private HashSet<string> _textureNames = new();
 
         private System.Action<string> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, ButtonPrefab, AddTextureButton);
+            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, ButtonPrefab, AddTextureButton, _scrollRect);
+            Grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
         void OnEnable()
@@ -49,19 +51,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Manifest.RemoveListener(InitializeGrid);
         }
 
-        [Button]
-        private void InitializeGrid() => InitializeGrid(Manifest.MaterialCache);
-
-        public void InitializeGrid(Dictionary<string, Material> materialCache)
+        public void InitializeGrid(CacheUpdateData update)
         {
-            Grid.DestroyAllChildren(AddTextureButton.transform);
-            foreach (var textureEntry in materialCache.Reverse())
+            foreach ((string name, Material material) in update.Cache)
             {
+                if (_textureNames.Contains(name)) { continue; }
+                _textureNames.Add(name);
                 DungeonTextureButton btn = Instantiate(ButtonPrefab, Grid);
-                btn.TextureName = textureEntry.Key;
-                btn.Image.texture = textureEntry.Value.mainTexture;
+                btn.TextureName = name;
+                btn.Image.texture = material.mainTexture;
                 btn.OnClick.AddListener(SelectTexture);
             }
+            AddTextureButton.transform.SetAsLastSibling();
         }
 #if UNITY_WEBGL && !UNITY_EDITOR
     //
@@ -106,8 +107,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 string filename = www.uri.Segments.Last();
                 Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                _confirmPanel.Prompt(Manifest, texture, filename, Manifest.AddTexture);
+                _confirmPanel.Prompt(Manifest, texture, filename, AddTexture);
             }
+        }
+
+        private void AddTexture(string name, Texture2D texture)
+        {
+            Manifest.AddTexture(name, texture);
+            StartCoroutine(ScrollToBottom());
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            yield return null;
+            _scrollRect.verticalNormalizedPosition = 0;
         }
 
         public void Cancel()
@@ -120,7 +133,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             gameObject.SetActive(false);
             _onSelectedCallback?.Invoke(textureButton.TextureName);
-
         }
 
         public void ShowDialogue(System.Action<string> onSelected, System.Action onCanceled)

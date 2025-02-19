@@ -14,7 +14,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonManifestData : ObservableSO
     {
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
-        private readonly UnityEvent<Dictionary<string, Material>> _onCacheChanged = new();
+        private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
@@ -30,16 +30,16 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             return manifest;
         }
 
-        public void AddListener(UnityAction<Dictionary<string, Material>> onChange)
+        public void AddListener(UnityAction<CacheUpdateData> onChange)
         {
             _onCacheChanged.AddListener(onChange);
             if (_materialCache != null)
             {
-                onChange.Invoke(_materialCache);
+                onChange.Invoke(new CacheUpdateData(_materialCache));
             }
         }
 
-        public void RemoveListener(UnityAction<Dictionary<string, Material>> onChange) => _onCacheChanged.RemoveListener(onChange);
+        public void RemoveListener(UnityAction<CacheUpdateData> onChange) => _onCacheChanged.RemoveListener(onChange);
 
         public void AddListener(UnityAction<DungeonCrawlerManifest> onChange)
         {
@@ -72,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
             _manifest.AddTexture(dungeonTexture);
             _materialCache.Add(name, dungeonTexture.ToMaterial());
-            _onCacheChanged.Invoke(_materialCache);
+            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, name));
         }
 
         protected override void AfterEnabled()
@@ -136,5 +136,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     {
         public HashSet<(Dungeon, Position)> Tiles { get; private set; } = new();
         public bool AddChange(Dungeon dungeon, Position position) => Tiles.Add((dungeon, position));
+    }
+
+    public class CacheUpdateData
+    {
+        public Dictionary<string, Material> Cache { get; private set; }
+        public IEnumerable<string> Added { get; private set; }
+
+        public CacheUpdateData(Dictionary<string, Material> cache, params string[] added)
+        {
+            Cache = cache;
+            Added = added;
+        }
     }
 }
