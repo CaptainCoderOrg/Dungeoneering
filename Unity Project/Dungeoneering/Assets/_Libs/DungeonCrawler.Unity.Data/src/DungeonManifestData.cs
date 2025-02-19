@@ -14,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonManifestData : ObservableSO
     {
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
+        private readonly UnityEvent<Dictionary<string, Material>> _onCacheChanged = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
@@ -28,6 +29,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _onManifestLoaded.Invoke(manifest);
             return manifest;
         }
+
+        public void AddListener(UnityAction<Dictionary<string, Material>> onChange)
+        {
+            _onCacheChanged.AddListener(onChange);
+            if (_materialCache != null)
+            {
+                onChange.Invoke(_materialCache);
+            }
+        }
+
+        public void RemoveListener(UnityAction<Dictionary<string, Material>> onChange) => _onCacheChanged.RemoveListener(onChange);
 
         public void AddListener(UnityAction<DungeonCrawlerManifest> onChange)
         {
@@ -52,6 +64,16 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Debug.Log("Initializing Cache");
             _materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
             return _materialCache;
+        }
+
+        public bool AddTexture(string name, Texture2D texture)
+        {
+            if (_manifest.Textures.ContainsKey(name)) { return false; }
+            Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
+            _manifest.AddTexture(dungeonTexture);
+            _materialCache.Add(name, dungeonTexture.ToMaterial());
+            _onCacheChanged.Invoke(_materialCache);
+            return true;
         }
 
         protected override void AfterEnabled()
