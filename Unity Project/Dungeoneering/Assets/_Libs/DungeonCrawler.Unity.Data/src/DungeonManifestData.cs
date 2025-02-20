@@ -9,7 +9,6 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
-
     [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
     public class DungeonManifestData : ObservableSO
     {
@@ -19,8 +18,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest ??= LoadManifest();
-        private Dictionary<string, Material> _materialCache;
-        public Dictionary<string, Material> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
+        private Dictionary<string, SelectableMaterial> _materialCache;
+        public Dictionary<string, SelectableMaterial> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
         public DungeonCrawlerManifest LoadManifest()
@@ -59,10 +58,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _changes = new();
         }
 
-        private Dictionary<string, Material> InitializeMaterialCache(DungeonCrawlerManifest manifest)
+        private Dictionary<string, SelectableMaterial> InitializeMaterialCache(DungeonCrawlerManifest manifest)
         {
             Debug.Log("Initializing Cache");
-            _materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
+            _materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => new SelectableMaterial(t.ToMaterial()));
             return _materialCache;
         }
 
@@ -71,7 +70,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             if (_manifest.Textures.ContainsKey(name)) { return; }
             Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
             _manifest.AddTexture(dungeonTexture);
-            _materialCache.Add(name, dungeonTexture.ToMaterial());
+            _materialCache.Add(name, new SelectableMaterial(dungeonTexture.ToMaterial()));
             _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, name));
         }
 
@@ -140,10 +139,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
     public class CacheUpdateData
     {
-        public Dictionary<string, Material> Cache { get; private set; }
+        public Dictionary<string, SelectableMaterial> Cache { get; private set; }
         public IEnumerable<string> Added { get; private set; }
 
-        public CacheUpdateData(Dictionary<string, Material> cache, params string[] added)
+        public CacheUpdateData(Dictionary<string, SelectableMaterial> cache, params string[] added)
         {
             Cache = cache;
             Added = added;

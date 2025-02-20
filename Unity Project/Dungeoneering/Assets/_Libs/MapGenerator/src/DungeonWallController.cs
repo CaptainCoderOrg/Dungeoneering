@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
-    public class DungeonWallController : MonoBehaviour
+    public class DungeonWallController : MonoBehaviour, ISelectable
     {
 
         [field: SerializeField]
@@ -11,18 +11,37 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonTile Parent { get; private set; }
         [field: SerializeField]
         public Facing Facing { get; private set; }
-        private Material _material;
-        public Material Material
+        private SelectableMaterial _material;
+        public SelectableMaterial Material
         {
             get => _material;
             set
             {
+                Material mat = value.GetMaterial(IsSelected);
                 foreach (var renderer in Renderers)
                 {
-                    renderer.material = value;
+                    renderer.material = mat;
                 }
                 _material = value;
             }
+        }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (_isSelected == value)
+                    return;
+                _isSelected = value;
+                IsSelectedChanged(_isSelected);
+            }
+        }
+
+        private void IsSelectedChanged(bool isSelected)
+        {
+            DungeonTile tile = Parent;
+            Material = tile.Manifest.MaterialCache.GetTileWallMaterials(tile.Dungeon, tile.Position)[Facing];
         }
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
