@@ -23,6 +23,24 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public Dictionary<string, Material> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
+
+        public bool TryLoadManifest(string json, out DungeonCrawlerManifest loaded)
+        {
+            try
+            {
+                loaded = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
+            }
+            // TODO: Figure out best exception type
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Could not load manifest: {e}");
+                loaded = null;
+                return false;
+            }
+            _manifest = loaded;
+            _onManifestLoaded.Invoke(_manifest);
+            return true;
+        }
         public DungeonCrawlerManifest LoadManifest()
         {
             DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(ManifestJson.text);
