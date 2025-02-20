@@ -10,8 +10,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [field: SerializeField]
         public DungeonEditorSelectionData Selected { get; private set; }
         [field: SerializeField]
-        public SelectedDungeonWalls SelectionIndicatorPrefab { get; private set; }
-        [field: SerializeField]
         public Transform IndicatorContainer { get; private set; }
         private HashSet<DungeonWallController> _selectedWalls = new();
         private HashSet<DungeonWallController> _altSelectedWalls = new();
