@@ -18,7 +18,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
-        public DungeonCrawlerManifest Manifest => _manifest ??= LoadManifest();
+        public DungeonCrawlerManifest Manifest => _manifest;
         private Dictionary<string, Material> _materialCache;
         public Dictionary<string, Material> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
         [field: SerializeField]
@@ -38,14 +38,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 return false;
             }
             _manifest = loaded;
+            _materialCache = InitializeMaterialCache(_manifest);
             _onManifestLoaded.Invoke(_manifest);
             return true;
-        }
-        public DungeonCrawlerManifest LoadManifest()
-        {
-            DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(ManifestJson.text);
-            _onManifestLoaded.Invoke(manifest);
-            return manifest;
         }
 
         public void AddListener(UnityAction<CacheUpdateData> onChange)
@@ -96,25 +91,37 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         protected override void AfterEnabled()
         {
             base.AfterEnabled();
+            InitialLoad();
+        }
+
+        private void ClearListeners()
+        {
             _materialCache = null;
             _manifest = null;
+            _onCacheChanged.RemoveAllListeners();
+            _onManifestLoaded.RemoveAllListeners();
             OnTilesChanged.RemoveAllListeners();
+        }
+        private void InitialLoad()
+        {
+            ClearListeners();
+            Debug.Log("Loading Manifest");
+            if (!TryLoadManifest(ManifestJson.text, out _manifest))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
         }
 
         protected override void OnEnterPlayMode()
         {
             base.OnEnterPlayMode();
-            _materialCache = null;
-            _manifest = null;
+            InitialLoad();
         }
 
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();
-            _materialCache = null;
-            _manifest = null;
-            _onManifestLoaded.RemoveAllListeners();
-            OnTilesChanged.RemoveAllListeners();
+            ClearListeners();
         }
 
         public void SetFloorTexture(Dungeon dungeon, Position position, string textureName)

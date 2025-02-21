@@ -33,10 +33,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
         private readonly Dictionary<Position, DungeonTile> _tiles = new();
-        void Start()
-        {
-            // ManifestData.LoadManifest();
-        }
         void OnEnable()
         {
             ManifestData.AddListener(OnManifestLoaded);
