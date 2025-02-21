@@ -10,8 +10,8 @@ Shader "Custom/SelectableShader"
         _MinOpacity("Min Opacity", Float) = 0.015
         [Toggle(_SMOOTH_EDGES_ON)] _SMOOTH_EDGES("Smooth line edges", Integer) = 1
         [Toggle(_SELECTION_ON)] _SELECTED("Show selection highlight", Integer) = 0
-
     }
+    
     SubShader
     {
         Tags {
@@ -43,8 +43,6 @@ Shader "Custom/SelectableShader"
             #pragma shader_feature_fragment _ _MAIN_LIGHT_SHADOWS _MAIN_LIGH_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma shader_feature_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 
-            #pragma multi_compile_instancing
-            #pragma instancing_options renderinglayer
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
@@ -81,7 +79,7 @@ Shader "Custom/SelectableShader"
                 ZERO_INITIALIZE(InputData, inputData);
                 inputData.positionCS = varyings.positionCS;
                 inputData.positionWS = varyings.positionWS;
-                inputData.normalWS = normalize(varyings.normalWS);
+                inputData.normalWS = NormalizeNormalPerPixel(varyings.normalWS);
                 inputData.viewDirectionWS = GetWorldSpaceViewDir(varyings.positionWS);
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(varyings.positionCS);
 
@@ -138,7 +136,6 @@ Shader "Custom/SelectableShader"
             ENDHLSL
         }
         
-        // Depth normals pass from standard URP lit shader 
         Pass
         {
             Name "DepthNormals"
@@ -147,44 +144,41 @@ Shader "Custom/SelectableShader"
                 "LightMode" = "DepthNormals"
             }
 
-            // -------------------------------------
-            // Render State Commands
             ZWrite On
 
             HLSLPROGRAM
             #pragma target 2.0
 
-            // -------------------------------------
-            // Shader Stages
             #pragma vertex DepthNormalsVertex
             #pragma fragment DepthNormalsFragment
 
-            // -------------------------------------
-            // Material Keywords
-            #pragma shader_feature_local _NORMALMAP
-            #pragma shader_feature_local _PARALLAXMAP
-            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
-            #pragma shader_feature_local _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            // -------------------------------------
-            // Unity defined keywords
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            struct Attributes
+            {
+                float3 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+            };
 
-            // -------------------------------------
-            // Universal Pipeline keywords
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+            struct Varyings
+            {
+                float4 positionCS  : SV_POSITION;
+                float3 normalWS : TEXCOORD0;
+            };
 
-            //--------------------------------------
-            // GPU Instancing
-            #pragma multi_compile_instancing
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+            Varyings DepthNormalsVertex (Attributes attrs)
+            {
+                Varyings v;
+                v.positionCS = TransformObjectToHClip(attrs.positionOS);
+                v.normalWS = TransformObjectToWorldNormal(attrs.normalOS);
+                return v;
+            }
 
-            // -------------------------------------
-            // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
-           ENDHLSL
-        }
+            void DepthNormalsFragment(Varyings input, out half4 outNormalWS : SV_Target0)
+            {
+                outNormalWS = half4(NormalizeNormalPerPixel(input.normalWS), 0.0);
+            }
+            ENDHLSL
+        }        
     }
 }
