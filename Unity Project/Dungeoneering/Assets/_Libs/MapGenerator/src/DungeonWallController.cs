@@ -40,8 +40,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void IsSelectedChanged(bool isSelected)
         {
-            DungeonTile tile = Parent;
-            Material = tile.Manifest.MaterialCache.GetTileWallMaterials(tile.Dungeon, tile.Position)[Facing];
+            // The property will pull out the correct version for selected/unselected
+            Material = _material;
         }
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
