@@ -53,6 +53,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void InitializeGrid(CacheUpdateData update)
         {
+            if (update.IsNewCache)
+            {
+                Grid.DestroyAllChildren(AddTextureButton.transform);
+                _textureNames.Clear();
+            }
             foreach ((string name, Material material) in update.Cache)
             {
                 if (_textureNames.Contains(name)) { continue; }

@@ -48,7 +48,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _onCacheChanged.AddListener(onChange);
             if (_materialCache != null)
             {
-                onChange.Invoke(new CacheUpdateData(_materialCache));
+                onChange.Invoke(new CacheUpdateData(_materialCache, true));
             }
         }
 
@@ -76,6 +76,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             Debug.Log("Initializing Cache");
             _materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
+            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, true));
             return _materialCache;
         }
 
@@ -85,7 +86,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
             _manifest.AddTexture(dungeonTexture);
             _materialCache.Add(name, dungeonTexture.ToMaterial());
-            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, name));
+            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, false, name));
         }
 
         protected override void AfterEnabled()
@@ -167,9 +168,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     {
         public Dictionary<string, Material> Cache { get; private set; }
         public IEnumerable<string> Added { get; private set; }
+        public readonly bool IsNewCache;
 
-        public CacheUpdateData(Dictionary<string, Material> cache, params string[] added)
+        public CacheUpdateData(Dictionary<string, Material> cache, bool isNew, params string[] added)
         {
+            IsNewCache = isNew;
             Cache = cache;
             Added = added;
         }
