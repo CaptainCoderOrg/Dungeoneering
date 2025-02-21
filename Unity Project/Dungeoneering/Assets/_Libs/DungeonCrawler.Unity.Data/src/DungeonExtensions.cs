@@ -5,8 +5,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public static class DungeonExtensions
     {
-        public static SelectableMaterial GetTileMaterial(this Dictionary<string, SelectableMaterial> cache, Dungeon dungeon, Position position) => cache[dungeon.TileTextures.GetTileTextureName(position)];
-        public static TileWallMaterials GetTileWallMaterials(this Dictionary<string, SelectableMaterial> cache, Dungeon dungeon, Position position)
+        public static Material GetTileMaterial(this Dictionary<string, Material> cache, Dungeon dungeon, Position position) => cache[dungeon.TileTextures.GetTileTextureName(position)];
+        public static TileWallMaterials GetTileWallMaterials(this Dictionary<string, Material> cache, Dungeon dungeon, Position position)
         {
             return new TileWallMaterials()
             {

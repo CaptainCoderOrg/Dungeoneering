@@ -10,9 +10,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [field: SerializeField]
         public DungeonEditorSelectionData Selected { get; private set; }
         [field: SerializeField]
+        public SelectedDungeonWalls SelectionIndicatorPrefab { get; private set; }
+        [field: SerializeField]
         public Transform IndicatorContainer { get; private set; }
-        private HashSet<DungeonWallController> _selectedWalls = new();
-        private HashSet<DungeonWallController> _altSelectedWalls = new();
+
 
         void OnEnable()
         {
@@ -25,21 +26,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         }
 
         private void HandleSelectionChanged(SelectionChangedData data) => HandleSelectionChanged(data.SelectedWalls);
-        private void HandleSelectionChanged(IEnumerable<DungeonWallController> newWalls)
+        private void HandleSelectionChanged(IEnumerable<DungeonWallController> walls)
         {
-            foreach (var wall in newWalls)
+            IndicatorContainer.DestroyAllChildren();
+            foreach (DungeonWallController wall in walls)
             {
-                wall.IsSelected = true;
-                _altSelectedWalls.Add(wall);
+                SelectedDungeonWalls indicator = Instantiate(SelectionIndicatorPrefab, IndicatorContainer);
+                indicator.transform.position = wall.Parent.transform.position;
+                indicator.Facing = wall.Facing;
+                indicator.gameObject.SetActive(true);
             }
-            
-            foreach (var wall in _selectedWalls)
-            {
-                if (!_altSelectedWalls.Contains(wall))
-                    wall.IsSelected = false;
-            }
-            (_altSelectedWalls, _selectedWalls) = (_selectedWalls, _altSelectedWalls);
-            _altSelectedWalls.Clear();
+
         }
     }
 }
