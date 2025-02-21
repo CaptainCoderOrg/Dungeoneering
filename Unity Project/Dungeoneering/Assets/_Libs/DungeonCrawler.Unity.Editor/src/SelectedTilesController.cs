@@ -13,7 +13,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public GameObject SelectionIndicatorPrefab { get; private set; }
         [field: SerializeField]
         public Transform IndicatorContainer { get; private set; }
-
+        private HashSet<DungeonTile> _selectedTiles = new();
+        private HashSet<DungeonTile> _altSelectedTiles = new();
 
         void OnEnable()
         {
@@ -27,16 +28,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void HandleSelectionChanged(SelectionChangedData changes) => HandleSelectionChanged(changes.SelectedTiles);
 
-        private void HandleSelectionChanged(IEnumerable<DungeonTile> tiles)
+        private void HandleSelectionChanged(ReadOnlySetView<DungeonTile> tiles)
         {
-            IndicatorContainer.DestroyAllChildren();
-            foreach (DungeonTile tile in tiles)
+            foreach (var tile in tiles)
             {
-                GameObject indicator = Instantiate(SelectionIndicatorPrefab, IndicatorContainer);
-                indicator.transform.position = tile.Position.ToVector3();
-                indicator.SetActive(true);
+                tile.IsSelected = true;
+                _altSelectedTiles.Add(tile);
             }
-
+            
+            foreach (var tile in _selectedTiles)
+            {
+                if (!_altSelectedTiles.Contains(tile))
+                    tile.IsSelected = false;
+            }
+            (_altSelectedTiles, _selectedTiles) = (_selectedTiles, _altSelectedTiles);
+            _altSelectedTiles.Clear();
         }
     }
 }

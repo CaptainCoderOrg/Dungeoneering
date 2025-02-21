@@ -5,9 +5,8 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
-    public class DungeonTile : MonoBehaviour
+    public class DungeonTile : MonoBehaviour, ISelectable
     {
-
         public DungeonManifestData Manifest { get; private set; }
         public Dungeon Dungeon { get; private set; }
         public DungeonController DungeonController { get; private set; }
@@ -26,6 +25,18 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonWallController WestWall { get; private set; } = default!;
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (_isSelected == value)
+                    return;
+                _isSelected = value;
+                IsSelectedChanged(_isSelected);
+            }
+        }
 
         public DungeonWallController this[Facing facing]
         {
@@ -62,12 +73,19 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             newTile.gameObject.SetActive(wasActive);
             return newTile;
         }
-
-        public void UpdateFloor(Material material)
+        
+        private void IsSelectedChanged(bool isSelected)
         {
-            FloorTile.material = material;
+            UpdateFloor(Manifest.MaterialCache.GetTileMaterial(Dungeon, Position), isSelected);
         }
 
+        public void UpdateFloor(SelectableMaterial mat) => UpdateFloor(mat, IsSelected);
+
+        public void UpdateFloor(SelectableMaterial mat, bool isSelected)
+        {
+            FloorTile.material = mat.GetMaterial(isSelected);
+        }
+        
         public void UpdateWalls(TileWalls configuration, TileWallMaterials materials)
         {
             NorthWall.Material = materials.North;
