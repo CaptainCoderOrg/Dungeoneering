@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using CaptainCoder.Dungeoneering.DungeonCrawler;
+
 using NaughtyAttributes;
 
 using UnityEngine;
@@ -17,6 +19,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public DungeonTile TilePrefab { get; private set; } = null!;
         [field: SerializeField]
         public DungeonManifestData ManifestData { get; private set; } = null!;
+        private DungeonCrawlerManifest _currentManifest;
         [field: SerializeField]
         public string DungeonKey { get; private set; }
         [field: SerializeField]
@@ -30,22 +33,27 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
         private readonly Dictionary<Position, DungeonTile> _tiles = new();
-
-        public void Start()
+        void OnEnable()
         {
-            Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
-            BuildSelectedDungeon();
+            ManifestData.AddListener(OnManifestLoaded);
+            ManifestData.OnTilesChanged.AddListener(UpdateTiles);
         }
 
-        [Button]
-        public void BuildSelectedDungeon()
+        void OnDisable()
         {
-            if (!ManifestData.Manifest.Dungeons.TryGetValue(DungeonKey, out Dungeon d))
-            {
-                d = ManifestData.Manifest.Dungeons[ManifestData.Manifest.Dungeons.Keys.First()];
-            }
+            ManifestData.RemoveListener(OnManifestLoaded);
+            ManifestData.OnTilesChanged.RemoveListener(UpdateTiles);
+        }
+
+        private void OnManifestLoaded(DungeonCrawlerManifest manifest)
+        {
+            if (_currentManifest == manifest) { return; }
+            Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
+            _currentManifest = manifest;
+            Dungeon d = manifest.Dungeons.First().Value;
             Build(d);
         }
+
         [Button]
         public void ClearDungeon() => TileParent.DestroyAllChildren();
         public void Build(Dungeon dungeon) => BuildDungeon(TileParent, TilePrefab, dungeon);
@@ -86,16 +94,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public DungeonTile GetDungeonTile(Position position) => _tiles[position];
         public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _tiles.TryGetValue(position, out tile);
-
-        void OnEnable()
-        {
-            ManifestData.OnTilesChanged.AddListener(UpdateTiles);
-        }
-
-        void OnDisable()
-        {
-            ManifestData.OnTilesChanged.RemoveListener(UpdateTiles);
-        }
 
         private void UpdateTiles(TilesChangedData changes)
         {

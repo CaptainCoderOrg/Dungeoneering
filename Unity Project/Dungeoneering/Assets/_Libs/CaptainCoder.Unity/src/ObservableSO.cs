@@ -33,7 +33,7 @@ public class ObservableSO : ScriptableObject
 #if UNITY_EDITOR
     private void OnPlayModeStateChange(PlayModeStateChange change)
     {
-        if (change == PlayModeStateChange.EnteredEditMode)
+        if (change == PlayModeStateChange.ExitingEditMode)
         {
             OnEnterPlayMode();
         }

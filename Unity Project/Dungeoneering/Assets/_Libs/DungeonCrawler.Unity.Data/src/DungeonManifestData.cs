@@ -18,16 +18,29 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
-        public DungeonCrawlerManifest Manifest => _manifest ??= LoadManifest();
+        public DungeonCrawlerManifest Manifest => _manifest;
         private Dictionary<string, Material> _materialCache;
         public Dictionary<string, Material> MaterialCache => _materialCache ??= InitializeMaterialCache(Manifest);
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
-        public DungeonCrawlerManifest LoadManifest()
+
+        public bool TryLoadManifest(string json, out DungeonCrawlerManifest loaded)
         {
-            DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(ManifestJson.text);
-            _onManifestLoaded.Invoke(manifest);
-            return manifest;
+            try
+            {
+                loaded = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
+            }
+            // TODO: Figure out best exception type
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Could not load manifest: {e}");
+                loaded = null;
+                return false;
+            }
+            _manifest = loaded;
+            _materialCache = InitializeMaterialCache(_manifest);
+            _onManifestLoaded.Invoke(_manifest);
+            return true;
         }
 
         public void AddListener(UnityAction<CacheUpdateData> onChange)
@@ -35,7 +48,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _onCacheChanged.AddListener(onChange);
             if (_materialCache != null)
             {
-                onChange.Invoke(new CacheUpdateData(_materialCache));
+                onChange.Invoke(new CacheUpdateData(_materialCache, true));
             }
         }
 
@@ -63,6 +76,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             Debug.Log("Initializing Cache");
             _materialCache = manifest.Textures.Values.ToDictionary(t => t.Name, t => t.ToMaterial());
+            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, true));
             return _materialCache;
         }
 
@@ -72,31 +86,43 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
             _manifest.AddTexture(dungeonTexture);
             _materialCache.Add(name, dungeonTexture.ToMaterial());
-            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, name));
+            _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, false, name));
         }
 
         protected override void AfterEnabled()
         {
             base.AfterEnabled();
+            InitialLoad();
+        }
+
+        private void ClearListeners()
+        {
             _materialCache = null;
             _manifest = null;
+            _onCacheChanged.RemoveAllListeners();
+            _onManifestLoaded.RemoveAllListeners();
             OnTilesChanged.RemoveAllListeners();
+        }
+        private void InitialLoad()
+        {
+            ClearListeners();
+            Debug.Log("Loading Manifest");
+            if (!TryLoadManifest(ManifestJson.text, out _manifest))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
         }
 
         protected override void OnEnterPlayMode()
         {
             base.OnEnterPlayMode();
-            _materialCache = null;
-            _manifest = null;
+            InitialLoad();
         }
 
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();
-            _materialCache = null;
-            _manifest = null;
-            _onManifestLoaded.RemoveAllListeners();
-            OnTilesChanged.RemoveAllListeners();
+            ClearListeners();
         }
 
         public void SetFloorTexture(Dungeon dungeon, Position position, string textureName)
@@ -142,9 +168,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     {
         public Dictionary<string, Material> Cache { get; private set; }
         public IEnumerable<string> Added { get; private set; }
+        public readonly bool IsNewCache;
 
-        public CacheUpdateData(Dictionary<string, Material> cache, params string[] added)
+        public CacheUpdateData(Dictionary<string, Material> cache, bool isNew, params string[] added)
         {
+            IsNewCache = isNew;
             Cache = cache;
             Added = added;
         }
