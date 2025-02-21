@@ -90,7 +90,7 @@ Shader "Custom/SelectableShader"
                 half4 col = texCol * _BaseColor;
                 SurfaceData surfaceData;
                 ZERO_INITIALIZE(SurfaceData, surfaceData);
-                surfaceData.albedo = col;
+                surfaceData.albedo = col.rgb;
                 surfaceData.alpha = 1;
                 surfaceData.occlusion = ao.directAmbientOcclusion * ao.indirectAmbientOcclusion;
                 float4 ambient = (unity_AmbientGround + unity_AmbientEquator + unity_AmbientSky + _GlossyEnvironmentColor) * surfaceData.occlusion;
