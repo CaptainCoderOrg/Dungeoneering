@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!200 &20000000
+ShaderVariantCollection:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SelectableShaderVariants
+  m_Shaders:
+  - first: {fileID: 4800000, guid: 679a0524fee06bd4d95e4b7544dbae7e, type: 3}
+    second:
+      variants:
+      - keywords: _ADDITIONAL_LIGHT_SHADOWS _FORWARD_PLUS _MAIN_LIGH_SHADOWS_CASCADE
+          _SCREEN_SPACE_OCCLUSION _SELECTION_ON _SMOOTH_EDGES_ON
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHT_SHADOWS _FORWARD_PLUS _MAIN_LIGH_SHADOWS_CASCADE
+          _SCREEN_SPACE_OCCLUSION _SMOOTH_EDGES_ON
+        passType: 13
