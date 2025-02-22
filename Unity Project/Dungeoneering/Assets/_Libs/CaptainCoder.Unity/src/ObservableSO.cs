@@ -12,6 +12,16 @@ public class ObservableSO : ScriptableObject
 
     }
 
+    protected virtual void OnEnterEditMode()
+    {
+
+    }
+
+    protected virtual void OnExitEditMode()
+    {
+
+    }
+
     protected virtual void OnExitPlayMode()
     {
 
@@ -33,13 +43,20 @@ public class ObservableSO : ScriptableObject
 #if UNITY_EDITOR
     private void OnPlayModeStateChange(PlayModeStateChange change)
     {
-        if (change == PlayModeStateChange.ExitingEditMode)
+        switch (change)
         {
-            OnEnterPlayMode();
-        }
-        else if (change == PlayModeStateChange.ExitingPlayMode)
-        {
-            OnExitPlayMode();
+            case PlayModeStateChange.EnteredEditMode:
+                OnEnterEditMode();
+                break;
+            case PlayModeStateChange.ExitingEditMode:
+                OnExitEditMode();
+                break;
+            case PlayModeStateChange.EnteredPlayMode:
+                OnEnterPlayMode();
+                break;
+            case PlayModeStateChange.ExitingPlayMode:
+                OnExitPlayMode();
+                break;
         }
     }
 #endif

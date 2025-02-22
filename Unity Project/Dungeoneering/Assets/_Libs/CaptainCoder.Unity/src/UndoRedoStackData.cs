@@ -33,16 +33,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoStack.Push(operation);
         }
 
-        protected override void OnEnterPlayMode()
+        protected override void OnExitEditMode()
         {
-            base.OnEnterPlayMode();
+            base.OnExitEditMode();
             _redoStack.Clear();
             _undoStack.Clear();
         }
 
         protected override void OnExitPlayMode()
         {
-            base.OnEnterPlayMode();
+            base.OnExitEditMode();
             _redoStack.Clear();
             _undoStack.Clear();
         }

@@ -33,9 +33,9 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
         }
 
-        protected override void OnEnterPlayMode()
+        protected override void OnExitEditMode()
         {
-            base.OnEnterPlayMode();
+            base.OnExitEditMode();
         }
 
         protected override void OnExitPlayMode()
