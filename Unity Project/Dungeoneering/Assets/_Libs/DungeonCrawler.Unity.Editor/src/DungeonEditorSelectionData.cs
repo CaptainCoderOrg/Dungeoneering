@@ -28,8 +28,7 @@ namespace CaptainCoder.Dungeoneering.Unity
 
         public void ToggleWallSelected(DungeonWallController wall)
         {
-            if (_walls.Contains(wall)) { _walls.Remove(wall); }
-            else { _walls.Add(wall); }
+            if (!_walls.Add(wall)) { _walls.Remove(wall); }
             Notify();
         }
 
@@ -50,8 +49,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         }
         public void ToggleTileSelected(DungeonTile tile)
         {
-            if (_selectedTiles.Contains(tile)) { _selectedTiles.Remove(tile); }
-            else { _selectedTiles.Add(tile); }
+            if (!_selectedTiles.Add(tile)) { _selectedTiles.Remove(tile); }
             Notify();
         }
         public void AddTileSelection(IEnumerable<DungeonTile> tiles)

@@ -110,7 +110,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 DungeonTile tile = _tiles[position];
                 _ = dungeon.TileTextures.GetTileTextureName(position);
-                Material mat = ManifestData.MaterialCache.GetTileMaterial(dungeon, position);
+                
+                SelectableMaterial mat = ManifestData.MaterialCache.GetTileMaterial(dungeon, position);
                 tile.UpdateFloor(mat);
             }
             else
