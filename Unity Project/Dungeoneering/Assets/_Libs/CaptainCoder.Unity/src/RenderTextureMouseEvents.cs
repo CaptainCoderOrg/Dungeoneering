@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 namespace CaptainCoder.Unity
 {
     public class RenderTextureMouseEvents : MonoBehaviour, IScrollHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         public Camera TargetCamera;
-        public RenderTexture TargetTexture;
+        public RenderTexture RenderTextureBase;
+        private RenderTexture _renderTexture;
         private Matrix4x4 _screenToTextureMatrix = Matrix4x4.identity;
 
         [field: SerializeField]
@@ -32,13 +34,20 @@ namespace CaptainCoder.Unity
                 Rect rect = rectTransform.rect;
                 Vector3 onScreenSize = rectTransform.TransformVector(rect.size);
                 Vector2 bottomLeft = rectTransform.TransformPoint(rect.position);
-                Vector2 scale = new(TargetTexture.width / onScreenSize.x, TargetTexture.height / onScreenSize.y);
+                Vector2 scale = new(_renderTexture.width / onScreenSize.x, _renderTexture.height / onScreenSize.y);
                 _screenToTextureMatrix.m00 = scale.x;
                 _screenToTextureMatrix.m11 = scale.y;
                 _screenToTextureMatrix.m03 = -bottomLeft.x * scale.x;
                 _screenToTextureMatrix.m13 = -bottomLeft.y * scale.y;
                 return _screenToTextureMatrix;
             }
+        }
+
+        private void InitializeRenderTexture()
+        {
+            _renderTexture = new(RenderTextureBase);
+            TargetCamera.targetTexture = _renderTexture;
+            GetComponent<RawImage>().texture = _renderTexture;
         }
 
         private void Start() => OnRectTransformDimensionsChange();
@@ -50,11 +59,12 @@ namespace CaptainCoder.Unity
             RectTransform rect = (RectTransform)transform;
             if (_size != rect.rect.size)
             {
+                if (_renderTexture == null) { InitializeRenderTexture(); }
                 _size = rect.rect.size;
-                TargetTexture.Release();
-                TargetTexture.width = (int)_size.x;
-                TargetTexture.height = (int)_size.y;
-                TargetTexture.Create();
+                _renderTexture.Release();
+                _renderTexture.width = (int)_size.x;
+                _renderTexture.height = (int)_size.y;
+                _renderTexture.Create();
                 TargetCamera.Render();
             }
         }
