@@ -69,9 +69,9 @@ namespace CaptainCoder.Dungeoneering.Unity
             Notify();
         }
 
-        protected override void OnEnterPlayMode()
+        protected override void OnExitEditMode()
         {
-            base.OnEnterPlayMode();
+            base.OnExitEditMode();
         }
 
         protected override void OnExitPlayMode()

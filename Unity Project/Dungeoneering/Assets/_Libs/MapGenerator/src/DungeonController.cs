@@ -47,6 +47,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void OnManifestLoaded(DungeonCrawlerManifest manifest)
         {
+            Debug.Log("Received manifest");
             if (_currentManifest == manifest) { return; }
             Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
             _currentManifest = manifest;

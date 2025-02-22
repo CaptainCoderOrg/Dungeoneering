@@ -92,6 +92,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         protected override void AfterEnabled()
         {
             base.AfterEnabled();
+            ClearListeners();
             InitialLoad();
         }
 
@@ -105,12 +106,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
         private void InitialLoad()
         {
-            ClearListeners();
             Debug.Log("Loading Manifest");
             if (!TryLoadManifest(ManifestJson.text, out _manifest))
             {
                 Debug.Log("Manifest could not be loaded");
             }
+        }
+
+        protected override void OnExitEditMode()
+        {
+            base.OnExitEditMode();
+            ClearListeners();
         }
 
         protected override void OnEnterPlayMode()
