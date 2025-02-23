@@ -43,12 +43,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            Manifest.AddListener(InitializeGrid);
+            Manifest.MaterialCache.AddListener(InitializeGrid);
         }
 
         void OnDisable()
         {
-            Manifest.RemoveListener(InitializeGrid);
+            Manifest.MaterialCache.RemoveListener(InitializeGrid);
         }
 
         public void InitializeGrid(CacheUpdateData update)
@@ -118,7 +118,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void AddTexture(string name, Texture2D texture)
         {
-            Manifest.AddTexture(name, texture);
+            Manifest.MaterialCache.AddTexture(name, texture);
             StartCoroutine(ScrollToBottom());
         }
 

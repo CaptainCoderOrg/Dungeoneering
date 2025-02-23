@@ -73,7 +73,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             newTile.gameObject.SetActive(wasActive);
             return newTile;
         }
-        
+
         private void IsSelectedChanged(bool isSelected)
         {
             UpdateFloor(Manifest.MaterialCache.GetTileMaterial(Dungeon, Position), isSelected);
@@ -85,7 +85,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             FloorTile.material = mat.GetMaterial(isSelected);
         }
-        
+
         public void UpdateWalls(TileWalls configuration, TileWallMaterials materials)
         {
             NorthWall.Material = materials.North;
