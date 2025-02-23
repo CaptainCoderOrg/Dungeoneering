@@ -1,5 +1,7 @@
 #if UNITY_WEBGL
+#pragma warning disable IDE0005 // Using directive is unnecessary.
 using System.Runtime.InteropServices;
+#pragma warning restore IDE0005 // Using directive is unnecessary.
 #endif
 using System.Collections;
 

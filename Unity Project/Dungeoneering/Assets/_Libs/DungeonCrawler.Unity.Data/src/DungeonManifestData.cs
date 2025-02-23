@@ -13,8 +13,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonManifestData : ObservableSO
     {
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
-        public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
-        private TilesChangedData _changes = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
         private readonly MaterialCache _materialCache = new();
@@ -52,13 +50,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
-        public void Notify()
-        {
-            if (_changes.Tiles.Count == 0) { return; }
-            OnTilesChanged.Invoke(_changes);
-            _changes = new();
-        }
-
         protected override void AfterEnabled()
         {
             base.AfterEnabled();
@@ -71,7 +62,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             MaterialCache.Clear();
             _manifest = null;
             _onManifestLoaded.RemoveAllListeners();
-            OnTilesChanged.RemoveAllListeners();
         }
         private void InitialLoad()
         {
@@ -99,30 +89,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             base.OnExitPlayMode();
             ClearListeners();
         }
-
-        public void SetFloorTexture(Dungeon dungeon, Position position, string textureName)
-        {
-            dungeon.TileTextures.Textures[position] = textureName;
-            _changes.AddChange(dungeon, position);
-        }
-
-        public void SetWallTexture(Dungeon dungeon, Position position, Facing facing, string textureName)
-        {
-            dungeon.SetTexture(position, facing, textureName);
-            _changes.AddChange(dungeon, position);
-        }
-
-        public void SetWallType(Dungeon dungeon, Position position, Facing facing, WallType type)
-        {
-            if (dungeon.Walls[position, facing] == type) { return; }
-            dungeon.WallTextures.Textures.Remove((position, facing));
-            dungeon.WallTextures.Textures.Remove((position.Step(facing), facing.Opposite()));
-            dungeon.Walls.SetWall(position, facing, type);
-            _changes.AddChange(dungeon, position);
-        }
-
-        public string GetFloorTexture(Dungeon d, Position p) => d.TileTextures.GetTileTextureName(p);
-        public string GetWallTexture(Dungeon d, Position p, Facing f) => d.GetWallTexture(p, f);
 
         public void RemoveDungeon(Dungeon dungeon)
         {
