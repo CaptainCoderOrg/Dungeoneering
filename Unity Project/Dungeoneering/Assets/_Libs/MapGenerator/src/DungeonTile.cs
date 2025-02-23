@@ -103,7 +103,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void SetTexture(string textureName)
         {
-            Manifest.SetFloorTexture(Dungeon, Position, textureName);
+            DungeonController.DungeonData.SetFloorTexture(Position, textureName);
         }
     }
 }

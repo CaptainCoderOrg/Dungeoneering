@@ -36,13 +36,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         void OnEnable()
         {
             ManifestData.AddListener(OnManifestLoaded);
-            ManifestData.OnTilesChanged.AddListener(UpdateTiles);
+            DungeonData.OnTilesChanged.AddListener(UpdateTiles);
         }
 
         void OnDisable()
         {
             ManifestData.RemoveListener(OnManifestLoaded);
-            ManifestData.OnTilesChanged.RemoveListener(UpdateTiles);
+            DungeonData.OnTilesChanged.RemoveListener(UpdateTiles);
         }
 
         private void OnManifestLoaded(DungeonCrawlerManifest manifest)

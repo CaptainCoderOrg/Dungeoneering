@@ -49,7 +49,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public void SetTexture(string textureName)
         {
             // Manifest.SetFloorTexture(Dungeon, Position, textureName);
-            Parent.Manifest.SetWallTexture(Parent.Dungeon, Parent.Position, Facing, textureName);
+            Parent.DungeonController.DungeonData.SetWallTexture(Parent.Position, Facing, textureName);
         }
 
         void Awake()
