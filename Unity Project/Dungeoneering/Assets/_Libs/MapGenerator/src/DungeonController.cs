@@ -58,9 +58,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public void ClearDungeon() => TileParent.DestroyAllChildren();
         public void Build(Dungeon dungeon) => BuildDungeon(TileParent, TilePrefab, dungeon);
 
-        public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon dungeon)
+        public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon d)
         {
-            DungeonData.Dungeon = dungeon;
+            DungeonData.Dungeon = d.Copy();
             _tiles.Clear();
             parent.DestroyAllChildren();
 
@@ -78,17 +78,17 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
             OnDungeonChanged.Invoke(DungeonData);
 
-            dungeon.Walls.OnWallChanged += UpdateWalls;
-            dungeon.WallTextures.OnTextureChange += UpdateTextures;
+            DungeonData.Dungeon.Walls.OnWallChanged += UpdateWalls;
+            DungeonData.Dungeon.WallTextures.OnTextureChange += UpdateTextures;
             void UpdateWalls(Position position, Facing facing, WallType wall)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
+                toUpdate?.UpdateWalls(DungeonData.Dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(DungeonData.Dungeon, position));
             }
             void UpdateTextures(Position position, Facing facing, string textureName)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
+                toUpdate?.UpdateWalls(DungeonData.Dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(DungeonData.Dungeon, position));
             }
         }
 

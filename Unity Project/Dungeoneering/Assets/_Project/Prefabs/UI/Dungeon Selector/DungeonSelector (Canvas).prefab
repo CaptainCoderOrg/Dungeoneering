@@ -869,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771d20c93e953f84c923e370995ee53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dungeonData: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
   _dungeonController: {fileID: 0}
   _buttonTransform: {fileID: 8757276304179455189}
   _dungeonButtonPrefab: {fileID: 1831856229410790620, guid: d572eaa985710a64a932d07230ac34f1, type: 3}

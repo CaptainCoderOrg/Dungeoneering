@@ -44,7 +44,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _altSelectedTiles.Clear();
         }
 
-        public void HandleDungeonChanged(DungeonData dungeon)
+        public void HandleDungeonChanged(DungeonData _)
         {
             // Assuming this event only happens when a new dungeon is loaded.
             // If that changes, we'll need to do some checking/updating

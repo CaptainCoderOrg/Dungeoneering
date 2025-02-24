@@ -12,9 +12,12 @@ using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+
 using System.Linq;
+
 using CaptainCoder.Unity.UI;
 using CaptainCoder.Unity;
+
 using System.Collections.Generic;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {

@@ -5,6 +5,18 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     [CreateAssetMenu(menuName = "DC/DungeonData")]
     public class DungeonData : ObservableSO
     {
+        private bool _hasChanged = false;
+        public bool HasChanged
+        {
+            get => _hasChanged;
+            private set
+            {
+                if (value == _hasChanged) { return; }
+                _hasChanged = value;
+                OnStateChanged.Invoke(_dungeon, _hasChanged);
+            }
+        }
+        public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public UnityEvent<Dungeon> OnChange { get; private set; } = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private Dungeon _dungeon;
@@ -14,21 +26,41 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             get => _dungeon;
             set
             {
+                if (_dungeon == value) { return; }
+                if (_dungeon != null)
+                {
+                    _dungeon.Walls.OnWallChanged -= HandleWallChanged;
+                    _dungeon.WallTextures.OnTextureChange -= HandleWallTextureChanged;
+                }
+                HasChanged = false;
                 _dungeon = value;
+                _dungeon.Walls.OnWallChanged += HandleWallChanged;
+                _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
                 OnChange.Invoke(_dungeon);
             }
+        }
+
+        private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
+        private void HandleWallChanged(Position _, Facing __, WallType ___) => HasChanged = true;
+
+        public void SaveToManifest(DungeonManifestData manifest)
+        {
+            manifest.UpdateDungeon(_dungeon);
+            HasChanged = false;
         }
 
         public void SetFloorTexture(Position position, string textureName)
         {
             Dungeon.TileTextures.Textures[position] = textureName;
             _changes.AddChange(Dungeon, position);
+            HasChanged = true;
         }
 
         public void SetWallTexture(Position position, Facing facing, string textureName)
         {
             Dungeon.SetTexture(position, facing, textureName);
             _changes.AddChange(Dungeon, position);
+            HasChanged = true;
         }
 
         public void SetWallType(Position position, Facing facing, WallType type)
@@ -66,6 +98,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             OnTilesChanged.RemoveAllListeners();
             OnChange.RemoveAllListeners();
+            OnStateChanged.RemoveAllListeners();
+            _changes = new();
+            _dungeon = null;
+            _hasChanged = false;
         }
     }
 }

@@ -1,3 +1,4 @@
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Unity;
 
@@ -11,7 +12,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [field: SerializeField]
         public DungeonController DungeonController { get; private set; }
-
+        [SerializeField]
+        private DungeonManifestData _manifest;
+        [SerializeField]
+        private DungeonData _dungeonData;
         [SerializeField]
         private TextMeshProUGUI _nameLabel;
         [SerializeField]
@@ -21,17 +25,19 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void Awake()
         {
-            Assertion.NotNull(this, DungeonController, _nameLabel, _dungeonSelectorPanel, _selectorToggleButton);
+            Assertion.NotNull(this, DungeonController, _nameLabel, _dungeonSelectorPanel, _selectorToggleButton, _dungeonData, _manifest);
         }
 
         void OnEnable()
         {
+            _dungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
             DungeonController.OnDungeonChanged.AddListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
         void OnDisable()
         {
+            _dungeonData.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
             DungeonController.OnDungeonChanged.RemoveListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
@@ -41,6 +47,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _nameLabel.text = dungeon.Dungeon.Name;
         }
 
+        public void Save() => _dungeonData.SaveToManifest(_manifest);
 
+        private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged)
+        {
+            _nameLabel.text = hasChanged ? $"{dungeon?.Name}*" : dungeon?.Name;
+        }
     }
 }
