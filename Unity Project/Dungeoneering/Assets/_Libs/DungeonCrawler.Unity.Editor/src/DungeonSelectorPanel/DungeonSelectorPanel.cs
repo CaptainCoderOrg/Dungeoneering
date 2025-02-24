@@ -10,6 +10,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class DungeonSelectorPanel : MonoBehaviour
     {
         [SerializeField]
+        private DungeonData _dungeonData;
+        [SerializeField]
         private DungeonController _dungeonController;
         [SerializeField]
         private Transform _buttonTransform;
@@ -21,7 +23,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmPromptPanel _confirmPromptPanel;
         void Awake()
         {
-            Assertion.NotNull(this, _buttonTransform, _dungeonButtonPrefab, _dungeonController);
+            Assertion.NotNull(this, _buttonTransform, _dungeonButtonPrefab, _dungeonController, _dungeonData);
         }
 
         void OnEnable()
@@ -41,7 +43,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 DungeonSelectorButton button = Instantiate(_dungeonButtonPrefab, _buttonTransform);
                 button.Initialize(d, _dungeonController.DungeonData.Dungeon.Name == d.Name);
-                button.OnSelected.AddListener(BuildDungeon);
+                button.OnSelected.AddListener(TryOpenDungeon);
                 button.OnRemoved.AddListener(PromptDeleteDungeon);
             }
         }
@@ -84,12 +86,23 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Hide();
         }
 
-        private void BuildDungeon(Dungeon d)
+        private void TryOpenDungeon(Dungeon d)
+        {
+            if (_dungeonData.HasChanged)
+            {
+                _confirmPromptPanel.Prompt($"You have unsaved changes in <b>{_dungeonData.Dungeon.Name}</b>.\nAre you sure you want to switch dungeons?\n<b><color=red>This cannot be undone!</color></b>", () => OpenDungeon(d));
+            }
+            else
+            {
+                OpenDungeon(d);
+            }
+        }
+
+        private void OpenDungeon(Dungeon d)
         {
             Hide();
             _dungeonController.Build(d);
         }
-
 
         public void Hide() => gameObject.SetActive(false);
         public void Toggle() => gameObject.SetActive(!gameObject.activeSelf);
