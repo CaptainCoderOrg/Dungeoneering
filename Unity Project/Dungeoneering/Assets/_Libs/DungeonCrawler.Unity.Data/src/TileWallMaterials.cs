@@ -1,6 +1,4 @@
 using System.ComponentModel;
-
-using UnityEngine;
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class TileWallMaterials
@@ -19,7 +17,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 };
             }
         }
-        
+
         public SelectableMaterial North { get; set; } = default!;
         public SelectableMaterial East { get; set; } = default!;
         public SelectableMaterial South { get; set; } = default!;

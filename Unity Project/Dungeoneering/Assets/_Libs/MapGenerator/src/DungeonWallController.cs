@@ -38,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
         }
 
-        private void IsSelectedChanged(bool isSelected)
+        private void IsSelectedChanged(bool _)
         {
             // The property will pull out the correct version for selected/unselected
             Material = _material;

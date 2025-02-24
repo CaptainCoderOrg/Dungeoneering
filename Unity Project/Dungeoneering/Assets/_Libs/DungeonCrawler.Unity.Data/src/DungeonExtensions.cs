@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-
-using UnityEngine;
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public static class DungeonExtensions
