@@ -2,6 +2,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Unity;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +58,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SetWallType(WallType newWallType)
         {
             if (!_selectionData.Walls.Any()) { return; }
-            DungeonData dungeonData = _selectionData.Walls.First().Parent.DungeonController.DungeonData;
+            DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
+            DungeonData dungeonData = controller.DungeonData;
             System.Action perform = default;
             System.Action undo = default;
 
@@ -75,7 +77,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 {
                     dungeonData.SetWallType(p, f, originalWallType);
                     dungeonData.SetWallTexture(p, f, originalTexture);
-                    dungeonData.SetWallTexture(p.Step(f), f.Opposite(), originalBackTexture);
+                    Position neighbor = p.Step(f);
+                    if (controller.HasTile(neighbor))
+                    {
+                        dungeonData.SetWallTexture(neighbor, f.Opposite(), originalBackTexture);
+                    }
                 };
             }
 

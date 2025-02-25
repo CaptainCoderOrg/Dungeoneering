@@ -3,6 +3,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Unity;
 
 using UnityEngine;
 using UnityEngine.UI;
