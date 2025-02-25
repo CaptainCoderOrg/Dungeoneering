@@ -85,12 +85,15 @@ namespace CaptainCoder.Dungeoneering.Unity
             {
                 var neighbors = Facings
                     .Where(f => d.Walls.GetWall(position, f) == WallType.None)
-                    .Select(position.Step);
+                    .Select(position.Step)
+                    .Where(_dungeonController.HasTile);
 
                 foreach (Position neighbor in neighbors)
                 {
                     if (allTiles.Add(neighbor))
+                    {
                         queue.Enqueue(neighbor);
+                    }
                 }
             }
             return allTiles.Select(_dungeonController.GetDungeonTile);
