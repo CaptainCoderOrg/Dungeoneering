@@ -1,13 +1,19 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-namespace CaptainCoder.Dungeoneering.Unity.Editor
+namespace CaptainCoder.Unity
 {
     [CreateAssetMenu(menuName = "CaptainCoder/UndoRedoStack")]
     public class UndoRedoStackData : ObservableSO
     {
         private readonly Stack<EditorOperation> _undoStack = new();
         private readonly Stack<EditorOperation> _redoStack = new();
+
+        public void Clear()
+        {
+            _redoStack.Clear();
+            _undoStack.Clear();
+        }
 
         public void PerformEdit(string name, System.Action perform, System.Action undo)
         {
@@ -36,15 +42,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         protected override void OnExitEditMode()
         {
             base.OnExitEditMode();
-            _redoStack.Clear();
-            _undoStack.Clear();
+            Clear();
         }
 
         protected override void OnExitPlayMode()
         {
             base.OnExitEditMode();
-            _redoStack.Clear();
-            _undoStack.Clear();
+            Clear();
         }
 
 

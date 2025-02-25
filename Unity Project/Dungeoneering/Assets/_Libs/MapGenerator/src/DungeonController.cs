@@ -115,6 +115,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
         }
 
+        public bool HasTile(Position position) => _tiles.ContainsKey(position);
         public DungeonTile GetDungeonTile(Position position) => _tiles[position];
         public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _tiles.TryGetValue(position, out tile);
 
