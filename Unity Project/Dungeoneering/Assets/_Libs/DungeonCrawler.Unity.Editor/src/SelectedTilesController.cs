@@ -49,6 +49,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             // Assuming this event only happens when a new dungeon is loaded.
             // If that changes, we'll need to do some checking/updating
             _selectedTiles.Clear();
+            Selected.SetTileSelection(System.Array.Empty<DungeonTile>());
         }
     }
 }
