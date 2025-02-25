@@ -1,3 +1,5 @@
+using CaptainCoder.Unity;
+
 using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
@@ -16,6 +18,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 OnStateChanged.Invoke(_dungeon, _hasChanged);
             }
         }
+        [SerializeField]
+        private UndoRedoStackData _undoRedoStack;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public UnityEvent<Dungeon> OnChange { get; private set; } = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
@@ -36,6 +40,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 _dungeon = value;
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
+                _undoRedoStack.Clear();
                 OnChange.Invoke(_dungeon);
             }
         }
@@ -86,6 +91,12 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             base.OnExitEditMode();
             Clear();
+        }
+
+        protected override void OnEnterPlayMode()
+        {
+            base.OnEnterPlayMode();
+            Debug.Assert(_undoRedoStack != null);
         }
 
         protected override void OnExitPlayMode()
