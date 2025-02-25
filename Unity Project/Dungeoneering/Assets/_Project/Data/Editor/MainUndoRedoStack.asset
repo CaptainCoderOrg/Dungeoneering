@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ca0afe17284ac44993e7b8d2e91f5c6, type: 3}
-  m_Name: Default Dungeon Manifest
+  m_Script: {fileID: 11500000, guid: 2e83c0fccbffad248893d8a3bbc74e4c, type: 3}
+  m_Name: MainUndoRedoStack
   m_EditorClassIdentifier: 
-  <ManifestJson>k__BackingField: {fileID: 4900000, guid: 0e625ec12a4d5e14e86513450ff860d2, type: 3}

@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e83c0fccbffad248893d8a3bbc74e4c, type: 3}
-  m_Name: EditorUndoRedoStack
+  m_Script: {fileID: 11500000, guid: 9e39d0169e65a434ba5cde0fde757938, type: 3}
+  m_Name: MainDungeonData
   m_EditorClassIdentifier: 
+  _undoRedoStack: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
