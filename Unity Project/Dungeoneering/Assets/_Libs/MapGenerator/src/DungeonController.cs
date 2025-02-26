@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
+using CaptainCoder.Dungeoneering.Unity;
 
 using NaughtyAttributes;
 
@@ -12,7 +13,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonController : MonoBehaviour
     {
-
         [field: SerializeField]
         public Transform TileParent { get; private set; } = null!;
         [field: SerializeField]
@@ -63,15 +63,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon d)
         {
-            const int DIMENSION = 24;
-
             DungeonData.Dungeon = d.Copy();
             Dictionary<Position, DungeonTile> pooledTiles = _tiles;
-            _tiles = new(Mathf.Max(_tiles.Count, DIMENSION * DIMENSION));
+            _tiles = new(Mathf.Max(_tiles.Count, DungeonGlobals.DIMENSION * DungeonGlobals.DIMENSION));
 
-            for (int x = 0; x < DIMENSION; x++)
+            for (int x = 0; x < DungeonGlobals.DIMENSION; x++)
             {
-                for (int y = 0; y < DIMENSION; y++)
+                for (int y = 0; y < DungeonGlobals.DIMENSION; y++)
                 {
                     Position position = new(x, y);
                     if (pooledTiles.TryGetValue(position, out DungeonTile tile))

@@ -81,6 +81,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
 
             Dungeon newDungeon = new() { Name = name };
+            newDungeon.SetBorderWalls(DungeonGlobals.Positions, WallType.Solid, DungeonGlobals.AllFacings);
             _dungeonController.ManifestData.Manifest.AddDungeon(newDungeon.Name, newDungeon);
             _dungeonController.Build(newDungeon);
             Hide();

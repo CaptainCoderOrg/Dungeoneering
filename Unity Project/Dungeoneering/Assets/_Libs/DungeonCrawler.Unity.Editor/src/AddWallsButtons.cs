@@ -72,24 +72,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (_selectionData.Tiles.Count() == 0) { return; }
             HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
-            System.Action perform = default;
-            System.Action undo = default;
             DungeonData dungeonData = _selectionData.Tiles.First().DungeonController.DungeonData;
-            foreach (Facing facing in facings)
-            {
-                foreach (DungeonTile tile in _selectionData.Tiles)
-                {
-                    Position neighbor = tile.Position.Step(facing);
-                    if (tiles.Contains(neighbor)) { continue; }
-                    Dungeon d = tile.Dungeon;
-                    Position p = tile.Position;
-                    WallType originalWallType = d.Walls[p, facing];
-                    if (wallType != WallType.None && originalWallType != WallType.None) { continue; }
-                    perform += () => dungeonData.SetWallType(p, facing, wallType);
-                    undo += () => dungeonData.SetWallType(p, facing, originalWallType);
-                }
-            }
-            _undoRedoStackData.PerformEdit($"Set Wall", perform, undo, dungeonData);
+            Dungeon d = dungeonData.Dungeon;
+            IEnumerable<WallChangeData> changes = d.FindWallChanges(tiles, wallType, facings);
+            WallData[] newWalls = changes.Select(c => c.Changed).ToArray();
+            WallData[] originalWalls = changes.Select(c => c.Original).ToArray();
+            void Perform() => d.SetWalls(newWalls);
+            void Undo() => d.SetWalls(originalWalls);
+            _undoRedoStackData.PerformEdit($"Set Wall", Perform, Undo, dungeonData);
         }
 
     }
