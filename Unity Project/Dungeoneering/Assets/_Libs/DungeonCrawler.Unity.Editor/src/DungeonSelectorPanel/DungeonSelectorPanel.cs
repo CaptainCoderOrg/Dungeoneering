@@ -62,10 +62,22 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        public void PromptCreateDungeon()
+        private void WarnIfChanges(System.Action action)
         {
-            _textEntryDialogPanel.Prompt("Enter dungeon name", "Create Dungeon", "Cancel", CreateNewDungeon, ValidateDungeonName);
+            if (_dungeonData.HasChanged)
+            {
+                _confirmPromptPanel.Prompt($"You have unsaved changes in <b>{_dungeonData.Dungeon.Name}</b>.\nAre you sure you want to continue?\n<b><color=red>This cannot be undone!</color></b>", action);
+            }
+            else
+            {
+                action.Invoke();
+            }
         }
+
+        public void PromptCreateDungeon() => WarnIfChanges(ShowNewDungeonPrompt);
+        private void TryOpenDungeon(Dungeon d) => WarnIfChanges(() => OpenDungeon(d));
+
+        private void ShowNewDungeonPrompt() => _textEntryDialogPanel.Prompt("Enter dungeon name", "Create Dungeon", "Cancel", CreateNewDungeon, ValidateDungeonName);
 
         private string ValidateDungeonName(string name)
         {
@@ -85,18 +97,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _dungeonController.ManifestData.Manifest.AddDungeon(newDungeon.Name, newDungeon);
             _dungeonController.Build(newDungeon);
             Hide();
-        }
-
-        private void TryOpenDungeon(Dungeon d)
-        {
-            if (_dungeonData.HasChanged)
-            {
-                _confirmPromptPanel.Prompt($"You have unsaved changes in <b>{_dungeonData.Dungeon.Name}</b>.\nAre you sure you want to switch dungeons?\n<b><color=red>This cannot be undone!</color></b>", () => OpenDungeon(d));
-            }
-            else
-            {
-                OpenDungeon(d);
-            }
         }
 
         private void OpenDungeon(Dungeon d)
