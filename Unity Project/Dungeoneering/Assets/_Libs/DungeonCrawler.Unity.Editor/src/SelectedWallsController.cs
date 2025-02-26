@@ -48,6 +48,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             // Assuming this event only happens when a new dungeon is loaded.
             // If that changes, we'll need to do some checking/updating 
             _selectedWalls.Clear();
+            Selected.SetWallSelection(System.Array.Empty<DungeonWallController>());
         }
     }
 }

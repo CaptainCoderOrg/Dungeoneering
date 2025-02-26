@@ -32,7 +32,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
-        private readonly Dictionary<Position, DungeonTile> _tiles = new();
+        private Dictionary<Position, DungeonTile> _tiles = new();
+
         void OnEnable()
         {
             ManifestData.AddListener(OnManifestLoaded);
@@ -48,6 +49,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         private void OnManifestLoaded(DungeonCrawlerManifest manifest)
         {
             if (_currentManifest == manifest) { return; }
+
             Keys = ManifestData.Manifest.Dungeons.Keys.ToArray();
             _currentManifest = manifest;
             Dungeon d = manifest.Dungeons.First().Value;
@@ -56,35 +58,56 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         [Button]
         public void ClearDungeon() => TileParent.DestroyAllChildren();
+
         public void Build(Dungeon dungeon) => BuildDungeon(TileParent, TilePrefab, dungeon);
 
         public void BuildDungeon(Transform parent, DungeonTile tilePrefab, Dungeon d)
         {
-            DungeonData.Dungeon = d.Copy();
-            _tiles.Clear();
-            parent.DestroyAllChildren();
+            const int DIMENSION = 24;
 
-            for (int x = 0; x < 24; x++)
+            DungeonData.Dungeon = d.Copy();
+            Dictionary<Position, DungeonTile> pooledTiles = _tiles;
+            _tiles = new(Mathf.Max(_tiles.Count, DIMENSION * DIMENSION));
+
+            for (int x = 0; x < DIMENSION; x++)
             {
-                for (int y = 0; y < 24; y++)
+                for (int y = 0; y < DIMENSION; y++)
                 {
                     Position position = new(x, y);
-                    DungeonTile newTile = DungeonTile.Create(tilePrefab, parent, this, position);
-                    newTile.OnClicked.AddListener(HandleTileClicked);
-                    newTile.OnWallClicked.AddListener(HandleWallClicked);
-                    _tiles[new Position(x, y)] = newTile;
+                    if (pooledTiles.TryGetValue(position, out DungeonTile tile))
+                    {
+                        tile.IsSelected = false;
+                        tile.SetAllWallsSelected(false);
+                        DungeonTile.UpdateTile(this, position, tilePrefab.gameObject.activeSelf, tile);
+                        pooledTiles.Remove(position);
+                    }
+                    else
+                    {
+                        tile = DungeonTile.Create(tilePrefab, parent, this, position);
+                        tile.OnClicked.AddListener(HandleTileClicked);
+                        tile.OnWallClicked.AddListener(HandleWallClicked);
+                    }
+
+                    _tiles[new Position(x, y)] = tile;
                 }
+            }
+
+            foreach (var tile in pooledTiles.Values)
+            {
+                Destroy(tile.gameObject);
             }
 
             OnDungeonChanged.Invoke(DungeonData);
 
             DungeonData.Dungeon.Walls.OnWallChanged += UpdateWalls;
             DungeonData.Dungeon.WallTextures.OnTextureChange += UpdateTextures;
+
             void UpdateWalls(Position position, Facing facing, WallType wall)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
                 toUpdate?.UpdateWalls(DungeonData.Dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(DungeonData.Dungeon, position));
             }
+
             void UpdateTextures(Position position, Facing facing, string textureName)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
@@ -122,6 +145,5 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void HandleTileClicked(DungeonTile clicked) => OnDungeonTileClicked.Invoke(clicked);
         private void HandleWallClicked(DungeonWallController clicked) => OnDungeonWallClicked.Invoke(clicked);
-
     }
 }

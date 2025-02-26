@@ -62,21 +62,34 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             prefab.gameObject.SetActive(false);
             DungeonTile newTile = Instantiate(prefab, parent);
             newTile.DungeonController = controller;
-            newTile.Manifest = controller.ManifestData;
-            newTile.Dungeon = controller.DungeonData.Dungeon;
             newTile.Position = position;
             newTile.name = $"({position.X}, {position.Y})";
             newTile.transform.position = new Vector3(position.Y, 0, position.X);
+            UpdateTile(controller, position, wasActive, newTile);
+            prefab.gameObject.SetActive(wasActive);
+            return newTile;
+        }
+
+        public static void UpdateTile(DungeonController controller, Position position, bool isActive, DungeonTile newTile)
+        {
+            newTile.Manifest = controller.ManifestData;
+            newTile.Dungeon = controller.DungeonData.Dungeon;
             newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTileMaterial(newTile.Dungeon, position));
             newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
-            prefab.gameObject.SetActive(wasActive);
-            newTile.gameObject.SetActive(wasActive);
-            return newTile;
+            newTile.gameObject.SetActive(isActive);
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
             UpdateFloor(Manifest.MaterialCache.GetTileMaterial(Dungeon, Position), isSelected);
+        }
+
+        public void SetAllWallsSelected(bool isSelected)
+        {
+            NorthWall.IsSelected = isSelected;
+            EastWall.IsSelected = isSelected;
+            SouthWall.IsSelected = isSelected;
+            WestWall.IsSelected = isSelected;
         }
 
         public void UpdateFloor(SelectableMaterial mat) => UpdateFloor(mat, IsSelected);
