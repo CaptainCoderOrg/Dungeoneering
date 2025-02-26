@@ -824,6 +824,8 @@ PlayerSettings:
   scriptingDefineSymbols: {}
   additionalCompilerArguments:
     Standalone: []
+    WebGL:
+    - /langversion:latest
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
