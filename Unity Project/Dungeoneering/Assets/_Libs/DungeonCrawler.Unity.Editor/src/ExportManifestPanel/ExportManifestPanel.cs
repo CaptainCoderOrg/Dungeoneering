@@ -12,12 +12,6 @@ using System.Collections;
 
 using UnityEngine.Networking;
 
-#if UNITY_WEBGL
-#pragma warning disable IDE0005 // Using directive is unnecessary.
-using System.Runtime.InteropServices;
-using System.Text;
-#pragma warning restore IDE0005 // Using directive is unnecessary.
-#endif
 
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
