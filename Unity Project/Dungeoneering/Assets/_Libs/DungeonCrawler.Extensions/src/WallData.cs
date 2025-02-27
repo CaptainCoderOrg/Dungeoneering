@@ -1,4 +1,2 @@
-namespace CaptainCoder.Dungeoneering.DungeonMap
-{
-    public record WallData(Position Position, Facing Facing, WallType WallType);
-}
+namespace CaptainCoder.Dungeoneering.DungeonMap;
+public record struct WallData(Position Position, Facing Facing, WallType WallType);
