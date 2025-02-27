@@ -825,7 +825,7 @@ PlayerSettings:
   additionalCompilerArguments:
     Standalone: []
     WebGL:
-    - /langversion:latest
+    - /langversion:10.0
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
