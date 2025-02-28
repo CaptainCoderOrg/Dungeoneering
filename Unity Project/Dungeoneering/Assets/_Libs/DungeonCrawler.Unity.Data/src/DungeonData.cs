@@ -1,3 +1,5 @@
+using System;
+
 using CaptainCoder.Unity;
 
 using UnityEngine;
@@ -61,6 +63,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             HasChanged = true;
         }
 
+        public void RemoveFloorTexture(Position position)
+        {
+            Dungeon.TileTextures.Textures.Remove(position);
+            _changes.AddChange(Dungeon, position);
+            HasChanged = true;
+        }
+
         public void SetWallTexture(Position position, Facing facing, string textureName)
         {
             Dungeon.SetTexture(position, facing, textureName);
@@ -114,5 +123,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _dungeon = null;
             _hasChanged = false;
         }
+
+
     }
 }
