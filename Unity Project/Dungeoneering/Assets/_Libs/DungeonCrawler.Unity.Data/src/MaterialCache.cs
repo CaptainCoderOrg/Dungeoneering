@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity;
 
-public record struct TileReference(string DungeonName, Position Position);
+public record struct TileReference(Dungeon Dungeon, Position Position);
 public record struct WallReference(string DungeonName, Position Position, Facing Facing);
 public record struct TextureId(int Id)
 {
@@ -33,7 +33,35 @@ public class MaterialCache
     private DungeonCrawlerManifest Manifest => _manifestData.Manifest;
     private DungeonManifestData _manifestData;
     // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
-    public DungeonData DungeonData { get; set; }
+    private DungeonData _dungeonData;
+    public DungeonData DungeonData
+    {
+        get => _dungeonData;
+        set
+        {
+            if (value == null) { throw new ArgumentNullException(); }
+            // if (_dungeonData == value) { return; }
+            if (_dungeonData != null)
+            {
+                RemoveDungeonReferences(_dungeonData.Dungeon);
+                _dungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+            }
+            _dungeonData = value;
+            _dungeonData.OnChange.AddListener(HandleDungeonChanged);
+            if (_dungeonData?.Dungeon != null)
+            {
+                AddDungeonReferences(_dungeonData.Dungeon);
+            }
+            Debug.Log("MaterialCache.DungeonData set");
+        }
+    }
+
+    private void HandleDungeonChanged(DungeonChangedData changes)
+    {
+        Debug.Log("DungeonData loaded");
+        RemoveDungeonReferences(changes.Previous);
+        AddDungeonReferences(changes.New);
+    }
 
     public Dictionary<string, SelectableMaterial> InitializeMaterialCache(DungeonManifestData manifestData)
     {
@@ -41,7 +69,11 @@ public class MaterialCache
         Clear();
         _manifestData = manifestData;
         BuildMaterials();
-        BuildReferences();
+        BuildReferences(_manifestData.Manifest.Dungeons.Values);
+        if (_dungeonData?.Dungeon != null)
+        {
+            AddDungeonReferences(_dungeonData.Dungeon);
+        }
         _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, true));
         return _materialCache;
 
@@ -54,23 +86,41 @@ public class MaterialCache
                 _references[material.Id] = new TextureReferences(textureName);
             }
         }
+    }
 
-        void BuildReferences()
+    private void RemoveDungeonReferences(Dungeon dungeon)
+    {
+        foreach ((Position position, string _) in dungeon.TileTextures.Textures)
         {
-            foreach ((string dungeonName, Dungeon dungeon) in Manifest.Dungeons)
+            TileReference reference = new(dungeon, position);
+            if (_reverseLookup.TryGetValue(reference, out TextureId tId))
             {
-                foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
-                {
-                    if (!_materialCache.TryGetValue(textureName, out SelectableMaterial material))
-                    {
-                        // TODO: Consider defaulting to "default-tile.png" and removing the reference in the dungeon
-                        throw new System.Exception($"Dungeon references texture '{textureName}' that was not found in material cache.");
-                    }
-                    TileReference reference = new(dungeonName, position);
-                    _references[material.Id].Tiles.Add(reference);
-                    _reverseLookup[reference] = material.Id;
-                }
+                _references[tId].Tiles.Remove(reference);
             }
+        }
+    }
+
+
+    private void AddDungeonReferences(Dungeon dungeon)
+    {
+        foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
+        {
+            if (!_materialCache.TryGetValue(textureName, out SelectableMaterial material))
+            {
+                // TODO: Consider defaulting to "default-tile.png" and removing the reference in the dungeon
+                throw new System.Exception($"Dungeon references texture '{textureName}' that was not found in material cache.");
+            }
+            TileReference reference = new(dungeon, position);
+            _references[material.Id].Tiles.Add(reference);
+            _reverseLookup[reference] = material.Id;
+        }
+    }
+
+    private void BuildReferences(IEnumerable<Dungeon> dungeons)
+    {
+        foreach (Dungeon dungeon in dungeons)
+        {
+            AddDungeonReferences(dungeon);
         }
     }
 
@@ -87,23 +137,16 @@ public class MaterialCache
 
     public void RemoveTextureReference(TextureId id)
     {
-        RemoveTextureReferenceFromDungeonData(id, DungeonData);
         foreach (TileReference tileRef in _references[id].Tiles)
         {
-            Manifest.Dungeons[tileRef.DungeonName].TileTextures.Textures.Remove(tileRef.Position);
+            tileRef.Dungeon.TileTextures.Textures.Remove(tileRef.Position);
+            if (tileRef.Dungeon == DungeonData.Dungeon)
+            {
+                DungeonData.RemoveFloorTexture(tileRef.Position);
+            }
         }
         _references[id].Clear();
-
-        void RemoveTextureReferenceFromDungeonData(TextureId id, DungeonData dungeonData)
-        {
-            HashSet<TileReference> trs = _references[id].Tiles;
-            TileReference[] inData = trs.Where(t => t.DungeonName == dungeonData.Dungeon.Name).ToArray();
-            foreach (TileReference tileRef in inData)
-            {
-                dungeonData.RemoveFloorTexture(tileRef.Position);
-            }
-            dungeonData.Notify();
-        }
+        DungeonData.Notify();
     }
 
     public void RemoveListener(UnityAction<CacheUpdateData> onChange) => _onCacheChanged.RemoveListener(onChange);

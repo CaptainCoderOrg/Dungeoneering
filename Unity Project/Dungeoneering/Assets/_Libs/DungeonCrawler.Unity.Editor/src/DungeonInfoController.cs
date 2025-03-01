@@ -33,13 +33,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _dungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
             _dungeonData.OnChange.AddListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
-            StartCoroutine(StupidWaitAndRedothingGoshIHateThisThing());
+            StartCoroutine(UpdateUIAtEndOfFrame());
         }
 
-        IEnumerator StupidWaitAndRedothingGoshIHateThisThing()
+        private IEnumerator UpdateUIAtEndOfFrame()
         {
             yield return null;
-            HandleDungeonChanged(_dungeonData.Dungeon);
+            HandleDungeonChanged(new DungeonChangedData(null, _dungeonData.Dungeon));
             HandleDungeonDataStateChanged(_dungeonData.Dungeon, _dungeonData.HasChanged);
         }
 
@@ -50,9 +50,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
-        private void HandleDungeonChanged(Dungeon dungeon)
+        private void HandleDungeonChanged(DungeonChangedData dungeon)
         {
-            _nameLabel.text = dungeon?.Name;
+            _nameLabel.text = dungeon.New?.Name;
         }
 
         public void Save() => _dungeonData.SaveToManifest(_manifest);

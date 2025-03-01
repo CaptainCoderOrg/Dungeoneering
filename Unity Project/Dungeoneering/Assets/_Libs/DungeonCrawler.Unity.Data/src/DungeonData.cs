@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 
 using CaptainCoder.DungeonCrawler.Unity.Data;
-using CaptainCoder.Dungeoneering.Unity;
 using CaptainCoder.Unity;
 
 using UnityEngine;
@@ -28,7 +26,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [SerializeField]
         private MaterialCacheData _materialCacheData;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
-        public UnityEvent<Dungeon> OnChange { get; private set; } = new();
+        public UnityEvent<DungeonChangedData> OnChange { get; private set; } = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private Dungeon _dungeon;
         private TilesChangedData _changes = new();
@@ -44,11 +42,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     _dungeon.WallTextures.OnTextureChange -= HandleWallTextureChanged;
                 }
                 HasChanged = false;
+                DungeonChangedData change = new(_dungeon, value);
                 _dungeon = value;
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
                 _undoRedoStack.Clear();
-                OnChange.Invoke(_dungeon);
+                OnChange.Invoke(change);
+                Debug.Log("Dungeon changed in DungeonData");
             }
         }
 
@@ -144,6 +144,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
 
     }
+
+    public record DungeonChangedData(Dungeon Previous, Dungeon New);
 
     public class TilesChangedData
     {
