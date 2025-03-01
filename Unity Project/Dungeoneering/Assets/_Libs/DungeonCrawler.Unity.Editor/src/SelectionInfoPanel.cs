@@ -120,7 +120,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 return (textureName, _dungeonController.ManifestData.MaterialCache.GetMaterial(textureName).Unselected.mainTexture);
             }
             return ("Multiple textures", null);
-            string GetTextureName((Position p, Facing f) wall) => _dungeonController.DungeonData.GetWallTexture(wall.p, wall.f);
+            string GetTextureName((Position p, Facing f) wall) => _dungeonController.DungeonData.GetWallTextureName(wall.p, wall.f);
         }
 
         private (string, UnityEngine.Texture) TextureLabel(ISet<DungeonTile> tiles)
@@ -165,7 +165,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        private void SetTileTexture(string newTexture)
+        private void SetTileTexture(TextureId newTexture)
         {
             if (!_selection.Tiles.Any()) { return; }
             System.Action perform = default;
@@ -175,18 +175,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 Dungeon d = tile.Dungeon;
                 Position p = tile.Position;
-                string originalTexture = _dungeonController.DungeonData.GetFloorTexture(p);
+                TextureId originalTexture = _dungeonController.DungeonData.GetFloorTexture(p);
                 perform += () => _dungeonController.DungeonData.SetFloorTexture(p, newTexture);
                 undo += () => _dungeonController.DungeonData.SetFloorTexture(p, originalTexture);
             }
             _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, _dungeonController.DungeonData);
         }
 
-        private void SetSolidTextures(string textureName) => SetWallTextures(textureName, _walls);
-        private void SetDoorTextures(string textureName) => SetWallTextures(textureName, _doors);
-        private void SetSecretTextures(string textureName) => SetWallTextures(textureName, _secretDoors);
+        private void SetSolidTextures(TextureId tId) => SetWallTextures(tId, _walls);
+        private void SetDoorTextures(TextureId tId) => SetWallTextures(tId, _doors);
+        private void SetSecretTextures(TextureId tId) => SetWallTextures(tId, _secretDoors);
 
-        private void SetWallTextures(string newTexture, HashSet<(Position, Facing)> walls)
+        private void SetWallTextures(TextureId newTexture, HashSet<(Position, Facing)> walls)
         {
             DungeonManifestData manifest = _dungeonController.ManifestData;
             Dungeon d = _dungeonController.DungeonData.Dungeon;
@@ -194,7 +194,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             System.Action undo = default;
             foreach ((Position p, Facing f) in walls)
             {
-                string originalTexture = _dungeonController.DungeonData.GetWallTexture(p, f);
+                TextureId originalTexture = _dungeonController.DungeonData.GetWallTexture(p, f);
                 perform += () => _dungeonController.DungeonData.SetWallTexture(p, f, newTexture);
                 undo += () => _dungeonController.DungeonData.SetWallTexture(p, f, originalTexture);
             }

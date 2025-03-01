@@ -1,3 +1,5 @@
+using CaptainCoder.Dungeoneering.Unity;
+
 using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
@@ -46,10 +48,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
 
-        public void SetTexture(string textureName)
+        public void SetTexture(TextureId tId)
         {
             // Manifest.SetFloorTexture(Dungeon, Position, textureName);
-            Parent.DungeonController.DungeonData.SetWallTexture(Parent.Position, Facing, textureName);
+            Parent.DungeonController.DungeonData.SetWallTexture(Parent.Position, Facing, tId);
         }
 
         void Awake()

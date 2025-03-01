@@ -40,7 +40,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ScrollRect _scrollRect;
         private HashSet<string> _textureNames = new();
 
-        private System.Action<string> _onSelectedCallback;
+        private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
@@ -69,7 +69,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             foreach ((string name, SelectableMaterial material) in update.Cache)
             {
                 if (_textureNames.Contains(name)) { continue; }
-                DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, name, Grid, material);
+                DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, material.Id, Grid, material);
                 _textureNames.Add(name);
                 preview.SelectButton.OnClick.AddListener(SelectTexture);
                 preview.OnDelete.AddListener(DeleteTexture);
@@ -105,10 +105,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SelectTexture(DungeonTextureButton textureButton)
         {
             gameObject.SetActive(false);
-            _onSelectedCallback?.Invoke(textureButton.TextureName);
+            _onSelectedCallback?.Invoke(textureButton.TextureId);
         }
 
-        public void ShowDialogue(System.Action<string> onSelected, System.Action onCanceled)
+        public void ShowDialogue(System.Action<TextureId> onSelected, System.Action onCanceled)
         {
             _onSelectedCallback = onSelected;
             _onCanceledCallback = onCanceled;

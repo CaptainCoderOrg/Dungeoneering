@@ -1,5 +1,7 @@
 using System;
 
+using CaptainCoder.Dungeoneering.Unity;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -114,9 +116,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(string textureName)
+        public void SetTexture(TextureId tId)
         {
-            DungeonController.DungeonData.SetFloorTexture(Position, textureName);
+            DungeonController.DungeonData.SetFloorTexture(Position, tId);
         }
     }
 }

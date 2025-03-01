@@ -19,10 +19,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void Delete() => OnDelete.Invoke(this);
 
-        internal static DungeonTexturePreview Instantiate(DungeonTexturePreview prefab, string textureName, Transform parent, SelectableMaterial material)
+        internal static DungeonTexturePreview Instantiate(DungeonTexturePreview prefab, TextureId tId, Transform parent, SelectableMaterial material)
         {
             DungeonTexturePreview preview = Instantiate(prefab, parent);
-            preview.SelectButton.TextureName = textureName;
+            preview.SelectButton.TextureId = tId;
             preview.SelectButton.Image.texture = material.Unselected.mainTexture;
             preview.Material = material;
             return preview;

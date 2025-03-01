@@ -7,8 +7,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [field: SerializeField]
         public RawImage Image { get; private set; }
-        [field: SerializeField]
-        public string TextureName { get; set; }
+        public TextureId TextureId { get; set; }
 
         [field: SerializeField]
         public UnityEvent<DungeonTextureButton> OnClick { get; private set; }
