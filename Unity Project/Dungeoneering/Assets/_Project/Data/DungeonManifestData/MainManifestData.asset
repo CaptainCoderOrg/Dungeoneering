@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e39d0169e65a434ba5cde0fde757938, type: 3}
-  m_Name: MainDungeonData
+  m_Script: {fileID: 11500000, guid: 2ca0afe17284ac44993e7b8d2e91f5c6, type: 3}
+  m_Name: MainManifestData
   m_EditorClassIdentifier: 
-  _undoRedoStack: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
-  _materialCacheData: {fileID: 11400000, guid: 92010d587b5edf34cad6b860d0a4fda8, type: 2}
+  _materialCache: {fileID: 11400000, guid: 92010d587b5edf34cad6b860d0a4fda8, type: 2}
+  <ManifestJson>k__BackingField: {fileID: 4900000, guid: 0e625ec12a4d5e14e86513450ff860d2, type: 3}

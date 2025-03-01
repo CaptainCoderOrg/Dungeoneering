@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-
+using CaptainCoder.DungeonCrawler.Unity.Data;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap.IO;
 using CaptainCoder.Dungeoneering.Unity;
@@ -15,8 +14,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
-        private readonly MaterialCache _materialCache = new();
-        public MaterialCache MaterialCache => _materialCache;
+        [SerializeField]
+        private MaterialCacheData _materialCache;
+        public MaterialCache MaterialCache => _materialCache.Cache;
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
 
@@ -34,7 +34,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 return false;
             }
             _manifest = loaded;
-            _materialCache.InitializeMaterialCache(_manifest);
+            _materialCache.Cache.InitializeMaterialCache(this);
             _onManifestLoaded.Invoke(_manifest);
             return true;
         }
@@ -102,26 +102,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 _onManifestLoaded.Invoke(_manifest);
             }
-        }
-    }
-
-    public class TilesChangedData
-    {
-        public HashSet<(Dungeon, Position)> Tiles { get; private set; } = new();
-        public bool AddChange(Dungeon dungeon, Position position) => Tiles.Add((dungeon, position));
-    }
-
-    public class CacheUpdateData
-    {
-        public Dictionary<string, SelectableMaterial> Cache { get; private set; }
-        public IEnumerable<string> Added { get; private set; }
-        public readonly bool IsNewCache;
-
-        public CacheUpdateData(Dictionary<string, SelectableMaterial> cache, bool isNew, params string[] added)
-        {
-            IsNewCache = isNew;
-            Cache = cache;
-            Added = added;
         }
     }
 }

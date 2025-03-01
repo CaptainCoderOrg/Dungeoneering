@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 
+using CaptainCoder.DungeonCrawler.Unity.Data;
+using CaptainCoder.Dungeoneering.Unity;
 using CaptainCoder.Unity;
 
 using UnityEngine;
@@ -22,6 +25,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
         [SerializeField]
         private UndoRedoStackData _undoRedoStack;
+        [SerializeField]
+        private MaterialCacheData _materialCacheData;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public UnityEvent<Dungeon> OnChange { get; private set; } = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
@@ -96,6 +101,18 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public string GetFloorTexture(Position p) => Dungeon.TileTextures.GetTileTextureName(p);
         public string GetWallTexture(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
+        private void ConnectToCache()
+        {
+            _materialCacheData.Cache.DungeonData = this;
+        }
+
+        protected override void AfterEnabled()
+        {
+            base.AfterEnabled();
+            // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
+            ConnectToCache();
+        }
+
         protected override void OnExitEditMode()
         {
             base.OnExitEditMode();
@@ -106,6 +123,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             base.OnEnterPlayMode();
             Debug.Assert(_undoRedoStack != null);
+            ConnectToCache();
         }
 
         protected override void OnExitPlayMode()
@@ -125,5 +143,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
 
+    }
+
+    public class TilesChangedData
+    {
+        public HashSet<(Dungeon, Position)> Tiles { get; private set; } = new();
+        public bool AddChange(Dungeon dungeon, Position position) => Tiles.Add((dungeon, position));
     }
 }
