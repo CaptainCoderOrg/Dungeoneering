@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using CaptainCoder.DungeonCrawler.Unity.Data;
+using CaptainCoder.Dungeoneering.Unity;
 using CaptainCoder.Unity;
 
 using UnityEngine;
@@ -48,7 +49,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
                 _undoRedoStack.Clear();
                 OnChange.Invoke(change);
-                Debug.Log("Dungeon changed in DungeonData");
             }
         }
 
@@ -63,7 +63,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void SetFloorTexture(Position position, string textureName)
         {
-            Dungeon.TileTextures.Textures[position] = textureName;
+            _materialCacheData.Cache.SetTexture(new TileReference(Dungeon, position), _materialCacheData.Cache.GetTextureId(textureName));
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }

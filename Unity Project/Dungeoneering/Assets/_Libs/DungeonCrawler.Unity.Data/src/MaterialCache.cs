@@ -52,16 +52,16 @@ public class MaterialCache
             {
                 AddDungeonReferences(_dungeonData.Dungeon);
             }
-            Debug.Log("MaterialCache.DungeonData set");
         }
     }
 
     private void HandleDungeonChanged(DungeonChangedData changes)
     {
-        Debug.Log("DungeonData loaded");
         RemoveDungeonReferences(changes.Previous);
         AddDungeonReferences(changes.New);
     }
+
+    public TextureId GetTextureId(string textureName) => _materialCache[textureName].Id;
 
     public Dictionary<string, SelectableMaterial> InitializeMaterialCache(DungeonManifestData manifestData)
     {
@@ -124,16 +124,15 @@ public class MaterialCache
         }
     }
 
-    // public void SetTexture(TileReference tile, TextureId tId)
-    // {
-    //     TextureReferences references = _references[tId];
-    //     Manifest.Dungeons[tile.DungeonName].TileTextures.Textures[tile.Position] = references.TextureName;
-    //     if (_reverseLookup.TryGetValue(tile, out TextureId originalId))
-    //     {
-    //         _references[originalId].Tiles.Remove(tile);
-    //     }
-    //     _references[tId].Tiles.Add(tile);
-    // }
+    public void SetTexture(TileReference reference, TextureId tId)
+    {
+        if (_reverseLookup.TryGetValue(reference, out TextureId oldId))
+        {
+            _references[oldId].Tiles.Remove(reference);
+        }
+        reference.Dungeon.TileTextures.Textures[reference.Position] = _references[tId].TextureName;
+        _references[tId].Tiles.Add(reference);
+    }
 
     public void RemoveTextureReference(TextureId id)
     {
