@@ -38,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
-        private HashSet<string> _textureNames = new();
+        private HashSet<int> _textureIds = new();
 
         private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;
@@ -51,30 +51,48 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            Manifest.MaterialCache.AddListener(InitializeGrid);
+            Manifest.MaterialCache.AddListener(HandleCacheUpdate);
         }
 
         void OnDisable()
         {
-            Manifest.MaterialCache.RemoveListener(InitializeGrid);
+            Manifest.MaterialCache.RemoveListener(HandleCacheUpdate);
         }
 
-        public void InitializeGrid(CacheUpdateData update)
+        private void HandleCacheUpdate(CacheUpdateData update)
         {
-            if (update.IsNewCache)
+            bool gridChanged = update switch
             {
-                Grid.DestroyAllChildren(AddTextureButton.transform);
-                _textureNames.Clear();
-            }
-            foreach ((string name, SelectableMaterial material) in update.Cache)
+                CacheInitialized(var cache) => InitializeGrid(cache),
+                CacheAddTexture(SelectableMaterial material) => AddTexture(material),
+                _ => false,
+            };
+            if (gridChanged)
             {
-                if (_textureNames.Contains(name)) { continue; }
-                DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, material.Id, Grid, material);
-                _textureNames.Add(name);
-                preview.SelectButton.OnClick.AddListener(SelectTexture);
-                preview.OnDelete.AddListener(DeleteTexture);
+                AddTextureButton.transform.SetAsLastSibling();
             }
-            AddTextureButton.transform.SetAsLastSibling();
+        }
+
+        public bool AddTexture(SelectableMaterial material)
+        {
+            if (_textureIds.Contains(material.Id)) { return false; }
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, material.Id, Grid, material);
+            _textureIds.Add(material.Id);
+            preview.SelectButton.OnClick.AddListener(SelectTexture);
+            preview.OnDelete.AddListener(DeleteTexture);
+            return true;
+        }
+
+        public bool InitializeGrid(IEnumerable<SelectableMaterial> materials)
+        {
+            // TODO: Deleting all children is bad, this happens everytime the window is opened
+            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _textureIds.Clear();
+            foreach (SelectableMaterial material in materials)
+            {
+                AddTexture(material);
+            }
+            return true;
         }
 
         private void DeleteTexture(DungeonTexturePreview preview)

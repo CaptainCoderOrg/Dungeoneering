@@ -27,7 +27,9 @@ public class TextureReferences
 public class MaterialCache
 {
     public static readonly TextureId DefaultTexture = new(0);
+    // TODO: Eliminate _materialCache in favor of _references
     private readonly Dictionary<string, SelectableMaterial> _materialCache = new();
+    // TODO: Consider creating new data structure to manage _references and reverse references
     private readonly Dictionary<TextureId, TextureReferences> _references = new();
     private readonly Dictionary<TileReference, TextureId> _tileReferenceToTextureId = new();
     private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
@@ -75,7 +77,7 @@ public class MaterialCache
         {
             AddDungeonReferences(_dungeonData.Dungeon);
         }
-        _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, true));
+        _onCacheChanged.Invoke(new CacheInitialized(_materialCache.Values));
         return _materialCache;
 
         void BuildMaterials()
@@ -144,6 +146,7 @@ public class MaterialCache
     {
         RemoveTileTextureReferences(id);
         RemoveWallTextureReferences(id);
+        _onCacheChanged.Invoke(new CacheRemoveTexture(id));
     }
 
     private void RemoveWallTextureReferences(TextureId id)
@@ -164,6 +167,7 @@ public class MaterialCache
                 DungeonData.RemoveFloorTexture(tileRef.Position);
             }
         }
+        _materialCache.Remove(references.TextureName);
         _manifestData.Manifest.Textures.Remove(references.TextureName);
         _references.Remove(id);
         DungeonData.Notify();
@@ -176,7 +180,7 @@ public class MaterialCache
         _onCacheChanged.AddListener(onChange);
         if (_materialCache != null)
         {
-            onChange.Invoke(new CacheUpdateData(_materialCache, true));
+            onChange.Invoke(new CacheInitialized(_materialCache.Values));
         }
     }
 
@@ -185,8 +189,11 @@ public class MaterialCache
         if (Manifest.Textures.ContainsKey(name)) { return; }
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         Manifest.AddTexture(dungeonTexture);
-        _materialCache.Add(name, new SelectableMaterial(dungeonTexture.ToMaterial()));
-        _onCacheChanged.Invoke(new CacheUpdateData(_materialCache, false, name));
+        SelectableMaterial material = new(dungeonTexture.ToMaterial());
+        _materialCache[name] = material;
+        TextureReferences references = new(name);
+        _references[material.Id] = references;
+        _onCacheChanged.Invoke(new CacheAddTexture(material));
     }
 
     public void Clear()
@@ -204,17 +211,24 @@ public class MaterialCache
     public TextureId GetFloorTexture(Dungeon dungeon, Position p) => _tileReferenceToTextureId.GetValueOrDefault(new TileReference(dungeon, p), DefaultTexture);
 }
 
+public abstract record class CacheUpdateData;
+public sealed record class CacheInitialized(IEnumerable<SelectableMaterial> Materials) : CacheUpdateData;
+public sealed record class CacheAddTexture(SelectableMaterial Material) : CacheUpdateData;
+public sealed record class CacheRemoveTexture(TextureId Removed) : CacheUpdateData;
 
-public class CacheUpdateData
-{
-    public Dictionary<string, SelectableMaterial> Cache { get; private set; }
-    public IEnumerable<string> Added { get; private set; }
-    public readonly bool IsNewCache;
 
-    public CacheUpdateData(Dictionary<string, SelectableMaterial> cache, bool isNew, params string[] added)
-    {
-        IsNewCache = isNew;
-        Cache = cache;
-        Added = added;
-    }
-}
+// public class CacheUpdateData
+// {
+//     public Dictionary<string, SelectableMaterial> Cache { get; private set; }
+//     public IEnumerable<string> Added { get; private set; }
+//     public IEnumerable<TextureId> Removed { get; private set; }
+//     public readonly bool IsNewCache;
+
+//     public CacheUpdateData(Dictionary<string, SelectableMaterial> cache, bool isNew, IEnumerable<string> added, IEnumerable<TextureId> removed)
+//     {
+//         IsNewCache = isNew;
+//         Cache = cache;
+//         Added = added;
+//         Removed = removed;
+//     }
+// }
