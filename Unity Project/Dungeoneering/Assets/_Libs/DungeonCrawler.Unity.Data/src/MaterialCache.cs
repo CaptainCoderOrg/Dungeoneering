@@ -24,7 +24,6 @@ public class MaterialCache
         set
         {
             if (value == null) { throw new ArgumentNullException(); }
-            // if (_dungeonData == value) { return; }
             if (_dungeonData != null)
             {
                 RemoveDungeonReferences(_dungeonData.Dungeon);

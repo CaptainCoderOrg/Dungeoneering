@@ -10,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public DungeonManifestData Manifest { get; private set; }
-        public Dungeon Dungeon { get; private set; }
+        public Dungeon Dungeon => DungeonController.DungeonData.Dungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -75,7 +75,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public static void UpdateTile(DungeonController controller, Position position, bool isActive, DungeonTile newTile)
         {
             newTile.Manifest = controller.ManifestData;
-            newTile.Dungeon = controller.DungeonData.Dungeon;
             newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTexture(newTile.Dungeon, position));
             newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
             newTile.gameObject.SetActive(isActive);
