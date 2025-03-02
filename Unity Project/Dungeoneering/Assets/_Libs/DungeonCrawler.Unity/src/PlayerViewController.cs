@@ -1,6 +1,6 @@
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Player;
+using CaptainCoder.Dungeoneering.Unity.Data;
 
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -2,6 +2,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
 using UnityEngine;
@@ -69,8 +70,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Position p = wall.Parent.Position;
                 Facing f = wall.Facing;
                 WallType originalWallType = d.Walls[p, f];
-                string originalTexture = d.GetWallTexture(p, f);
-                string originalBackTexture = d.GetWallTexture(p.Step(f), f.Opposite());
+                TextureId originalTexture = dungeonData.GetWallTexture(p, f);
+                TextureId originalBackTexture = dungeonData.GetWallTexture(p.Step(f), f.Opposite());
                 if (originalWallType == newWallType) { continue; }
                 perform += () => dungeonData.SetWallType(p, f, newWallType);
                 undo += () =>

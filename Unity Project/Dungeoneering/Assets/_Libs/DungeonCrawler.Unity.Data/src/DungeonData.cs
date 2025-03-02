@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Unity;
 
 using UnityEngine;
 using UnityEngine.Events;
-namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
+namespace CaptainCoder.Dungeoneering.Unity.Data
 {
     [CreateAssetMenu(menuName = "DC/DungeonData")]
     public class DungeonData : ObservableSO
@@ -20,8 +23,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
         [SerializeField]
         private UndoRedoStackData _undoRedoStack;
+        [SerializeField]
+        private MaterialCacheData _materialCacheData;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
-        public UnityEvent<Dungeon> OnChange { get; private set; } = new();
+        public UnityEvent<DungeonChangedData> OnChange { get; private set; } = new();
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private Dungeon _dungeon;
         private TilesChangedData _changes = new();
@@ -37,11 +42,12 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     _dungeon.WallTextures.OnTextureChange -= HandleWallTextureChanged;
                 }
                 HasChanged = false;
+                DungeonChangedData change = new(_dungeon, value);
                 _dungeon = value;
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
                 _undoRedoStack.Clear();
-                OnChange.Invoke(_dungeon);
+                OnChange.Invoke(change);
             }
         }
 
@@ -54,16 +60,30 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             HasChanged = false;
         }
 
-        public void SetFloorTexture(Position position, string textureName)
+        public void SetFloorTexture(Position position, TextureId tId)
         {
-            Dungeon.TileTextures.Textures[position] = textureName;
+            _materialCacheData.Cache.SetTexture(new TileReference(Dungeon, position), tId);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
 
-        public void SetWallTexture(Position position, Facing facing, string textureName)
+        public void RemoveFloorTexture(Position position)
         {
-            Dungeon.SetTexture(position, facing, textureName);
+            Dungeon.TileTextures.Textures.Remove(position);
+            _changes.AddChange(Dungeon, position);
+            HasChanged = true;
+        }
+
+        public void SetWallTexture(Position position, Facing facing, TextureId textureId)
+        {
+            _materialCacheData.Cache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
+            _changes.AddChange(Dungeon, position);
+            HasChanged = true;
+        }
+
+        internal void RemoveWallTexture(Position position, Facing facing)
+        {
+            Dungeon.WallTextures.Textures.Remove((position, facing));
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -75,6 +95,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Dungeon.WallTextures.Textures.Remove((position.Step(facing), facing.Opposite()));
             Dungeon.Walls.SetWall(position, facing, type);
             _changes.AddChange(Dungeon, position);
+            HasChanged = true;
         }
 
         public void Notify()
@@ -84,8 +105,21 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _changes = new();
         }
 
-        public string GetFloorTexture(Position p) => Dungeon.TileTextures.GetTileTextureName(p);
-        public string GetWallTexture(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
+        public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetFloorTexture(Dungeon, p);
+        public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
+        public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
+
+        private void ConnectToCache()
+        {
+            _materialCacheData.Cache.DungeonData = this;
+        }
+
+        protected override void AfterEnabled()
+        {
+            base.AfterEnabled();
+            // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
+            ConnectToCache();
+        }
 
         protected override void OnExitEditMode()
         {
@@ -97,6 +131,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             base.OnEnterPlayMode();
             Debug.Assert(_undoRedoStack != null);
+            ConnectToCache();
         }
 
         protected override void OnExitPlayMode()
@@ -114,5 +149,15 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             _dungeon = null;
             _hasChanged = false;
         }
+
+
+    }
+
+    public record DungeonChangedData(Dungeon Previous, Dungeon New);
+
+    public class TilesChangedData
+    {
+        public HashSet<(Dungeon, Position)> Tiles { get; private set; } = new();
+        public bool AddChange(Dungeon dungeon, Position position) => Tiles.Add((dungeon, position));
     }
 }

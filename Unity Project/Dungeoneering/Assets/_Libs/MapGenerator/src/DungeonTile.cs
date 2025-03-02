@@ -1,5 +1,7 @@
 using System;
 
+using CaptainCoder.Dungeoneering.Unity.Data;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public DungeonManifestData Manifest { get; private set; }
-        public Dungeon Dungeon { get; private set; }
+        public Dungeon Dungeon => DungeonController.DungeonData.Dungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -73,15 +75,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public static void UpdateTile(DungeonController controller, Position position, bool isActive, DungeonTile newTile)
         {
             newTile.Manifest = controller.ManifestData;
-            newTile.Dungeon = controller.DungeonData.Dungeon;
-            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTileMaterial(newTile.Dungeon, position));
+            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTexture(newTile.Dungeon, position));
             newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
             newTile.gameObject.SetActive(isActive);
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(Manifest.MaterialCache.GetTileMaterial(Dungeon, Position), isSelected);
+            UpdateFloor(Manifest.MaterialCache.GetTexture(Dungeon, Position), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)
@@ -92,31 +93,31 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             WestWall.IsSelected = isSelected;
         }
 
-        public void UpdateFloor(SelectableMaterial mat) => UpdateFloor(mat, IsSelected);
+        public void UpdateFloor(TextureReference texture) => UpdateFloor(texture, IsSelected);
 
-        public void UpdateFloor(SelectableMaterial mat, bool isSelected)
+        public void UpdateFloor(TextureReference texture, bool isSelected)
         {
-            FloorTile.material = mat.GetMaterial(isSelected);
+            FloorTile.material = texture.Material.GetMaterial(isSelected);
         }
 
-        public void UpdateWalls(TileWalls configuration, TileWallMaterials materials)
+        public void UpdateWalls(TileWalls configuration, TileWallTextures textures)
         {
-            NorthWall.Material = materials.North;
+            NorthWall.Material = textures.North.Material;
             NorthWall.gameObject.SetActive(configuration.North is not WallType.None);
 
-            EastWall.Material = materials.East;
+            EastWall.Material = textures.East.Material;
             EastWall.gameObject.SetActive(configuration.East is not WallType.None);
 
-            WestWall.Material = materials.West;
+            WestWall.Material = textures.West.Material;
             WestWall.gameObject.SetActive(configuration.West is not WallType.None);
 
-            SouthWall.Material = materials.South;
+            SouthWall.Material = textures.South.Material;
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(string textureName)
+        public void SetTexture(TextureId tId)
         {
-            DungeonController.DungeonData.SetFloorTexture(Position, textureName);
+            DungeonController.DungeonData.SetFloorTexture(Position, tId);
         }
     }
 }

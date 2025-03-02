@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
-using CaptainCoder.Dungeoneering.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 
 using NaughtyAttributes;
 
@@ -130,10 +130,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             if (dungeon == DungeonData.Dungeon)
             {
                 DungeonTile tile = _tiles[position];
-                _ = dungeon.TileTextures.GetTileTextureName(position);
-
-                SelectableMaterial mat = ManifestData.MaterialCache.GetTileMaterial(dungeon, position);
-                tile.UpdateFloor(mat);
+                tile.UpdateFloor(ManifestData.MaterialCache.GetTexture(dungeon, position));
+                tile.UpdateWalls(dungeon.GetTile(position).Walls, ManifestData.MaterialCache.GetTileWallMaterials(dungeon, position));
             }
             else
             {

@@ -1,7 +1,7 @@
 using System.Collections;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
 using TMPro;
@@ -21,11 +21,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [SerializeField]
         private DungeonSelectorPanel _dungeonSelectorPanel;
         [SerializeField]
+        private ExportManifestPanel _exportManifestPanel;
+        [SerializeField]
         private Button _selectorToggleButton;
 
         void Awake()
         {
-            Assertion.NotNull(this, _nameLabel, _dungeonSelectorPanel, _selectorToggleButton, _dungeonData, _manifest);
+            Assertion.NotNull(this, _nameLabel, _dungeonSelectorPanel, _exportManifestPanel, _selectorToggleButton, _dungeonData, _manifest);
         }
 
         void OnEnable()
@@ -33,13 +35,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _dungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
             _dungeonData.OnChange.AddListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
-            StartCoroutine(StupidWaitAndRedothingGoshIHateThisThing());
+            StartCoroutine(UpdateUIAtEndOfFrame());
         }
 
-        IEnumerator StupidWaitAndRedothingGoshIHateThisThing()
+        private IEnumerator UpdateUIAtEndOfFrame()
         {
             yield return null;
-            HandleDungeonChanged(_dungeonData.Dungeon);
+            HandleDungeonChanged(new DungeonChangedData(null, _dungeonData.Dungeon));
             HandleDungeonDataStateChanged(_dungeonData.Dungeon, _dungeonData.HasChanged);
         }
 
@@ -50,11 +52,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
-        private void HandleDungeonChanged(Dungeon dungeon)
+        private void HandleDungeonChanged(DungeonChangedData dungeon)
         {
-            _nameLabel.text = dungeon?.Name;
+            _nameLabel.text = dungeon.New?.Name;
         }
 
+        public void ShowExportPanel() => _exportManifestPanel.Toggle();
         public void Save() => _dungeonData.SaveToManifest(_manifest);
 
         private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged)

@@ -5,8 +5,6 @@ using System.Runtime.InteropServices;
 #endif
 using System.Collections;
 
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-
 using SFB;
 
 using UnityEngine;
@@ -19,6 +17,8 @@ using CaptainCoder.Unity.UI;
 using CaptainCoder.Unity;
 
 using System.Collections.Generic;
+
+using CaptainCoder.Dungeoneering.Unity.Data;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
@@ -27,53 +27,110 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public Transform Grid { get; private set; }
         [field: SerializeField]
         public DungeonManifestData Manifest { get; private set; }
+        [SerializeField]
+        private DungeonData _dungeonData;
         [field: SerializeField]
-        public DungeonTextureButton ButtonPrefab { get; private set; }
+        public DungeonTexturePreview PreviewPrefab { get; private set; }
         [field: SerializeField]
         public Button AddTextureButton { get; private set; }
         [SerializeField]
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
-        private HashSet<string> _textureNames = new();
+        private HashSet<TextureId> _textureIds = new();
 
-        private System.Action<string> _onSelectedCallback;
+        private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, ButtonPrefab, AddTextureButton, _scrollRect);
+            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, PreviewPrefab, AddTextureButton, _scrollRect);
             Grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
         void OnEnable()
         {
-            Manifest.MaterialCache.AddListener(InitializeGrid);
+            Manifest.MaterialCache.AddListener(HandleCacheUpdate);
         }
 
         void OnDisable()
         {
-            Manifest.MaterialCache.RemoveListener(InitializeGrid);
+            Manifest.MaterialCache.RemoveListener(HandleCacheUpdate);
         }
 
-        public void InitializeGrid(CacheUpdateData update)
+        private void HandleCacheUpdate(CacheUpdateData update)
         {
-            if (update.IsNewCache)
+            bool gridChanged = update switch
             {
-                Grid.DestroyAllChildren(AddTextureButton.transform);
-                _textureNames.Clear();
-            }
-            foreach ((string name, Material material) in update.Cache)
+                CacheInitialized(IEnumerable<TextureReference> cache) => InitializeGrid(cache),
+                CacheAddTexture(TextureReference texture) => AddTexture(texture),
+                _ => false,
+            };
+            if (gridChanged)
             {
-                if (_textureNames.Contains(name)) { continue; }
-                _textureNames.Add(name);
-                DungeonTextureButton btn = Instantiate(ButtonPrefab, Grid);
-                btn.TextureName = name;
-                btn.Image.texture = material.mainTexture;
-                btn.OnClick.AddListener(SelectTexture);
+                AddTextureButton.transform.SetAsLastSibling();
             }
-            AddTextureButton.transform.SetAsLastSibling();
         }
+
+        public bool AddTexture(TextureReference texture)
+        {
+            if (_textureIds.Contains(texture.TextureId)) { return false; }
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
+            _textureIds.Add(texture.TextureId);
+            preview.SelectButton.OnClick.AddListener(SelectTexture);
+            preview.OnDelete.AddListener(DeleteTexture);
+            return true;
+        }
+
+        public bool InitializeGrid(IEnumerable<TextureReference> textures)
+        {
+            // TODO: Deleting all children is bad, this happens everytime the window is opened
+            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _textureIds.Clear();
+            foreach (TextureReference texture in textures)
+            {
+                AddTexture(texture);
+            }
+            return true;
+        }
+
+        private void DeleteTexture(DungeonTexturePreview preview)
+        {
+            Manifest.MaterialCache.RemoveTextureReference(preview.Texture);
+            GameObject.Destroy(preview.gameObject);
+        }
+
+        private void AddTexture(string name, Texture2D texture)
+        {
+            Manifest.MaterialCache.AddTexture(name, texture);
+            StartCoroutine(ScrollToBottom());
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            yield return null;
+            _scrollRect.verticalNormalizedPosition = 0;
+        }
+
+        public void Cancel()
+        {
+            gameObject.SetActive(false);
+            _onCanceledCallback?.Invoke();
+        }
+
+        private void SelectTexture(DungeonTextureButton textureButton)
+        {
+            gameObject.SetActive(false);
+            _onSelectedCallback?.Invoke(textureButton.TextureId);
+        }
+
+        public void ShowDialogue(System.Action<TextureId> onSelected, System.Action onCanceled)
+        {
+            _onSelectedCallback = onSelected;
+            _onCanceledCallback = onCanceled;
+            gameObject.SetActive(true);
+        }
+
 #if UNITY_WEBGL && !UNITY_EDITOR
     //
     // WebGL
@@ -119,37 +176,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
                 _confirmPanel.Prompt(Manifest, texture, filename, AddTexture);
             }
-        }
-
-        private void AddTexture(string name, Texture2D texture)
-        {
-            Manifest.MaterialCache.AddTexture(name, texture);
-            StartCoroutine(ScrollToBottom());
-        }
-
-        private IEnumerator ScrollToBottom()
-        {
-            yield return null;
-            _scrollRect.verticalNormalizedPosition = 0;
-        }
-
-        public void Cancel()
-        {
-            gameObject.SetActive(false);
-            _onCanceledCallback?.Invoke();
-        }
-
-        private void SelectTexture(DungeonTextureButton textureButton)
-        {
-            gameObject.SetActive(false);
-            _onSelectedCallback?.Invoke(textureButton.TextureName);
-        }
-
-        public void ShowDialogue(System.Action<string> onSelected, System.Action onCanceled)
-        {
-            _onSelectedCallback = onSelected;
-            _onCanceledCallback = onCanceled;
-            gameObject.SetActive(true);
         }
 
     }
