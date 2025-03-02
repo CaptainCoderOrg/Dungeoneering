@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using CaptainCoder.DungeonCrawler.Unity.Data;
-using CaptainCoder.Dungeoneering.Unity;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
@@ -78,8 +77,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void SetWallTexture(Position position, Facing facing, TextureId textureId)
         {
-            // Dungeon.SetTexture(position, facing, textureName);
-            throw new System.NotImplementedException();
+            _materialCacheData.Cache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
+            _changes.AddChange(Dungeon, position);
+            HasChanged = true;
+        }
+
+        internal void RemoveWallTexture(Position position, Facing facing)
+        {
+            Dungeon.WallTextures.Textures.Remove((position, facing));
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -91,6 +96,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Dungeon.WallTextures.Textures.Remove((position.Step(facing), facing.Opposite()));
             Dungeon.Walls.SetWall(position, facing, type);
             _changes.AddChange(Dungeon, position);
+            HasChanged = true;
         }
 
         public void Notify()
@@ -101,7 +107,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
         public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetFloorTexture(Dungeon, p);
-        public TextureId GetWallTexture(Position p, Facing f) => throw new System.NotImplementedException();
+        public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
         private void ConnectToCache()

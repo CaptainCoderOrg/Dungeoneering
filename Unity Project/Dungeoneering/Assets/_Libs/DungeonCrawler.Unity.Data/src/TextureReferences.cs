@@ -24,6 +24,7 @@ public class TextureReferences
     public string TextureName { get; private set; }
     public TextureId TextureId => Material.Id;
     public HashSet<TileReference> Tiles { get; private set; } = new();
+    public HashSet<WallReference> Walls { get; private set; } = new();
     public SelectableMaterial Material { get; private set; }
     public TextureReferences(string name, SelectableMaterial material)
     {
@@ -47,5 +48,5 @@ public class TextureReferences
 }
 
 public record struct TileReference(Dungeon Dungeon, Position Position);
-public record struct WallReference(string DungeonName, Position Position, Facing Facing);
+public record struct WallReference(Dungeon Dungeon, Position Position, Facing Facing);
 public record struct TextureId(int Id);

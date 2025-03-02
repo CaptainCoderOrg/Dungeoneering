@@ -97,7 +97,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void DeleteTexture(DungeonTexturePreview preview)
         {
-            Debug.Log($"Deleting: {preview}");
             Manifest.MaterialCache.RemoveTextureReference(preview.Material.Id);
             GameObject.Destroy(preview.gameObject);
         }
