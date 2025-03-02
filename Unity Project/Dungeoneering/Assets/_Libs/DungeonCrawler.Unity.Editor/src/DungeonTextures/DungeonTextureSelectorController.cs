@@ -5,8 +5,6 @@ using System.Runtime.InteropServices;
 #endif
 using System.Collections;
 
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-
 using SFB;
 
 using UnityEngine;
@@ -19,6 +17,7 @@ using CaptainCoder.Unity.UI;
 using CaptainCoder.Unity;
 
 using System.Collections.Generic;
+
 using CaptainCoder.Dungeoneering.Unity.Data;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
@@ -76,7 +75,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool AddTexture(SelectableMaterial material)
         {
             if (_textureIds.Contains(material.Id)) { return false; }
-            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, material.Id, Grid, material);
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, material);
             _textureIds.Add(material.Id);
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(DeleteTexture);

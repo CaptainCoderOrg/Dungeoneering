@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
@@ -15,7 +14,6 @@ public class MaterialCache
     public static readonly TextureId DefaultTextureId = new(0);
     private TextureReferences _textureReferences = new();
     // TODO: Consider creating new data structure to manage _references and reverse references
-    private readonly Dictionary<TextureId, TextureReference> _references = new();
     private readonly Dictionary<TileReference, TextureReference> _tileReferenceToTextureId = new();
     private readonly Dictionary<WallReference, TextureReference> _wallReferenceToTextureId = new();
     private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
@@ -60,14 +58,14 @@ public class MaterialCache
         {
             AddDungeonReferences(_dungeonData.Dungeon);
         }
-        _onCacheChanged.Invoke(new CacheInitialized(_references.Values.Select(r => r.Material)));
+        _onCacheChanged.Invoke(new CacheInitialized(_textureReferences.Materials));
 
         void BuildMaterials()
         {
             foreach ((string textureName, Texture texture) in _manifest.Textures)
             {
                 SelectableMaterial material = new(texture.ToMaterial());
-                _references[material.Id] = _textureReferences.Create(textureName, material);
+                _textureReferences.Create(textureName, material);
             }
         }
     }
@@ -132,7 +130,7 @@ public class MaterialCache
         {
             oldRef.Walls.Remove(wallRef);
         }
-        TextureReference newTexture = _references[tId];
+        TextureReference newTexture = _textureReferences.FromId(tId);
         newTexture.Walls.Add(wallRef);
         wallRef.Dungeon.WallTextures.Textures[(wallRef.Position, wallRef.Facing)] = newTexture.TextureName;
         _wallReferenceToTextureId[wallRef] = newTexture;
@@ -144,7 +142,7 @@ public class MaterialCache
         {
             oldRef.Tiles.Remove(tileRef);
         }
-        TextureReference newTexture = _references[tId];
+        TextureReference newTexture = _textureReferences.FromId(tId);
         newTexture.Tiles.Add(tileRef);
         tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
         _tileReferenceToTextureId[tileRef] = newTexture;
@@ -152,13 +150,12 @@ public class MaterialCache
 
     public void RemoveTextureReference(TextureId id)
     {
-        TextureReference textureRef = _references[id];
+        TextureReference textureRef = _textureReferences.FromId(id);
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
         _textureReferences.Remove(textureRef.TextureName);
         _manifest.Textures.Remove(textureRef.TextureName);
-        _references.Remove(id);
-
+        _textureReferences.Remove(id);
         DungeonData.Notify();
         _onCacheChanged.Invoke(new CacheRemoveTexture(id));
     }
@@ -194,7 +191,7 @@ public class MaterialCache
     public void AddListener(UnityAction<CacheUpdateData> onChange)
     {
         _onCacheChanged.AddListener(onChange);
-        onChange.Invoke(new CacheInitialized(_references.Values.Select(r => r.Material)));
+        onChange.Invoke(new CacheInitialized(_textureReferences.Materials));
     }
 
     public void AddTexture(string name, Texture2D texture)
@@ -203,8 +200,7 @@ public class MaterialCache
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         _manifest.AddTexture(dungeonTexture);
         SelectableMaterial material = new(dungeonTexture.ToMaterial());
-        TextureReference references = new(name, material);
-        _references[material.Id] = references;
+        _textureReferences.Create(name, material);
         _onCacheChanged.Invoke(new CacheAddTexture(material));
     }
 
@@ -212,7 +208,6 @@ public class MaterialCache
     {
         _textureReferences.Clear();
         _tileReferenceToTextureId.Clear();
-        _references.Clear();
         _onCacheChanged.RemoveAllListeners();
         _manifest = null;
     }
