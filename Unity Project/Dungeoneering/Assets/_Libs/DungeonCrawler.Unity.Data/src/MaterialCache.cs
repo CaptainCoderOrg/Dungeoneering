@@ -127,10 +127,21 @@ public class MaterialCache
         {
             oldRef.Walls.Remove(wallRef);
         }
-        TextureReference newTexture = _textureReferences.FromId(tId);
-        newTexture.Walls.Add(wallRef);
-        wallRef.Dungeon.WallTextures.Textures[(wallRef.Position, wallRef.Facing)] = newTexture.TextureName;
-        _wallReferences[wallRef] = newTexture;
+
+        if (tId == _textureReferences.DefaultTextureId)
+        {
+            // Use the default texture for this dungeon
+            _wallReferences.Remove(wallRef);
+            wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
+        }
+        else
+        {
+            TextureReference newTexture = _textureReferences.FromId(tId);
+            newTexture.Walls.Add(wallRef);
+            wallRef.Dungeon.WallTextures.Textures[(wallRef.Position, wallRef.Facing)] = newTexture.TextureName;
+            _wallReferences[wallRef] = newTexture;
+        }
+
     }
 
     public void SetTexture(TileReference tileRef, TextureId tId)
@@ -139,10 +150,20 @@ public class MaterialCache
         {
             oldRef.Tiles.Remove(tileRef);
         }
-        TextureReference newTexture = _textureReferences.FromId(tId);
-        newTexture.Tiles.Add(tileRef);
-        tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
-        _tileReferences[tileRef] = newTexture;
+        if (tId == _textureReferences.DefaultTextureId)
+        {
+            // Use the default texture for this dungeon
+            _tileReferences.Remove(tileRef);
+            tileRef.Dungeon.TileTextures.Textures.Remove(tileRef.Position);
+        }
+        else
+        {
+            TextureReference newTexture = _textureReferences.FromId(tId);
+            newTexture.Tiles.Add(tileRef);
+            _tileReferences[tileRef] = newTexture;
+            tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
+        }
+
     }
 
     public void RemoveTextureReference(TextureReference textureRef)
