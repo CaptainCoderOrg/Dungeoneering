@@ -2,8 +2,6 @@ using System.IO;
 
 using CaptainCoder.Dungeoneering.DungeonMap.IO;
 
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-
 using SFB;
 
 using UnityEngine;
@@ -11,6 +9,8 @@ using UnityEngine;
 using System.Collections;
 
 using UnityEngine.Networking;
+using CaptainCoder.Dungeoneering.Unity.Data;
+
 
 #if UNITY_WEBGL
 #pragma warning disable IDE0005 // Using directive is unnecessary.

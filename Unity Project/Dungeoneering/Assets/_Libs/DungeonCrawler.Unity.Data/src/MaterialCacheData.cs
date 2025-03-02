@@ -1,8 +1,6 @@
-using CaptainCoder.Dungeoneering.Unity;
-
 using UnityEngine;
 
-namespace CaptainCoder.DungeonCrawler.Unity.Data
+namespace CaptainCoder.Dungeoneering.Unity.Data
 {
     [CreateAssetMenu(menuName = "DC/Material Cache Data")]
     public class MaterialCacheData : ObservableSO

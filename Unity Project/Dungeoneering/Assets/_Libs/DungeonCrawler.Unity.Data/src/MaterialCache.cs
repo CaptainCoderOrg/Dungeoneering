@@ -4,13 +4,11 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
-using CaptainCoder.Dungeoneering.Unity.Data;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CaptainCoder.Dungeoneering.Unity;
+namespace CaptainCoder.Dungeoneering.Unity.Data;
 
 public class MaterialCache
 {
@@ -211,6 +209,7 @@ public class MaterialCache
 
     public void Clear()
     {
+        TextureReferences.Init();
         _tileReferenceToTextureId.Clear();
         _references.Clear();
         _onCacheChanged.RemoveAllListeners();

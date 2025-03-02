@@ -1,12 +1,11 @@
-using CaptainCoder.DungeonCrawler.Unity.Data;
 using CaptainCoder.Dungeoneering.DungeonCrawler;
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.IO;
-using CaptainCoder.Dungeoneering.Unity;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
+namespace CaptainCoder.Dungeoneering.Unity.Data
 {
     [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
     public class DungeonManifestData : ObservableSO

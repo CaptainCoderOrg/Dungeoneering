@@ -1,8 +1,6 @@
-using CaptainCoder.Dungeoneering.Unity.Data;
-
 using UnityEngine;
 
-namespace CaptainCoder.Dungeoneering.DungeonMap.Unity;
+namespace CaptainCoder.Dungeoneering.Unity.Data;
 public readonly struct SelectableMaterial
 {
     private static int s_nextID = 1;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
-using CaptainCoder.Dungeoneering.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 
 using NaughtyAttributes;
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class TextureReferences
     // TODO: Static bad!
     private static readonly Dictionary<string, TextureReferences> AllReferences = new();
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void Init()
+    internal static void Init()
     {
         AllReferences.Clear();
         // TODO: This is a hack to create a default "No Texture" texture

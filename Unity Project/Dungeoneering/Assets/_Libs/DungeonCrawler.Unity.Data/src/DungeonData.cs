@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 
-using CaptainCoder.DungeonCrawler.Unity.Data;
-using CaptainCoder.Dungeoneering.Unity.Data;
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Unity;
 
 using UnityEngine;
 using UnityEngine.Events;
-namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
+namespace CaptainCoder.Dungeoneering.Unity.Data
 {
     [CreateAssetMenu(menuName = "DC/DungeonData")]
     public class DungeonData : ObservableSO

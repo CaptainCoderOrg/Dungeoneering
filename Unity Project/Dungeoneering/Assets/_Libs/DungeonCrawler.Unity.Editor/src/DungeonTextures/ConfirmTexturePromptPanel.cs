@@ -1,6 +1,6 @@
 using System;
 
-using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 
 using TMPro;
 
