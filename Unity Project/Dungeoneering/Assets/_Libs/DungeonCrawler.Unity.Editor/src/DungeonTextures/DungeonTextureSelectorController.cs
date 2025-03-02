@@ -75,7 +75,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool AddTexture(TextureReference texture)
         {
             if (_textureIds.Contains(texture.TextureId)) { return false; }
-            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture.Material);
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
             _textureIds.Add(texture.TextureId);
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(DeleteTexture);
@@ -96,7 +96,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void DeleteTexture(DungeonTexturePreview preview)
         {
-            Manifest.MaterialCache.RemoveTextureReference(preview.Material.Id);
+            Manifest.MaterialCache.RemoveTextureReference(preview.Texture);
             GameObject.Destroy(preview.gameObject);
         }
 

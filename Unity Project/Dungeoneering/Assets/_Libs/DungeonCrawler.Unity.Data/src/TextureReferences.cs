@@ -39,11 +39,11 @@ internal class TextureReferences
     }
 
     internal TextureReference FromId(TextureId tId) => _references[tId];
-    internal void Remove(TextureId tId)
+
+    internal void Remove(TextureReference textureRef)
     {
-        TextureReference textureRef = _references[tId];
         _textureNames.Remove(textureRef.TextureName);
-        _references.Remove(tId);
+        _references.Remove(textureRef.TextureId);
     }
 }
 

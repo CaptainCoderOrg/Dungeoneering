@@ -145,14 +145,12 @@ public class MaterialCache
         _tileReferences[tileRef] = newTexture;
     }
 
-    public void RemoveTextureReference(TextureId id)
+    public void RemoveTextureReference(TextureReference textureRef)
     {
-        TextureReference textureRef = _textureReferences.FromId(id);
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
-        _textureReferences.Remove(textureRef.TextureName);
         _manifest.Textures.Remove(textureRef.TextureName);
-        _textureReferences.Remove(id);
+        _textureReferences.Remove(textureRef);
         DungeonData.Notify();
         _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
     }

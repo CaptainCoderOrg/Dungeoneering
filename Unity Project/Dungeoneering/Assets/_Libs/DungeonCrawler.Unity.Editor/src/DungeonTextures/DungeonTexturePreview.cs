@@ -9,7 +9,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public DungeonTextureButton SelectButton { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonTexturePreview> OnDelete { get; private set; }
-        public SelectableMaterial Material { get; private set; }
+        public TextureReference Texture { get; private set; }
 
         void Awake()
         {
@@ -19,12 +19,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void Delete() => OnDelete.Invoke(this);
 
-        internal static DungeonTexturePreview Instantiate(DungeonTexturePreview prefab, Transform parent, SelectableMaterial material)
+        internal static DungeonTexturePreview Instantiate(DungeonTexturePreview prefab, Transform parent, TextureReference texture)
         {
             DungeonTexturePreview preview = Instantiate(prefab, parent);
-            preview.SelectButton.TextureId = material.Id;
-            preview.SelectButton.Image.texture = material.Unselected.mainTexture;
-            preview.Material = material;
+            preview.SelectButton.TextureId = texture.TextureId;
+            preview.SelectButton.Image.texture = texture.Material.Unselected.mainTexture;
+            preview.Texture = texture;
             return preview;
         }
     }

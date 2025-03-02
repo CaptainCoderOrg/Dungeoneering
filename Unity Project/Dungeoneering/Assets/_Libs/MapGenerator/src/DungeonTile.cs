@@ -76,14 +76,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             newTile.Manifest = controller.ManifestData;
             newTile.Dungeon = controller.DungeonData.Dungeon;
-            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTexture(newTile.Dungeon, position).Material);
+            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTexture(newTile.Dungeon, position));
             newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
             newTile.gameObject.SetActive(isActive);
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(Manifest.MaterialCache.GetTexture(Dungeon, Position).Material, isSelected);
+            UpdateFloor(Manifest.MaterialCache.GetTexture(Dungeon, Position), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)
@@ -94,11 +94,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             WestWall.IsSelected = isSelected;
         }
 
-        public void UpdateFloor(SelectableMaterial mat) => UpdateFloor(mat, IsSelected);
+        public void UpdateFloor(TextureReference texture) => UpdateFloor(texture, IsSelected);
 
-        public void UpdateFloor(SelectableMaterial mat, bool isSelected)
+        public void UpdateFloor(TextureReference texture, bool isSelected)
         {
-            FloorTile.material = mat.GetMaterial(isSelected);
+            FloorTile.material = texture.Material.GetMaterial(isSelected);
         }
 
         public void UpdateWalls(TileWalls configuration, TileWallMaterials materials)
