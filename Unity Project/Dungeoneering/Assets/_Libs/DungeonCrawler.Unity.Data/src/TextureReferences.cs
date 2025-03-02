@@ -2,39 +2,28 @@ using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
-using UnityEngine;
-
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 public class TextureReferences
 {
-    // TODO: Consider moving TextureId here
-    // TODO: Static bad!
-    private static readonly Dictionary<string, TextureReferences> AllReferences = new();
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    internal static void Init()
+    private readonly Dictionary<string, TextureReference> AllReferences = new();
+    public void Clear()
     {
         AllReferences.Clear();
-        // TODO: This is a hack to create a default "No Texture" texture
-        new TextureReferences("No Texture", default);
+        Create("No Texture", default);
     }
-    public static TextureReferences FromName(string name) => AllReferences[name];
-    public static bool Remove(string name) => AllReferences.Remove(name);
+    public TextureReference FromName(string name) => AllReferences[name];
+    public bool Remove(string name) => AllReferences.Remove(name);
 
-    public string TextureName { get; private set; }
-    public TextureId TextureId => Material.Id;
-    public HashSet<TileReference> Tiles { get; private set; } = new();
-    public HashSet<WallReference> Walls { get; private set; } = new();
-    public SelectableMaterial Material { get; private set; }
-    public TextureReferences(string name, SelectableMaterial material)
+    public TextureReference Create(string name, SelectableMaterial material)
     {
         if (AllReferences.ContainsKey(name)) { throw new System.InvalidOperationException($"A reference with the name {name} already exists!"); }
-        (TextureName, Material) = (name, material);
-        AllReferences[name] = this;
+        TextureReference newRef = new(name, material);
+        AllReferences[name] = newRef;
+        return newRef;
     }
-    public int Count => Tiles.Count;
-    public void Clear() => Tiles.Clear();
 
-    public static TileWallMaterials GetTileWallMaterials(Dungeon dungeon, Position position)
+
+    public TileWallMaterials GetTileWallMaterials(Dungeon dungeon, Position position)
     {
         return new TileWallMaterials()
         {
@@ -45,6 +34,19 @@ public class TextureReferences
         };
     }
 }
+
+public class TextureReference
+{
+    public string TextureName { get; private set; }
+    public TextureId TextureId => Material.Id;
+    public SelectableMaterial Material { get; private set; }
+    public int Count => Tiles.Count;
+    internal TextureReference(string name, SelectableMaterial material) => (TextureName, Material) = (name, material);
+    internal HashSet<TileReference> Tiles { get; private set; } = new();
+    internal HashSet<WallReference> Walls { get; private set; } = new();
+    internal void Clear() => Tiles.Clear();
+}
+
 
 public record struct TileReference(Dungeon Dungeon, Position Position);
 public record struct WallReference(Dungeon Dungeon, Position Position, Facing Facing);
