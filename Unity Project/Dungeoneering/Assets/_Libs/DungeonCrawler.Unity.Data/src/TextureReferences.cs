@@ -6,6 +6,7 @@ using CaptainCoder.Dungeoneering.DungeonMap;
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 internal class TextureReferences
 {
+    public readonly TextureId DefaultTextureId = new(0);
     private readonly Dictionary<string, TextureReference> _textureNames = new();
     private readonly Dictionary<TextureId, TextureReference> _references = new();
     public IEnumerable<SelectableMaterial> Materials => _references.Values.Select(r => r.Material);
