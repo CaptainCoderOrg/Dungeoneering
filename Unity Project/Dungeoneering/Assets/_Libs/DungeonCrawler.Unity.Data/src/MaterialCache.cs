@@ -56,14 +56,13 @@ public class MaterialCache
         {
             AddDungeonReferences(_dungeonData.Dungeon);
         }
-        _onCacheChanged.Invoke(new CacheInitialized(_textureReferences.Materials));
+        _onCacheChanged.Invoke(new CacheInitialized(_textureReferences.Textures));
 
         void BuildMaterials()
         {
-            foreach ((string textureName, Texture texture) in _manifest.Textures)
+            foreach (Texture texture in _manifest.Textures.Values)
             {
-                SelectableMaterial material = new(texture.ToMaterial());
-                _textureReferences.Create(textureName, material);
+                _textureReferences.Create(texture);
             }
         }
     }
@@ -155,7 +154,7 @@ public class MaterialCache
         _manifest.Textures.Remove(textureRef.TextureName);
         _textureReferences.Remove(id);
         DungeonData.Notify();
-        _onCacheChanged.Invoke(new CacheRemoveTexture(id));
+        _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
     }
 
     private void RemoveWallTextureReferences(TextureReference textureRef)
@@ -189,7 +188,7 @@ public class MaterialCache
     public void AddListener(UnityAction<CacheUpdateData> onChange)
     {
         _onCacheChanged.AddListener(onChange);
-        onChange.Invoke(new CacheInitialized(_textureReferences.Materials));
+        onChange.Invoke(new CacheInitialized(_textureReferences.Textures));
     }
 
     public void AddTexture(string name, Texture2D texture)
@@ -197,9 +196,8 @@ public class MaterialCache
         if (_manifest.Textures.ContainsKey(name)) { return; }
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         _manifest.AddTexture(dungeonTexture);
-        SelectableMaterial material = new(dungeonTexture.ToMaterial());
-        _textureReferences.Create(name, material);
-        _onCacheChanged.Invoke(new CacheAddTexture(material));
+        TextureReference created = _textureReferences.Create(dungeonTexture);
+        _onCacheChanged.Invoke(new CacheAddTexture(created));
     }
 
     public void Clear()
@@ -210,17 +208,17 @@ public class MaterialCache
         _manifest = null;
     }
 
-    public SelectableMaterial GetTileMaterial(Dungeon d, Position p)
+    public TextureReference GetTexture(Dungeon d, Position p)
     {
         if (_tileReferences.TryGetValue(new TileReference(d, p), out TextureReference tRef))
         {
-            return tRef.Material;
+            return tRef;
         }
         string defaultTextureName = d.TileTextures.GetTileTextureName(p);
-        return _textureReferences.FromName(defaultTextureName).Material;
+        return _textureReferences.FromName(defaultTextureName);
     }
     public TileWallMaterials GetTileWallMaterials(Dungeon d, Position p) => _textureReferences.GetTileWallMaterials(d, p);
-    public SelectableMaterial GetMaterial(string textureName) => _textureReferences.FromName(textureName).Material;
+    public TextureReference GetTexture(string textureName) => _textureReferences.FromName(textureName);
     public TextureId GetFloorTexture(Dungeon dungeon, Position p)
     {
         if (_tileReferences.TryGetValue(new TileReference(dungeon, p), out TextureReference tRef))
@@ -241,6 +239,6 @@ public class MaterialCache
 }
 
 public abstract record class CacheUpdateData;
-public sealed record class CacheInitialized(IEnumerable<SelectableMaterial> Materials) : CacheUpdateData;
-public sealed record class CacheAddTexture(SelectableMaterial Material) : CacheUpdateData;
-public sealed record class CacheRemoveTexture(TextureId Removed) : CacheUpdateData;
+public sealed record class CacheInitialized(IEnumerable<TextureReference> Materials) : CacheUpdateData;
+public sealed record class CacheAddTexture(TextureReference Material) : CacheUpdateData;
+public sealed record class CacheRemoveTexture(TextureReference Removed) : CacheUpdateData;

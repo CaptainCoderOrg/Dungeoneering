@@ -62,8 +62,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             bool gridChanged = update switch
             {
-                CacheInitialized(var cache) => InitializeGrid(cache),
-                CacheAddTexture(SelectableMaterial material) => AddTexture(material),
+                CacheInitialized(IEnumerable<TextureReference> cache) => InitializeGrid(cache),
+                CacheAddTexture(TextureReference texture) => AddTexture(texture),
                 _ => false,
             };
             if (gridChanged)
@@ -72,24 +72,24 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        public bool AddTexture(SelectableMaterial material)
+        public bool AddTexture(TextureReference texture)
         {
-            if (_textureIds.Contains(material.Id)) { return false; }
-            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, material);
-            _textureIds.Add(material.Id);
+            if (_textureIds.Contains(texture.TextureId)) { return false; }
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture.Material);
+            _textureIds.Add(texture.TextureId);
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(DeleteTexture);
             return true;
         }
 
-        public bool InitializeGrid(IEnumerable<SelectableMaterial> materials)
+        public bool InitializeGrid(IEnumerable<TextureReference> textures)
         {
             // TODO: Deleting all children is bad, this happens everytime the window is opened
             Grid.DestroyAllChildren(AddTextureButton.transform);
             _textureIds.Clear();
-            foreach (SelectableMaterial material in materials)
+            foreach (TextureReference texture in textures)
             {
-                AddTexture(material);
+                AddTexture(texture);
             }
             return true;
         }

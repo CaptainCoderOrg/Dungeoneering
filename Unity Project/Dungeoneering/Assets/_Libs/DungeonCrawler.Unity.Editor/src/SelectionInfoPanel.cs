@@ -118,7 +118,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             string textureName = GetTextureName(walls.First());
             if (walls.All(w => GetTextureName(w) == textureName))
             {
-                return (textureName, _dungeonController.ManifestData.MaterialCache.GetMaterial(textureName).Unselected.mainTexture);
+                return (textureName, _dungeonController.ManifestData.MaterialCache.GetTexture(textureName).Material.Unselected.mainTexture);
             }
             return ("Multiple textures", null);
             string GetTextureName((Position p, Facing f) wall) => _dungeonController.DungeonData.GetWallTextureName(wall.p, wall.f);

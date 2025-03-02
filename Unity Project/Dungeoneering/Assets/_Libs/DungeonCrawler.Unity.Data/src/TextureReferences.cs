@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
@@ -9,7 +8,7 @@ internal class TextureReferences
     public readonly TextureId DefaultTextureId = new(0);
     private readonly Dictionary<string, TextureReference> _textureNames = new();
     private readonly Dictionary<TextureId, TextureReference> _references = new();
-    public IEnumerable<SelectableMaterial> Materials => _references.Values.Select(r => r.Material);
+    public IEnumerable<TextureReference> Textures => _references.Values;
     internal void Clear()
     {
         _references.Clear();
@@ -19,11 +18,11 @@ internal class TextureReferences
     internal TextureReference FromName(string name) => _textureNames[name];
     internal bool Remove(string name) => _textureNames.Remove(name);
 
-    internal TextureReference Create(string name, SelectableMaterial material)
+    internal TextureReference Create(Texture dungeonTexture)
     {
-        if (_textureNames.ContainsKey(name)) { throw new System.InvalidOperationException($"A reference with the name {name} already exists!"); }
-        TextureReference newRef = new(name, material);
-        _textureNames[name] = newRef;
+        if (_textureNames.ContainsKey(dungeonTexture.Name)) { throw new System.InvalidOperationException($"A reference with the name {dungeonTexture.Name} already exists!"); }
+        TextureReference newRef = new(dungeonTexture.Name, new SelectableMaterial(dungeonTexture.ToMaterial()));
+        _textureNames[newRef.TextureName] = newRef;
         _references[newRef.TextureId] = newRef;
         return newRef;
     }
