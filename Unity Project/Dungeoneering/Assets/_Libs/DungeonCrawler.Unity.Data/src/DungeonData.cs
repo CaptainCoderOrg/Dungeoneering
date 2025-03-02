@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using CaptainCoder.DungeonCrawler.Unity.Data;
 using CaptainCoder.Dungeoneering.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
 using UnityEngine;

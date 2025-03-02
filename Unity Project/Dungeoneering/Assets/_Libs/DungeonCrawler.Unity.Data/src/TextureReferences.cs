@@ -45,3 +45,7 @@ public class TextureReferences
         };
     }
 }
+
+public record struct TileReference(Dungeon Dungeon, Position Position);
+public record struct WallReference(string DungeonName, Position Position, Facing Facing);
+public record struct TextureId(int Id);

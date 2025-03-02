@@ -1,4 +1,5 @@
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 
 using UnityEngine;
 using UnityEngine.Events;

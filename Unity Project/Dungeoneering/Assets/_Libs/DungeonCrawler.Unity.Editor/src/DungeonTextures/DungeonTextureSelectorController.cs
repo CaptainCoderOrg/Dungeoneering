@@ -19,7 +19,7 @@ using CaptainCoder.Unity.UI;
 using CaptainCoder.Unity;
 
 using System.Collections.Generic;
-using System;
+using CaptainCoder.Dungeoneering.Unity.Data;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
@@ -38,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
-        private HashSet<int> _textureIds = new();
+        private HashSet<TextureId> _textureIds = new();
 
         private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;

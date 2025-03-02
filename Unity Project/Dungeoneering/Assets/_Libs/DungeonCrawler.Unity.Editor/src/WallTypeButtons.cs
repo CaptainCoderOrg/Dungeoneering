@@ -2,6 +2,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
+using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
 using UnityEngine;

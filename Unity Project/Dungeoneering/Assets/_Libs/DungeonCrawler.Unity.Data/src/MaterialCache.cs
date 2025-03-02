@@ -12,13 +12,6 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity;
 
-public record struct TileReference(Dungeon Dungeon, Position Position);
-public record struct WallReference(string DungeonName, Position Position, Facing Facing);
-public record struct TextureId(int Id)
-{
-    public static implicit operator int(TextureId tid) => tid.Id;
-}
-
 public class MaterialCache
 {
     public static readonly TextureId DefaultTexture = new(0);
