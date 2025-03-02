@@ -162,11 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1131510e53dab4ca317522aa32ed81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DungeonController>k__BackingField: {fileID: 0}
   _manifest: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
   _dungeonData: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
   _nameLabel: {fileID: 778968933513367599}
   _dungeonSelectorPanel: {fileID: 0}
+  _exportManifestPanel: {fileID: 0}
   _selectorToggleButton: {fileID: 6341085474482624141}
 --- !u!1 &3182475444311006106
 GameObject:
@@ -646,7 +646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 161
+      value: 169
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -761,7 +761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6117783252930485900, guid: 7e8fb4ead4b4a7742a45ab3c32e965f7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Save
+      value: ShowExportPanel
       objectReference: {fileID: 0}
     - target: {fileID: 6117783252930485900, guid: 7e8fb4ead4b4a7742a45ab3c32e965f7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

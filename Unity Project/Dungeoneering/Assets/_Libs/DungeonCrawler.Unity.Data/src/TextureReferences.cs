@@ -64,7 +64,6 @@ public class TextureReference
     internal void Clear() => Tiles.Clear();
 }
 
-
 public record struct TileReference(Dungeon Dungeon, Position Position);
 public record struct WallReference(Dungeon Dungeon, Position Position, Facing Facing);
 public record struct TextureId(int Id);

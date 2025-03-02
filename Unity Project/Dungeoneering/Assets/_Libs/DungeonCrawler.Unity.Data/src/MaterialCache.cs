@@ -52,10 +52,6 @@ public class MaterialCache
         _manifest = manifest;
         BuildMaterials();
         BuildReferences(_manifest.Dungeons.Values);
-        if (_dungeonData?.Dungeon != null)
-        {
-            AddDungeonReferences(_dungeonData.Dungeon);
-        }
         _onCacheChanged.Invoke(new CacheInitialized(_textureReferences.Textures));
 
         void BuildMaterials()
