@@ -215,7 +215,7 @@ public class MaterialCache
         string defaultTextureName = d.TileTextures.GetTileTextureName(p);
         return _textureReferences.FromName(defaultTextureName);
     }
-    public TileWallMaterials GetTileWallMaterials(Dungeon d, Position p) => _textureReferences.GetTileWallMaterials(d, p);
+    public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureReferences.GetTileWallMaterials(d, p);
     public TextureReference GetTexture(string textureName) => _textureReferences.FromName(textureName);
     public TextureId GetFloorTexture(Dungeon dungeon, Position p)
     {

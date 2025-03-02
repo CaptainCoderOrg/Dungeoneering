@@ -27,14 +27,14 @@ internal class TextureReferences
         return newRef;
     }
 
-    internal TileWallMaterials GetTileWallMaterials(Dungeon dungeon, Position position)
+    internal TileWallTextures GetTileWallMaterials(Dungeon dungeon, Position position)
     {
-        return new TileWallMaterials()
+        return new TileWallTextures()
         {
-            North = _textureNames[dungeon.GetWallTexture(position, Facing.North)].Material,
-            East = _textureNames[dungeon.GetWallTexture(position, Facing.East)].Material,
-            South = _textureNames[dungeon.GetWallTexture(position, Facing.South)].Material,
-            West = _textureNames[dungeon.GetWallTexture(position, Facing.West)].Material,
+            North = _textureNames[dungeon.GetWallTexture(position, Facing.North)],
+            East = _textureNames[dungeon.GetWallTexture(position, Facing.East)],
+            South = _textureNames[dungeon.GetWallTexture(position, Facing.South)],
+            West = _textureNames[dungeon.GetWallTexture(position, Facing.West)],
         };
     }
 
@@ -49,11 +49,16 @@ internal class TextureReferences
 
 public class TextureReference
 {
+    private static int s_nextID = 1;
     public string TextureName { get; private set; }
-    public TextureId TextureId => Material.Id;
+    public readonly TextureId TextureId;
     public SelectableMaterial Material { get; private set; }
     public int Count => Tiles.Count;
-    internal TextureReference(string name, SelectableMaterial material) => (TextureName, Material) = (name, material);
+    internal TextureReference(string name, SelectableMaterial material)
+    {
+        TextureId = new(s_nextID++);
+        (TextureName, Material) = (name, material);
+    }
     internal HashSet<TileReference> Tiles { get; private set; } = new();
     internal HashSet<WallReference> Walls { get; private set; } = new();
     internal void Clear() => Tiles.Clear();

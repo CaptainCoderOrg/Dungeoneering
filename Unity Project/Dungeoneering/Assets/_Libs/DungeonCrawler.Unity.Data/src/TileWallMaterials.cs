@@ -2,9 +2,9 @@ using System.ComponentModel;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 namespace CaptainCoder.Dungeoneering.Unity.Data;
-public class TileWallMaterials
+public class TileWallTextures
 {
-    public SelectableMaterial this[Facing facing]
+    public TextureReference this[Facing facing]
     {
         get
         {
@@ -19,8 +19,8 @@ public class TileWallMaterials
         }
     }
 
-    public SelectableMaterial North { get; set; } = default!;
-    public SelectableMaterial East { get; set; } = default!;
-    public SelectableMaterial South { get; set; } = default!;
-    public SelectableMaterial West { get; set; } = default!;
+    public TextureReference North { get; set; } = default!;
+    public TextureReference East { get; set; } = default!;
+    public TextureReference South { get; set; } = default!;
+    public TextureReference West { get; set; } = default!;
 }

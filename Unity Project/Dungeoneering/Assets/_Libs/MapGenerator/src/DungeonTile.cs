@@ -101,18 +101,18 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             FloorTile.material = texture.Material.GetMaterial(isSelected);
         }
 
-        public void UpdateWalls(TileWalls configuration, TileWallMaterials materials)
+        public void UpdateWalls(TileWalls configuration, TileWallTextures textures)
         {
-            NorthWall.Material = materials.North;
+            NorthWall.Material = textures.North.Material;
             NorthWall.gameObject.SetActive(configuration.North is not WallType.None);
 
-            EastWall.Material = materials.East;
+            EastWall.Material = textures.East.Material;
             EastWall.gameObject.SetActive(configuration.East is not WallType.None);
 
-            WestWall.Material = materials.West;
+            WestWall.Material = textures.West.Material;
             WestWall.gameObject.SetActive(configuration.West is not WallType.None);
 
-            SouthWall.Material = materials.South;
+            SouthWall.Material = textures.South.Material;
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
