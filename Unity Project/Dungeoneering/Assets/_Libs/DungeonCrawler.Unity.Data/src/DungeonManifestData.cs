@@ -34,6 +34,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                 return false;
             }
             _manifest = loaded;
+            // TODO: Consider using events to trigger the material cache to be initialized.
             _materialCache.Cache.InitializeMaterialCache(this);
             _onManifestLoaded.Invoke(_manifest);
             return true;
