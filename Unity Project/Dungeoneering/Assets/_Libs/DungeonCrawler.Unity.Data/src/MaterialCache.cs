@@ -221,19 +221,20 @@ public class MaterialCache
         _onCacheChanged.RemoveAllListeners();
         _manifest = null;
     }
-
-    public TextureReference GetTexture(Dungeon d, Position p)
+    public TextureReference GetTexture(TileReference tileReference)
     {
-        if (_tileReferences.TryGetValue(new TileReference(d, p), out TextureReference tRef))
+        if (_tileReferences.TryGetValue(tileReference, out TextureReference tRef))
         {
             return tRef;
         }
-        string defaultTextureName = d.TileTextures.GetTileTextureName(p);
+        string defaultTextureName = tileReference.Dungeon.TileTextures.GetTileTextureName(tileReference.Position);
         return _textureReferences.FromName(defaultTextureName);
     }
+
+    public TextureReference GetTexture(Dungeon d, Position p) => GetTexture(new TileReference(d, p));
     public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureReferences.GetTileWallMaterials(d, p);
     public TextureReference GetTexture(string textureName) => _textureReferences.FromName(textureName);
-    public TextureId GetFloorTexture(Dungeon dungeon, Position p)
+    public TextureId GetTextureId(Dungeon dungeon, Position p)
     {
         if (_tileReferences.TryGetValue(new TileReference(dungeon, p), out TextureReference tRef))
         {
