@@ -23,6 +23,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
     {
+        [SerializeField]
+        private TextureInfoPanel _textureInfoPanel;
         [field: SerializeField]
         public Transform Grid { get; private set; }
         [field: SerializeField]
@@ -37,14 +39,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
-        private HashSet<TextureId> _textureIds = new();
+        private Dictionary<TextureId, DungeonTexturePreview> _textureButtons = new();
 
         private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, PreviewPrefab, AddTextureButton, _scrollRect);
+            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel);
             Grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
@@ -64,6 +66,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 CacheInitialized(IEnumerable<TextureReference> cache) => InitializeGrid(cache),
                 CacheAddTexture(TextureReference texture) => AddTexture(texture),
+                CacheRemoveTexture(TextureReference texture) => RemoveTexture(texture),
                 _ => false,
             };
             if (gridChanged)
@@ -72,13 +75,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
+        public bool RemoveTexture(TextureReference texture)
+        {
+            if (!_textureButtons.TryGetValue(texture.TextureId, out DungeonTexturePreview button)) { return false; }
+            GameObject.Destroy(button.gameObject);
+            return true;
+        }
+
         public bool AddTexture(TextureReference texture)
         {
-            if (_textureIds.Contains(texture.TextureId)) { return false; }
+            if (_textureButtons.ContainsKey(texture.TextureId)) { return false; }
             DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
-            _textureIds.Add(texture.TextureId);
+            _textureButtons[texture.TextureId] = preview;
             preview.SelectButton.OnClick.AddListener(SelectTexture);
-            preview.OnDelete.AddListener(DeleteTexture);
+            preview.OnDelete.AddListener(OpenTextureInfoPanel);
             return true;
         }
 
@@ -86,7 +96,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             // TODO: Deleting all children is bad, this happens everytime the window is opened
             Grid.DestroyAllChildren(AddTextureButton.transform);
-            _textureIds.Clear();
+            _textureButtons.Clear();
             foreach (TextureReference texture in textures)
             {
                 AddTexture(texture);
@@ -94,10 +104,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             return true;
         }
 
-        private void DeleteTexture(DungeonTexturePreview preview)
+        private void OpenTextureInfoPanel(DungeonTexturePreview preview)
         {
-            Manifest.MaterialCache.RemoveTextureReference(preview.Texture);
-            GameObject.Destroy(preview.gameObject);
+            _textureInfoPanel.Texture = preview.Texture;
+            _textureInfoPanel.Show();
         }
 
         private void AddTexture(string name, Texture2D texture)

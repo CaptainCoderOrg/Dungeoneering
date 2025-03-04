@@ -9,6 +9,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonTile : MonoBehaviour, ISelectable
     {
+        public TileReference TileReference => new(Dungeon, Position);
         public DungeonManifestData Manifest { get; private set; }
         public Dungeon Dungeon => DungeonController.DungeonData.Dungeon;
         public DungeonController DungeonController { get; private set; }
