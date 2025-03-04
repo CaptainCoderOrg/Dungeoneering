@@ -496,6 +496,8 @@ MonoBehaviour:
   _wallsLabel: {fileID: 1459665425661576918}
   _doorsLabel: {fileID: 1232263727331689502}
   _secretDoorLabel: {fileID: 4526432697768678212}
+  _dungeonController: {fileID: 0}
+  _dungeonManifestData: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
 --- !u!1 &5909234520819475142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,7 +1666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1672,11 +1674,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 531.5
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1712,11 +1714,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 270.75
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -197
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

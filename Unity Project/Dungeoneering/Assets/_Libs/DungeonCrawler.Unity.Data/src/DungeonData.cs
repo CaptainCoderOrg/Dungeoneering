@@ -105,7 +105,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _changes = new();
         }
 
-        public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetFloorTexture(Dungeon, p);
+        public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetTextureId(Dungeon, p);
         public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 

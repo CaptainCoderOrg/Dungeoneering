@@ -53,7 +53,7 @@ public class TextureReference
     public string TextureName { get; private set; }
     public readonly TextureId TextureId;
     public SelectableMaterial Material { get; private set; }
-    public int Count => Tiles.Count;
+    public int Count => Tiles.Count + Walls.Count;
     internal TextureReference(string name, SelectableMaterial material)
     {
         TextureId = new(s_nextID++);
