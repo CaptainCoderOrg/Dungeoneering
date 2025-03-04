@@ -14,11 +14,8 @@ public class Dungeon_should
     {
         get
         {
-            Dungeon dungeon = new()
-            {
-                Name = "Simple",
-                DungeonID = SimpleSquareID
-            };
+            Dungeon dungeon = new() {  DungeonID = SimpleSquareID };
+            dungeon.Name = "Simple";
             dungeon.Walls.SetWall(new Position(0, 0), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.South, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.East, WallType.Solid);
@@ -31,8 +28,7 @@ public class Dungeon_should
     {
         get
         {
-            Dungeon dungeon = new();
-            dungeon.DungeonID = TwoByTwoID;
+            Dungeon dungeon = new() { DungeonID = TwoByTwoID };
             dungeon.Walls.SetWall(new Position(0, 0), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.West, WallType.Solid);
 
@@ -71,8 +67,7 @@ public class Dungeon_should
         first.ShouldBe(MakeDungeon());
         static Dungeon MakeDungeon()
         {
-            Dungeon dungeon = new();
-            dungeon.DungeonID = MakeDungeonID;
+            Dungeon dungeon = new() { DungeonID = MakeDungeonID };
             dungeon.Walls.SetWall(new Position(5, 7), Facing.East, WallType.Door);
             dungeon.Walls.SetWall(new Position(5, 7), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(3, 7), Facing.North, WallType.Solid);

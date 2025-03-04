@@ -2,8 +2,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap;
 
 public class Dungeon() : IEquatable<Dungeon>
 {
-
-    public Guid DungeonID { get; set; } = Guid.NewGuid();
+    public Guid DungeonID { get; init; } = Guid.NewGuid();
     public string Name { get; set; } = $"Untitled";
     public WallMap Walls { get; init; } = new();
     public EventMap EventMap { get; init; } = new();
