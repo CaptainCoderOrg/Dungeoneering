@@ -191,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 4531726727079507986, guid: 7e8fb4ead4b4a7742a45ab3c32e965f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bbf8f4989e1d1cc4ba7bdac5bd69a7a7, type: 3}
+      objectReference: {fileID: 21300000, guid: ce504eb5e21c0db458d60c79eb09940a, type: 3}
     - target: {fileID: 5320219529688472540, guid: 7e8fb4ead4b4a7742a45ab3c32e965f7, type: 3}
       propertyPath: m_Name
       value: Icon Button (Button)
