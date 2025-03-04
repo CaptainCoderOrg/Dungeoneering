@@ -7,11 +7,15 @@ using Shouldly;
 
 public class Dungeon_should
 {
+    public static Guid SimpleSquareID { get; } = Guid.NewGuid();
+    public static Guid TwoByTwoID { get; } = Guid.NewGuid();
+    public static Guid MakeDungeonID { get; } = Guid.NewGuid();
     public static Dungeon SimpleSquareDungeon
     {
         get
         {
-            Dungeon dungeon = new() { Name = "Simple" };
+            Dungeon dungeon = new() {  DungeonID = SimpleSquareID };
+            dungeon.Name = "Simple";
             dungeon.Walls.SetWall(new Position(0, 0), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.South, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.East, WallType.Solid);
@@ -24,7 +28,7 @@ public class Dungeon_should
     {
         get
         {
-            Dungeon dungeon = new();
+            Dungeon dungeon = new() { DungeonID = TwoByTwoID };
             dungeon.Walls.SetWall(new Position(0, 0), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(0, 0), Facing.West, WallType.Solid);
 
@@ -63,7 +67,7 @@ public class Dungeon_should
         first.ShouldBe(MakeDungeon());
         static Dungeon MakeDungeon()
         {
-            Dungeon dungeon = new();
+            Dungeon dungeon = new() { DungeonID = MakeDungeonID };
             dungeon.Walls.SetWall(new Position(5, 7), Facing.East, WallType.Door);
             dungeon.Walls.SetWall(new Position(5, 7), Facing.North, WallType.Solid);
             dungeon.Walls.SetWall(new Position(3, 7), Facing.North, WallType.Solid);

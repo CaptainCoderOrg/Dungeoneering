@@ -10,6 +10,7 @@ using Shouldly;
 
 public class DungeonCrawlerManifest_should
 {
+    public static Guid MakeManifestID { get; } = Guid.NewGuid();
     public static DungeonCrawlerManifest Empty => new();
     public static DungeonCrawlerManifest Simple
     {
@@ -121,7 +122,7 @@ public class DungeonCrawlerManifest_should
         static DungeonCrawlerManifest MakeManifest()
         {
             DungeonCrawlerManifest manifest = new();
-            manifest.AddDungeon("simple", new Dungeon());
+            manifest.AddDungeon("simple", new Dungeon() { DungeonID = MakeManifestID });
             manifest.AddScript("scriptname", new EventScript("Simple Script"));
             manifest.AddTexture(new Texture("wall", [1, 2, 3]));
             return manifest;
