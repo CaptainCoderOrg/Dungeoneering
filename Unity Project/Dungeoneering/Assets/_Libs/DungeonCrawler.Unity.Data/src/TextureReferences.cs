@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
-internal class TextureReferences
+internal class TextureDatabase
 {
     public readonly TextureId DefaultTextureId = new(0);
     private readonly Dictionary<string, TextureReference> _textureNames = new();
@@ -46,24 +46,3 @@ internal class TextureReferences
         _references.Remove(textureRef.TextureId);
     }
 }
-
-public class TextureReference
-{
-    private static int s_nextID = 1;
-    public string TextureName { get; private set; }
-    public readonly TextureId TextureId;
-    public SelectableMaterial Material { get; private set; }
-    public int Count => Tiles.Count + Walls.Count;
-    internal TextureReference(string name, SelectableMaterial material)
-    {
-        TextureId = new(s_nextID++);
-        (TextureName, Material) = (name, material);
-    }
-    internal HashSet<TileReference> Tiles { get; private set; } = new();
-    internal HashSet<WallReference> Walls { get; private set; } = new();
-    internal void Clear() => Tiles.Clear();
-}
-
-public record struct TileReference(Dungeon Dungeon, Position Position);
-public record struct WallReference(Dungeon Dungeon, Position Position, Facing Facing);
-public record struct TextureId(int Id);
