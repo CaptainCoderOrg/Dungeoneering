@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data;
 
 public class MaterialCache
 {
-    private TextureReferences _textureReferences = new();
+    private TextureDatabase _textureDatabase = new();
     private readonly Dictionary<TileReference, TextureReference> _tileReferences = new();
     private readonly Dictionary<WallReference, TextureReference> _wallReferences = new();
     private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
@@ -51,13 +51,13 @@ public class MaterialCache
         _manifest = manifest;
         BuildMaterials();
         BuildReferences(_manifest.Dungeons.Values);
-        _onCacheChanged.Invoke(new CacheInitialized(_textureReferences.Textures));
+        _onCacheChanged.Invoke(new CacheInitialized(_textureDatabase.Textures));
 
         void BuildMaterials()
         {
             foreach (Texture texture in _manifest.Textures.Values)
             {
-                _textureReferences.Create(texture);
+                _textureDatabase.Create(texture);
             }
         }
     }
@@ -93,7 +93,7 @@ public class MaterialCache
     {
         foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
         {
-            TextureReference textureRef = _textureReferences.FromName(textureName);
+            TextureReference textureRef = _textureDatabase.FromName(textureName);
             TileReference tileRef = new(dungeon, position);
             textureRef.Tiles.Add(tileRef);
             _tileReferences[tileRef] = textureRef;
@@ -101,7 +101,7 @@ public class MaterialCache
 
         foreach (((Position position, Facing facing), string textureName) in dungeon.WallTextures.Textures)
         {
-            TextureReference textureRef = _textureReferences.FromName(textureName);
+            TextureReference textureRef = _textureDatabase.FromName(textureName);
             WallReference wallRef = new(dungeon, position, facing);
             textureRef.Walls.Add(wallRef);
             _wallReferences[wallRef] = textureRef;
@@ -123,7 +123,7 @@ public class MaterialCache
             oldRef.Walls.Remove(wallRef);
         }
 
-        if (tId == _textureReferences.DefaultTextureId)
+        if (tId == _textureDatabase.DefaultTextureId)
         {
             // Use the default texture for this dungeon
             _wallReferences.Remove(wallRef);
@@ -131,7 +131,7 @@ public class MaterialCache
         }
         else
         {
-            TextureReference newTexture = _textureReferences.FromId(tId);
+            TextureReference newTexture = _textureDatabase.FromId(tId);
             newTexture.Walls.Add(wallRef);
             wallRef.Dungeon.WallTextures.Textures[(wallRef.Position, wallRef.Facing)] = newTexture.TextureName;
             _wallReferences[wallRef] = newTexture;
@@ -145,7 +145,7 @@ public class MaterialCache
         {
             oldRef.Tiles.Remove(tileRef);
         }
-        if (tId == _textureReferences.DefaultTextureId)
+        if (tId == _textureDatabase.DefaultTextureId)
         {
             // Use the default texture for this dungeon
             _tileReferences.Remove(tileRef);
@@ -153,7 +153,7 @@ public class MaterialCache
         }
         else
         {
-            TextureReference newTexture = _textureReferences.FromId(tId);
+            TextureReference newTexture = _textureDatabase.FromId(tId);
             newTexture.Tiles.Add(tileRef);
             _tileReferences[tileRef] = newTexture;
             tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
@@ -166,7 +166,7 @@ public class MaterialCache
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
         _manifest.Textures.Remove(textureRef.TextureName);
-        _textureReferences.Remove(textureRef);
+        _textureDatabase.Remove(textureRef);
         DungeonData.Notify();
         _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
     }
@@ -202,7 +202,7 @@ public class MaterialCache
     public void AddListener(UnityAction<CacheUpdateData> onChange)
     {
         _onCacheChanged.AddListener(onChange);
-        onChange.Invoke(new CacheInitialized(_textureReferences.Textures));
+        onChange.Invoke(new CacheInitialized(_textureDatabase.Textures));
     }
 
     public void AddTexture(string name, Texture2D texture)
@@ -210,13 +210,13 @@ public class MaterialCache
         if (_manifest.Textures.ContainsKey(name)) { return; }
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         _manifest.AddTexture(dungeonTexture);
-        TextureReference created = _textureReferences.Create(dungeonTexture);
+        TextureReference created = _textureDatabase.Create(dungeonTexture);
         _onCacheChanged.Invoke(new CacheAddTexture(created));
     }
 
     public void Clear()
     {
-        _textureReferences.Clear();
+        _textureDatabase.Clear();
         _tileReferences.Clear();
         _onCacheChanged.RemoveAllListeners();
         _manifest = null;
@@ -228,19 +228,19 @@ public class MaterialCache
             return tRef;
         }
         string defaultTextureName = tileReference.Dungeon.TileTextures.GetTileTextureName(tileReference.Position);
-        return _textureReferences.FromName(defaultTextureName);
+        return _textureDatabase.FromName(defaultTextureName);
     }
 
     public TextureReference GetTexture(Dungeon d, Position p) => GetTexture(new TileReference(d, p));
-    public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureReferences.GetTileWallMaterials(d, p);
-    public TextureReference GetTexture(string textureName) => _textureReferences.FromName(textureName);
+    public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureDatabase.GetTileWallMaterials(d, p);
+    public TextureReference GetTexture(string textureName) => _textureDatabase.FromName(textureName);
     public TextureId GetTextureId(Dungeon dungeon, Position p)
     {
         if (_tileReferences.TryGetValue(new TileReference(dungeon, p), out TextureReference tRef))
         {
             return tRef.TextureId;
         }
-        return _textureReferences.DefaultTextureId;
+        return _textureDatabase.DefaultTextureId;
     }
 
     internal TextureId GetWallTexture(WallReference wallReference)
@@ -249,7 +249,7 @@ public class MaterialCache
         {
             return tRef.TextureId;
         }
-        return _textureReferences.DefaultTextureId;
+        return _textureDatabase.DefaultTextureId;
     }
 }
 
