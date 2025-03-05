@@ -218,9 +218,9 @@ public class MaterialCache
     {
         _textureDatabase.Clear();
         _tileReferences.Clear();
-        _onCacheChanged.RemoveAllListeners();
         _manifest = null;
     }
+
     public TextureReference GetTexture(TileReference tileReference)
     {
         if (_tileReferences.TryGetValue(tileReference, out TextureReference tRef))

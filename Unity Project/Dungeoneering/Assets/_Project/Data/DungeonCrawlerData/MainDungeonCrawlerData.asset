@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f30f780fdd8d71479a006dbd6017b75, type: 3}
+  m_Name: MainDungeonCrawlerData
+  m_EditorClassIdentifier: 
+  <ManifestData>k__BackingField: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
+  <DungeonData>k__BackingField: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
+  <CacheData>k__BackingField: {fileID: 11400000, guid: 92010d587b5edf34cad6b860d0a4fda8, type: 2}
