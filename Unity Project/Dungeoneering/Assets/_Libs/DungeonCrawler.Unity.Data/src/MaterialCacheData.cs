@@ -10,13 +10,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         protected override void OnExitEditMode()
         {
             base.OnExitEditMode();
-            Cache.Clear();
+            Cache = new();
         }
 
         protected override void OnExitPlayMode()
         {
             base.OnExitEditMode();
-            Cache.Clear();
         }
     }
 }
