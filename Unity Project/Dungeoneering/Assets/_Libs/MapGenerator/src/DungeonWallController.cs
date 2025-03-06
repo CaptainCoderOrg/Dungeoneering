@@ -50,8 +50,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void SetTexture(TextureId tId)
         {
-            // Manifest.SetFloorTexture(Dungeon, Position, textureName);
-            Parent.DungeonController.DungeonData.SetWallTexture(Parent.Position, Facing, tId);
+            Parent.DungeonController.DungeonCrawlerData.DungeonData.SetWallTexture(Parent.Position, Facing, tId);
         }
 
         void Awake()
@@ -62,19 +61,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             Debug.Assert(Parent != null, this);
         }
 
-        void OnEnable()
-        {
-            _mouseEvents.OnClick.AddListener(OnClick);
-        }
-
-        void OnDisable()
-        {
-            _mouseEvents.OnClick.RemoveListener(OnClick);
-        }
-
-        private void OnClick()
-        {
-            Parent.OnWallClicked.Invoke(this);
-        }
+        void OnEnable() => _mouseEvents.OnClick.AddListener(OnClick);
+        void OnDisable() => _mouseEvents.OnClick.RemoveListener(OnClick);
+        private void OnClick() => Parent.OnWallClicked.Invoke(this);
     }
 }
