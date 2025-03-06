@@ -46,7 +46,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
     // Broser plugin should be called in OnPointerDown.
     public void PromptExport() {
-        var bytes = Encoding.UTF8.GetBytes(_manifestData.Manifest.ToJson());
+        var bytes = Encoding.UTF8.GetBytes(_dungeonCrawlerData.ManifestData.Manifest.ToJson());
         DownloadFile(gameObject.name, "OnFileDownload", "dungeon-manifest.json", bytes, bytes.Length);
         Hide();
     }
