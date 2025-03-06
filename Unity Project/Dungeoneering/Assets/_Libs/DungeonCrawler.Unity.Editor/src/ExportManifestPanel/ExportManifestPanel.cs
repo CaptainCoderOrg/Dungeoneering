@@ -11,6 +11,8 @@ using System.Collections;
 using UnityEngine.Networking;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
+using CaptainCoder.Unity;
+
 
 
 #if UNITY_WEBGL
@@ -25,9 +27,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class ExportManifestPanel : MonoBehaviour
     {
         [SerializeField]
-        private DungeonManifestData _manifestData;
+        private DungeonCrawlerData _dungeonCrawlerData;
         public void Hide() => gameObject.SetActive(false);
         public void Toggle() => gameObject.SetActive(!gameObject.activeSelf);
+
+        void Awake()
+        {
+            Assertion.NotNull(this, (_dungeonCrawlerData, "Dungeon Crawler Data"));
+        }
 
 
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -55,7 +62,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             var path = StandaloneFileBrowser.SaveFilePanel("Title", "", "dungeon-manifest", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                File.WriteAllText(path, _manifestData.Manifest.ToJson());
+                File.WriteAllText(path, _dungeonCrawlerData.ManifestData.Manifest.ToJson());
             }
             Hide();
         }
@@ -102,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
             else
             {
-                _manifestData.TryLoadManifest(www.downloadHandler.text, out _);
+                _dungeonCrawlerData.ManifestData.TryLoadManifest(www.downloadHandler.text, out _);
             }
             Hide();
         }
