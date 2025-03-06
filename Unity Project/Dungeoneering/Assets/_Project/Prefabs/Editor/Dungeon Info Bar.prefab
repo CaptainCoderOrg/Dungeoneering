@@ -162,8 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1131510e53dab4ca317522aa32ed81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _manifest: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
-  _dungeonData: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
+  _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _nameLabel: {fileID: 778968933513367599}
   _dungeonSelectorPanel: {fileID: 0}
   _exportManifestPanel: {fileID: 0}
@@ -646,7 +645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 169
+      value: 161
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -13,9 +13,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class DungeonInfoController : MonoBehaviour
     {
         [SerializeField]
-        private DungeonManifestData _manifest;
-        [SerializeField]
-        private DungeonData _dungeonData;
+        private DungeonCrawlerData _dungeonCrawlerData;
         [SerializeField]
         private TextMeshProUGUI _nameLabel;
         [SerializeField]
@@ -27,13 +25,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void Awake()
         {
-            Assertion.NotNull(this, _nameLabel, _dungeonSelectorPanel, _exportManifestPanel, _selectorToggleButton, _dungeonData, _manifest);
+            Assertion.NotNull(this, _nameLabel, _dungeonSelectorPanel, _exportManifestPanel, _selectorToggleButton, _dungeonCrawlerData);
         }
 
         void OnEnable()
         {
-            _dungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
-            _dungeonData.OnChange.AddListener(HandleDungeonChanged);
+            _dungeonCrawlerData.DungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
+            _dungeonCrawlerData.DungeonData.OnChange.AddListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
             StartCoroutine(UpdateUIAtEndOfFrame());
         }
@@ -41,28 +39,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private IEnumerator UpdateUIAtEndOfFrame()
         {
             yield return null;
-            HandleDungeonChanged(new DungeonChangedData(null, _dungeonData.Dungeon));
-            HandleDungeonDataStateChanged(_dungeonData.Dungeon, _dungeonData.HasChanged);
+            HandleDungeonChanged(new DungeonChangedData(null, _dungeonCrawlerData.DungeonData.Dungeon));
+            HandleDungeonDataStateChanged(_dungeonCrawlerData.DungeonData.Dungeon, _dungeonCrawlerData.DungeonData.HasChanged);
         }
 
         void OnDisable()
         {
-            _dungeonData.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
-            _dungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+            _dungeonCrawlerData.DungeonData.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
+            _dungeonCrawlerData.DungeonData.OnChange.RemoveListener(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
-        private void HandleDungeonChanged(DungeonChangedData dungeon)
-        {
-            _nameLabel.text = dungeon.New?.Name;
-        }
-
+        private void HandleDungeonChanged(DungeonChangedData dungeon) => _nameLabel.text = dungeon.New?.Name;
         public void ShowExportPanel() => _exportManifestPanel.Toggle();
-        public void Save() => _dungeonData.SaveToManifest(_manifest);
-
-        private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged)
-        {
-            _nameLabel.text = hasChanged ? $"{dungeon?.Name}*" : dungeon?.Name;
-        }
+        public void Save() => _dungeonCrawlerData.DungeonData.SaveToManifest(_dungeonCrawlerData.ManifestData);
+        private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged) => _nameLabel.text = hasChanged ? $"{dungeon?.Name}*" : dungeon?.Name;
     }
 }
