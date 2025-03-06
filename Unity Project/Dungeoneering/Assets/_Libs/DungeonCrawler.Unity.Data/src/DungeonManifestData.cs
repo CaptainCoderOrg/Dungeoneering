@@ -90,7 +90,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             ClearListeners();
         }
 
-        public void UpdateDungeon(Dungeon dungeon) => _manifest.Dungeons[dungeon.Name] = dungeon;
+        public void UpdateDungeon(Dungeon dungeon)
+        {
+            Dungeon copy = dungeon.Copy();
+            _materialCache.Cache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
+            _materialCache.Cache.AddDungeonReferences(copy);
+            _manifest.Dungeons[copy.Name] = copy;
+        }
 
         public void RemoveDungeon(Dungeon dungeon)
         {

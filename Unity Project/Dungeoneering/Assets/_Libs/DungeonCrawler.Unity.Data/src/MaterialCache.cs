@@ -62,7 +62,7 @@ public class MaterialCache
         }
     }
 
-    private void RemoveDungeonReferences(Dungeon dungeon)
+    public void RemoveDungeonReferences(Dungeon dungeon)
     {
         if (dungeon == null)
         {
@@ -89,7 +89,7 @@ public class MaterialCache
         }
     }
 
-    private void AddDungeonReferences(Dungeon dungeon)
+    public void AddDungeonReferences(Dungeon dungeon)
     {
         foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
         {
