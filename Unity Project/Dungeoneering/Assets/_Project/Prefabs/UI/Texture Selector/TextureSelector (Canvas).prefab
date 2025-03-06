@@ -282,10 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131a7d02a7df1f74e9cb1450d8febf06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _textureInfoPanel: {fileID: 0}
   <Grid>k__BackingField: {fileID: 3779814831988163599}
-  <Manifest>k__BackingField: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
-  _dungeonData: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
   <PreviewPrefab>k__BackingField: {fileID: 7929583646498155946, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
   <AddTextureButton>k__BackingField: {fileID: 3678398149738720209}
   _confirmPanel: {fileID: 4544654478584129829}

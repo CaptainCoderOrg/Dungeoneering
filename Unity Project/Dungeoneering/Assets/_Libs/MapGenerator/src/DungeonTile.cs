@@ -10,8 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public TileReference TileReference => new(Dungeon, Position);
-        public DungeonManifestData Manifest { get; private set; }
-        public Dungeon Dungeon => DungeonController.DungeonData.Dungeon;
+        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.DungeonData.Dungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -75,15 +74,14 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public static void UpdateTile(DungeonController controller, Position position, bool isActive, DungeonTile newTile)
         {
-            newTile.Manifest = controller.ManifestData;
-            newTile.UpdateFloor(newTile.Manifest.MaterialCache.GetTexture(newTile.Dungeon, position));
-            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, newTile.Manifest.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
+            newTile.UpdateFloor(controller.DungeonCrawlerData.MaterialCache.GetTexture(newTile.Dungeon, position));
+            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
             newTile.gameObject.SetActive(isActive);
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(Manifest.MaterialCache.GetTexture(Dungeon, Position), isSelected);
+            UpdateFloor(DungeonController.DungeonCrawlerData.MaterialCache.GetTexture(Dungeon, Position), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)
@@ -116,9 +114,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(TextureId tId)
-        {
-            DungeonController.DungeonData.SetFloorTexture(Position, tId);
-        }
+        public void SetTexture(TextureId tId) => DungeonController.DungeonCrawlerData.DungeonData.SetFloorTexture(Position, tId);
     }
 }

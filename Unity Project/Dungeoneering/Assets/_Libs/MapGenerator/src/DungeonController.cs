@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
+using CaptainCoder.Unity;
 
 using NaughtyAttributes;
 
@@ -12,17 +13,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonController : MonoBehaviour
     {
         [field: SerializeField]
-        private DungeonCrawlerData _dungeonCrawlerData;
-        public DungeonData DungeonData => _dungeonCrawlerData.DungeonData;
-        public DungeonManifestData ManifestData => _dungeonCrawlerData.ManifestData;
+        public DungeonCrawlerData DungeonCrawlerData { get; private set; }
         [field: SerializeField]
         public Transform TileParent { get; private set; } = null!;
         [field: SerializeField]
         public DungeonTile TilePrefab { get; private set; } = null!;
-        [field: SerializeField]
-        public string DungeonKey { get; private set; }
-        [field: SerializeField]
-        public string[] Keys { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonData> OnDungeonChanged { get; private set; } = new();
         [field: SerializeField]
@@ -31,16 +26,21 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
         private Dictionary<Position, DungeonTile> _tiles = new();
 
+        void Awake()
+        {
+            Assertion.NotNull(this, (DungeonCrawlerData, "DungeonCrawlerData was null"));
+        }
+
         void OnEnable()
         {
-            _dungeonCrawlerData.DungeonData.OnTilesChanged.AddListener(UpdateTiles);
-            _dungeonCrawlerData.DungeonData.OnChange.AddListener(HandleDungeonChanged);
+            DungeonCrawlerData.DungeonData.OnTilesChanged.AddListener(UpdateTiles);
+            DungeonCrawlerData.DungeonData.OnChange.AddListener(HandleDungeonChanged);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.DungeonData.OnTilesChanged.RemoveListener(UpdateTiles);
-            _dungeonCrawlerData.DungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+            DungeonCrawlerData.DungeonData.OnTilesChanged.RemoveListener(UpdateTiles);
+            DungeonCrawlerData.DungeonData.OnChange.RemoveListener(HandleDungeonChanged);
         }
 
         private void HandleDungeonChanged(DungeonChangedData _) => UpdateDungeonTiles();
@@ -84,22 +84,22 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
 
             // TODO: We should be able to eliminate this and replace with DungeonData.OnChange
-            OnDungeonChanged.Invoke(_dungeonCrawlerData.DungeonData);
+            OnDungeonChanged.Invoke(DungeonCrawlerData.DungeonData);
 
             // TODO: I suspect there is a memory leak here, we never unregister these
-            _dungeonCrawlerData.DungeonData.Dungeon.Walls.OnWallChanged += UpdateWalls;
-            _dungeonCrawlerData.DungeonData.Dungeon.WallTextures.OnTextureChange += UpdateTextures;
+            DungeonCrawlerData.DungeonData.Dungeon.Walls.OnWallChanged += UpdateWalls;
+            DungeonCrawlerData.DungeonData.Dungeon.WallTextures.OnTextureChange += UpdateTextures;
 
             void UpdateWalls(Position position, Facing facing, WallType wall)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(_dungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, _dungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(_dungeonCrawlerData.DungeonData.Dungeon, position));
+                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
             }
 
             void UpdateTextures(Position position, Facing facing, string textureName)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(_dungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, _dungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(_dungeonCrawlerData.DungeonData.Dungeon, position));
+                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
             }
         }
 
@@ -117,15 +117,15 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void UpdateTile(Dungeon dungeon, Position position)
         {
-            if (dungeon == _dungeonCrawlerData.DungeonData.Dungeon)
+            if (dungeon == DungeonCrawlerData.DungeonData.Dungeon)
             {
                 DungeonTile tile = _tiles[position];
-                tile.UpdateFloor(_dungeonCrawlerData.CacheData.Cache.GetTexture(dungeon, position));
-                tile.UpdateWalls(dungeon.GetTile(position).Walls, _dungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(dungeon, position));
+                tile.UpdateFloor(DungeonCrawlerData.CacheData.Cache.GetTexture(dungeon, position));
+                tile.UpdateWalls(dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(dungeon, position));
             }
             else
             {
-                Debug.Log($"No scene changes made. Current dungeon is {_dungeonCrawlerData.DungeonData.Dungeon.Name}");
+                Debug.Log($"No scene changes made. Current dungeon is {DungeonCrawlerData.DungeonData.Dungeon.Name}");
             }
         }
 

@@ -488,6 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecbd2e16097c3d04994802a0e66c8b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _selection: {fileID: 11400000, guid: 1c5699de80a00204abf734fcaa403be9, type: 2}
   _undoRedoStack: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
   <TextureSelector>k__BackingField: {fileID: 0}
@@ -496,8 +497,6 @@ MonoBehaviour:
   _wallsLabel: {fileID: 1459665425661576918}
   _doorsLabel: {fileID: 1232263727331689502}
   _secretDoorLabel: {fileID: 4526432697768678212}
-  _dungeonController: {fileID: 0}
-  _dungeonManifestData: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
 --- !u!1 &5909234520819475142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,7 +1677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 531.5
+      value: 1186
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1714,7 +1713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 270.75
+      value: 598
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.y

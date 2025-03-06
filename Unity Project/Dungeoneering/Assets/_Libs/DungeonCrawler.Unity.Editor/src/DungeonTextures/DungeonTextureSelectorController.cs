@@ -24,13 +24,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class DungeonTextureSelectorController : MonoBehaviour
     {
         [SerializeField]
+        private DungeonCrawlerData _dungeonCrawlerData;
+        [SerializeField]
         private TextureInfoPanel _textureInfoPanel;
         [field: SerializeField]
         public Transform Grid { get; private set; }
-        [field: SerializeField]
-        public DungeonManifestData Manifest { get; private set; }
-        [SerializeField]
-        private DungeonData _dungeonData;
         [field: SerializeField]
         public DungeonTexturePreview PreviewPrefab { get; private set; }
         [field: SerializeField]
@@ -40,24 +38,23 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [SerializeField]
         private ScrollRect _scrollRect;
         private Dictionary<TextureId, DungeonTexturePreview> _textureButtons = new();
-
         private System.Action<TextureId> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, Manifest, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel);
+            Assertion.NotNull(this, _confirmPanel, Grid, _dungeonCrawlerData, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel);
             Grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
         void OnEnable()
         {
-            Manifest.MaterialCache.AddListener(HandleCacheUpdate);
+            _dungeonCrawlerData.MaterialCache.AddListener(HandleCacheUpdate);
         }
 
         void OnDisable()
         {
-            Manifest.MaterialCache.RemoveListener(HandleCacheUpdate);
+            _dungeonCrawlerData.MaterialCache.RemoveListener(HandleCacheUpdate);
         }
 
         private void HandleCacheUpdate(CacheUpdateData update)
@@ -112,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void AddTexture(string name, Texture2D texture)
         {
-            Manifest.MaterialCache.AddTexture(name, texture);
+            _dungeonCrawlerData.MaterialCache.AddTexture(name, texture);
             StartCoroutine(ScrollToBottom());
         }
 
@@ -184,7 +181,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 string filename = www.uri.Segments.Last();
                 Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                _confirmPanel.Prompt(Manifest, texture, filename, AddTexture);
+                _confirmPanel.Prompt(_dungeonCrawlerData.ManifestData, texture, filename, AddTexture);
             }
         }
 
