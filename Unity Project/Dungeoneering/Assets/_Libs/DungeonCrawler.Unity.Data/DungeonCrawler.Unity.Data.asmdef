@@ -2,7 +2,8 @@
     "name": "DungeonCrawler.Unity.Data",
     "rootNamespace": "",
     "references": [
-        "GUID:ec88aec9f2bba5f4a8732813932550c3"
+        "GUID:ec88aec9f2bba5f4a8732813932550c3",
+        "GUID:0f7f1f184b369ae49865dd4594b15690"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
