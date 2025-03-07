@@ -27,10 +27,10 @@ public class MaterialCache
             if (_dungeonData != null)
             {
                 RemoveDungeonReferences(_dungeonData.Dungeon);
-                _dungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+                _dungeonData.OnChange -= HandleDungeonChanged;
             }
             _dungeonData = value;
-            _dungeonData.OnChange.AddListener(HandleDungeonChanged);
+            _dungeonData.OnChange += HandleDungeonChanged;
             if (_dungeonData?.Dungeon != null)
             {
                 AddDungeonReferences(_dungeonData.Dungeon);

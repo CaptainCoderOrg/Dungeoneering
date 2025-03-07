@@ -26,7 +26,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         [SerializeField]
         private MaterialCacheData _materialCacheData;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
-        public UnityEvent<DungeonChangedData> OnChange { get; private set; } = new();
+        public event System.Action<DungeonChangedData> OnChange;
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
         private Dungeon _dungeon;
         private TilesChangedData _changes = new();
@@ -47,8 +47,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
                 _undoRedoStack.Clear();
-                OnChange.Invoke(change);
+                OnChange?.Invoke(change);
             }
+        }
+        public void AddObserver(System.Action<DungeonChangedData> handle)
+        {
+            OnChange += handle;
+            if (_dungeon != null)
+            {
+                handle.Invoke(new DungeonChangedData(null, _dungeon));
+            }
+        }
+
+        public void RemoveObserver(System.Action<DungeonChangedData> handle)
+        {
+            OnChange -= handle;
         }
 
         private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
@@ -143,7 +156,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public void Clear()
         {
             OnTilesChanged.RemoveAllListeners();
-            OnChange.RemoveAllListeners();
+            OnChange = null;
             OnStateChanged.RemoveAllListeners();
             _changes = new();
             _dungeon = null;

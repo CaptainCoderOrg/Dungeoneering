@@ -31,7 +31,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void OnEnable()
         {
             _dungeonCrawlerData.DungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
-            _dungeonCrawlerData.DungeonData.OnChange.AddListener(HandleDungeonChanged);
+            _dungeonCrawlerData.DungeonData.OnChange += HandleDungeonChanged;
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
             StartCoroutine(UpdateUIAtEndOfFrame());
         }
@@ -46,7 +46,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void OnDisable()
         {
             _dungeonCrawlerData.DungeonData.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
-            _dungeonCrawlerData.DungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+            _dungeonCrawlerData.DungeonData.OnChange -= HandleDungeonChanged;
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
