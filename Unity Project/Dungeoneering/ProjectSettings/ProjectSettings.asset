@@ -823,7 +823,8 @@ PlayerSettings:
   webWasm2023: 0
   scriptingDefineSymbols: {}
   additionalCompilerArguments:
-    Standalone: []
+    Standalone:
+    - -langVersion:10
     WebGL:
     - /langversion:10.0
   platformArchitecture: {}
