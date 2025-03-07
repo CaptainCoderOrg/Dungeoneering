@@ -34,13 +34,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         void OnEnable()
         {
             DungeonCrawlerData.DungeonData.OnTilesChanged.AddListener(UpdateTiles);
-            DungeonCrawlerData.DungeonData.OnChange.AddListener(HandleDungeonChanged);
+            DungeonCrawlerData.DungeonData.AddObserver(HandleDungeonChanged);
         }
 
         void OnDisable()
         {
             DungeonCrawlerData.DungeonData.OnTilesChanged.RemoveListener(UpdateTiles);
-            DungeonCrawlerData.DungeonData.OnChange.RemoveListener(HandleDungeonChanged);
+            DungeonCrawlerData.DungeonData.RemoveObserver(HandleDungeonChanged);
         }
 
         private void HandleDungeonChanged(DungeonChangedData _) => UpdateDungeonTiles();
