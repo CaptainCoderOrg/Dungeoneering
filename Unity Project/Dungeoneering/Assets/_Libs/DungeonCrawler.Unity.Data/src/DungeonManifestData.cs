@@ -7,17 +7,12 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {
-    [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
-    public class DungeonManifestData : ObservableSO
+    public class DungeonManifestData
     {
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
-        [SerializeField]
-        private MaterialCacheData _materialCache;
-        public MaterialCache MaterialCache => _materialCache.Cache;
-        [field: SerializeField]
-        public TextAsset ManifestJson { get; private set; }
+        private MaterialCache _materialCache;
 
         public bool TryLoadManifest(string json, out DungeonCrawlerManifest loaded)
         {
@@ -34,7 +29,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
             _manifest = loaded;
             // TODO: Consider using events to trigger the material cache to be initialized.
-            _materialCache.Cache.InitializeMaterialCache(_manifest);
+            _materialCache.InitializeMaterialCache(_manifest);
             _onManifestLoaded.Invoke(_manifest);
             return true;
         }
@@ -50,51 +45,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
-        public override void AfterEnabled()
-        {
-            base.AfterEnabled();
-            ClearListeners();
-            InitialLoad();
-        }
 
-        private void ClearListeners()
+        public DungeonManifestData(MaterialCache materialCache)
         {
-            MaterialCache.Clear();
-            _manifest = null;
-            _onManifestLoaded.RemoveAllListeners();
-        }
-        private void InitialLoad()
-        {
-            Debug.Log($"Loading Manifest: {name}");
-            if (!TryLoadManifest(ManifestJson.text, out _manifest))
-            {
-                Debug.Log("Manifest could not be loaded");
-            }
-        }
-
-        protected override void OnExitEditMode()
-        {
-            base.OnExitEditMode();
-            ClearListeners();
-        }
-
-        protected override void OnEnterPlayMode()
-        {
-            base.OnEnterPlayMode();
-            InitialLoad();
-        }
-
-        protected override void OnExitPlayMode()
-        {
-            base.OnExitPlayMode();
-            ClearListeners();
+            _materialCache = materialCache;
         }
 
         public void UpdateDungeon(Dungeon dungeon)
         {
             Dungeon copy = dungeon.Copy();
-            _materialCache.Cache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
-            _materialCache.Cache.AddDungeonReferences(copy);
+            _materialCache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
+            _materialCache.AddDungeonReferences(copy);
             _manifest.Dungeons[copy.Name] = copy;
         }
 

@@ -1,14 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Unity;
 
-using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {
-    [CreateAssetMenu(menuName = "DC/DungeonData")]
-    public class DungeonData : ObservableSO
+    public class DungeonData
     {
         private bool _hasChanged = false;
         public bool HasChanged
@@ -21,10 +19,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 OnStateChanged.Invoke(_dungeon, _hasChanged);
             }
         }
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStack;
-        [SerializeField]
-        private MaterialCacheData _materialCacheData;
+        private MaterialCache _materialCache;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public event System.Action<DungeonChangedData> OnChange;
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
@@ -46,7 +41,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 _dungeon = value;
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
-                _undoRedoStack.Clear();
                 OnChange?.Invoke(change);
             }
         }
@@ -75,7 +69,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void SetFloorTexture(Position position, TextureId tId)
         {
-            _materialCacheData.Cache.SetTexture(new TileReference(Dungeon, position), tId);
+            _materialCache.SetTexture(new TileReference(Dungeon, position), tId);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -89,7 +83,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void SetWallTexture(Position position, Facing facing, TextureId textureId)
         {
-            _materialCacheData.Cache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
+            _materialCache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -118,52 +112,33 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _changes = new();
         }
 
-        public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetTextureId(Dungeon, p);
-        public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
+        public TextureId GetFloorTexture(Position p) => _materialCache.GetTextureId(Dungeon, p);
+        public TextureId GetWallTexture(Position p, Facing f) => _materialCache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
-        private void ConnectToCache()
+        public DungeonData(MaterialCache materialCache)
         {
-            _materialCacheData.Cache.DungeonData = this;
+            _materialCache = materialCache;
+            _materialCache.AddListener(HandleRemovedReferences);
         }
 
-        public override void AfterEnabled()
+        private void HandleRemovedReferences(CacheUpdateData update)
         {
-            base.AfterEnabled();
-            // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
-            ConnectToCache();
+            switch (update)
+            {
+                case CacheRemoveTexture(TextureReference removed):
+                    foreach (WallReference walRef in removed.Walls.Where(t => t.Dungeon == Dungeon))
+                    {
+                        RemoveWallTexture(walRef.Position, walRef.Facing);
+                    }
+                    foreach (TileReference tileRef in removed.Tiles.Where(t => t.Dungeon == Dungeon))
+                    {
+                        RemoveFloorTexture(tileRef.Position);
+                    }
+                    Notify();
+                    break;
+            }
         }
-
-        protected override void OnExitEditMode()
-        {
-            base.OnExitEditMode();
-            Clear();
-        }
-
-        protected override void OnEnterPlayMode()
-        {
-            base.OnEnterPlayMode();
-            Debug.Assert(_undoRedoStack != null);
-            ConnectToCache();
-        }
-
-        protected override void OnExitPlayMode()
-        {
-            base.OnExitPlayMode();
-            Clear();
-        }
-
-        public void Clear()
-        {
-            OnTilesChanged.RemoveAllListeners();
-            OnChange = null;
-            OnStateChanged.RemoveAllListeners();
-            _changes = new();
-            _dungeon = null;
-            _hasChanged = false;
-        }
-
-
     }
 
     public record DungeonChangedData(Dungeon Previous, Dungeon New);

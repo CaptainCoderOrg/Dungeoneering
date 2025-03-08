@@ -72,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (_selectionData.Tiles.Count() == 0) { return; }
             HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
-            DungeonData dungeonData = _selectionData.Tiles.First().DungeonController.DungeonCrawlerData.DungeonData;
+            DungeonData dungeonData = _selectionData.Tiles.First().DungeonController.DungeonCrawlerData.CurrentDungeon;
             Dungeon d = dungeonData.Dungeon;
             IEnumerable<WallChangeData> changes = d.FindWallChanges(tiles, wallType, facings);
             WallData[] newWalls = changes.Select(c => c.Changed).ToArray();

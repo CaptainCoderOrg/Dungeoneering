@@ -60,7 +60,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (!_selectionData.Walls.Any()) { return; }
             DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
-            DungeonData dungeonData = controller.DungeonCrawlerData.DungeonData;
+            DungeonData dungeonData = controller.DungeonCrawlerData.CurrentDungeon;
             System.Action perform = default;
             System.Action undo = default;
 

@@ -50,7 +50,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void SetTexture(TextureId tId)
         {
-            Parent.DungeonController.DungeonCrawlerData.DungeonData.SetWallTexture(Parent.Position, Facing, tId);
+            Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.SetWallTexture(Parent.Position, Facing, tId);
         }
 
         void Awake()

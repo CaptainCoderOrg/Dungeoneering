@@ -4,21 +4,18 @@ using System.Runtime.InteropServices;
 #pragma warning restore IDE0005 // Using directive is unnecessary.
 #endif
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+using CaptainCoder.Dungeoneering.Unity.Data;
+using CaptainCoder.Unity;
+using CaptainCoder.Unity.UI;
 
 using SFB;
 
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
-using System.Linq;
-
-using CaptainCoder.Unity.UI;
-using CaptainCoder.Unity;
-
-using System.Collections.Generic;
-
-using CaptainCoder.Dungeoneering.Unity.Data;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour

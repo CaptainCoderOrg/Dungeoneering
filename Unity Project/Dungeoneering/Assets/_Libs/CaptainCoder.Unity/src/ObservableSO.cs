@@ -7,37 +7,41 @@ using UnityEditor;
 
 public class ObservableSO : ScriptableObject
 {
-    protected virtual void OnEnterPlayMode()
+    /// <summary>
+    /// In the Editor, this will be called during PlayModeStateChange.ExitingEditMode. In a build, this will be called during OnEnable before OnAfterEnterPlayMode.
+    /// </summary>
+    public virtual void OnBeforeEnterPlayMode()
     {
 
     }
 
-    protected virtual void OnEnterEditMode()
-    {
+    /// <summary>
+    /// In the Editor, this will be called during PlayModeStateChange.EnteredPlayMode. In a build, this will be called during OnEnable after OnBeforeEnterPlayMode.
+    /// </summary>
+    public virtual void OnAfterEnterPlayMode() { }
 
-    }
-
-    protected virtual void OnExitEditMode()
-    {
-
-    }
-
-    protected virtual void OnExitPlayMode()
-    {
-
-    }
+    /// <summary>
+    /// In the Editor, this will be called during PlayModeStateChange.ExitPlaymode. In a build, this will be called during OnDisable
+    /// </summary>
+    protected virtual void OnExitPlayMode() { }
 
     private void OnEnable()
     {
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += OnPlayModeStateChange;
+#else
+        OnBeforeEnterPlayMode();
+        OnAfterEnterPlayMode();
 #endif
-        AfterEnabled();
     }
 
-    public virtual void AfterEnabled()
+    private void OnDisable()
     {
-        // Debug.Log($"SO Enabled: {this}");
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
+#else
+        OnExitPlayMode();
+#endif
     }
 
 #if UNITY_EDITOR
@@ -45,14 +49,11 @@ public class ObservableSO : ScriptableObject
     {
         switch (change)
         {
-            case PlayModeStateChange.EnteredEditMode:
-                OnEnterEditMode();
+            case PlayModeStateChange.EnteredPlayMode:
+                OnAfterEnterPlayMode();
                 break;
             case PlayModeStateChange.ExitingEditMode:
-                OnExitEditMode();
-                break;
-            case PlayModeStateChange.EnteredPlayMode:
-                OnEnterPlayMode();
+                OnBeforeEnterPlayMode();
                 break;
             case PlayModeStateChange.ExitingPlayMode:
                 OnExitPlayMode();

@@ -30,8 +30,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.DungeonData.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
-            _dungeonCrawlerData.DungeonData.OnChange += HandleDungeonChanged;
+            _dungeonCrawlerData.CurrentDungeon.OnStateChanged.AddListener(HandleDungeonDataStateChanged);
+            _dungeonCrawlerData.CurrentDungeon.OnChange += HandleDungeonChanged;
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
             StartCoroutine(UpdateUIAtEndOfFrame());
         }
@@ -39,20 +39,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private IEnumerator UpdateUIAtEndOfFrame()
         {
             yield return null;
-            HandleDungeonChanged(new DungeonChangedData(null, _dungeonCrawlerData.DungeonData.Dungeon));
-            HandleDungeonDataStateChanged(_dungeonCrawlerData.DungeonData.Dungeon, _dungeonCrawlerData.DungeonData.HasChanged);
+            HandleDungeonChanged(new DungeonChangedData(null, _dungeonCrawlerData.CurrentDungeon.Dungeon));
+            HandleDungeonDataStateChanged(_dungeonCrawlerData.CurrentDungeon.Dungeon, _dungeonCrawlerData.CurrentDungeon.HasChanged);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.DungeonData.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
-            _dungeonCrawlerData.DungeonData.OnChange -= HandleDungeonChanged;
+            _dungeonCrawlerData.CurrentDungeon.OnStateChanged.RemoveListener(HandleDungeonDataStateChanged);
+            _dungeonCrawlerData.CurrentDungeon.OnChange -= HandleDungeonChanged;
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
         private void HandleDungeonChanged(DungeonChangedData dungeon) => _nameLabel.text = dungeon.New?.Name;
         public void ShowExportPanel() => _exportManifestPanel.Toggle();
-        public void Save() => _dungeonCrawlerData.DungeonData.SaveToManifest(_dungeonCrawlerData.ManifestData);
+        public void Save() => _dungeonCrawlerData.CurrentDungeon.SaveToManifest(_dungeonCrawlerData.ManifestData);
         private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged) => _nameLabel.text = hasChanged ? $"{dungeon?.Name}*" : dungeon?.Name;
     }
 }

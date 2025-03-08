@@ -39,15 +39,9 @@ namespace CaptainCoder.Unity
             _undoStack.Push(operation);
         }
 
-        protected override void OnExitEditMode()
-        {
-            base.OnExitEditMode();
-            Clear();
-        }
-
         protected override void OnExitPlayMode()
         {
-            base.OnExitEditMode();
+            base.OnExitPlayMode();
             Clear();
         }
 

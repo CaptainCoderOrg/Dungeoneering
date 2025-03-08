@@ -12,12 +12,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     public class DungeonCrawlerData : ObservableSO
     {
         [field: SerializeField]
+        public TextAsset DefaultManifestJson { get; private set; }
         public DungeonManifestData ManifestData { get; private set; }
-        [field: SerializeField]
-        public DungeonData DungeonData { get; private set; }
-        [field: SerializeField]
-        public MaterialCacheData CacheData { get; private set; }
-        public MaterialCache MaterialCache => CacheData.Cache;
+        public DungeonData CurrentDungeon { get; private set; }
+        public MaterialCache MaterialCache { get; private set; }
 
         private void Init()
         {
@@ -27,20 +25,26 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         private void HandleManifestChanged(DungeonCrawlerManifest manifest)
         {
-            DungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
+            CurrentDungeon.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
-        public override void AfterEnabled()
+        public override void OnBeforeEnterPlayMode()
         {
-            base.AfterEnabled();
-            Init();
+            base.OnBeforeEnterPlayMode();
+            ForceInitialize();
         }
 
-        protected override void OnEnterPlayMode()
+#if UNITY_EDITOR
+        public override void OnAfterEnterPlayMode()
         {
-            base.OnEnterPlayMode();
-            Init();
+            base.OnAfterEnterPlayMode();
+            // Required to correctly load SelectableMaterial in PlayMode
+            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
         }
+#endif
 
         protected override void OnExitPlayMode()
         {
@@ -54,10 +58,22 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         /// </summary>
         public void ForceInitialize()
         {
-            CacheData.AfterEnabled();
-            ManifestData.AfterEnabled();
-            DungeonData.AfterEnabled();
-            AfterEnabled();
+            MaterialCache = new();
+            CurrentDungeon = new(MaterialCache);
+            ManifestData = new(MaterialCache);
+            CurrentDungeon.OnChange += HandleDungeonChanged;
+            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
+            Init();
         }
+
+        private void HandleDungeonChanged(DungeonChangedData changes)
+        {
+            MaterialCache.RemoveDungeonReferences(changes.Previous);
+            MaterialCache.AddDungeonReferences(changes.New);
+        }
+
     }
 }
