@@ -10,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public TileReference TileReference => new(Dungeon, Position);
-        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.DungeonData.Dungeon;
+        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon.Dungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -114,6 +114,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(TextureId tId) => DungeonController.DungeonCrawlerData.DungeonData.SetFloorTexture(Position, tId);
+        public void SetTexture(TextureId tId) => DungeonController.DungeonCrawlerData.CurrentDungeon.SetFloorTexture(Position, tId);
     }
 }

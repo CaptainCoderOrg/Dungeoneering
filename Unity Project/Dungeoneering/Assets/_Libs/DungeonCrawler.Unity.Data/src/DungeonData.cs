@@ -7,8 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {
-    [CreateAssetMenu(menuName = "DC/DungeonData")]
-    public class DungeonData : ObservableSO
+    public class DungeonData
     {
         private bool _hasChanged = false;
         public bool HasChanged
@@ -21,8 +20,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 OnStateChanged.Invoke(_dungeon, _hasChanged);
             }
         }
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStack;
         private MaterialCache _materialCache;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public event System.Action<DungeonChangedData> OnChange;
@@ -45,7 +42,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 _dungeon = value;
                 _dungeon.Walls.OnWallChanged += HandleWallChanged;
                 _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
-                _undoRedoStack.Clear();
                 OnChange?.Invoke(change);
             }
         }
@@ -123,15 +119,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void Initialize(MaterialCache materialCache)
         {
-            Debug.Assert(_undoRedoStack != null);
             _materialCache = materialCache;
-            // _materialCacheData.Cache.DungeonData = this;
-        }
-
-        protected override void OnExitPlayMode()
-        {
-            base.OnExitPlayMode();
-            Clear();
         }
 
         public void Clear()
@@ -143,7 +131,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _dungeon = null;
             _hasChanged = false;
         }
-
 
     }
 

@@ -13,8 +13,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     {
         [field: SerializeField]
         public DungeonManifestData ManifestData { get; private set; }
-        [field: SerializeField]
-        public DungeonData DungeonData { get; private set; }
+        public DungeonData CurrentDungeon { get; private set; } = new();
         public MaterialCache MaterialCache { get; private set; } = new();
 
         private void Init()
@@ -25,7 +24,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         private void HandleManifestChanged(DungeonCrawlerManifest manifest)
         {
-            DungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
+            CurrentDungeon.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
         public override void OnEnterPlayMode()
@@ -38,6 +37,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             base.OnExitPlayMode();
             ManifestData.RemoveListener(HandleManifestChanged);
+            CurrentDungeon = new();
+            MaterialCache = new();
         }
 
         /// <summary>
@@ -48,7 +49,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             MaterialCache.Clear();
             ManifestData.Initialize(MaterialCache);
-            DungeonData.Initialize(MaterialCache);
+            CurrentDungeon.Initialize(MaterialCache);
+            MaterialCache.DungeonData = CurrentDungeon;
             Init();
         }
     }

@@ -55,7 +55,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             // TODO: Consider tracking changes rather than a full serialize:
             // Reloading the manifest causes all of the texture to be rebuilt which would probably be awful
             // for any non-trivial project size
-            string originalDungeonJson = JsonExtensions.ToJson(_dungeonCrawlerData.DungeonData.Dungeon);
+            string originalDungeonJson = JsonExtensions.ToJson(_dungeonCrawlerData.CurrentDungeon.Dungeon);
             string originalManifestJson = JsonExtensions.ToJson(_dungeonCrawlerData.ManifestData.Manifest);
             System.Action perform = () =>
             {
@@ -65,9 +65,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             System.Action undo = () =>
             {
                 _dungeonCrawlerData.ManifestData.TryLoadManifest(originalManifestJson, out _);
-                _dungeonCrawlerData.DungeonData.Dungeon = JsonExtensions.LoadModel<Dungeon>(originalDungeonJson);
+                _dungeonCrawlerData.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(originalDungeonJson);
             };
-            _undoRedoStack.PerformEdit("Delete Texture", perform, undo, _dungeonCrawlerData.DungeonData);
+            _undoRedoStack.PerformEdit("Delete Texture", perform, undo, _dungeonCrawlerData.CurrentDungeon);
             Hide();
         }
 
