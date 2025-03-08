@@ -11,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [SerializeField]
         private DungeonCrawlerData _dungeonCrawlerData;
+        public DungeonCrawlerData DungeonCrawlerData => _dungeonCrawlerData;
         [SerializeField]
         private Transform _buttonTransform;
         [SerializeField]

@@ -14,7 +14,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private Dungeon _dungeon;
         public UnityEvent<Dungeon> OnSelected { get; private set; } = new();
         public UnityEvent<Dungeon> OnRemoved { get; private set; } = new();
-
+        public string Label => _label.text;
         [SerializeField]
         private Button _removeButton;
         [SerializeField]
