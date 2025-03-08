@@ -60,23 +60,19 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public static DungeonTile Create(DungeonTile prefab, Transform parent, DungeonController controller, Position position)
         {
-            bool wasActive = prefab.gameObject.activeSelf;
-            prefab.gameObject.SetActive(false);
             DungeonTile newTile = Instantiate(prefab, parent);
             newTile.DungeonController = controller;
             newTile.Position = position;
             newTile.name = $"({position.X}, {position.Y})";
             newTile.transform.position = new Vector3(position.Y, 0, position.X);
-            UpdateTile(controller, position, wasActive, newTile);
-            prefab.gameObject.SetActive(wasActive);
+            UpdateTile(controller, position, newTile);
             return newTile;
         }
 
-        public static void UpdateTile(DungeonController controller, Position position, bool isActive, DungeonTile newTile)
+        public static void UpdateTile(DungeonController controller, Position position, DungeonTile newTile)
         {
             newTile.UpdateFloor(controller.DungeonCrawlerData.MaterialCache.GetTexture(newTile.Dungeon, position));
             newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
-            newTile.gameObject.SetActive(isActive);
         }
 
         private void IsSelectedChanged(bool isSelected)
@@ -96,7 +92,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public void UpdateFloor(TextureReference texture, bool isSelected)
         {
+            Debug.Log(this);
+            Debug.Log($"IsSelected: {isSelected}");
             FloorTile.material = texture.Material.GetMaterial(isSelected);
+            Debug.Log(FloorTile.material.IsKeywordEnabled("_SELECTION_ON"));
+            // Debug.Log(Selected.IsKeywordEnabled("_SELECTION_ON"));   
         }
 
         public void UpdateWalls(TileWalls configuration, TileWallTextures textures)

@@ -64,7 +64,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     {
                         tile.IsSelected = false;
                         tile.SetAllWallsSelected(false);
-                        DungeonTile.UpdateTile(this, position, tilePrefab.gameObject.activeSelf, tile);
+                        DungeonTile.UpdateTile(this, position, tile);
                         pooledTiles.Remove(position);
                     }
                     else
