@@ -7,15 +7,12 @@ using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {
-    [CreateAssetMenu(fileName = "DungeonManifestData", menuName = "DC/Manifest")]
-    public class DungeonManifestData : ObservableSO
+    public class DungeonManifestData
     {
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
         private MaterialCache _materialCache;
-        [field: SerializeField]
-        public TextAsset ManifestJson { get; private set; }
 
         public bool TryLoadManifest(string json, out DungeonCrawlerManifest loaded)
         {
@@ -48,31 +45,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
-        private void ClearListeners()
-        {
-            _manifest = null;
-            _onManifestLoaded.RemoveAllListeners();
-        }
-        private void InitialLoad()
-        {
-            Debug.Log($"Loading Manifest: {name}");
-            if (!TryLoadManifest(ManifestJson.text, out _manifest))
-            {
-                Debug.Log("Manifest could not be loaded");
-            }
-        }
 
-        public void Initialize(MaterialCache materialCache)
+        public DungeonManifestData(MaterialCache materialCache)
         {
             _materialCache = materialCache;
-            ClearListeners();
-            InitialLoad();
-        }
-
-        protected override void OnExitPlayMode()
-        {
-            base.OnExitPlayMode();
-            ClearListeners();
         }
 
         public void UpdateDungeon(Dungeon dungeon)

@@ -115,21 +115,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public TextureId GetWallTexture(Position p, Facing f) => _materialCache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
-        public void Initialize(MaterialCache materialCache)
+        public DungeonData(MaterialCache materialCache)
         {
             _materialCache = materialCache;
         }
-
-        public void Clear()
-        {
-            OnTilesChanged.RemoveAllListeners();
-            OnChange = null;
-            OnStateChanged.RemoveAllListeners();
-            _changes = new();
-            _dungeon = null;
-            _hasChanged = false;
-        }
-
     }
 
     public record DungeonChangedData(Dungeon Previous, Dungeon New);

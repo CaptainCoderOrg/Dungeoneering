@@ -21,7 +21,7 @@ public class MaterialCache
     public DungeonData DungeonData
     {
         get => _dungeonData;
-        set
+        internal set
         {
             if (value == null) { throw new ArgumentNullException(); }
             if (_dungeonData != null)

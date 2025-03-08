@@ -12,6 +12,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     public class DungeonCrawlerData : ObservableSO
     {
         [field: SerializeField]
+        public TextAsset DefaultManifestJson { get; private set; }
         public DungeonManifestData ManifestData { get; private set; }
         public DungeonData CurrentDungeon { get; private set; }
         public MaterialCache MaterialCache { get; private set; }
@@ -45,11 +46,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         /// </summary>
         public void ForceInitialize()
         {
-            CurrentDungeon = new();
             MaterialCache = new();
-            ManifestData.Initialize(MaterialCache);
-            CurrentDungeon.Initialize(MaterialCache);
+            CurrentDungeon = new(MaterialCache);
+            ManifestData = new(MaterialCache);
             MaterialCache.DungeonData = CurrentDungeon;
+            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
             Init();
         }
     }
