@@ -34,6 +34,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             ForceInitialize();
         }
 
+#if UNITY_EDITOR
+        public override void OnAfterEnterPlayMode()
+        {
+            base.OnAfterEnterPlayMode();
+            // Required to correctly load SelectableMaterial in PlayMode
+            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            {
+                Debug.Log("Manifest could not be loaded");
+            }
+        }
+#endif
+
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();

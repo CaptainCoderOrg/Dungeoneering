@@ -89,15 +89,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
         public void UpdateFloor(TextureReference texture) => UpdateFloor(texture, IsSelected);
-
-        public void UpdateFloor(TextureReference texture, bool isSelected)
-        {
-            Debug.Log(this);
-            Debug.Log($"IsSelected: {isSelected}");
-            FloorTile.material = texture.Material.GetMaterial(isSelected);
-            Debug.Log(FloorTile.material.IsKeywordEnabled("_SELECTION_ON"));
-            // Debug.Log(Selected.IsKeywordEnabled("_SELECTION_ON"));   
-        }
+        public void UpdateFloor(TextureReference texture, bool isSelected) => FloorTile.material = texture.Material.GetMaterial(isSelected);
 
         public void UpdateWalls(TileWalls configuration, TileWallTextures textures)
         {
