@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
@@ -16,34 +15,6 @@ public class MaterialCache
     private readonly Dictionary<WallReference, TextureReference> _wallReferences = new();
     private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
     private DungeonCrawlerManifest _manifest;
-    // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
-    private DungeonData _dungeonData;
-    public DungeonData DungeonData
-    {
-        get => _dungeonData;
-        internal set
-        {
-            if (value == null) { throw new ArgumentNullException(); }
-            if (_dungeonData != null)
-            {
-                RemoveDungeonReferences(_dungeonData.Dungeon);
-                _dungeonData.OnChange -= HandleDungeonChanged;
-            }
-            _dungeonData = value;
-            _dungeonData.OnChange += HandleDungeonChanged;
-            if (_dungeonData?.Dungeon != null)
-            {
-                AddDungeonReferences(_dungeonData.Dungeon);
-            }
-        }
-    }
-
-    private void HandleDungeonChanged(DungeonChangedData changes)
-    {
-        RemoveDungeonReferences(changes.Previous);
-        AddDungeonReferences(changes.New);
-    }
-
     public void InitializeMaterialCache(DungeonCrawlerManifest manifest)
     {
         Debug.Log("Initializing Cache");
@@ -167,7 +138,7 @@ public class MaterialCache
         RemoveWallTextureReferences(textureRef);
         _manifest.Textures.Remove(textureRef.TextureName);
         _textureDatabase.Remove(textureRef);
-        DungeonData.Notify();
+        // DungeonData.Notify();
         _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
     }
 
@@ -177,10 +148,6 @@ public class MaterialCache
         {
             _wallReferences.Remove(wallRef);
             wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
-            if (wallRef.Dungeon == DungeonData.Dungeon)
-            {
-                DungeonData.RemoveWallTexture(wallRef.Position, wallRef.Facing);
-            }
         }
     }
 
@@ -190,10 +157,6 @@ public class MaterialCache
         {
             _tileReferences.Remove(tileRef);
             tileRef.Dungeon.TileTextures.Textures.Remove(tileRef.Position);
-            if (tileRef.Dungeon == DungeonData.Dungeon)
-            {
-                DungeonData.RemoveFloorTexture(tileRef.Position);
-            }
         }
     }
 

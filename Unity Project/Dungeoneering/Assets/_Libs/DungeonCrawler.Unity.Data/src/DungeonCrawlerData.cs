@@ -49,12 +49,19 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             MaterialCache = new();
             CurrentDungeon = new(MaterialCache);
             ManifestData = new(MaterialCache);
-            MaterialCache.DungeonData = CurrentDungeon;
+            CurrentDungeon.OnChange += HandleDungeonChanged;
             if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
             }
             Init();
         }
+
+        private void HandleDungeonChanged(DungeonChangedData changes)
+        {
+            MaterialCache.RemoveDungeonReferences(changes.Previous);
+            MaterialCache.AddDungeonReferences(changes.New);
+        }
+
     }
 }

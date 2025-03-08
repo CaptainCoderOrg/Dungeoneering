@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
+using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {
@@ -118,6 +120,26 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public DungeonData(MaterialCache materialCache)
         {
             _materialCache = materialCache;
+            _materialCache.AddListener(HandleRemovedReferences);
+        }
+
+        private void HandleRemovedReferences(CacheUpdateData update)
+        {
+            switch (update)
+            {
+                case CacheRemoveTexture(TextureReference removed):
+                    Debug.Log($"WallRef removed: {removed}");
+                    foreach (WallReference walRef in removed.Walls.Where(t => t.Dungeon == Dungeon))
+                    {
+                        RemoveWallTexture(walRef.Position, walRef.Facing);
+                    }
+                    foreach (TileReference tileRef in removed.Tiles.Where(t => t.Dungeon == Dungeon))
+                    {
+                        RemoveFloorTexture(tileRef.Position);
+                    }
+                    Notify();
+                    break;
+            }
         }
     }
 
