@@ -49,8 +49,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public void ForceInitialize()
         {
             CacheData.Initialize();
-            ManifestData.Initialize();
-            DungeonData.Initialize();
+            ManifestData.Initialize(CacheData.Cache);
+            DungeonData.Initialize(CacheData.Cache);
             Init();
         }
     }

@@ -23,8 +23,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         }
         [SerializeField]
         private UndoRedoStackData _undoRedoStack;
-        [SerializeField]
-        private MaterialCacheData _materialCacheData;
+        private MaterialCache _materialCache;
         public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
         public event System.Action<DungeonChangedData> OnChange;
         public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
@@ -75,7 +74,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void SetFloorTexture(Position position, TextureId tId)
         {
-            _materialCacheData.Cache.SetTexture(new TileReference(Dungeon, position), tId);
+            _materialCache.SetTexture(new TileReference(Dungeon, position), tId);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -89,7 +88,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void SetWallTexture(Position position, Facing facing, TextureId textureId)
         {
-            _materialCacheData.Cache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
+            _materialCache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -118,14 +117,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _changes = new();
         }
 
-        public TextureId GetFloorTexture(Position p) => _materialCacheData.Cache.GetTextureId(Dungeon, p);
-        public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
+        public TextureId GetFloorTexture(Position p) => _materialCache.GetTextureId(Dungeon, p);
+        public TextureId GetWallTexture(Position p, Facing f) => _materialCache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
-        public void Initialize()
+        public void Initialize(MaterialCache materialCache)
         {
             Debug.Assert(_undoRedoStack != null);
-            _materialCacheData.Cache.DungeonData = this;
+            _materialCache = materialCache;
+            // _materialCacheData.Cache.DungeonData = this;
         }
 
         protected override void OnExitPlayMode()

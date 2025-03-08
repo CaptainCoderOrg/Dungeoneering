@@ -13,9 +13,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         private readonly UnityEvent<DungeonCrawlerManifest> _onManifestLoaded = new();
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
-        [SerializeField]
-        private MaterialCacheData _materialCache;
-        public MaterialCache MaterialCache => _materialCache.Cache;
+        private MaterialCache _materialCache;
         [field: SerializeField]
         public TextAsset ManifestJson { get; private set; }
 
@@ -34,7 +32,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
             _manifest = loaded;
             // TODO: Consider using events to trigger the material cache to be initialized.
-            _materialCache.Cache.InitializeMaterialCache(_manifest);
+            _materialCache.InitializeMaterialCache(_manifest);
             _onManifestLoaded.Invoke(_manifest);
             return true;
         }
@@ -52,7 +50,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         private void ClearListeners()
         {
-            MaterialCache.Clear();
             _manifest = null;
             _onManifestLoaded.RemoveAllListeners();
         }
@@ -65,8 +62,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
         }
 
-        public void Initialize()
+        public void Initialize(MaterialCache materialCache)
         {
+            _materialCache = materialCache;
             ClearListeners();
             InitialLoad();
         }
@@ -80,8 +78,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public void UpdateDungeon(Dungeon dungeon)
         {
             Dungeon copy = dungeon.Copy();
-            _materialCache.Cache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
-            _materialCache.Cache.AddDungeonReferences(copy);
+            _materialCache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
+            _materialCache.AddDungeonReferences(copy);
             _manifest.Dungeons[copy.Name] = copy;
         }
 
