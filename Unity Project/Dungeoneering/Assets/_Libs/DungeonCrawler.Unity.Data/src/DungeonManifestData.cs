@@ -50,13 +50,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
-        public override void AfterEnabled()
-        {
-            base.AfterEnabled();
-            ClearListeners();
-            InitialLoad();
-        }
-
         private void ClearListeners()
         {
             MaterialCache.Clear();
@@ -72,15 +65,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
         }
 
-        protected override void OnExitEditMode()
+        public void Initialize()
         {
-            base.OnExitEditMode();
             ClearListeners();
-        }
-
-        protected override void OnEnterPlayMode()
-        {
-            base.OnEnterPlayMode();
             InitialLoad();
         }
 

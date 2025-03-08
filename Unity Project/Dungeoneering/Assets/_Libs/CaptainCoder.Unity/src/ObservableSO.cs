@@ -7,21 +7,17 @@ using UnityEditor;
 
 public class ObservableSO : ScriptableObject
 {
-    protected virtual void OnEnterPlayMode()
+    /// <summary>
+    /// In the Editor, this will be called during PlayModeStateChange.EnteredPlayMode. In a build, this will be called during OnEnable.
+    /// </summary>
+    public virtual void OnEnterPlayMode()
     {
 
     }
 
-    protected virtual void OnEnterEditMode()
-    {
-
-    }
-
-    protected virtual void OnExitEditMode()
-    {
-
-    }
-
+    /// <summary>
+    /// In the Editor, this will be called during PlayModeStateChange.ExitPlaymode. In a build, this will be called during OnDisable
+    /// </summary>
     protected virtual void OnExitPlayMode()
     {
 
@@ -31,13 +27,18 @@ public class ObservableSO : ScriptableObject
     {
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += OnPlayModeStateChange;
+#else
+        OnEnterPlayMode();
 #endif
-        AfterEnabled();
     }
 
-    public virtual void AfterEnabled()
+    private void OnDisable()
     {
-        // Debug.Log($"SO Enabled: {this}");
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
+#else
+        OnExitPlayMode();
+#endif
     }
 
 #if UNITY_EDITOR
@@ -45,12 +46,6 @@ public class ObservableSO : ScriptableObject
     {
         switch (change)
         {
-            case PlayModeStateChange.EnteredEditMode:
-                OnEnterEditMode();
-                break;
-            case PlayModeStateChange.ExitingEditMode:
-                OnExitEditMode();
-                break;
             case PlayModeStateChange.EnteredPlayMode:
                 OnEnterPlayMode();
                 break;

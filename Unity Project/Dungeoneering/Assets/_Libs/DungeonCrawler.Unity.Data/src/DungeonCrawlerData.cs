@@ -30,16 +30,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             DungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
-        public override void AfterEnabled()
-        {
-            base.AfterEnabled();
-            Init();
-        }
-
-        protected override void OnEnterPlayMode()
+        public override void OnEnterPlayMode()
         {
             base.OnEnterPlayMode();
-            Init();
+            ForceInitialize();
         }
 
         protected override void OnExitPlayMode()
@@ -54,10 +48,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         /// </summary>
         public void ForceInitialize()
         {
-            CacheData.AfterEnabled();
-            ManifestData.AfterEnabled();
-            DungeonData.AfterEnabled();
-            AfterEnabled();
+            CacheData.Initialize();
+            ManifestData.Initialize();
+            DungeonData.Initialize();
+            Init();
         }
     }
 }

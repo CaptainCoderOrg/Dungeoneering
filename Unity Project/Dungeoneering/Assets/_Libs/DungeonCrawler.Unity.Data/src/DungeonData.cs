@@ -122,29 +122,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public TextureId GetWallTexture(Position p, Facing f) => _materialCacheData.Cache.GetWallTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
-        private void ConnectToCache()
+        public void Initialize()
         {
-            _materialCacheData.Cache.DungeonData = this;
-        }
-
-        public override void AfterEnabled()
-        {
-            base.AfterEnabled();
-            // TODO: This feels quite brittle, perhaps a parent object that wires things up for us
-            ConnectToCache();
-        }
-
-        protected override void OnExitEditMode()
-        {
-            base.OnExitEditMode();
-            Clear();
-        }
-
-        protected override void OnEnterPlayMode()
-        {
-            base.OnEnterPlayMode();
             Debug.Assert(_undoRedoStack != null);
-            ConnectToCache();
+            _materialCacheData.Cache.DungeonData = this;
         }
 
         protected override void OnExitPlayMode()

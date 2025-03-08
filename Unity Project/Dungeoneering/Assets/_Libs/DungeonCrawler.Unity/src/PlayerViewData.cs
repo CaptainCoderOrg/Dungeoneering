@@ -33,10 +33,6 @@ namespace CaptainCoder.Dungeoneering.Unity
             }
         }
 
-        protected override void OnExitEditMode()
-        {
-            base.OnExitEditMode();
-        }
 
         protected override void OnExitPlayMode()
         {
@@ -44,9 +40,9 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnChange.RemoveAllListeners();
         }
 
-        public override void AfterEnabled()
+        public override void OnEnterPlayMode()
         {
-            base.AfterEnabled();
+            base.OnEnterPlayMode();
             View = new PlayerView(new(X, Y), Facing);
         }
 
