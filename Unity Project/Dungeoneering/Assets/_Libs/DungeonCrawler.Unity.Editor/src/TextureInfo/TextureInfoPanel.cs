@@ -59,8 +59,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             string originalManifestJson = JsonExtensions.ToJson(_dungeonCrawlerData.ManifestData.Manifest);
             System.Action perform = () =>
             {
-                TextureReference textureRef = _dungeonCrawlerData.CacheData.Cache.GetTexture(_texture.TextureName);
-                _dungeonCrawlerData.CacheData.Cache.RemoveTextureReference(textureRef);
+                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
+                _dungeonCrawlerData.MaterialCache.RemoveTextureReference(textureRef);
             };
             System.Action undo = () =>
             {

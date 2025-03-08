@@ -93,13 +93,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             void UpdateWalls(Position position, Facing facing, WallType wall)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
+                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
             }
 
             void UpdateTextures(Position position, Facing facing, string textureName)
             {
                 DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
+                toUpdate?.UpdateWalls(DungeonCrawlerData.DungeonData.Dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(DungeonCrawlerData.DungeonData.Dungeon, position));
             }
         }
 
@@ -120,8 +120,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             if (dungeon == DungeonCrawlerData.DungeonData.Dungeon)
             {
                 DungeonTile tile = _tiles[position];
-                tile.UpdateFloor(DungeonCrawlerData.CacheData.Cache.GetTexture(dungeon, position));
-                tile.UpdateWalls(dungeon.GetTile(position).Walls, DungeonCrawlerData.CacheData.Cache.GetTileWallMaterials(dungeon, position));
+                tile.UpdateFloor(DungeonCrawlerData.MaterialCache.GetTexture(dungeon, position));
+                tile.UpdateWalls(dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(dungeon, position));
             }
             else
             {

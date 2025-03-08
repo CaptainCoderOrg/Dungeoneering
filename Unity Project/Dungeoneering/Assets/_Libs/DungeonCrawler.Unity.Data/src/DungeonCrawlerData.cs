@@ -15,9 +15,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public DungeonManifestData ManifestData { get; private set; }
         [field: SerializeField]
         public DungeonData DungeonData { get; private set; }
-        [field: SerializeField]
-        public MaterialCacheData CacheData { get; private set; }
-        public MaterialCache MaterialCache => CacheData.Cache;
+        public MaterialCache MaterialCache { get; private set; } = new();
 
         private void Init()
         {
@@ -48,9 +46,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         /// </summary>
         public void ForceInitialize()
         {
-            CacheData.Initialize();
-            ManifestData.Initialize(CacheData.Cache);
-            DungeonData.Initialize(CacheData.Cache);
+            MaterialCache.Clear();
+            ManifestData.Initialize(MaterialCache);
+            DungeonData.Initialize(MaterialCache);
             Init();
         }
     }
