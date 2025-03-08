@@ -8,9 +8,9 @@ using UnityEditor;
 public class ObservableSO : ScriptableObject
 {
     /// <summary>
-    /// In the Editor, this will be called during PlayModeStateChange.EnteredPlayMode. In a build, this will be called during OnEnable.
+    /// In the Editor, this will be called during PlayModeStateChange.ExitingEditMode. In a build, this will be called during OnEnable.
     /// </summary>
-    public virtual void OnEnterPlayMode()
+    public virtual void OnBeforeEnterPlayMode()
     {
 
     }
@@ -46,8 +46,8 @@ public class ObservableSO : ScriptableObject
     {
         switch (change)
         {
-            case PlayModeStateChange.EnteredPlayMode:
-                OnEnterPlayMode();
+            case PlayModeStateChange.ExitingEditMode:
+                OnBeforeEnterPlayMode();
                 break;
             case PlayModeStateChange.ExitingPlayMode:
                 OnExitPlayMode();

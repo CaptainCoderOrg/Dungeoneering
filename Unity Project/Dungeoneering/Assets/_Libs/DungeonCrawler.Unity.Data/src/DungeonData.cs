@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Unity;
 
-using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Data
 {

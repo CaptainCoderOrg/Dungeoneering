@@ -40,9 +40,9 @@ namespace CaptainCoder.Dungeoneering.Unity
             OnChange.RemoveAllListeners();
         }
 
-        public override void OnEnterPlayMode()
+        public override void OnBeforeEnterPlayMode()
         {
-            base.OnEnterPlayMode();
+            base.OnBeforeEnterPlayMode();
             View = new PlayerView(new(X, Y), Facing);
         }
 

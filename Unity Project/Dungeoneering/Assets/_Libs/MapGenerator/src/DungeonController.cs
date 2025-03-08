@@ -28,11 +28,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         void Awake()
         {
+            Debug.Log("Controller Awake");
             Assertion.NotNull(this, (DungeonCrawlerData, "DungeonCrawlerData was null"));
         }
 
         void OnEnable()
         {
+            Debug.Log("Controller Enable");
             DungeonCrawlerData.CurrentDungeon.OnTilesChanged.AddListener(UpdateTiles);
             DungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
         }
