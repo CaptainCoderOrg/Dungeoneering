@@ -35,7 +35,7 @@ public class ObservableSO : ScriptableObject
         AfterEnabled();
     }
 
-    protected virtual void AfterEnabled()
+    public virtual void AfterEnabled()
     {
         // Debug.Log($"SO Enabled: {this}");
     }

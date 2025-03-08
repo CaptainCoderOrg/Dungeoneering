@@ -127,7 +127,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _materialCacheData.Cache.DungeonData = this;
         }
 
-        protected override void AfterEnabled()
+        public override void AfterEnabled()
         {
             base.AfterEnabled();
             // TODO: This feels quite brittle, perhaps a parent object that wires things up for us

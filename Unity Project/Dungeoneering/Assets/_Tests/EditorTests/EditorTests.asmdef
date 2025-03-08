@@ -1,0 +1,29 @@
+{
+    "name": "EditorTests",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "DungeonCrawler.Unity",
+        "DungeonCrawler.Unity.Editor",
+        "DungeonCrawler.Unity.Data",
+        "MapGenerator",
+        "DungeonCrawler.Extensions",
+        "DungeonCrawler.Inputs",
+        "CaptainCoder.Unity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "DungeonCrawler.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -30,7 +30,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             DungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
-        protected override void AfterEnabled()
+        public override void AfterEnabled()
         {
             base.AfterEnabled();
             Init();
@@ -46,6 +46,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             base.OnExitPlayMode();
             ManifestData.RemoveListener(HandleManifestChanged);
+        }
+
+        /// <summary>
+        /// Forces all DungeonCrawlerData to be reinitialized. This is an expensive operation and is designed for testing.
+        /// Note: This clears all listeners on data objects.
+        /// </summary>
+        public void ForceInitialize()
+        {
+            CacheData.AfterEnabled();
+            ManifestData.AfterEnabled();
+            DungeonData.AfterEnabled();
+            AfterEnabled();
         }
     }
 }

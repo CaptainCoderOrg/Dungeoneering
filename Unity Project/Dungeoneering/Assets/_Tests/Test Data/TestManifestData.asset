@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca0afe17284ac44993e7b8d2e91f5c6, type: 3}
+  m_Name: TestManifestData
+  m_EditorClassIdentifier: 
+  _materialCache: {fileID: 11400000, guid: a6a29c0cd5efe8a41a21873fa3d69326, type: 2}
+  <ManifestJson>k__BackingField: {fileID: 4900000, guid: 0629abf661a01f04bbac3a7f7f2a2f91, type: 3}

@@ -50,7 +50,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void RemoveListener(UnityAction<DungeonCrawlerManifest> onChange) => _onManifestLoaded.RemoveListener(onChange);
 
-        protected override void AfterEnabled()
+        public override void AfterEnabled()
         {
             base.AfterEnabled();
             ClearListeners();
@@ -65,7 +65,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         }
         private void InitialLoad()
         {
-            Debug.Log("Loading Manifest");
+            Debug.Log($"Loading Manifest: {name}");
             if (!TryLoadManifest(ManifestJson.text, out _manifest))
             {
                 Debug.Log("Manifest could not be loaded");
