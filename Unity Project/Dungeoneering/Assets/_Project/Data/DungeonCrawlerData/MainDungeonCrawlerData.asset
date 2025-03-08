@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f30f780fdd8d71479a006dbd6017b75, type: 3}
   m_Name: MainDungeonCrawlerData
   m_EditorClassIdentifier: 
-  <ManifestData>k__BackingField: {fileID: 11400000, guid: f08ed9c25b1ee474eabf646d80780f78, type: 2}
-  <DungeonData>k__BackingField: {fileID: 11400000, guid: 5275ff3b8200daa4b9d961f13f82ad31, type: 2}
-  <CacheData>k__BackingField: {fileID: 11400000, guid: 92010d587b5edf34cad6b860d0a4fda8, type: 2}
+  <DefaultManifestJson>k__BackingField: {fileID: 4900000, guid: 0e625ec12a4d5e14e86513450ff860d2, type: 3}
