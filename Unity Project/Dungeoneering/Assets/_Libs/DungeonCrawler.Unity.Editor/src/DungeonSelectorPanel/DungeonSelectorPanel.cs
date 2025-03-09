@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
@@ -20,6 +22,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private TextEntryDialogPanel _textEntryDialogPanel;
         [SerializeField]
         private ConfirmPromptPanel _confirmPromptPanel;
+        private readonly Dictionary<Dungeon, DungeonSelectorButton> _buttons = new();
         void Awake()
         {
             Assertion.NotNull(this, _buttonTransform, _dungeonButtonPrefab, _dungeonCrawlerData);
@@ -27,16 +30,38 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.ManifestData.AddListener(HandleManifestLoaded);
+            _dungeonCrawlerData.ManifestData.AddObserver(HandleManifestChanges);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.ManifestData.RemoveListener(HandleManifestLoaded);
+            _dungeonCrawlerData.ManifestData.RemoveObserver(HandleManifestChanges);
+        }
+
+        private void HandleManifestChanges(DungeonManifestChanged change)
+        {
+            switch (change)
+            {
+                case ManifestLoadedEvent(DungeonCrawlerManifest manifest):
+                    HandleManifestLoaded(manifest);
+                    break;
+                case DungeonRemovedEvent(Dungeon removed):
+                    HandleDungeonRemoved(removed);
+                    break;
+            }
+        }
+
+        private void HandleDungeonRemoved(Dungeon dungeon)
+        {
+            if (_buttons.Remove(dungeon, out var removed))
+            {
+                Destroy(removed.gameObject);
+            }
         }
 
         private void HandleManifestLoaded(DungeonCrawlerManifest manifest)
         {
+            _buttons.Clear();
             _buttonTransform.DestroyAllChildren();
             foreach ((string name, Dungeon d) in manifest.Dungeons)
             {
@@ -44,6 +69,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 button.Initialize(d, _dungeonCrawlerData.CurrentDungeon.Dungeon.Name == d.Name);
                 button.OnSelected.AddListener(TryOpenDungeon);
                 button.OnRemoved.AddListener(PromptDeleteDungeon);
+                _buttons[d] = button;
             }
         }
 
@@ -82,18 +108,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             if (!_dungeonCrawlerData.ManifestData.Manifest.Dungeons.ContainsKey(name)) { return null; }
             return $"A dungeon named {name} already exists";
         }
+
         public void CreateNewDungeon(string name)
         {
-            if (_dungeonCrawlerData.ManifestData.Manifest.Dungeons.ContainsKey(name))
-            {
-                _textEntryDialogPanel.ShowError($"A dungeon named {name} already exists.");
-                return;
-            }
-
             Dungeon newDungeon = new() { Name = name };
             newDungeon.SetBorderWalls(DungeonGlobals.Positions, WallType.Solid, DungeonGlobals.AllFacings);
-            _dungeonCrawlerData.ManifestData.Manifest.AddDungeon(newDungeon.Name, newDungeon);
-            _dungeonCrawlerData.CurrentDungeon.Dungeon = newDungeon.Copy();
+            if (!_dungeonCrawlerData.ManifestData.TryAddDungeon(newDungeon, out string error))
+            {
+                _textEntryDialogPanel.ShowError(error);
+            }
             Hide();
         }
 
