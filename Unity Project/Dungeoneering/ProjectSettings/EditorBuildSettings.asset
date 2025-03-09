@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/DungeonEditor.unity
     guid: 921b2f2465f1d0141ac5b372e46b271e
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Tests/Test Scenes/Dungeon Selector Test.unity
     guid: 16af2c23972919d4b87ff1467c949d6a
   m_configObjects:

@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 2
-    buildVersion: 1.0.0.2
+    buildCounter: 3
+    buildVersion: 1.0.0.3
     versionTemplate: 1.0.0.$BUILD
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
       productName: Dungeoneering
       syncAppNameWithProduct: 1
       appBuildName: Dungeoneering
-      buildOptions: 0
+      buildOptions: 1
       customDefines: 
       sceneList:
         releaseScenes:
@@ -80,7 +80,7 @@ MonoBehaviour:
     showBuildInfo: 0
     hideDisabled: 0
     treeView: 0
-    selectedKeyChain: 
+    selectedKeyChain: PrePrePrePreAlpha Build/WebGL/WebGL/IL2CPP
   _preBuildActions:
     buildActions: []
   _postBuildActions:
