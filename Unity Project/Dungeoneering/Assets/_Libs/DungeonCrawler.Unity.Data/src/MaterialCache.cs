@@ -4,7 +4,6 @@ using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 
@@ -13,7 +12,7 @@ public class MaterialCache
     private TextureDatabase _textureDatabase = new();
     private readonly Dictionary<TileReference, TextureReference> _tileReferences = new();
     private readonly Dictionary<WallReference, TextureReference> _wallReferences = new();
-    private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
+    private System.Action<CacheUpdateData> _onCacheChanged;
     private DungeonCrawlerManifest _manifest;
     public void InitializeMaterialCache(DungeonCrawlerManifest manifest)
     {
@@ -22,7 +21,7 @@ public class MaterialCache
         _manifest = manifest;
         BuildMaterials();
         BuildReferences(_manifest.Dungeons.Values);
-        _onCacheChanged.Invoke(new CacheInitialized(_textureDatabase.Textures));
+        _onCacheChanged?.Invoke(new CacheInitialized(_textureDatabase.Textures));
 
         void BuildMaterials()
         {
@@ -40,6 +39,11 @@ public class MaterialCache
             Debug.LogWarning("Cannot remove references to a null dungeon.");
             return;
         }
+
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultDoor).DefaultDoorDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSecretDoor).DefaultSecretDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSolid).DefaultSolidDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.TileTextures.Default).DefaultTileDungeons.Remove(dungeon);
 
         foreach ((Position position, string _) in dungeon.TileTextures.Textures)
         {
@@ -62,6 +66,11 @@ public class MaterialCache
 
     public void AddDungeonReferences(Dungeon dungeon)
     {
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultDoor).DefaultDoorDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSecretDoor).DefaultSecretDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSolid).DefaultSolidDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.TileTextures.Default).DefaultTileDungeons.Add(dungeon);
+
         foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
         {
             TextureReference textureRef = _textureDatabase.FromName(textureName);
@@ -134,12 +143,15 @@ public class MaterialCache
 
     public void RemoveTextureReference(TextureReference textureRef)
     {
+        if (textureRef.IsDefaultTexture)
+        {
+            throw new System.InvalidOperationException($"Cannot remove a default texture: {textureRef.TextureName}");
+        }
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
         _manifest.Textures.Remove(textureRef.TextureName);
         _textureDatabase.Remove(textureRef);
-        // DungeonData.Notify();
-        _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
+        _onCacheChanged?.Invoke(new CacheRemoveTexture(textureRef));
     }
 
     private void RemoveWallTextureReferences(TextureReference textureRef)
@@ -160,11 +172,11 @@ public class MaterialCache
         }
     }
 
-    public void RemoveListener(UnityAction<CacheUpdateData> onChange) => _onCacheChanged.RemoveListener(onChange);
+    public void RemoveObserver(System.Action<CacheUpdateData> onChange) => _onCacheChanged -= onChange;
 
-    public void AddListener(UnityAction<CacheUpdateData> onChange)
+    public void AddObserver(System.Action<CacheUpdateData> onChange)
     {
-        _onCacheChanged.AddListener(onChange);
+        _onCacheChanged += onChange;
         onChange.Invoke(new CacheInitialized(_textureDatabase.Textures));
     }
 
@@ -174,7 +186,7 @@ public class MaterialCache
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         _manifest.AddTexture(dungeonTexture);
         TextureReference created = _textureDatabase.Create(dungeonTexture);
-        _onCacheChanged.Invoke(new CacheAddTexture(created));
+        _onCacheChanged?.Invoke(new CacheAddTexture(created));
     }
 
     public void Clear()

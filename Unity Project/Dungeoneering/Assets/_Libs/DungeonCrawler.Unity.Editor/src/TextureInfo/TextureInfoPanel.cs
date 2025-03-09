@@ -23,6 +23,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private TextMeshProUGUI _textureNameLabel;
         [SerializeField]
         private TextMeshProUGUI _textureInfoLabel;
+        [SerializeField]
+        private Button _deleteButton;
         private ConfirmPromptPanel _confirmPromptPanel;
         private TextureReference _texture;
         public TextureReference Texture
@@ -34,6 +36,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 _textureImage.texture = _texture.Material.Unselected.mainTexture;
                 _textureNameLabel.text = _texture.TextureName;
                 _textureInfoLabel.text = $"{_texture.Count} References";
+                _deleteButton.interactable = !_texture.IsDefaultTexture;
             }
         }
 

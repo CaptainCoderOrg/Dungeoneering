@@ -46,12 +46,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.MaterialCache.AddListener(HandleCacheUpdate);
+            _dungeonCrawlerData.MaterialCache.AddObserver(HandleCacheUpdate);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.MaterialCache.RemoveListener(HandleCacheUpdate);
+            _dungeonCrawlerData.MaterialCache.RemoveObserver(HandleCacheUpdate);
         }
 
         private void HandleCacheUpdate(CacheUpdateData update)
