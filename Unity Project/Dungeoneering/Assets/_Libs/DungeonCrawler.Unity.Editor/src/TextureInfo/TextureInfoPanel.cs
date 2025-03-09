@@ -30,7 +30,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             get => _texture;
             set
             {
-                if (_texture == value) { return; }
                 _texture = value;
                 _textureImage.texture = _texture.Material.Unselected.mainTexture;
                 _textureNameLabel.text = _texture.TextureName;

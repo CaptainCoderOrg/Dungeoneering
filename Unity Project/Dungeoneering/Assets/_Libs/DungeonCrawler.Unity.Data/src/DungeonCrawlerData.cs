@@ -19,11 +19,38 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         private void Init()
         {
-            ManifestData.RemoveListener(HandleManifestChanged);
-            ManifestData.AddListener(HandleManifestChanged);
+            ManifestData.RemoveObserver(HandleManifestChanged);
+            ManifestData.AddObserver(HandleManifestChanged);
         }
 
-        private void HandleManifestChanged(DungeonCrawlerManifest manifest)
+        private void HandleManifestChanged(DungeonManifestChanged changeEvent)
+        {
+            switch (changeEvent)
+            {
+                case ManifestLoadedEvent(DungeonCrawlerManifest manifest):
+                    HandleManifestLoaded(manifest);
+                    break;
+                case DungeonAddedEvent(Dungeon added):
+                    HandleDungeonAdded(added);
+                    break;
+                case DungeonRemovedEvent(Dungeon removed):
+                    HandleDungeonRemoved(removed);
+                    break;
+            }
+        }
+
+        private void HandleDungeonRemoved(Dungeon dungeon)
+        {
+            MaterialCache.RemoveDungeonReferences(dungeon);
+        }
+
+        private void HandleDungeonAdded(Dungeon dungeon)
+        {
+            CurrentDungeon.Dungeon = dungeon;
+            MaterialCache.AddDungeonReferences(dungeon);
+        }
+
+        private void HandleManifestLoaded(DungeonCrawlerManifest manifest)
         {
             CurrentDungeon.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
@@ -49,7 +76,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();
-            ManifestData.RemoveListener(HandleManifestChanged);
+            ManifestData.RemoveObserver(HandleManifestChanged);
         }
 
         /// <summary>

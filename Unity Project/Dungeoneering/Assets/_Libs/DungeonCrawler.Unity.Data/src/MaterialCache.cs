@@ -44,7 +44,7 @@ public class MaterialCache
         foreach ((Position position, string _) in dungeon.TileTextures.Textures)
         {
             TileReference tileRef = new(dungeon, position);
-            if (_tileReferences.TryGetValue(tileRef, out TextureReference textureRef))
+            if (_tileReferences.Remove(tileRef, out TextureReference textureRef))
             {
                 textureRef.Tiles.Remove(tileRef);
             }
@@ -53,7 +53,7 @@ public class MaterialCache
         foreach (((Position position, Facing facing), string _) in dungeon.WallTextures.Textures)
         {
             WallReference wallRef = new(dungeon, position, facing);
-            if (_wallReferences.TryGetValue(wallRef, out TextureReference tRef))
+            if (_wallReferences.Remove(wallRef, out TextureReference tRef))
             {
                 tRef.Walls.Remove(wallRef);
             }
@@ -183,6 +183,8 @@ public class MaterialCache
         _tileReferences.Clear();
         _manifest = null;
     }
+
+    public bool HasReference(TileReference tileReference) => _tileReferences.ContainsKey(tileReference);
 
     public TextureReference GetTexture(TileReference tileReference)
     {
