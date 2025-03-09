@@ -10,4 +10,9 @@ public class TextureInfoPanelTestData : MonoBehaviour
     public TextureInfoPanel Panel;
     public Button DeleteButton;
     public MaterialCache MaterialCache => DungeonCrawlerData.MaterialCache;
+
+    void Awake()
+    {
+        Panel.Texture = MaterialCache.GetTexture("white-tile.png");
+    }
 }

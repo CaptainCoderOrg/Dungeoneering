@@ -26,8 +26,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         internal static DungeonTexturePreview Instantiate(DungeonTexturePreview prefab, Transform parent, TextureReference texture)
         {
             DungeonTexturePreview preview = Instantiate(prefab, parent);
-            preview.SelectButton.TextureId = texture.TextureId;
-            preview.SelectButton.Image.texture = texture.Material.Unselected.mainTexture;
+            preview.SelectButton.Texture = texture;
             preview.Texture = texture;
             preview._nameLabel.text = texture.TextureName;
             return preview;

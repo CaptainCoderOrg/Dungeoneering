@@ -1,14 +1,10 @@
 using System.Collections;
 
-using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Dungeoneering.Unity.Editor;
-
 using NUnit.Framework;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using UnityEngine.UI;
 
 public class TextureInfoPanelShould
 {

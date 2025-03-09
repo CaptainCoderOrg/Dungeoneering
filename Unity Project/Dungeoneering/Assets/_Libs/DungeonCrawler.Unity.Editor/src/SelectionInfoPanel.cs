@@ -70,9 +70,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             CountWalls(tiles, walls);
             _content.SetActive(true);
 
-            (string tileTextureName, UnityEngine.Texture tileTexture) = TextureLabel(tiles);
+            (string tileTextureName, TextureReference tileTexture) = TextureLabel(tiles);
             _tilesLabel.Label.text = $"{tiles.Count()} Tiles: {tileTextureName}";
-            _tilesLabel.Button.Image.texture = tileTexture;
+            _tilesLabel.Button.Texture = tileTexture;
 
             UpdateLabel(_wallsLabel, "Walls", _walls);
             UpdateLabel(_doorsLabel, "Doors", _doors);
@@ -81,30 +81,30 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void UpdateLabel(TextureLabelController label, string name, ISet<(Position, Facing)> walls)
         {
-            (string wallTextureName, UnityEngine.Texture wallTexture) = TextureLabel(walls);
+            (string wallTextureName, TextureReference wallTexture) = TextureLabel(walls);
             label.Label.text = $"{walls.Count} {name}: {wallTextureName}";
-            label.Button.Image.texture = wallTexture;
+            label.Button.Texture = wallTexture;
         }
 
-        private (string, UnityEngine.Texture) TextureLabel(ISet<(Position p, Facing f)> walls)
+        private (string, TextureReference) TextureLabel(ISet<(Position p, Facing f)> walls)
         {
             if (walls.Count() < 1) { return ("No Selection", null); }
             string textureName = GetTextureName(walls.First());
             if (walls.All(w => GetTextureName(w) == textureName))
             {
-                return (textureName, _dungeonCrawlerData.MaterialCache.GetTexture(textureName).Material.Unselected.mainTexture);
+                return (textureName, _dungeonCrawlerData.MaterialCache.GetTexture(textureName));
             }
             return ("Multiple textures", null);
             string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.CurrentDungeon.GetWallTextureName(wall.p, wall.f);
         }
 
-        private (string, UnityEngine.Texture) TextureLabel(ISet<DungeonTile> tiles)
+        private (string, TextureReference) TextureLabel(ISet<DungeonTile> tiles)
         {
             if (tiles.Count() < 1) { return ("No Selection", null); }
             TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(tiles.First().TileReference);
             if (tiles.All(t => _dungeonCrawlerData.MaterialCache.GetTexture(t.TileReference) == textureRef))
             {
-                return (textureRef.TextureName, textureRef.Material.Unselected.mainTexture);
+                return (textureRef.TextureName, textureRef);
             }
             return ("Multiple textures", null);
         }
