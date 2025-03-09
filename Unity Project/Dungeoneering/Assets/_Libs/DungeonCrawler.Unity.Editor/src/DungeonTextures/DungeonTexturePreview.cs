@@ -1,5 +1,7 @@
 using CaptainCoder.Dungeoneering.Unity.Data;
 
+using TMPro;
+
 using UnityEngine;
 using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -10,6 +12,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [field: SerializeField]
         public UnityEvent<DungeonTexturePreview> OnDelete { get; private set; }
         public TextureReference Texture { get; private set; }
+        [SerializeField]
+        private TextMeshProUGUI _nameLabel;
 
         void Awake()
         {
@@ -25,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             preview.SelectButton.TextureId = texture.TextureId;
             preview.SelectButton.Image.texture = texture.Material.Unselected.mainTexture;
             preview.Texture = texture;
+            preview._nameLabel.text = texture.TextureName;
             return preview;
         }
     }
