@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
@@ -41,6 +42,11 @@ public class MaterialCache
             return;
         }
 
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultDoor).DefaultDoorDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSecretDoor).DefaultSecretDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSolid).DefaultSolidDungeons.Remove(dungeon);
+        _textureDatabase.FromName(dungeon.TileTextures.Default).DefaultTileDungeons.Remove(dungeon);
+
         foreach ((Position position, string _) in dungeon.TileTextures.Textures)
         {
             TileReference tileRef = new(dungeon, position);
@@ -62,6 +68,11 @@ public class MaterialCache
 
     public void AddDungeonReferences(Dungeon dungeon)
     {
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultDoor).DefaultDoorDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSecretDoor).DefaultSecretDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.WallTextures.DefaultSolid).DefaultSolidDungeons.Add(dungeon);
+        _textureDatabase.FromName(dungeon.TileTextures.Default).DefaultTileDungeons.Add(dungeon);
+
         foreach ((Position position, string textureName) in dungeon.TileTextures.Textures)
         {
             TextureReference textureRef = _textureDatabase.FromName(textureName);
@@ -134,11 +145,14 @@ public class MaterialCache
 
     public void RemoveTextureReference(TextureReference textureRef)
     {
+        if (textureRef.IsDefaultTexture)
+        {
+            throw new InvalidOperationException($"Cannot remove a default texture: {textureRef.TextureName}");
+        }
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
         _manifest.Textures.Remove(textureRef.TextureName);
         _textureDatabase.Remove(textureRef);
-        // DungeonData.Notify();
         _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
     }
 
