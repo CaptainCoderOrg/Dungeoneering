@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 
@@ -14,7 +12,7 @@ public class MaterialCache
     private TextureDatabase _textureDatabase = new();
     private readonly Dictionary<TileReference, TextureReference> _tileReferences = new();
     private readonly Dictionary<WallReference, TextureReference> _wallReferences = new();
-    private readonly UnityEvent<CacheUpdateData> _onCacheChanged = new();
+    private System.Action<CacheUpdateData> _onCacheChanged;
     private DungeonCrawlerManifest _manifest;
     public void InitializeMaterialCache(DungeonCrawlerManifest manifest)
     {
@@ -147,7 +145,7 @@ public class MaterialCache
     {
         if (textureRef.IsDefaultTexture)
         {
-            throw new InvalidOperationException($"Cannot remove a default texture: {textureRef.TextureName}");
+            throw new System.InvalidOperationException($"Cannot remove a default texture: {textureRef.TextureName}");
         }
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
@@ -174,11 +172,11 @@ public class MaterialCache
         }
     }
 
-    public void RemoveListener(UnityAction<CacheUpdateData> onChange) => _onCacheChanged.RemoveListener(onChange);
+    public void RemoveObserver(System.Action<CacheUpdateData> onChange) => _onCacheChanged -= onChange;
 
-    public void AddListener(UnityAction<CacheUpdateData> onChange)
+    public void AddObserver(System.Action<CacheUpdateData> onChange)
     {
-        _onCacheChanged.AddListener(onChange);
+        _onCacheChanged += onChange;
         onChange.Invoke(new CacheInitialized(_textureDatabase.Textures));
     }
 

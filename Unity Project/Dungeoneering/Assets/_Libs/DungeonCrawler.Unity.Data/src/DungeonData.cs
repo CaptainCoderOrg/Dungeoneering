@@ -119,7 +119,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public DungeonData(MaterialCache materialCache)
         {
             _materialCache = materialCache;
-            _materialCache.AddListener(HandleRemovedReferences);
+            _materialCache.AddObserver(HandleRemovedReferences);
         }
 
         private void HandleRemovedReferences(CacheUpdateData update)
