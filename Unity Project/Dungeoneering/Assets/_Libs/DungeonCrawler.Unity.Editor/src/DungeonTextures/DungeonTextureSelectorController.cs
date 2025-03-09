@@ -125,7 +125,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SelectTexture(DungeonTextureButton textureButton)
         {
             gameObject.SetActive(false);
-            _onSelectedCallback?.Invoke(textureButton.TextureId);
+            _onSelectedCallback?.Invoke(textureButton.Texture.TextureId);
         }
 
         public void ShowDialogue(System.Action<TextureId> onSelected, System.Action onCanceled)

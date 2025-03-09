@@ -135,8 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff94eb5ba60737649a46c2445e0e67d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Image>k__BackingField: {fileID: 7751631963079989666}
-  <TextureName>k__BackingField: 
+  _image: {fileID: 7751631963079989666}
   <OnClick>k__BackingField:
     m_PersistentCalls:
       m_Calls: []

@@ -1,12 +1,21 @@
-using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.IO;
+#if UNITY_WEBGL
+#pragma warning disable IDE0005 // Using directive is unnecessary.
+using System.Runtime.InteropServices;
+#pragma warning restore IDE0005 // Using directive is unnecessary.
+#endif
+
+using System.Collections;
+
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 using CaptainCoder.Unity.UI;
 
+using SFB;
+
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -26,24 +35,37 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [SerializeField]
         private Button _deleteButton;
         private ConfirmPromptPanel _confirmPromptPanel;
+        private ConfirmTextureReplacementPrompt _confirmTexturePrompt;
         private TextureReference _texture;
         public TextureReference Texture
         {
             get => _texture;
             set
             {
+                if (_texture != null)
+                {
+                    _texture.OnTextureChange -= Render;
+                }
                 _texture = value;
-                _textureImage.texture = _texture.Material.Unselected.mainTexture;
-                _textureNameLabel.text = _texture.TextureName;
-                _textureInfoLabel.text = $"{_texture.Count} References";
-                _deleteButton.interactable = !_texture.IsDefaultTexture;
+                _texture.OnTextureChange += Render;
+                Render(_texture);
             }
+        }
+
+        private void Render(TextureReference texture)
+        {
+            _textureImage.texture = texture.Material.Unselected.mainTexture;
+            _textureNameLabel.text = texture.TextureName;
+            _textureInfoLabel.text = $"{texture.Count} References";
+            _deleteButton.interactable = !texture.IsDefaultTexture;
         }
 
         void Awake()
         {
             _confirmPromptPanel = GetComponentInChildren<ConfirmPromptPanel>(true);
             Debug.Assert(_confirmPromptPanel != null, "Confirm Prompt not set", gameObject);
+            _confirmTexturePrompt = GetComponentInChildren<ConfirmTextureReplacementPrompt>(true);
+            Debug.Assert(_confirmTexturePrompt != null, "Confirm Texture Prompt not set", gameObject);
             Assertion.NotNull(this, _textureImage, _textureNameLabel, _textureInfoLabel, _confirmPromptPanel, _dungeonCrawlerData, _undoRedoStack);
         }
 
@@ -52,26 +74,72 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _confirmPromptPanel.Prompt($"Are you sure you want to delete this texture? It has {_texture.Count} references in the project.\n<color=red>This cannot be undone</color>", DeleteTexture);
         }
 
+        private IEnumerator HandleLoadTexture(string absoluteUri)
+        {
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(absoluteUri);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError(www.error);
+            }
+            else
+            {
+                Texture2D newTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                _confirmTexturePrompt.PromptReplacement(_texture, newTexture, () => HandleReplaceTexture(newTexture), null);
+            }
+        }
+
+        private void HandleReplaceTexture(Texture2D newTexture)
+        {
+            System.Action perform = () =>
+            {
+                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
+                _dungeonCrawlerData.ManifestData.UpdateTexture(textureRef, newTexture);
+            };
+            _undoRedoStack.PerformEditSerializeState("Replace Texture", perform, _dungeonCrawlerData);
+        }
+
         private void DeleteTexture()
         {
-            // TODO: Consider tracking changes rather than a full serialize:
-            // Reloading the manifest causes all of the texture to be rebuilt which would probably be awful
-            // for any non-trivial project size
-            string originalDungeonJson = JsonExtensions.ToJson(_dungeonCrawlerData.CurrentDungeon.Dungeon);
-            string originalManifestJson = JsonExtensions.ToJson(_dungeonCrawlerData.ManifestData.Manifest);
             System.Action perform = () =>
             {
                 TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
                 _dungeonCrawlerData.MaterialCache.RemoveTextureReference(textureRef);
             };
-            System.Action undo = () =>
-            {
-                _dungeonCrawlerData.ManifestData.TryLoadManifest(originalManifestJson, out _);
-                _dungeonCrawlerData.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(originalDungeonJson);
-            };
-            _undoRedoStack.PerformEdit("Delete Texture", perform, undo, _dungeonCrawlerData.CurrentDungeon);
+            _undoRedoStack.PerformEditSerializeState("Delete Texture", perform, _dungeonCrawlerData);
             Hide();
         }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    //
+    // WebGL
+    //
+    [DllImport("__Internal")]
+    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
+
+    public void PromptUpdateTexture()
+    {
+        UploadFile(gameObject.name, "OnFileUpload", ".png", false);
+    }
+
+    // Called from browser
+    public void OnFileUpload(string url) {
+        StartCoroutine(HandleLoadTexture(url));
+    }
+#else
+
+        public void PromptUpdateTexture()
+        {
+            ExtensionFilter[] filter = { new("Image", "png") };
+            var paths = StandaloneFileBrowser.OpenFilePanel("Select a texture", "", filter, false);
+            if (paths.Length > 0)
+            {
+                StartCoroutine(HandleLoadTexture(new System.Uri(paths[0]).AbsoluteUri));
+            }
+
+        }
+#endif
 
         public void Toggle() => gameObject.SetActive(!gameObject.activeSelf);
         public void Show() => gameObject.SetActive(true);

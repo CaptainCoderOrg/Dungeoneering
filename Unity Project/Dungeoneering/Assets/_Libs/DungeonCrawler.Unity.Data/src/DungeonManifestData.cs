@@ -77,10 +77,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 OnManifestChanged?.Invoke(new DungeonRemovedEvent(dungeon));
             }
         }
-    }
-}
 
-public abstract record class DungeonManifestChanged;
-public record class ManifestLoadedEvent(DungeonCrawlerManifest Manifest) : DungeonManifestChanged;
-public record class DungeonRemovedEvent(Dungeon Dungeon) : DungeonManifestChanged;
-public record class DungeonAddedEvent(Dungeon Dungeon) : DungeonManifestChanged;
+        public void UpdateTexture(TextureReference texture, Texture2D newTexture)
+        {
+            _manifest.Textures[texture.TextureName] = new Texture(texture.TextureName, ImageConversion.EncodeToPNG(newTexture));
+            texture.SetTexture(newTexture);
+            OnManifestChanged.Invoke(new TextureUpdatedEvent(texture));
+        }
+    }
+
+    public abstract record class DungeonManifestChanged;
+    public record class ManifestLoadedEvent(DungeonCrawlerManifest Manifest) : DungeonManifestChanged;
+    public record class DungeonRemovedEvent(Dungeon Dungeon) : DungeonManifestChanged;
+    public record class DungeonAddedEvent(Dungeon Dungeon) : DungeonManifestChanged;
+    public record class TextureUpdatedEvent(TextureReference TextureRef) : DungeonManifestChanged;
+}
