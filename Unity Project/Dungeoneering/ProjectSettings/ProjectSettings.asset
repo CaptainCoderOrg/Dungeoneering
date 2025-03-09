@@ -140,7 +140,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0.0.3
+  bundleVersion: 1.0.0.4
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   metroInputSource: 0
@@ -170,12 +170,12 @@ PlayerSettings:
     Windows Store Apps: com.DefaultCompany.Dungeoneering
     iPhone: com.Unity-Technologies.com.unity.template.urp-blank
   buildNumber:
-    Standalone: 9
+    Standalone: 10
     VisionOS: 0
-    iPhone: 9
+    iPhone: 10
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 10
+  AndroidBundleVersionCode: 11
   AndroidMinSdkVersion: 23
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
