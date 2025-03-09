@@ -1,3 +1,9 @@
+#if UNITY_WEBGL
+#pragma warning disable IDE0005 // Using directive is unnecessary.
+using System.Runtime.InteropServices;
+#pragma warning restore IDE0005 // Using directive is unnecessary.
+#endif
+
 using System.Collections;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
@@ -119,7 +125,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
     // Called from browser
     public void OnFileUpload(string url) {
-        StartCoroutine(OutputRoutine(url));
+        StartCoroutine(HandleLoadTexture(url));
     }
 #else
 
