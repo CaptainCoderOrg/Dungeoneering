@@ -21,7 +21,7 @@ public class MaterialCache
         _manifest = manifest;
         BuildMaterials();
         BuildReferences(_manifest.Dungeons.Values);
-        _onCacheChanged.Invoke(new CacheInitialized(_textureDatabase.Textures));
+        _onCacheChanged?.Invoke(new CacheInitialized(_textureDatabase.Textures));
 
         void BuildMaterials()
         {
@@ -151,7 +151,7 @@ public class MaterialCache
         RemoveWallTextureReferences(textureRef);
         _manifest.Textures.Remove(textureRef.TextureName);
         _textureDatabase.Remove(textureRef);
-        _onCacheChanged.Invoke(new CacheRemoveTexture(textureRef));
+        _onCacheChanged?.Invoke(new CacheRemoveTexture(textureRef));
     }
 
     private void RemoveWallTextureReferences(TextureReference textureRef)
@@ -186,7 +186,7 @@ public class MaterialCache
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
         _manifest.AddTexture(dungeonTexture);
         TextureReference created = _textureDatabase.Create(dungeonTexture);
-        _onCacheChanged.Invoke(new CacheAddTexture(created));
+        _onCacheChanged?.Invoke(new CacheAddTexture(created));
     }
 
     public void Clear()

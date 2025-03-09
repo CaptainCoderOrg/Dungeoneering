@@ -35,7 +35,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 _texture = value;
                 _textureImage.texture = _texture.Material.Unselected.mainTexture;
                 _textureNameLabel.text = _texture.TextureName;
-                _textureInfoLabel.text = $"{_texture.Count} References"; 
+                _textureInfoLabel.text = $"{_texture.Count} References";
                 _deleteButton.interactable = !_texture.IsDefaultTexture;
             }
         }
