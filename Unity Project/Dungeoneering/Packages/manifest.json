@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.github.superunitybuild.buildtool": "7.0.0",
     "com.needle.compilation-visualizer": "1.8.4",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.6.0",
@@ -50,9 +51,10 @@
   "scopedRegistries": [
     {
       "name": "OpenUPM",
-      "url": "https://package.openupm.com/",
+      "url": "https://package.openupm.com",
       "scopes": [
-        "com.needle.compilation-visualizer"
+        "com.needle.compilation-visualizer",
+        "com.github.superunitybuild.buildtool"
       ],
       "overrideBuiltIns": false
     }

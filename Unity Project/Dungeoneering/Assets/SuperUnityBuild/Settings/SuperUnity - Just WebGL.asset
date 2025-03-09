@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5886119a5c7b34d8872ab527ca3e1b, type: 3}
+  m_Name: SuperUnity - Just WebGL
+  m_EditorClassIdentifier: 
+  _basicSettings:
+    baseBuildFolder: Builds
+    buildPath: $VERSION/$RELEASE_TYPE/$PLATFORM/$ARCHITECTURE/$SCRIPTING_BACKEND
+    openFolderPostBuild: 1
+    constantsFileLocation: Assets\SuperUnityBuild
+  _productParameters:
+    buildCounter: 3
+    buildVersion: 1.0.0.3
+    versionTemplate: 1.0.0.$BUILD
+    autoGenerate: 1
+    syncWithPlayerSettings: 0
+  _releaseTypeList:
+    releaseTypes:
+    - typeName: PrePrePrePreAlpha Build
+      bundleIdentifier: com.DefaultCompany.Dungeoneering
+      companyName: DefaultCompany
+      productName: Dungeoneering
+      syncAppNameWithProduct: 1
+      appBuildName: Dungeoneering
+      buildOptions: 1
+      customDefines: 
+      sceneList:
+        releaseScenes:
+        - fileGUID: 921b2f2465f1d0141ac5b372e46b271e
+          sceneActive: 1
+  _platformList:
+    platforms:
+    - {fileID: 2040963296013526829}
+  _projectConfigurations:
+    configSet:
+      _Buckets: 0300000000000000ffffffffffffffff01000000ffffffffffffffff
+      _HashCodes: b95bb5705201227b4cc33707d2ce801a000000000000000000000000
+      _Next: ffffffffffffffffffffffff02000000000000000000000000000000
+      _Count: 4
+      _Version: 4
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - PrePrePrePreAlpha Build/WebGL/WebGL/IL2CPP
+      - PrePrePrePreAlpha Build/WebGL/WebGL
+      - PrePrePrePreAlpha Build/WebGL
+      - PrePrePrePreAlpha Build
+      - 
+      - 
+      - 
+      _Values:
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - PrePrePrePreAlpha Build/WebGL/WebGL/IL2CPP
+      - enabled: 1
+        childKeys:
+        - PrePrePrePreAlpha Build/WebGL/WebGL
+      - enabled: 1
+        childKeys:
+        - PrePrePrePreAlpha Build/WebGL
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+    showViewOptions: 0
+    showConfigs: 0
+    showBuildInfo: 0
+    hideDisabled: 0
+    treeView: 0
+    selectedKeyChain: PrePrePrePreAlpha Build/WebGL/WebGL/IL2CPP
+  _preBuildActions:
+    buildActions: []
+  _postBuildActions:
+    buildActions: []
+--- !u!114 &2040963296013526829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acaf75cc66fc934ea46bf602fc7c245, type: 3}
+  m_Name: WebGL
+  m_EditorClassIdentifier: 
+  enabled: 1
+  distributionList:
+    distributions: []
+  architectures:
+  - target: 20
+    name: WebGL
+    enabled: 1
+    binaryNameFormat: '{0}'
+  variants: []
+  scriptingBackends:
+  - scriptingImplementation: 1
+    name: IL2CPP
+    enabled: 1
+  platformName: WebGL
+  targetGroup: 13
