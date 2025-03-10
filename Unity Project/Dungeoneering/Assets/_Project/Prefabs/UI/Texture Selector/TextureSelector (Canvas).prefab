@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 3035398985846579893}
   - component: {fileID: 3224186949157228691}
   - component: {fileID: 8742058428529114292}
+  - component: {fileID: 8716147876837405389}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -99,10 +100,10 @@ RectTransform:
   - {fileID: 7507115661727468036}
   m_Father: {fileID: 6310177147968175558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 380, y: -170}
+  m_SizeDelta: {x: 850, y: 340}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7857635724234393003
 CanvasRenderer:
@@ -188,6 +189,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8716147876837405389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906746148309427369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &1147821919751835209
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +304,7 @@ MonoBehaviour:
   <AddTextureButton>k__BackingField: {fileID: 3678398149738720209}
   _confirmPanel: {fileID: 4544654478584129829}
   _scrollRect: {fileID: 4159524200940350423}
+  _headerText: {fileID: 1307388414960736014}
 --- !u!114 &2825185325903204510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +521,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 174318925341361564}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.80972093
+  m_Size: 0.8343834
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1628,6 +1644,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon Texture Preview (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1834,6 +1874,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon Texture Preview (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1989,8 +2053,16 @@ PrefabInstance:
       value: Select a Texture
       objectReference: {fileID: 0}
     - target: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
       propertyPath: m_fontStyle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
       propertyPath: m_VerticalAlignment
@@ -2008,6 +2080,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1121373306022197250}
   m_SourcePrefab: {fileID: 100100000, guid: b12685b12d225c942873943dae99e8da, type: 3}
+--- !u!114 &1307388414960736014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
+  m_PrefabInstance: {fileID: 5310886642669141099}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708172180269756701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4708172180269756701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 640292780818812278, guid: b12685b12d225c942873943dae99e8da, type: 3}
@@ -2185,6 +2268,30 @@ PrefabInstance:
     - target: {fileID: 3967775096730459113, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_Name
       value: Dungeon Texture Preview (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2725,6 +2832,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon Texture Preview (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2930,6 +3061,30 @@ PrefabInstance:
     - target: {fileID: 3967775096730459113, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_Name
       value: Dungeon Texture Preview
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3137,6 +3292,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon Texture Preview (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3342,6 +3521,30 @@ PrefabInstance:
     - target: {fileID: 3967775096730459113, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_Name
       value: Dungeon Texture Preview (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055129770541957201, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005332643691622441, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
       propertyPath: m_AnchorMax.y
