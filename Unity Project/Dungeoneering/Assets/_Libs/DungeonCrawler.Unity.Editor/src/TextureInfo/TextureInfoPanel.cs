@@ -86,6 +86,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             else
             {
                 Texture2D newTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                newTexture.filterMode = FilterMode.Point;
                 _confirmTexturePrompt.PromptReplacement(_texture, newTexture, () => HandleReplaceTexture(newTexture), null);
             }
         }
