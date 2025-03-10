@@ -74,13 +74,15 @@ var StandaloneFileBrowserWebGLPlugin = {
         downloader.download = filename;
         document.body.appendChild(downloader);
 
-        document.onmouseup = function() {
+        const doDownload = function() {
             downloader.click();
             document.body.removeChild(downloader);
         	document.onmouseup = null;
 
             SendMessage(gameObjectName, methodName);
-        }
+        };
+
+        setTimeout(doDownload, 100);
     }
 };
 
