@@ -67,9 +67,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             HasChanged = false;
         }
 
-        public void SetFloorTexture(Position position, TextureId tId)
+        public void SetTexture(Position position, TextureReference newTexture)
         {
-            _materialCache.SetTexture(new TileReference(Dungeon, position), tId);
+            _materialCache.SetTexture(new TileReference(Dungeon, position), newTexture);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -81,9 +81,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             HasChanged = true;
         }
 
-        public void SetWallTexture(Position position, Facing facing, TextureId textureId)
+        public void SetTexture(Position position, Facing facing, TextureReference newTexture)
         {
-            _materialCache.SetTexture(new WallReference(Dungeon, position, facing), textureId);
+            _materialCache.SetTexture(new WallReference(Dungeon, position, facing), newTexture);
             _changes.AddChange(Dungeon, position);
             HasChanged = true;
         }
@@ -112,8 +112,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             _changes = new();
         }
 
-        public TextureId GetFloorTexture(Position p) => _materialCache.GetTextureId(Dungeon, p);
-        public TextureId GetWallTexture(Position p, Facing f) => _materialCache.GetWallTexture(new WallReference(Dungeon, p, f));
+        public TextureReference GetTexture(Position p) => _materialCache.GetTexture(Dungeon, p);
+        public TextureReference GetTexture(Position p, Facing f) => _materialCache.GetTexture(new WallReference(Dungeon, p, f));
         public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
 
         public DungeonData(MaterialCache materialCache)

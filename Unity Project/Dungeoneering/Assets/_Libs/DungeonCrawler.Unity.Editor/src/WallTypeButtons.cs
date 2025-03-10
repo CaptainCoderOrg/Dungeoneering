@@ -70,18 +70,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Position p = wall.Parent.Position;
                 Facing f = wall.Facing;
                 WallType originalWallType = d.Walls[p, f];
-                TextureId originalTexture = dungeonData.GetWallTexture(p, f);
-                TextureId originalBackTexture = dungeonData.GetWallTexture(p.Step(f), f.Opposite());
+                TextureReference originalTexture = dungeonData.GetTexture(p, f);
+                TextureReference originalBackTexture = dungeonData.GetTexture(p.Step(f), f.Opposite());
                 if (originalWallType == newWallType) { continue; }
                 perform += () => dungeonData.SetWallType(p, f, newWallType);
                 undo += () =>
                 {
                     dungeonData.SetWallType(p, f, originalWallType);
-                    dungeonData.SetWallTexture(p, f, originalTexture);
+                    dungeonData.SetTexture(p, f, originalTexture);
                     Position neighbor = p.Step(f);
                     if (controller.HasTile(neighbor))
                     {
-                        dungeonData.SetWallTexture(neighbor, f.Opposite(), originalBackTexture);
+                        dungeonData.SetTexture(neighbor, f.Opposite(), originalBackTexture);
                     }
                 };
             }

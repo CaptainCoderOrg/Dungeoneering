@@ -139,7 +139,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        private void SetTileTexture(TextureId newTexture)
+        private void SetTileTexture(TextureReference newTexture)
         {
             if (!_selection.Tiles.Any()) { return; }
             System.Action perform = default;
@@ -148,18 +148,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 Dungeon d = tile.Dungeon;
                 Position p = tile.Position;
-                TextureId originalTexture = _dungeonCrawlerData.CurrentDungeon.GetFloorTexture(p);
-                perform += () => _dungeonCrawlerData.CurrentDungeon.SetFloorTexture(p, newTexture);
-                undo += () => _dungeonCrawlerData.CurrentDungeon.SetFloorTexture(p, originalTexture);
+                TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p);
+                perform += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, newTexture);
+                undo += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, originalTexture);
             }
             _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void SetSolidTextures(TextureId tId) => SetWallTextures(tId, _walls);
-        private void SetDoorTextures(TextureId tId) => SetWallTextures(tId, _doors);
-        private void SetSecretTextures(TextureId tId) => SetWallTextures(tId, _secretDoors);
+        private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _walls);
+        private void SetDoorTextures(TextureReference newTexture) => SetWallTextures(newTexture, _doors);
+        private void SetSecretTextures(TextureReference newTexture) => SetWallTextures(newTexture, _secretDoors);
 
-        private void SetWallTextures(TextureId newTexture, HashSet<(Position, Facing)> walls)
+        private void SetWallTextures(TextureReference newTexture, HashSet<(Position, Facing)> walls)
         {
             DungeonManifestData manifest = _dungeonCrawlerData.ManifestData;
             Dungeon d = _dungeonCrawlerData.CurrentDungeon.Dungeon;
@@ -167,9 +167,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             System.Action undo = default;
             foreach ((Position p, Facing f) in walls)
             {
-                TextureId originalTexture = _dungeonCrawlerData.CurrentDungeon.GetWallTexture(p, f);
-                perform += () => _dungeonCrawlerData.CurrentDungeon.SetWallTexture(p, f, newTexture);
-                undo += () => _dungeonCrawlerData.CurrentDungeon.SetWallTexture(p, f, originalTexture);
+                TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p, f);
+                perform += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, f, newTexture);
+                undo += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, f, originalTexture);
             }
             _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
