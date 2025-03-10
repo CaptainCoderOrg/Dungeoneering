@@ -34,8 +34,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
-        private Dictionary<TextureId, DungeonTexturePreview> _textureButtons = new();
-        private System.Action<TextureId> _onSelectedCallback;
+        private Dictionary<TextureReference, DungeonTexturePreview> _textureButtons = new();
+        private System.Action<TextureReference> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
@@ -71,16 +71,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public bool RemoveTexture(TextureReference texture)
         {
-            if (!_textureButtons.TryGetValue(texture.TextureId, out DungeonTexturePreview button)) { return false; }
+            if (!_textureButtons.TryGetValue(texture, out DungeonTexturePreview button)) { return false; }
             GameObject.Destroy(button.gameObject);
             return true;
         }
 
         public bool AddTexture(TextureReference texture)
         {
-            if (_textureButtons.ContainsKey(texture.TextureId)) { return false; }
+            if (_textureButtons.ContainsKey(texture)) { return false; }
             DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
-            _textureButtons[texture.TextureId] = preview;
+            _textureButtons[texture] = preview;
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(OpenTextureInfoPanel);
             return true;
@@ -125,10 +125,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SelectTexture(DungeonTextureButton textureButton)
         {
             gameObject.SetActive(false);
-            _onSelectedCallback?.Invoke(textureButton.Texture.TextureId);
+            _onSelectedCallback?.Invoke(textureButton.Texture);
         }
 
-        public void ShowDialogue(System.Action<TextureId> onSelected, System.Action onCanceled)
+        public void ShowDialogue(System.Action<TextureReference> onSelected, System.Action onCanceled)
         {
             _onSelectedCallback = onSelected;
             _onCanceledCallback = onCanceled;

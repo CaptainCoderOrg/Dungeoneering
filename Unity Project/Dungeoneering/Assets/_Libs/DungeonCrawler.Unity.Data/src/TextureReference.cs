@@ -11,7 +11,6 @@ public class TextureReference
 {
     private static int s_nextID = 1;
     public string TextureName { get; private set; }
-    public readonly TextureId TextureId;
     public SelectableMaterial Material { get; private set; }
     public UnityEngine.Texture Texture => Material.Unselected.mainTexture;
     public event System.Action<TextureReference> OnTextureChange;
@@ -19,7 +18,6 @@ public class TextureReference
     public bool IsDefaultTexture => DefaultTileDungeons.Any() || DefaultDoorDungeons.Any() || DefaultSolidDungeons.Any() || DefaultSecretDungeons.Any();
     internal TextureReference(string name, SelectableMaterial material)
     {
-        TextureId = new(s_nextID++);
         (TextureName, Material) = (name, material);
     }
     internal void SetTexture(Texture2D newTexture)

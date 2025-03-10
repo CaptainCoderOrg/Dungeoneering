@@ -6,7 +6,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonWallController : MonoBehaviour, ISelectable
     {
-
         [field: SerializeField]
         public MeshRenderer[] Renderers { get; private set; } = default!;
         private MouseEvents _mouseEvents;
@@ -48,9 +47,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
 
-        public void SetTexture(TextureId tId)
+        public void SetTexture(TextureReference newTexture)
         {
-            Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.SetWallTexture(Parent.Position, Facing, tId);
+            Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.SetTexture(Parent.Position, Facing, newTexture);
         }
 
         void Awake()
