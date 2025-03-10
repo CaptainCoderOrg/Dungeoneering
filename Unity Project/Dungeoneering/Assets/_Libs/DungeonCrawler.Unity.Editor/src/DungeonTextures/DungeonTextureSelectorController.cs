@@ -16,6 +16,8 @@ using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+
+using TMPro;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class DungeonTextureSelectorController : MonoBehaviour
@@ -34,13 +36,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private ConfirmTexturePromptPanel _confirmPanel;
         [SerializeField]
         private ScrollRect _scrollRect;
+        [SerializeField]
+        private TextMeshProUGUI _headerText;
         private Dictionary<TextureReference, DungeonTexturePreview> _textureButtons = new();
         private System.Action<TextureReference> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, _dungeonCrawlerData, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel);
+            Assertion.NotNull(this, _confirmPanel, Grid, _dungeonCrawlerData, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel, _headerText);
             Grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
@@ -128,8 +132,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _onSelectedCallback?.Invoke(textureButton.Texture);
         }
 
+        public void ShowDialogue(string headerText, System.Action<TextureReference> onSelected, System.Action onCanceled)
+        {
+            _headerText.text = headerText;
+            _headerText.gameObject.SetActive(true);
+            _onSelectedCallback = onSelected;
+            _onCanceledCallback = onCanceled;
+            gameObject.SetActive(true);
+        }
+
         public void ShowDialogue(System.Action<TextureReference> onSelected, System.Action onCanceled)
         {
+            _headerText.gameObject.SetActive(false);
             _onSelectedCallback = onSelected;
             _onCanceledCallback = onCanceled;
             gameObject.SetActive(true);
