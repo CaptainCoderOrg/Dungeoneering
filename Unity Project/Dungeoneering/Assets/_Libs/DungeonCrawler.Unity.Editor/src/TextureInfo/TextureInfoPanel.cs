@@ -17,6 +17,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+
 using System.IO;
 
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -127,10 +128,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             DownloadFile(gameObject.name, "OnFileDownload", $"{TextureFileNameWithoutExtension}.png", bytes, bytes.Length);
         }
 
-        //     // Called from browser
-        //     public void OnFileDownload() {
-
-        //     }
+        // Called from browser
+        public void OnFileDownload() {
+            Debug.Log($"File Exported: {_texture.TextureName}");
+        }
 #else
         public void PromptExport()
         {
