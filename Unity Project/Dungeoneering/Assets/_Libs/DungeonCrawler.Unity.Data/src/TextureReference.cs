@@ -9,7 +9,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data;
 
 public class TextureReference
 {
-    private static int s_nextID = 1;
     public string TextureName { get; private set; }
     public SelectableMaterial Material { get; private set; }
     public UnityEngine.Texture Texture => Material.Unselected.mainTexture;

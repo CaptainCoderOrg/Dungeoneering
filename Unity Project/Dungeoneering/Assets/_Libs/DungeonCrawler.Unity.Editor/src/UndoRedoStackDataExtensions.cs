@@ -10,9 +10,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public static void PerformEdit(this UndoRedoStackData stack, string name, System.Action perform, System.Action undo, DungeonData dungeon)
         {
             if (perform == null || undo == null) { return; }
-            perform += dungeon.Notify;
-            undo += dungeon.Notify;
-            stack.PerformEdit(name, perform, undo);
+            System.Action wrappedPerform = () =>
+            {
+                dungeon.PreventNotify = true;
+                perform.Invoke();
+                dungeon.PreventNotify = false;
+            };
+
+            System.Action wrappedUndo = () =>
+            {
+                dungeon.PreventNotify = true;
+                undo.Invoke();
+                dungeon.PreventNotify = false;
+            };
+            stack.PerformEdit(name, wrappedPerform, wrappedUndo);
         }
 
         /// <summary>
