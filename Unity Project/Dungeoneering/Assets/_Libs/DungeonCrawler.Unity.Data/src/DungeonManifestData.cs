@@ -13,20 +13,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public DungeonCrawlerManifest Manifest => _manifest;
         private MaterialCache _materialCache;
 
-        public bool TryLoadManifest(string json, out DungeonCrawlerManifest loaded)
+        public bool TryLoadManifest(string json, out string message)
         {
             try
             {
-                loaded = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
+                _manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
+                message = "Manifest loaded successfully";
             }
             // TODO: Figure out best exception type
             catch (System.Exception e)
             {
-                Debug.LogError($"Could not load manifest: {e}");
-                loaded = null;
+                message = $"Could not load manifest:\n\n{e}";
+                Debug.LogError(message);
                 return false;
             }
-            _manifest = loaded;
             // TODO: Consider using events to trigger the material cache to be initialized.
             _materialCache.InitializeMaterialCache(_manifest);
             OnManifestChanged?.Invoke(new ManifestLoadedEvent(_manifest));
