@@ -18,6 +18,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+using System.IO;
+
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class TextureInfoPanel : MonoBehaviour
@@ -111,6 +113,37 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEditSerializeState("Delete Texture", perform, _dungeonCrawlerData);
             Hide();
         }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            //
+            // WebGL
+            //
+        [DllImport("__Internal")]
+        private static extern void DownloadFile(string gameObjectName, string methodName, string filename, byte[] byteArray, int byteArraySize);
+
+        // Broser plugin should be called in OnPointerDown.
+        public void PromptExport()
+        {
+            var bytes = _dungeonCrawlerData.ManifestData.Manifest.Textures[_texture.TextureName].Data;
+            DownloadFile(gameObject.name, "OnFileDownload", $"{TextureFileNameWithoutExtension}.png", bytes, bytes.Length);
+        }
+
+        // Called from browser
+        public void OnFileDownload() {
+            Debug.Log($"File Exported: {_texture.TextureName}");
+        }
+#else
+        public void PromptExport()
+        {
+            var path = StandaloneFileBrowser.SaveFilePanel("Title", "", TextureFileNameWithoutExtension, "png");
+            if (!string.IsNullOrEmpty(path))
+            {
+                File.WriteAllBytes(path, _dungeonCrawlerData.ManifestData.Manifest.Textures[_texture.TextureName].Data);
+            }
+        }
+#endif
+
+        private string TextureFileNameWithoutExtension => _texture.TextureName.EndsWith(".png") ? _texture.TextureName[0..^4] : _texture.TextureName;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     //
