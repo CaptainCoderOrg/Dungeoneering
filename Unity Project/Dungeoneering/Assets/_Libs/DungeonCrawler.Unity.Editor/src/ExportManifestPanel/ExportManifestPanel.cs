@@ -9,6 +9,8 @@ using SFB;
 
 using UnityEngine;
 using UnityEngine.Networking;
+using CaptainCoder.Unity.UI;
+
 
 
 
@@ -25,6 +27,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [SerializeField]
         private DungeonCrawlerData _dungeonCrawlerData;
+        [SerializeField]
+        private InfoPromptPanel _infoPrompt;
         public void Hide() => gameObject.SetActive(false);
         public void Toggle() => gameObject.SetActive(!gameObject.activeSelf);
 
@@ -103,12 +107,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(www.error);
+                _infoPrompt.ShowInfo($"An error occurred while loading: {www.error}");
+                yield break;
             }
-            else
+
+            if (_dungeonCrawlerData.ManifestData.TryLoadManifest(www.downloadHandler.text, out string message))
             {
-                _dungeonCrawlerData.ManifestData.TryLoadManifest(www.downloadHandler.text, out _);
+                Hide();
+                yield break;
             }
-            Hide();
+
+            _infoPrompt.ShowInfo(message);
         }
 
     }
