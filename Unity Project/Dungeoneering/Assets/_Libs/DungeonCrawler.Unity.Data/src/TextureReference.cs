@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,4 +33,16 @@ public class TextureReference
     internal HashSet<Dungeon> DefaultSolidDungeons { get; private set; } = new();
     internal HashSet<Dungeon> DefaultSecretDungeons { get; private set; } = new();
     internal void Clear() => Tiles.Clear();
+
+    private HashSet<Dungeon> DefaultWallDungeon(WallType walltype) => walltype switch
+    {
+        WallType.Solid => DefaultSolidDungeons,
+        WallType.Door => DefaultDoorDungeons,
+        WallType.SecretDoor => DefaultSecretDungeons,
+        _ => throw new Exception($"Unknown wall type {walltype}")
+    };
+
+    internal bool RemoveDefaultWall(WallType wallType, Dungeon dungeon) => DefaultWallDungeon(wallType).Remove(dungeon);
+
+    internal bool AddDefaultWall(WallType wallType, Dungeon dungeon) => DefaultWallDungeon(wallType).Add(dungeon);
 }

@@ -8,7 +8,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 {
     public class DungeonManifestData
     {
-        public event System.Action<DungeonManifestChanged> OnManifestChanged;
+        private System.Action<DungeonManifestChanged> _onManifestChanged;
         private DungeonCrawlerManifest _manifest;
         public DungeonCrawlerManifest Manifest => _manifest;
         private MaterialCache _materialCache;
@@ -29,20 +29,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
             // TODO: Consider using events to trigger the material cache to be initialized.
             _materialCache.InitializeMaterialCache(_manifest);
-            OnManifestChanged?.Invoke(new ManifestLoadedEvent(_manifest));
+            _onManifestChanged?.Invoke(new ManifestLoadedEvent(_manifest));
             return true;
         }
 
         public void AddObserver(System.Action<DungeonManifestChanged> onChange)
         {
-            OnManifestChanged += onChange;
+            _onManifestChanged += onChange;
             if (_manifest != null)
             {
                 onChange.Invoke(new ManifestLoadedEvent(_manifest));
             }
         }
 
-        public void RemoveObserver(System.Action<DungeonManifestChanged> onChange) => OnManifestChanged -= onChange;
+        public void RemoveObserver(System.Action<DungeonManifestChanged> onChange) => _onManifestChanged -= onChange;
 
         public DungeonManifestData(MaterialCache materialCache)
         {
@@ -66,7 +66,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
             _manifest.AddDungeon(dungeon.Name, dungeon);
             message = "Dungeon added";
-            OnManifestChanged?.Invoke(new DungeonAddedEvent(dungeon));
+            _onManifestChanged?.Invoke(new DungeonAddedEvent(dungeon));
             return true;
         }
 
@@ -74,7 +74,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             if (Manifest.Dungeons.Remove(dungeon.Name))
             {
-                OnManifestChanged?.Invoke(new DungeonRemovedEvent(dungeon));
+                _onManifestChanged?.Invoke(new DungeonRemovedEvent(dungeon));
             }
         }
 
@@ -82,7 +82,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             _manifest.Textures[texture.TextureName] = new Texture(texture.TextureName, ImageConversion.EncodeToPNG(newTexture));
             texture.SetTexture(newTexture);
-            OnManifestChanged.Invoke(new TextureUpdatedEvent(texture));
+            _onManifestChanged?.Invoke(new TextureUpdatedEvent(texture));
         }
     }
 
