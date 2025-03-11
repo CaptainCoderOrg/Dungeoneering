@@ -20,7 +20,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [SerializeField]
         private UndoRedoStackData _undoRedoStack;
         [field: SerializeField]
-        public DungeonTextureSelectorController TextureSelector { get; private set; }
+        public TextureSelectorPanel TextureSelector { get; private set; }
         [SerializeField]
         private GameObject _content;
         [SerializeField]

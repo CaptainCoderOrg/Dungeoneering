@@ -15,7 +15,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [SerializeField]
         private DungeonCrawlerData _dungeonCrawlerData;
         [SerializeField]
-        private DungeonTextureSelectorController _dungeonTextureSelector;
+        private TextureSelectorPanel _dungeonTextureSelector;
         [SerializeField]
         private TMP_InputField _dungeonNameInput;
         [SerializeField]
