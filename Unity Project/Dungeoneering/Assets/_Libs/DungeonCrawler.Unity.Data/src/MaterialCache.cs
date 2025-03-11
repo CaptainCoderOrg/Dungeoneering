@@ -121,6 +121,15 @@ public class MaterialCache
         tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
     }
 
+    public void RemoveTexture(TileReference tileRef)
+    {
+        if (_tileReferences.TryGetValue(tileRef, out TextureReference oldRef))
+        {
+            oldRef.Tiles.Remove(tileRef);
+            _tileReferences.Remove(tileRef);
+        }
+    }
+
     public void RemoveTextureReference(TextureReference textureRef)
     {
         if (textureRef.IsDefaultTexture)

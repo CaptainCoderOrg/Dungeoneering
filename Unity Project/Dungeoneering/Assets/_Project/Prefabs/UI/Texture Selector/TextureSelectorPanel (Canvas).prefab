@@ -300,12 +300,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _textureInfoPanel: {fileID: 0}
-  <Grid>k__BackingField: {fileID: 3779814831988163599}
+  _grid: {fileID: 3779814831988163599}
   <PreviewPrefab>k__BackingField: {fileID: 7929583646498155946, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
   <AddTextureButton>k__BackingField: {fileID: 3678398149738720209}
   _confirmPanel: {fileID: 4544654478584129829}
-  _scrollRect: {fileID: 4159524200940350423}
-  _headerText: {fileID: 1307388414960736014}
 --- !u!114 &2825185325903204510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,8 +860,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 355.5, y: -0}
-  m_SizeDelta: {x: 711, y: 0}
+  m_AnchoredPosition: {x: 409, y: -0}
+  m_SizeDelta: {x: 818, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &9054394383210724762
 MonoBehaviour:
@@ -2124,17 +2122,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1121373306022197250}
   m_SourcePrefab: {fileID: 100100000, guid: b12685b12d225c942873943dae99e8da, type: 3}
---- !u!114 &1307388414960736014 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6597995097153547109, guid: b12685b12d225c942873943dae99e8da, type: 3}
-  m_PrefabInstance: {fileID: 5310886642669141099}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4708172180269756701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4708172180269756701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 640292780818812278, guid: b12685b12d225c942873943dae99e8da, type: 3}
@@ -3262,7 +3249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Size
-      value: 0.84411764
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_PreferredWidth

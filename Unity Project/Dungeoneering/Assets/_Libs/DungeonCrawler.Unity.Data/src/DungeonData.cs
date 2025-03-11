@@ -88,6 +88,7 @@ public class DungeonData
     public void RemoveFloorTexture(Position position)
     {
         Dungeon.TileTextures.Textures.Remove(position);
+        _materialCache.RemoveTexture(new TileReference(_dungeon, position));
         _changes.AddChange(Dungeon, position);
         HasChanged = true;
         Notify();

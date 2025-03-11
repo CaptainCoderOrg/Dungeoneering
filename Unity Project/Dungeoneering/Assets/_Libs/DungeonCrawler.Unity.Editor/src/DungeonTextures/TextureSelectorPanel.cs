@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Unity;
 using CaptainCoder.Unity.UI;
 
 using SFB;
@@ -16,6 +15,7 @@ using SFB;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+
 using CaptainCoder.Unity.Assertions;
 
 namespace CaptainCoder.Dungeoneering.Unity.Editor
@@ -24,7 +24,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
         [AssertIsSet][SerializeField] private TextureInfoPanel _textureInfoPanel;
-        [AssertIsSet][SerializeField] public Transform Grid { get; private set; }
+        [AssertIsSet][SerializeField] private Transform _grid;
         [AssertIsSet][field: SerializeField] public DungeonTexturePreview PreviewPrefab { get; private set; }
         [AssertIsSet][field: SerializeField] public Button AddTextureButton { get; private set; }
         [AssertIsSet][SerializeField] private ConfirmTexturePromptPanel _confirmPanel;
@@ -34,7 +34,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void Awake()
         {
-            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
         void OnEnable()
@@ -72,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool AddTexture(TextureReference texture)
         {
             if (_textureButtons.ContainsKey(texture)) { return false; }
-            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, _grid, texture);
             _textureButtons[texture] = preview;
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(OpenTextureInfoPanel);
@@ -82,7 +82,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool InitializeGrid(IEnumerable<TextureReference> textures)
         {
             // TODO: Deleting all children is bad, this happens everytime the window is opened
-            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _grid.DestroyAllChildren(AddTextureButton.transform);
             _textureButtons.Clear();
             foreach (TextureReference texture in textures)
             {

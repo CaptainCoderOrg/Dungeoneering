@@ -223,12 +223,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _textureInfoPanel: {fileID: 0}
-  <Grid>k__BackingField: {fileID: 3779814831988163599}
+  _grid: {fileID: 3779814831988163599}
   <PreviewPrefab>k__BackingField: {fileID: 7929583646498155946, guid: 2e8e08413d521414fa1b43b27361a28f, type: 3}
   <AddTextureButton>k__BackingField: {fileID: 3678398149738720209}
   _confirmPanel: {fileID: 4544654478584129829}
-  _scrollRect: {fileID: 0}
-  _headerText: {fileID: 0}
 --- !u!114 &2825185325903204510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec8768faf7eb7d40b6986cee7856ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _undoRedoStackData: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
   _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _selectionData: {fileID: 11400000, guid: 1c5699de80a00204abf734fcaa403be9, type: 2}
   _currentTexture: {fileID: 6445631249684413289}
