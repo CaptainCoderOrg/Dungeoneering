@@ -14,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private Dungeon _dungeon;
         public UnityEvent<Dungeon> OnSelected { get; private set; } = new();
         public UnityEvent<Dungeon> OnRemoved { get; private set; } = new();
+        public UnityEvent<Dungeon> OnInfo { get; private set; } = new();
         public string Label => _label.text;
         [SerializeField]
         private Button _removeButton;
@@ -46,6 +47,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void Unhighlight() => _selectionHighlighter.color = _hidden;
         public void Select() => OnSelected.Invoke(_dungeon);
         public void Remove() => OnRemoved.Invoke(_dungeon);
+        public void Info() => OnInfo.Invoke(_dungeon);
         public void OnPointerEnter(PointerEventData eventData) => Highlight();
         public void OnPointerExit(PointerEventData eventData) => Unhighlight();
         public void OnPointerClick(PointerEventData eventData) => Select();

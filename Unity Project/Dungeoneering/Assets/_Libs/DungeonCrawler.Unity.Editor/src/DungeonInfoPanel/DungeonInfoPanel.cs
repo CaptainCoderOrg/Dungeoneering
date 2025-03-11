@@ -51,6 +51,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _doorTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultDoor);
             _wallTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSolid);
             _secretTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSecretDoor);
+            gameObject.SetActive(true);
         }
 
         public void PromptTileTexture() => _dungeonTextureSelector.ShowDialogue(UpdateTileTexture);
