@@ -130,6 +130,15 @@ public class MaterialCache
         }
     }
 
+    public void RemoveTexture(WallReference wallRef)
+    {
+        if (_wallReferences.TryGetValue(wallRef, out TextureReference oldRef))
+        {
+            oldRef.Walls.Remove(wallRef);
+            _wallReferences.Remove(wallRef);
+        }
+    }
+
     public void RemoveTextureReference(TextureReference textureRef)
     {
         if (textureRef.IsDefaultTexture)

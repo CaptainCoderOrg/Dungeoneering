@@ -162,8 +162,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void OpenTileTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowTileSelect(SetTileTexture);
-        private void OpenWallTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSolidTextures, null);
+        private void OpenTileTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowTileSelection(SetTileTexture);
+        private void OpenWallTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowWallSelection(SetSolidTextures);
         private void OpenDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetDoorTextures, null);
         private void OpenSecretDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSecretTextures, null);
     }
