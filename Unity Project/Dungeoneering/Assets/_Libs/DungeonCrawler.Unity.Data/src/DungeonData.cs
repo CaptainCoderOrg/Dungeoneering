@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -153,6 +154,27 @@ public class DungeonData
                 Notify();
                 break;
         }
+    }
+
+    internal void SetDefaultTileTexture(TextureReference newTexture)
+    {
+        _dungeon.TileTextures.Default = newTexture.TextureName;
+        HasChanged = true;
+        OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
+    }
+
+    internal void SetDefaultWallTexture(TextureReference newTexture, WallType wallType)
+    {
+        Action<string> setter = wallType switch
+        {
+            WallType.Solid => s => _dungeon.WallTextures.DefaultSolid = s,
+            WallType.Door => s => _dungeon.WallTextures.DefaultDoor = s,
+            WallType.SecretDoor => s => _dungeon.WallTextures.DefaultSecretDoor = s,
+            _ => throw new Exception($"Cannot set texture for wall type None"),
+        };
+        setter.Invoke(newTexture.TextureName);
+        HasChanged = true;
+        OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
     }
 }
 

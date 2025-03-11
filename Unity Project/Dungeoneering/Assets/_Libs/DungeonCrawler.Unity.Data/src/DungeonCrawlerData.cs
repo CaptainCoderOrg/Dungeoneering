@@ -1,4 +1,5 @@
 
+using System;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
@@ -102,5 +103,52 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             MaterialCache.AddDungeonReferences(changes.New);
         }
 
+        public void SetDefaultWallTexture(Dungeon targetDungeon, TextureReference newTexture, WallType wallType)
+        {
+            if (!ManifestData.Manifest.Dungeons.TryGetValue(targetDungeon.Name, out Dungeon dungeon))
+            {
+                throw new InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
+            }
+            TextureReference previousTexture = MaterialCache.GetTexture(dungeon.WallTextures.DefaultSolid);
+            SetWallTexture(dungeon.WallTextures, wallType, newTexture.TextureName);
+            previousTexture.RemoveDefaultWall(wallType, dungeon);
+            newTexture.AddDefaultWall(wallType, dungeon);
+            if (targetDungeon.Name == CurrentDungeon.Dungeon.Name)
+            {
+                previousTexture.RemoveDefaultWall(wallType, CurrentDungeon.Dungeon);
+                newTexture.AddDefaultWall(wallType, CurrentDungeon.Dungeon);
+                CurrentDungeon.SetDefaultWallTexture(newTexture, wallType);
+            }
+        }
+
+        private void SetWallTexture(WallTextureMap wallTextures, WallType wallType, string textureName)
+        {
+            Action<string> setter = wallType switch
+            {
+                WallType.Solid => s => wallTextures.DefaultSolid = s,
+                WallType.Door => s => wallTextures.DefaultDoor = s,
+                WallType.SecretDoor => s => wallTextures.DefaultSecretDoor = s,
+                _ => throw new Exception($"Cannot set texture for wall type None"),
+            };
+            setter.Invoke(textureName);
+        }
+
+        public void SetDefaultTileTexture(Dungeon targetDungeon, TextureReference newTexture)
+        {
+            if (!ManifestData.Manifest.Dungeons.TryGetValue(targetDungeon.Name, out Dungeon dungeon))
+            {
+                throw new InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
+            }
+            TextureReference previousTexture = MaterialCache.GetTexture(dungeon.TileTextures.Default);
+            dungeon.TileTextures.Default = newTexture.TextureName;
+            previousTexture.DefaultTileDungeons.Remove(dungeon);
+            newTexture.DefaultTileDungeons.Add(dungeon);
+            if (targetDungeon.Name == CurrentDungeon.Dungeon.Name)
+            {
+                previousTexture.DefaultTileDungeons.Remove(CurrentDungeon.Dungeon);
+                newTexture.DefaultTileDungeons.Add(CurrentDungeon.Dungeon);
+                CurrentDungeon.SetDefaultTileTexture(newTexture);
+            }
+        }
     }
 }

@@ -141,13 +141,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             gameObject.SetActive(true);
         }
 
-        public void ShowDialogue(System.Action<TextureReference> onSelected, System.Action onCanceled)
+        public void ShowDialogue(System.Action<TextureReference> onSelected, System.Action onCanceled = null)
         {
             _headerText.gameObject.SetActive(false);
             _onSelectedCallback = onSelected;
-            _onCanceledCallback = onCanceled;
+            _onCanceledCallback = onCanceled ?? NoOp;
             gameObject.SetActive(true);
         }
+
+        private static void NoOp() { }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     //

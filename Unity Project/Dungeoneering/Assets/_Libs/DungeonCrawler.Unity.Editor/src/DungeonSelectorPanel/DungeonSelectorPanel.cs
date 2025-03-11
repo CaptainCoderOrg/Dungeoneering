@@ -22,10 +22,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private TextEntryDialogPanel _textEntryDialogPanel;
         [SerializeField]
         private ConfirmPromptPanel _confirmPromptPanel;
+        [SerializeField]
+        private DungeonInfoPanel _dungeonInfoPanel;
         private readonly Dictionary<Dungeon, DungeonSelectorButton> _buttons = new();
         void Awake()
         {
             Assertion.NotNull(this, _buttonTransform, _dungeonButtonPrefab, _dungeonCrawlerData);
+            Assertion.NotNull(this, (_dungeonInfoPanel, nameof(_dungeonInfoPanel)));
         }
 
         void OnEnable()
@@ -69,6 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 button.Initialize(d, _dungeonCrawlerData.CurrentDungeon.Dungeon.Name == d.Name);
                 button.OnSelected.AddListener(TryOpenDungeon);
                 button.OnRemoved.AddListener(PromptDeleteDungeon);
+                button.OnInfo.AddListener(_dungeonInfoPanel.Show);
                 _buttons[d] = button;
             }
         }
