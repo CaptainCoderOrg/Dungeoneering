@@ -120,7 +120,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1392814010200961437}
   m_HandleRect: {fileID: 209195678809879547}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 7548845324568300630}
   - component: {fileID: 2125908364905863199}
   - component: {fileID: 2825185325903204510}
+  - component: {fileID: 7095181337108671497}
   m_Layer: 5
   m_Name: TileTextureSelectorPanel (Canvas)
   m_TagString: Untagged
@@ -287,6 +288,25 @@ MonoBehaviour:
   m_DefaultActionMap: Dialogue Mode
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7095181337108671497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147821919751835209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec8768faf7eb7d40b6986cee7856ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
+  _selectionData: {fileID: 11400000, guid: 1c5699de80a00204abf734fcaa403be9, type: 2}
+  _currentTexture: {fileID: 6445631249684413289}
+  _currentTextureName: {fileID: 2946526023425743746}
+  _defaultTexture: {fileID: 1201678109509530677}
+  _selectedText: {fileID: 4880534993204991414}
+  _multipleTexturesImage: {fileID: 0}
 --- !u!1 &1204876717939572233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1616,7 @@ GameObject:
   - component: {fileID: 4843489599380630877}
   - component: {fileID: 1201678109509530677}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Default Texture (RawImage)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1705,7 +1725,7 @@ GameObject:
   - component: {fileID: 6445631249684413289}
   - component: {fileID: 7768344463186067447}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Current Texture (RawImage)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1870,7 +1890,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3766589368409928, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_Name
-      value: Text (TMP) (1)
+      value: Current Texture Name (TMP)
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_Pivot.x
@@ -1970,6 +1990,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
   m_PrefabInstance: {fileID: 1017634228840036573}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2946526023425743746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2808967702062146399, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
+  m_PrefabInstance: {fileID: 1017634228840036573}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1017719012643292833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3461,7 +3492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628303024808711443, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Size
-      value: 0.99999994
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3967,7 +3998,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3766589368409928, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_Name
-      value: Text (TMP)
+      value: Selected Text (TMP)
       objectReference: {fileID: 0}
     - target: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
       propertyPath: m_Pivot.x
@@ -4062,6 +4093,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
+--- !u!114 &4880534993204991414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2808967702062146399, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
+  m_PrefabInstance: {fileID: 7295921048500664041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8254503979444157999 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1715222932310739142, guid: 1cb520ea857f90744bc9eb7872f91db1, type: 3}
@@ -4155,9 +4197,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7095181337108671497}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UseDefault
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Unity.Editor.TileTextureSelectorPanel, DungeonCrawler.Unity.Editor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053254664478761542, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8554032622420284985, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
       propertyPath: m_text
-      value: Set Default
+      value: Use Default
       objectReference: {fileID: 0}
     - target: {fileID: 8994178505645467414, guid: 60ed70d16462e3e409c4a23a7c33130b, type: 3}
       propertyPath: m_Name

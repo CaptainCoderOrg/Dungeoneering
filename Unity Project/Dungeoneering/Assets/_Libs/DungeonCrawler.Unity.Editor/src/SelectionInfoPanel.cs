@@ -6,31 +6,24 @@ using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
+using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class SelectionInfoPanel : MonoBehaviour
     {
-        [SerializeField]
-        private DungeonCrawlerData _dungeonCrawlerData;
         private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
-        [SerializeField]
-        private DungeonEditorSelectionData _selection;
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStack;
-        [field: SerializeField]
-        public TextureSelectorPanel TextureSelector { get; private set; }
-        [SerializeField]
-        private GameObject _content;
-        [SerializeField]
-        private TextureLabelController _tilesLabel;
-        [SerializeField]
-        private TextureLabelController _wallsLabel;
-        [SerializeField]
-        private TextureLabelController _doorsLabel;
-        [SerializeField]
-        private TextureLabelController _secretDoorLabel;
+        [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
+        [AssertIsSet][SerializeField] private DungeonEditorSelectionData _selection;
+        [AssertIsSet][SerializeField] private UndoRedoStackData _undoRedoStack;
+        [AssertIsSet][field: SerializeField] public TextureSelectorPanel TextureSelector { get; private set; }
+        [AssertIsSet][SerializeField] private TileTextureSelectorPanel _tileTextureSelector;
+        [AssertIsSet][SerializeField] private GameObject _content;
+        [AssertIsSet][SerializeField] private TextureLabelController _tilesLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _wallsLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _doorsLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _secretDoorLabel;
         private readonly HashSet<(Position, Facing)> _walls = new();
         private readonly HashSet<(Position, Facing)> _doors = new();
         private readonly HashSet<(Position, Facing)> _secretDoors = new();
@@ -56,11 +49,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _wallsLabel.Button.OnClick.RemoveListener(OpenWallTextureSelector);
             _doorsLabel.Button.OnClick.RemoveListener(OpenDoorsTextureSelector);
             _secretDoorLabel.Button.OnClick.RemoveListener(OpenSecretDoorsTextureSelector);
-        }
-
-        void Awake()
-        {
-            Assertion.NotNull(this, _selection, _undoRedoStack, TextureSelector, _content, _tilesLabel, _wallsLabel, _doorsLabel, _secretDoorLabel, _dungeonCrawlerData);
         }
 
         private void HandleSelectionChanged(SelectionChangedData changes) => RenderInfo(changes.SelectedTiles, changes.SelectedWalls);
@@ -174,7 +162,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void OpenTileTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetTileTexture, null);
+        private void OpenTileTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowTileSelect(SetTileTexture);
         private void OpenWallTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSolidTextures, null);
         private void OpenDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetDoorTextures, null);
         private void OpenSecretDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSecretTextures, null);
