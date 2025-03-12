@@ -28,7 +28,6 @@ public class DungeonData
             OnStateChanged.Invoke(_dungeon, _hasChanged);
         }
     }
-    private MaterialCache _materialCache;
     public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
     public event System.Action<DungeonChangedData> OnChange;
     public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
@@ -76,11 +75,6 @@ public class DungeonData
         if (_changes.Tiles.Count == 0) { return; }
         OnTilesChanged.Invoke(_changes);
         _changes = new();
-    }
-
-    public DungeonData(MaterialCache materialCache)
-    {
-        _materialCache = materialCache;
     }
 
     // TODO: Redesign message type here so force notify is not required

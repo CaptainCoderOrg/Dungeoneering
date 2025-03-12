@@ -86,7 +86,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public void ForceInitialize()
         {
             MaterialCache = new();
-            CurrentDungeon = new(MaterialCache);
+            CurrentDungeon = new();
             ManifestData = new(MaterialCache);
             CurrentDungeon.OnChange += HandleDungeonChanged;
             if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
