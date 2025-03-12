@@ -1,5 +1,7 @@
 
 
+using System.Collections.Generic;
+
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;

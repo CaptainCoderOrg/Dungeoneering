@@ -4,6 +4,7 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
+using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class AddWallsButtons : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] DungeonCrawlerData _dungeonCrawlerData;
         [SerializeField]
         private DungeonEditorSelectionData _selectionData;
         [SerializeField]
@@ -72,14 +74,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (_selectionData.Tiles.Count() == 0) { return; }
             HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
-            DungeonData dungeonData = _selectionData.Tiles.First().DungeonController.DungeonCrawlerData.CurrentDungeon;
-            Dungeon d = dungeonData.Dungeon;
-            IEnumerable<WallChangeData> changes = d.FindWallChanges(tiles, wallType, facings);
+            IEnumerable<WallChangeData> changes = _dungeonCrawlerData.CurrentDungeon.Dungeon.FindWallChanges(tiles, wallType, facings);
             WallData[] newWalls = changes.Select(c => c.Changed).ToArray();
-            WallData[] originalWalls = changes.Select(c => c.Original).ToArray();
-            void Perform() => d.SetWalls(newWalls);
-            void Undo() => d.SetWalls(originalWalls);
-            _undoRedoStackData.PerformEdit($"Set Wall", Perform, Undo, dungeonData);
+            void Perform()
+            {
+                foreach (WallData change in newWalls)
+                {
+                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon.Dungeon, change.Position, change.Facing);
+                    _dungeonCrawlerData.SetWallType(wallRef, change.WallType);
+                }
+            }
+            _undoRedoStackData.PerformEditSerializeState($"Set Wall", Perform, _dungeonCrawlerData);
         }
 
     }
