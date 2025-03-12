@@ -122,4 +122,22 @@ public static class DungeonCrawlerDataExtensions
         setter.Invoke(textureName);
     }
 
+    /// <summary>
+    /// Sets the specified wall to use the specified type
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="wallRef"></param>
+    /// <param name="type"></param>
+    public static void SetWallType(this DungeonCrawlerData data, WallReference wallRef, WallType type)
+    {
+        if (wallRef.Dungeon.Walls[wallRef.Position, wallRef.Facing] == type) { return; }
+        wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
+        wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Opposite()));
+        wallRef.Dungeon.Walls.SetWall(wallRef.Position, wallRef.Facing, type);
+        if (wallRef.Dungeon == data.CurrentDungeon.Dungeon)
+        {
+            data.CurrentDungeon.AddChange(wallRef);
+        }
+    }
+
 }

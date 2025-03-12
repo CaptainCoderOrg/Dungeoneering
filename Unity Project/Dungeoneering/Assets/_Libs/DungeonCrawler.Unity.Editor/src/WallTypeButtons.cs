@@ -60,21 +60,23 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             if (!_selectionData.Walls.Any()) { return; }
             DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
             DungeonCrawlerData data = controller.DungeonCrawlerData;
-            System.Action perform = default;
+            DungeonWallController[] walls = _selectionData.Walls.ToArray();
 
-            foreach (DungeonWallController wall in _selectionData.Walls)
+            void Perform()
             {
-                Dungeon d = wall.Parent.Dungeon;
-                Position p = wall.Parent.Position;
-                Facing f = wall.Facing;
-                WallType originalWallType = d.Walls[p, f];
-                TextureReference originalTexture = data.CurrentDungeon.GetTexture(p, f);
-                TextureReference originalBackTexture = data.CurrentDungeon.GetTexture(p.Step(f), f.Opposite());
-                if (originalWallType == newWallType) { continue; }
-                perform += () => data.CurrentDungeon.SetWallType(p, f, newWallType);
+                foreach (DungeonWallController wall in walls)
+                {
+                    Dungeon d = wall.Parent.Dungeon;
+                    Position p = wall.Parent.Position;
+                    Facing f = wall.Facing;
+                    WallType originalWallType = d.Walls[p, f];
+                    TextureReference originalTexture = data.CurrentDungeon.GetTexture(p, f);
+                    TextureReference originalBackTexture = data.CurrentDungeon.GetTexture(p.Step(f), f.Opposite());
+                    if (originalWallType == newWallType) { continue; }
+                    data.SetWallType(new WallReference(d, p, f), newWallType);
+                }
             }
-
-            _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", perform, data);
+            _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", Perform, data);
         }
 
     }

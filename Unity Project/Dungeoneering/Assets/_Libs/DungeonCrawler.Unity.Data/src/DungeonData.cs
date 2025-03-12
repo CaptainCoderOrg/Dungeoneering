@@ -70,17 +70,6 @@ public class DungeonData
     private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
     private void HandleWallChanged(Position _, Facing __, WallType ___) => HasChanged = true;
 
-    public void SetWallType(Position position, Facing facing, WallType type)
-    {
-        if (Dungeon.Walls[position, facing] == type) { return; }
-        Dungeon.WallTextures.Textures.Remove((position, facing));
-        Dungeon.WallTextures.Textures.Remove((position.Step(facing), facing.Opposite()));
-        Dungeon.Walls.SetWall(position, facing, type);
-        _changes.AddChange(Dungeon, position);
-        HasChanged = true;
-        Notify();
-    }
-
     private void Notify()
     {
         if (_preventNotify) { return; }
