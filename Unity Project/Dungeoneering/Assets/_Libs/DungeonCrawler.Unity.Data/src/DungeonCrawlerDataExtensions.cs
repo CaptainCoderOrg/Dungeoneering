@@ -1,3 +1,6 @@
+using System;
+
+using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 using UnityEngine;
@@ -141,8 +144,18 @@ public static class DungeonCrawlerDataExtensions
     public static TextureReference GetTexture(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTexture(tileRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, WallReference wallRef) => data.MaterialCache.GetTexture(wallRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, string textureName) => data.MaterialCache.GetTexture(textureName);
-    public static void DeleteTexture(this DungeonCrawlerData data, TextureReference textureRef) => data.MaterialCache.DeleteTexture(textureRef);
-    public static void CreateTexture(this DungeonCrawlerData data, string name, Texture2D texture2D) => data.MaterialCache.CreateTexture(name, texture2D);
+    public static void DeleteTexture(this DungeonCrawlerData data, TextureReference textureRef)
+    {
+        data.ManifestData.Manifest.Textures.Remove(textureRef.TextureName);
+        data.MaterialCache.DeleteTexture(textureRef);
+    }
+    public static void CreateTexture(this DungeonCrawlerData data, string name, Texture2D texture2D)
+    {
+        if (data.ManifestData.Manifest.Textures.ContainsKey(name)) { throw new InvalidOperationException($"A texture with the name {name} is already in the manifest."); }
+        Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture2D));
+        data.ManifestData.Manifest.AddTexture(dungeonTexture);
+        data.MaterialCache.AddTextureData(dungeonTexture);
+    }
     public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
     public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
 

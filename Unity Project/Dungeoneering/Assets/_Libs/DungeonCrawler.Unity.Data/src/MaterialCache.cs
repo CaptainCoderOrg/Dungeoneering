@@ -13,19 +13,18 @@ public class MaterialCache
     private readonly Dictionary<TileReference, TextureReference> _tileReferences = new();
     private readonly Dictionary<WallReference, TextureReference> _wallReferences = new();
     private System.Action<CacheUpdateData> _onCacheChanged;
-    private DungeonCrawlerManifest _manifest;
+
     internal void InitializeMaterialCache(DungeonCrawlerManifest manifest)
     {
         Debug.Log("Initializing Cache");
         Clear();
-        _manifest = manifest;
         BuildMaterials();
-        BuildReferences(_manifest.Dungeons.Values);
+        BuildReferences(manifest.Dungeons.Values);
         _onCacheChanged?.Invoke(new CacheInitialized(_textureDatabase.Textures));
 
         void BuildMaterials()
         {
-            foreach (Texture texture in _manifest.Textures.Values)
+            foreach (Texture texture in manifest.Textures.Values)
             {
                 _textureDatabase.Create(texture);
             }
@@ -147,7 +146,6 @@ public class MaterialCache
         }
         RemoveTileTextureReferences(textureRef);
         RemoveWallTextureReferences(textureRef);
-        _manifest.Textures.Remove(textureRef.TextureName);
         _textureDatabase.Remove(textureRef);
         _onCacheChanged?.Invoke(new CacheRemoveTexture(textureRef));
     }
@@ -178,11 +176,8 @@ public class MaterialCache
         onChange.Invoke(new CacheInitialized(_textureDatabase.Textures));
     }
 
-    internal void CreateTexture(string name, Texture2D texture)
+    internal void AddTextureData(Texture dungeonTexture)
     {
-        if (_manifest.Textures.ContainsKey(name)) { return; }
-        Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture));
-        _manifest.AddTexture(dungeonTexture);
         TextureReference created = _textureDatabase.Create(dungeonTexture);
         _onCacheChanged?.Invoke(new CacheAddTexture(created));
     }
@@ -191,7 +186,6 @@ public class MaterialCache
     {
         _textureDatabase.Clear();
         _tileReferences.Clear();
-        _manifest = null;
     }
 
     internal bool HasReference(TileReference tileReference) => _tileReferences.ContainsKey(tileReference);
