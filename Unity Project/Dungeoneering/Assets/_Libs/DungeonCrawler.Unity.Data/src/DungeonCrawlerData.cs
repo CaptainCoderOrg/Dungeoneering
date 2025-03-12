@@ -132,23 +132,5 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             };
             setter.Invoke(textureName);
         }
-
-        public void SetDefaultTileTexture(Dungeon targetDungeon, TextureReference newTexture)
-        {
-            if (!ManifestData.Manifest.Dungeons.TryGetValue(targetDungeon.Name, out Dungeon dungeon))
-            {
-                throw new InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
-            }
-            TextureReference previousTexture = MaterialCache.GetTexture(dungeon.TileTextures.Default);
-            dungeon.TileTextures.Default = newTexture.TextureName;
-            previousTexture.DefaultTileDungeons.Remove(dungeon);
-            newTexture.DefaultTileDungeons.Add(dungeon);
-            if (targetDungeon.Name == CurrentDungeon.Dungeon.Name)
-            {
-                previousTexture.DefaultTileDungeons.Remove(CurrentDungeon.Dungeon);
-                newTexture.DefaultTileDungeons.Add(CurrentDungeon.Dungeon);
-                CurrentDungeon.SetDefaultTileTexture(newTexture);
-            }
-        }
     }
 }

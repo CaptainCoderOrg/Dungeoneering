@@ -98,12 +98,8 @@ public class DungeonData
         _materialCache = materialCache;
     }
 
-    internal void SetDefaultTileTexture(TextureReference newTexture)
-    {
-        _dungeon.TileTextures.Default = newTexture.TextureName;
-        HasChanged = true;
-        OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
-    }
+    // TODO: Redesign message type here so force notify is not required
+    internal void ForceNotify() => OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
 
     internal void SetDefaultWallTexture(TextureReference newTexture, WallType wallType)
     {
