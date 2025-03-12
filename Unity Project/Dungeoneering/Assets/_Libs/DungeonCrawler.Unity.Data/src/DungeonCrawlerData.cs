@@ -13,7 +13,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     {
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
-        internal DungeonManifestData ManifestData { get; private set; }
+        internal LoadedManifest ManifestData { get; private set; }
         public DungeonCrawlerManifest Manifest => ManifestData.Manifest;
         internal LoadedDungeon CurrentDungeonData { get; private set; }
         public Dungeon CurrentDungeon => CurrentDungeonData.Dungeon;

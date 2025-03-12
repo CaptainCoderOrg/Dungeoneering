@@ -146,7 +146,12 @@ public static class DungeonCrawlerDataExtensions
         }
     }
 
-    public static void SyncTextureData(this DungeonCrawlerData data, TextureReference texture, Texture2D newTexture) => data.ManifestData.SyncTextureData(texture, newTexture);
+    public static void SyncTextureData(this DungeonCrawlerData data, TextureReference texture, Texture2D newTexture)
+    {
+        data.Manifest.Textures[texture.TextureName] = new Texture(texture.TextureName, ImageConversion.EncodeToPNG(newTexture));
+        texture.SetTexture(newTexture);
+    }
+
     public static bool HasTexture(this DungeonCrawlerData data, string textureName) => data.ManifestData.Manifest.Textures.ContainsKey(textureName);
     public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
     public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
@@ -197,7 +202,7 @@ public static class DungeonCrawlerDataExtensions
         }
         data.CurrentDungeonData.Dungeon = newDungeon.Copy();
         data.MaterialCache.AddDungeonReferences(newDungeon);
-        data.ManifestData.AddDungeon(newDungeon);
+        data.Manifest.AddDungeon(newDungeon.Name, newDungeon);
         message = "Dungeon added";
         return true;
     }
