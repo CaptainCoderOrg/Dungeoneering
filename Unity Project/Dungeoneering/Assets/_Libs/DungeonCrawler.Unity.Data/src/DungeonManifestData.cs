@@ -1,6 +1,5 @@
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
-using CaptainCoder.Dungeoneering.DungeonMap.IO;
 
 using UnityEngine;
 
@@ -9,64 +8,29 @@ internal class DungeonManifestData
 {
     private System.Action<DungeonManifestChanged> _onManifestChanged;
     private DungeonCrawlerManifest _manifest;
-    public DungeonCrawlerManifest Manifest => _manifest;
-    private MaterialCache _materialCache;
-
-    internal bool TryLoadManifest(string json, out string message)
+    internal DungeonCrawlerManifest Manifest
     {
-        try
+        get => _manifest;
+        set
         {
-            _manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
-            message = "Manifest loaded successfully";
+            _manifest = value;
+            _onManifestChanged?.Invoke(new ManifestChanged(_manifest));
         }
-        // TODO: Figure out best exception type
-        catch (System.Exception e)
-        {
-            message = $"Could not load manifest:\n\n{e}";
-            Debug.LogError(message);
-            return false;
-        }
-        // TODO: Consider using events to trigger the material cache to be initialized.
-        _materialCache.InitializeMaterialCache(_manifest);
-        _onManifestChanged?.Invoke(new ManifestLoadedEvent(_manifest));
-        return true;
     }
-
     internal void AddObserver(System.Action<DungeonManifestChanged> onChange)
     {
         _onManifestChanged += onChange;
         if (_manifest != null)
         {
-            onChange.Invoke(new ManifestLoadedEvent(_manifest));
+            onChange.Invoke(new ManifestChanged(_manifest));
         }
     }
 
     internal void RemoveObserver(System.Action<DungeonManifestChanged> onChange) => _onManifestChanged -= onChange;
-
-    public DungeonManifestData(MaterialCache materialCache)
+    internal void AddDungeon(Dungeon dungeon)
     {
-        _materialCache = materialCache;
-    }
-
-    internal void UpdateDungeon(Dungeon dungeon)
-    {
-        Dungeon copy = dungeon.Copy();
-        _materialCache.RemoveDungeonReferences(_manifest.Dungeons[copy.Name]);
-        _materialCache.AddDungeonReferences(copy);
-        _manifest.Dungeons[copy.Name] = copy;
-    }
-
-    internal bool TryAddDungeon(Dungeon dungeon, out string message)
-    {
-        if (_manifest.Dungeons.ContainsKey(dungeon.Name))
-        {
-            message = $"A dungeon named {dungeon.Name} already exists.";
-            return false;
-        }
         _manifest.AddDungeon(dungeon.Name, dungeon);
-        message = "Dungeon added";
         _onManifestChanged?.Invoke(new DungeonAddedEvent(dungeon));
-        return true;
     }
 
     internal void DeleteDungeon(Dungeon dungeon)
@@ -77,7 +41,7 @@ internal class DungeonManifestData
         }
     }
 
-    internal void UpdateTexture(TextureReference texture, Texture2D newTexture)
+    internal void SyncTextureData(TextureReference texture, Texture2D newTexture)
     {
         _manifest.Textures[texture.TextureName] = new Texture(texture.TextureName, ImageConversion.EncodeToPNG(newTexture));
         texture.SetTexture(newTexture);
@@ -86,7 +50,7 @@ internal class DungeonManifestData
 }
 
 public abstract record class DungeonManifestChanged;
-public record class ManifestLoadedEvent(DungeonCrawlerManifest Manifest) : DungeonManifestChanged;
+public record class ManifestChanged(DungeonCrawlerManifest Manifest) : DungeonManifestChanged;
 public record class DungeonRemovedEvent(Dungeon Dungeon) : DungeonManifestChanged;
 public record class DungeonAddedEvent(Dungeon Dungeon) : DungeonManifestChanged;
 public record class TextureUpdatedEvent(TextureReference TextureRef) : DungeonManifestChanged;

@@ -98,7 +98,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             System.Action perform = () =>
             {
                 TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
-                _dungeonCrawlerData.UpdateTexture(textureRef, newTexture);
+                _dungeonCrawlerData.SyncTextureData(textureRef, newTexture);
             };
             _undoRedoStack.PerformEditSerializeState("Replace Texture", perform, _dungeonCrawlerData);
         }

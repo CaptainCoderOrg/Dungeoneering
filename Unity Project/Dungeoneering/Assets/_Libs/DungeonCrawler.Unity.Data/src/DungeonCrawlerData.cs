@@ -27,39 +27,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         }
         public bool HasChanged => CurrentDungeonData.HasChanged;
 
-        private void Init()
-        {
-            ManifestData.RemoveObserver(HandleManifestChanged);
-            ManifestData.AddObserver(HandleManifestChanged);
-        }
-
-        private void HandleManifestChanged(DungeonManifestChanged changeEvent)
-        {
-            switch (changeEvent)
-            {
-                case ManifestLoadedEvent(DungeonCrawlerManifest manifest):
-                    HandleManifestLoaded(manifest);
-                    break;
-                case DungeonAddedEvent(Dungeon added):
-                    HandleDungeonAdded(added);
-                    break;
-                case DungeonRemovedEvent(Dungeon removed):
-                    HandleDungeonRemoved(removed);
-                    break;
-            }
-        }
-
         private void HandleDungeonRemoved(Dungeon dungeon) => MaterialCache.RemoveDungeonReferences(dungeon);
 
         private void HandleDungeonAdded(Dungeon dungeon)
         {
             CurrentDungeonData.Dungeon = dungeon;
             MaterialCache.AddDungeonReferences(dungeon);
-        }
-
-        private void HandleManifestLoaded(DungeonCrawlerManifest manifest)
-        {
-            CurrentDungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
         public override void OnBeforeEnterPlayMode()
@@ -73,18 +46,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             base.OnAfterEnterPlayMode();
             // Required to correctly load SelectableMaterial in PlayMode
-            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            if (!this.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
             }
         }
 #endif
-
-        protected override void OnExitPlayMode()
-        {
-            base.OnExitPlayMode();
-            ManifestData.RemoveObserver(HandleManifestChanged);
-        }
 
         /// <summary>
         /// Forces all DungeonCrawlerData to be reinitialized. This is an expensive operation and is designed for testing.
@@ -94,12 +61,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             MaterialCache = new();
             CurrentDungeonData = new();
-            ManifestData = new(MaterialCache);
-            if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
+            ManifestData = new();
+            if (!this.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
             }
-            Init();
         }
         public void AddObserver(Action<DungeonManifestChanged> handler) => ManifestData.AddObserver(handler);
         public void RemoveObserver(Action<DungeonManifestChanged> handler) => ManifestData.RemoveObserver(handler);

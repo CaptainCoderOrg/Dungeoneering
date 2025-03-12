@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
+using CaptainCoder.Dungeoneering.DungeonMap.IO;
 
 using UnityEngine;
 
@@ -15,7 +17,10 @@ public static class DungeonCrawlerDataExtensions
     /// <param name="data"></param>
     public static void SyncWithManifest(this DungeonCrawlerData data)
     {
-        data.ManifestData.UpdateDungeon(data.CurrentDungeon);
+        Dungeon copy = data.CurrentDungeon.Copy();
+        data.MaterialCache.RemoveDungeonReferences(data.Manifest.Dungeons[copy.Name]);
+        data.MaterialCache.AddDungeonReferences(copy);
+        data.Manifest.Dungeons[copy.Name] = copy;
         data.CurrentDungeonData.HasChanged = false;
     }
 
@@ -141,14 +146,20 @@ public static class DungeonCrawlerDataExtensions
         }
     }
 
+    public static void SyncTextureData(this DungeonCrawlerData data, TextureReference texture, Texture2D newTexture) => data.ManifestData.SyncTextureData(texture, newTexture);
+    public static bool HasTexture(this DungeonCrawlerData data, string textureName) => data.ManifestData.Manifest.Textures.ContainsKey(textureName);
+    public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
+    public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTexture(tileRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, WallReference wallRef) => data.MaterialCache.GetTexture(wallRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, string textureName) => data.MaterialCache.GetTexture(textureName);
+
     public static void DeleteTexture(this DungeonCrawlerData data, TextureReference textureRef)
     {
         data.ManifestData.Manifest.Textures.Remove(textureRef.TextureName);
         data.MaterialCache.DeleteTexture(textureRef);
     }
+
     public static void CreateTexture(this DungeonCrawlerData data, string name, Texture2D texture2D)
     {
         if (data.ManifestData.Manifest.Textures.ContainsKey(name)) { throw new InvalidOperationException($"A texture with the name {name} is already in the manifest."); }
@@ -156,13 +167,44 @@ public static class DungeonCrawlerDataExtensions
         data.ManifestData.Manifest.AddTexture(dungeonTexture);
         data.MaterialCache.AddTextureData(dungeonTexture);
     }
-    public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
-    public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
 
-    public static bool TryLoadManifest(this DungeonCrawlerData data, string json, out string message) => data.ManifestData.TryLoadManifest(json, out message);
-    public static bool TryAddDungeon(this DungeonCrawlerData data, Dungeon newDungeon, out string error) => data.ManifestData.TryAddDungeon(newDungeon, out error);
-    public static void DeleteDungeon(this DungeonCrawlerData data, Dungeon dungeon) => data.ManifestData.DeleteDungeon(dungeon);
-    public static void UpdateTexture(this DungeonCrawlerData data, TextureReference texture, Texture2D newTexture) => data.ManifestData.UpdateTexture(texture, newTexture);
-    public static bool HasTexture(this DungeonCrawlerData data, string textureName) => data.ManifestData.Manifest.Textures.ContainsKey(textureName);
+    public static bool TryLoadManifest(this DungeonCrawlerData data, string json, out string message)
+    {
+        try
+        {
+            DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
+            data.MaterialCache.InitializeMaterialCache(manifest);
+            data.ManifestData.Manifest = manifest;
+            data.CurrentDungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
+            message = "Manifest loaded successfully";
+        }
+        // TODO: Figure out best exception type
+        catch (Exception e)
+        {
+            message = $"Could not load manifest:\n\n{e}";
+            Debug.LogError(message);
+            return false;
+        }
+        return true;
+    }
 
+    public static bool TryAddDungeon(this DungeonCrawlerData data, Dungeon newDungeon, out string message)
+    {
+        if (data.Manifest.Dungeons.ContainsKey(newDungeon.Name))
+        {
+            message = $"A dungeon named {newDungeon.Name} already exists.";
+            return false;
+        }
+        data.CurrentDungeonData.Dungeon = newDungeon.Copy();
+        data.MaterialCache.AddDungeonReferences(newDungeon);
+        data.ManifestData.AddDungeon(newDungeon);
+        message = "Dungeon added";
+        return true;
+    }
+
+    public static void DeleteDungeon(this DungeonCrawlerData data, Dungeon dungeon)
+    {
+        data.MaterialCache.RemoveDungeonReferences(dungeon);
+        data.ManifestData.DeleteDungeon(dungeon);
+    }
 }
