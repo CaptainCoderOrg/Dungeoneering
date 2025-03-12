@@ -25,18 +25,24 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [AssertIsSet][SerializeField] private TextureLabelController _secretDoorLabel;
         private WallSelectionData _wallSelectionData = new();
 
-        private void HandleTilesChanged(TilesChangedData _) => RenderInfo(_selection.Tiles, _selection.Walls);
+        private void HandleTilesChanged(DungeonChanged changes)
+        {
+            if (changes is DungeonTilesChanged(IEnumerable<TileReference> _))
+            {
+                RenderInfo(_selection.Tiles, _selection.Walls);
+            }
+        }
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged += HandleTilesChanged;
+            _dungeonCrawlerData.CurrentDungeon.AddObserver(HandleTilesChanged);
             _selection.AddListener(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged -= HandleTilesChanged;
+            _dungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleTilesChanged);
             _selection.RemoveListener(HandleSelectionChanged);
         }
 

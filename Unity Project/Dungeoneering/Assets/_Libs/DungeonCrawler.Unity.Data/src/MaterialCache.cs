@@ -208,6 +208,7 @@ public class MaterialCache
 
     public TextureReference GetTexture(Dungeon d, Position p) => GetTexture(new TileReference(d, p));
     public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureDatabase.GetTileWallMaterials(d, p);
+    public TileWallTextures GetTileWallTextures(TileReference tileRef) => _textureDatabase.GetTileWallMaterials(tileRef.Dungeon, tileRef.Position);
     public TextureReference GetTexture(string textureName) => _textureDatabase.FromName(textureName);
 
     public TextureReference GetTexture(WallReference wallReference)

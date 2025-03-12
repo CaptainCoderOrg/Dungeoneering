@@ -17,13 +17,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnChange += HandleDungeonChanged;
+            _dungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
             Selected.AddListener(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnChange -= HandleDungeonChanged;
+            _dungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleDungeonChanged);
             Selected.RemoveListener(HandleSelectionChanged);
         }
 
@@ -47,12 +47,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _altSelectedTiles.Clear();
         }
 
-        public void HandleDungeonChanged(DungeonChangedData _)
+        public void HandleDungeonChanged(DungeonChanged changes)
         {
-            // Assuming this event only happens when a new dungeon is loaded.
-            // If that changes, we'll need to do some checking/updating
-            _selectedTiles.Clear();
-            Selected.SetTileSelection(System.Array.Empty<DungeonTile>());
+            if (changes is DungeonLoaded)
+            {
+                // Assuming this event only happens when a new dungeon is loaded.
+                // If that changes, we'll need to do some checking/updating
+                _selectedTiles.Clear();
+                Selected.SetTileSelection(System.Array.Empty<DungeonTile>());
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             MaterialCache = new();
             CurrentDungeon = new();
             ManifestData = new(MaterialCache);
-            CurrentDungeon.OnChange += HandleDungeonChanged;
+            CurrentDungeon.AddObserver(HandleDungeonChanged);
             if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
@@ -97,10 +97,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             Init();
         }
 
-        private void HandleDungeonChanged(DungeonChangedData changes)
+        private void HandleDungeonChanged(DungeonChanged changes)
         {
-            MaterialCache.RemoveDungeonReferences(changes.Previous);
-            MaterialCache.AddDungeonReferences(changes.New);
+            switch (changes)
+            {
+                case DungeonLoaded(Dungeon dungeon):
+                    MaterialCache.AddDungeonReferences(dungeon);
+                    break;
+                case DungeonUnloaded(Dungeon dungeon):
+                    MaterialCache.RemoveDungeonReferences(dungeon);
+                    break;
+            }
         }
     }
 }

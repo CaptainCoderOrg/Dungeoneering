@@ -86,7 +86,6 @@ public static class DungeonCrawlerDataExtensions
             previousTexture.DefaultTileDungeons.Remove(data.CurrentDungeon.Dungeon);
             newTexture.DefaultTileDungeons.Add(data.CurrentDungeon.Dungeon);
             data.CurrentDungeon.Dungeon.TileTextures.Default = newTexture.TextureName;
-            data.CurrentDungeon.ForceNotify();
         }
     }
 
@@ -108,7 +107,6 @@ public static class DungeonCrawlerDataExtensions
             previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon.Dungeon);
             newTexture.AddDefaultWall(wallType, data.CurrentDungeon.Dungeon);
             data.CurrentDungeon.Dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
-            data.CurrentDungeon.ForceNotify();
         }
     }
 

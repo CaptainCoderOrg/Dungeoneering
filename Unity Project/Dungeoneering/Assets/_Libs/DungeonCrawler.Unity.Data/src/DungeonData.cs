@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
@@ -23,53 +24,57 @@ public class DungeonData
         {
             if (value == _hasChanged) { return; }
             _hasChanged = value;
-            OnStateChanged?.Invoke(_dungeon, _hasChanged);
+            _onChange?.Invoke(new DungeonSyncedStateChanged(_dungeon, !_hasChanged));
         }
     }
-    // TODO: Consolidate events into a single event type
-    public event System.Action<Dungeon, bool> OnStateChanged;
-    public event System.Action<DungeonChangedData> OnChange;
-    public event System.Action<TilesChangedData> OnTilesChanged;
+    private System.Action<DungeonChanged> _onChange;
     private Dungeon _dungeon;
-    private TilesChangedData _changes = new();
+    private readonly HashSet<TileReference> _changes = new();
     public Dungeon Dungeon
     {
         get => _dungeon;
         set
         {
             if (_dungeon == value) { return; }
-            HasChanged = false;
-            DungeonChangedData change = new(_dungeon, value);
+
+            if (_dungeon != null)
+            {
+                DungeonUnloaded unloaded = new(_dungeon);
+                _onChange?.Invoke(unloaded);
+            }
+
             _dungeon = value;
-            OnChange?.Invoke(change);
+            DungeonLoaded loaded = new(_dungeon);
+            _onChange?.Invoke(loaded);
+            HasChanged = false;
         }
     }
-    public void AddObserver(System.Action<DungeonChangedData> handle)
+    public void AddObserver(System.Action<DungeonChanged> handle)
     {
-        OnChange += handle;
+        _onChange += handle;
         if (_dungeon != null)
         {
-            handle.Invoke(new DungeonChangedData(null, _dungeon));
+            handle.Invoke(new DungeonLoaded(_dungeon));
         }
     }
 
-    public void RemoveObserver(System.Action<DungeonChangedData> handle) => OnChange -= handle;
+    public void RemoveObserver(System.Action<DungeonChanged> handle) => _onChange -= handle;
 
     private void Notify()
     {
         if (_preventNotify) { return; }
-        if (_changes.Tiles.Count == 0) { return; }
-        OnTilesChanged?.Invoke(_changes);
-        _changes = new();
+        if (!_changes.Any()) { return; }
+        _onChange?.Invoke(new DungeonTilesChanged(_changes.AsEnumerable()));
+        _changes.Clear();
     }
 
     // TODO: Redesign message type here so force notify is not required
-    internal void ForceNotify() => OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
+    // internal void ForceNotify() => OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
 
     internal void AddChange(TileReference tile)
     {
         if (tile.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
-        _changes.AddChange(tile.Dungeon, tile.Position);
+        _changes.Add(tile);
         HasChanged = true;
         Notify();
     }
@@ -77,16 +82,14 @@ public class DungeonData
     internal void AddChange(WallReference wall)
     {
         if (wall.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
-        _changes.AddChange(wall.Dungeon, wall.Position);
+        _changes.Add(new TileReference(wall.Dungeon, wall.Position));
         HasChanged = true;
         Notify();
     }
 }
 
-public record DungeonChangedData(Dungeon Previous, Dungeon New);
-
-public class TilesChangedData
-{
-    public HashSet<(Dungeon, Position)> Tiles { get; private set; } = new();
-    public bool AddChange(Dungeon dungeon, Position position) => Tiles.Add((dungeon, position));
-}
+public abstract record DungeonChanged;
+public sealed record class DungeonLoaded(Dungeon Dungeon) : DungeonChanged;
+public sealed record class DungeonUnloaded(Dungeon Dungeon) : DungeonChanged;
+public sealed record class DungeonTilesChanged(IEnumerable<TileReference> Tiles) : DungeonChanged;
+public sealed record class DungeonSyncedStateChanged(Dungeon Dungeon, bool IsSynced) : DungeonChanged;
