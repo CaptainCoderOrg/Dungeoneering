@@ -52,11 +52,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 if (_selectionData.Tiles.All(t => t.FloorTextureName == name))
                 {
                     _currentTextureName.text = name;
-                    _currentTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(name).Texture;
+                    _currentTexture.texture = _dungeonCrawlerData.GetTexture(name).Texture;
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.TileTextures.Default).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.GetTexture(_dungeonCrawlerData.CurrentDungeon.TileTextures.Default).Texture;
             _useDefault = UseDefaultTileTexture;
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
@@ -86,15 +86,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _currentTexture.texture = _multipleTexturesImage;
             if (walls.Length > 0)
             {
-                TextureReference textureReference = _dungeonCrawlerData.MaterialCache.GetTexture(walls[0]);
-                if (walls.All(t => _dungeonCrawlerData.MaterialCache.GetTexture(t) == textureReference))
+                TextureReference textureReference = _dungeonCrawlerData.GetTexture(walls[0]);
+                if (walls.All(t => _dungeonCrawlerData.GetTexture(t) == textureReference))
                 {
                     _currentTextureName.text = textureReference.TextureName;
                     _currentTexture.texture = textureReference.Texture;
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon, wallType)).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon, wallType)).Texture;
             _useDefault = () => UseDefaultWallTexture(walls);
             TextureSelectorPanel.ShowDialogue(onSelected);
         }

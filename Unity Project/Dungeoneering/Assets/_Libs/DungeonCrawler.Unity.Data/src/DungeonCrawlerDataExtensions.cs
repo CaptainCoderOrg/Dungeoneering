@@ -1,5 +1,7 @@
 using CaptainCoder.Dungeoneering.DungeonMap;
 
+using UnityEngine;
+
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 
 public static class DungeonCrawlerDataExtensions
@@ -138,5 +140,11 @@ public static class DungeonCrawlerDataExtensions
 
     public static TextureReference GetTexture(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTexture(tileRef);
     public static TextureReference GetTexture(this DungeonCrawlerData data, WallReference wallRef) => data.MaterialCache.GetTexture(wallRef);
+    public static TextureReference GetTexture(this DungeonCrawlerData data, string textureName) => data.MaterialCache.GetTexture(textureName);
+    public static void DeleteTexture(this DungeonCrawlerData data, TextureReference textureRef) => data.MaterialCache.DeleteTexture(textureRef);
+    public static void CreateTexture(this DungeonCrawlerData data, string name, Texture2D texture2D) => data.MaterialCache.CreateTexture(name, texture2D);
+    public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
+    public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
+
 
 }

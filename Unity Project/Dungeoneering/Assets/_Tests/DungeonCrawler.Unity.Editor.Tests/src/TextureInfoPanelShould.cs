@@ -1,5 +1,7 @@
 using System.Collections;
 
+using CaptainCoder.Dungeoneering.Unity.Data;
+
 using NUnit.Framework;
 
 using UnityEngine;
@@ -26,7 +28,7 @@ public class TextureInfoPanelShould
     public IEnumerator DisableDeleteIfDefaultTexture()
     {
         TextureInfoPanelTestData data = Init();
-        data.Panel.Texture = data.MaterialCache.GetTexture("default-tile.png");
+        data.Panel.Texture = data.DungeonCrawlerData.GetTexture("default-tile.png");
         yield return null;
         Assert.That(data.DeleteButton.interactable, Is.False);
     }
@@ -35,7 +37,7 @@ public class TextureInfoPanelShould
     public IEnumerator EnableDeleteIfNotDefaultTexture()
     {
         TextureInfoPanelTestData data = Init();
-        data.Panel.Texture = data.MaterialCache.GetTexture("white-tile.png");
+        data.Panel.Texture = data.DungeonCrawlerData.GetTexture("white-tile.png");
         yield return null;
         Assert.That(data.DeleteButton.interactable, Is.True);
     }

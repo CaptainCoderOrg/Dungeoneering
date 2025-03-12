@@ -97,7 +97,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             System.Action perform = () =>
             {
-                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
+                TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
                 _dungeonCrawlerData.ManifestData.UpdateTexture(textureRef, newTexture);
             };
             _undoRedoStack.PerformEditSerializeState("Replace Texture", perform, _dungeonCrawlerData);
@@ -107,8 +107,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             System.Action perform = () =>
             {
-                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
-                _dungeonCrawlerData.MaterialCache.RemoveTextureReference(textureRef);
+                TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
+                _dungeonCrawlerData.DeleteTexture(textureRef);
             };
             _undoRedoStack.PerformEditSerializeState("Delete Texture", perform, _dungeonCrawlerData);
             Hide();

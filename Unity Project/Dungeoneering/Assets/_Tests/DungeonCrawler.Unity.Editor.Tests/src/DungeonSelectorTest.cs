@@ -95,7 +95,6 @@ public class DungeonSelectorTest
     {
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
-        MaterialCache cache = panel.DungeonCrawlerData.MaterialCache;
         DungeonCrawlerManifest manifest = panel.DungeonCrawlerData.ManifestData.Manifest;
         panel.gameObject.SetActive(true);
         yield return null;
@@ -105,7 +104,7 @@ public class DungeonSelectorTest
         Dungeon removedDungeon = manifest.Dungeons["Second Dungeon"];
         // The tile at position (0, 0) has a "white-tile.png"
         TileReference topLeftReference = new(removedDungeon, new Position(0, 0));
-        Assert.That(cache.HasReference(topLeftReference), Is.True, "Expected reference at (0, 0) to exist");
+        Assert.That(panel.DungeonCrawlerData.HasReference(topLeftReference), Is.True, "Expected reference at (0, 0) to exist");
         second.Remove();
         yield return null;
         ConfirmPromptPanel confirmPrompt = GameObject.FindFirstObjectByType<ConfirmPromptPanel>();
@@ -119,7 +118,7 @@ public class DungeonSelectorTest
 
         buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
         Assert.That(buttons.Count, Is.EqualTo(1));
-        Assert.That(cache.HasReference(topLeftReference), Is.False, "Expected reference at (0, 0) to be removed");
+        Assert.That(panel.DungeonCrawlerData.HasReference(topLeftReference), Is.False, "Expected reference at (0, 0) to be removed");
 
     }
 }

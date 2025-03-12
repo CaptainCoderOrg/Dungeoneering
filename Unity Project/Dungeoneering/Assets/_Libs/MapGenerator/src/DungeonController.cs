@@ -116,8 +116,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             if (tileRef.Dungeon == DungeonCrawlerData.CurrentDungeon)
             {
                 DungeonTile tile = _tiles[tileRef.Position];
-                tile.UpdateFloor(DungeonCrawlerData.MaterialCache.GetTexture(tileRef));
-                tile.UpdateWalls(tileRef.Dungeon.GetTile(tileRef.Position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallTextures(tileRef));
+                tile.UpdateFloor(DungeonCrawlerData.GetTexture(tileRef));
+                tile.UpdateWalls(tileRef.Dungeon.GetTile(tileRef.Position).Walls, DungeonCrawlerData.GetTileWallTextures(tileRef));
             }
             else
             {

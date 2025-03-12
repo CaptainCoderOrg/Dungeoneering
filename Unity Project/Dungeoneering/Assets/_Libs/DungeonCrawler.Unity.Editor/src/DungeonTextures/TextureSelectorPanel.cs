@@ -39,12 +39,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.MaterialCache.AddObserver(HandleCacheUpdate);
+            _dungeonCrawlerData.AddObserver(HandleCacheUpdate);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.MaterialCache.RemoveObserver(HandleCacheUpdate);
+            _dungeonCrawlerData.RemoveObserver(HandleCacheUpdate);
         }
 
         private void HandleCacheUpdate(CacheUpdateData update)
@@ -97,7 +97,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _textureInfoPanel.Show();
         }
 
-        private void AddTexture(string name, Texture2D texture) => _dungeonCrawlerData.MaterialCache.AddTexture(name, texture);
+        private void AddTexture(string name, Texture2D texture) => _dungeonCrawlerData.CreateTexture(name, texture);
 
         public void Cancel()
         {

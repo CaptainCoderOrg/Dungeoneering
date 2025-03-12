@@ -75,7 +75,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             string textureName = GetTextureName(walls.First());
             if (walls.All(w => GetTextureName(w) == textureName))
             {
-                return (textureName, _dungeonCrawlerData.MaterialCache.GetTexture(textureName));
+                return (textureName, _dungeonCrawlerData.GetTexture(textureName));
             }
             return ("Multiple textures", null);
             string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.GetTexture(new WallReference(_dungeonCrawlerData.CurrentDungeon, wall.p, wall.f)).TextureName;
@@ -84,8 +84,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private (string, TextureReference) TextureLabel(ISet<DungeonTile> tiles)
         {
             if (tiles.Count() < 1) { return ("No Selection", null); }
-            TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(tiles.First().TileReference);
-            if (tiles.All(t => _dungeonCrawlerData.MaterialCache.GetTexture(t.TileReference) == textureRef))
+            TextureReference textureRef = _dungeonCrawlerData.GetTexture(tiles.First().TileReference);
+            if (tiles.All(t => _dungeonCrawlerData.GetTexture(t.TileReference) == textureRef))
             {
                 return (textureRef.TextureName, textureRef);
             }

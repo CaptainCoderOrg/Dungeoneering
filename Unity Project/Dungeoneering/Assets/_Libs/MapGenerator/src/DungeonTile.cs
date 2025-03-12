@@ -71,13 +71,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public static void UpdateTile(DungeonController controller, Position position, DungeonTile newTile)
         {
-            newTile.UpdateFloor(controller.DungeonCrawlerData.MaterialCache.GetTexture(newTile.Dungeon, position));
-            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
+            newTile.UpdateFloor(controller.DungeonCrawlerData.GetTexture(newTile.TileReference));
+            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.GetTileWallTextures(newTile.TileReference));
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(DungeonController.DungeonCrawlerData.MaterialCache.GetTexture(Dungeon, Position), isSelected);
+            UpdateFloor(DungeonController.DungeonCrawlerData.GetTexture(new TileReference(Dungeon, Position)), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)

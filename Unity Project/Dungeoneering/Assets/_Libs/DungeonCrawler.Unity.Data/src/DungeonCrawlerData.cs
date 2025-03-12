@@ -16,9 +16,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
         public DungeonManifestData ManifestData { get; private set; }
-        internal LoadedDungeon CurrentDungeonData;
+        internal LoadedDungeon CurrentDungeonData { get; private set; }
         public Dungeon CurrentDungeon => CurrentDungeonData.Dungeon;
-        public MaterialCache MaterialCache { get; private set; }
+        internal MaterialCache MaterialCache { get; private set; }
         public bool PreventNotify
         {
             get => CurrentDungeonData.PreventNotify;
@@ -101,6 +101,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             Init();
         }
 
+        public void AddObserver(Action<CacheUpdateData> handler) => MaterialCache.AddObserver(handler);
+        public void RemoveObserver(Action<CacheUpdateData> handler) => MaterialCache.RemoveObserver(handler);
         public void AddObserver(Action<DungeonChangeEvent> handleDungeonChanged) => CurrentDungeonData.AddObserver(handleDungeonChanged);
         public void RemoveObserver(Action<DungeonChangeEvent> handleDungeonChanged) => CurrentDungeonData.RemoveObserver(handleDungeonChanged);
         public void LoadDungeon(string dungeonJson) => LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
