@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
-using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 public class DungeonData
 {
@@ -25,12 +23,13 @@ public class DungeonData
         {
             if (value == _hasChanged) { return; }
             _hasChanged = value;
-            OnStateChanged.Invoke(_dungeon, _hasChanged);
+            OnStateChanged?.Invoke(_dungeon, _hasChanged);
         }
     }
-    public UnityEvent<Dungeon, bool> OnStateChanged { get; private set; } = new();
+    // TODO: Consolidate events into a single event type
+    public event System.Action<Dungeon, bool> OnStateChanged;
     public event System.Action<DungeonChangedData> OnChange;
-    public UnityEvent<TilesChangedData> OnTilesChanged { get; private set; } = new();
+    public event System.Action<TilesChangedData> OnTilesChanged;
     private Dungeon _dungeon;
     private TilesChangedData _changes = new();
     public Dungeon Dungeon
@@ -39,16 +38,9 @@ public class DungeonData
         set
         {
             if (_dungeon == value) { return; }
-            if (_dungeon != null)
-            {
-                _dungeon.Walls.OnWallChanged -= HandleWallChanged;
-                _dungeon.WallTextures.OnTextureChange -= HandleWallTextureChanged;
-            }
             HasChanged = false;
             DungeonChangedData change = new(_dungeon, value);
             _dungeon = value;
-            _dungeon.Walls.OnWallChanged += HandleWallChanged;
-            _dungeon.WallTextures.OnTextureChange += HandleWallTextureChanged;
             OnChange?.Invoke(change);
         }
     }
@@ -61,19 +53,13 @@ public class DungeonData
         }
     }
 
-    public void RemoveObserver(System.Action<DungeonChangedData> handle)
-    {
-        OnChange -= handle;
-    }
-
-    private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
-    private void HandleWallChanged(Position _, Facing __, WallType ___) => HasChanged = true;
+    public void RemoveObserver(System.Action<DungeonChangedData> handle) => OnChange -= handle;
 
     private void Notify()
     {
         if (_preventNotify) { return; }
         if (_changes.Tiles.Count == 0) { return; }
-        OnTilesChanged.Invoke(_changes);
+        OnTilesChanged?.Invoke(_changes);
         _changes = new();
     }
 
@@ -82,7 +68,7 @@ public class DungeonData
 
     internal void AddChange(TileReference tile)
     {
-        if (tile.Dungeon != Dungeon) { throw new ArgumentException($"Cannot add change to dungeon that is not loaded"); }
+        if (tile.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
         _changes.AddChange(tile.Dungeon, tile.Position);
         HasChanged = true;
         Notify();
@@ -90,7 +76,7 @@ public class DungeonData
 
     internal void AddChange(WallReference wall)
     {
-        if (wall.Dungeon != Dungeon) { throw new ArgumentException($"Cannot add change to dungeon that is not loaded"); }
+        if (wall.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
         _changes.AddChange(wall.Dungeon, wall.Position);
         HasChanged = true;
         Notify();

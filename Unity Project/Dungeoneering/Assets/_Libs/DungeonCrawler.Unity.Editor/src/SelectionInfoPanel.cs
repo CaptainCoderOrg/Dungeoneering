@@ -29,14 +29,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.AddListener(HandleTilesChanged);
+            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged += HandleTilesChanged;
             _selection.AddListener(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.RemoveListener(HandleTilesChanged);
+            _dungeonCrawlerData.CurrentDungeon.OnTilesChanged -= HandleTilesChanged;
             _selection.RemoveListener(HandleSelectionChanged);
         }
 
