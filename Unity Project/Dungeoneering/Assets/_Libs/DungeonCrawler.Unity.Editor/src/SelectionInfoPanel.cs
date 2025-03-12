@@ -35,14 +35,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.AddObserver(HandleTilesChanged);
+            _dungeonCrawlerData.AddObserver(HandleTilesChanged);
             _selection.AddListener(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleTilesChanged);
+            _dungeonCrawlerData.RemoveObserver(HandleTilesChanged);
             _selection.RemoveListener(HandleSelectionChanged);
         }
 
@@ -78,7 +78,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 return (textureName, _dungeonCrawlerData.MaterialCache.GetTexture(textureName));
             }
             return ("Multiple textures", null);
-            string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.GetTexture(new WallReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, wall.p, wall.f)).TextureName;
+            string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.GetTexture(new WallReference(_dungeonCrawlerData.CurrentDungeon, wall.p, wall.f)).TextureName;
         }
 
         private (string, TextureReference) TextureLabel(ISet<DungeonTile> tiles)
@@ -119,7 +119,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach ((Position p, Facing f) in cachedWalls)
                 {
-                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon.Dungeon, p, f);
+                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon, p, f);
                     _dungeonCrawlerData.SetTexture(wallRef, newTexture);
                 }
             }

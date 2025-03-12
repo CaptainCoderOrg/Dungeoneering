@@ -17,13 +17,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
+            _dungeonCrawlerData.AddObserver(HandleDungeonChanged);
             Selected.AddListener(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleDungeonChanged);
+            _dungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
             Selected.RemoveListener(HandleSelectionChanged);
         }
 

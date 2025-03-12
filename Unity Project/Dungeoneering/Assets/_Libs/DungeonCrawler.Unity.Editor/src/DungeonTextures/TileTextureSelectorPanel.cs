@@ -56,7 +56,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon.TileTextures.Default).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.TileTextures.Default).Texture;
             _useDefault = UseDefaultTileTexture;
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
@@ -79,7 +79,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void ShowWallSelection(System.Action<TextureReference> onSelected, WallType wallType, ISet<(Position position, Facing facing)> selection)
         {
-            WallReference[] walls = selection.Select(s => new WallReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, s.position, s.facing)).ToArray();
+            WallReference[] walls = selection.Select(s => new WallReference(_dungeonCrawlerData.CurrentDungeon, s.position, s.facing)).ToArray();
             _onSelected = onSelected;
             _selectedText.text = $"{TypeLabel(wallType)} Selected: {walls.Length}";
             _currentTextureName.text = walls.Length > 0 ? "Multiple Selected" : "None Selected";
@@ -94,7 +94,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon, wallType)).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon, wallType)).Texture;
             _useDefault = () => UseDefaultWallTexture(walls);
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
@@ -124,7 +124,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (DungeonTile tile in selected)
                 {
-                    _dungeonCrawlerData.UseDefaultTexture(new TileReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, tile.Position));
+                    _dungeonCrawlerData.UseDefaultTexture(new TileReference(_dungeonCrawlerData.CurrentDungeon, tile.Position));
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);

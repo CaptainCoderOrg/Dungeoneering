@@ -41,7 +41,7 @@ public class DungeonSelectorTest
     {
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
-        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon;
         panel.gameObject.SetActive(true);
         yield return null;
         DungeonSelectorButton[] buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
@@ -49,7 +49,7 @@ public class DungeonSelectorTest
         second.Select();
         yield return null;
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
-        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
         Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["Second Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");
@@ -69,12 +69,12 @@ public class DungeonSelectorTest
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
         panel.gameObject.SetActive(true);
-        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon;
         yield return null;
         panel.CreateNewDungeon("New Dungeon");
         yield return null;
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
-        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
         Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["New Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");

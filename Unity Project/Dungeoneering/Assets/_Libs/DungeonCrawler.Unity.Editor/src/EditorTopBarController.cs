@@ -28,13 +28,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
+            _dungeonCrawlerData.AddObserver(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleDungeonChanged);
+            _dungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 

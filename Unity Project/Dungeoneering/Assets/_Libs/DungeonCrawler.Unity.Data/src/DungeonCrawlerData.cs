@@ -4,6 +4,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
+using CaptainCoder.Dungeoneering.DungeonMap.IO;
 
 using UnityEngine;
 
@@ -15,8 +16,15 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
         public DungeonManifestData ManifestData { get; private set; }
-        public DungeonData CurrentDungeon { get; private set; }
+        internal DungeonData CurrentDungeonData;
+        public Dungeon CurrentDungeon => CurrentDungeonData.Dungeon;
         public MaterialCache MaterialCache { get; private set; }
+        public bool PreventNotify
+        {
+            get => CurrentDungeonData.PreventNotify;
+            set => CurrentDungeonData.PreventNotify = value;
+        }
+        public bool HasChanged => CurrentDungeonData.HasChanged;
 
         private void Init()
         {
@@ -40,20 +48,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
         }
 
-        private void HandleDungeonRemoved(Dungeon dungeon)
-        {
-            MaterialCache.RemoveDungeonReferences(dungeon);
-        }
+        private void HandleDungeonRemoved(Dungeon dungeon) => MaterialCache.RemoveDungeonReferences(dungeon);
 
         private void HandleDungeonAdded(Dungeon dungeon)
         {
-            CurrentDungeon.Dungeon = dungeon;
+            CurrentDungeonData.Dungeon = dungeon;
             MaterialCache.AddDungeonReferences(dungeon);
         }
 
         private void HandleManifestLoaded(DungeonCrawlerManifest manifest)
         {
-            CurrentDungeon.Dungeon = manifest.Dungeons.First().Value.Copy();
+            CurrentDungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
         }
 
         public override void OnBeforeEnterPlayMode()
@@ -87,9 +92,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         public void ForceInitialize()
         {
             MaterialCache = new();
-            CurrentDungeon = new();
+            CurrentDungeonData = new();
             ManifestData = new(MaterialCache);
-            CurrentDungeon.AddObserver(HandleDungeonChanged);
+            CurrentDungeonData.AddObserver(HandleDungeonChanged);
             if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
@@ -109,5 +114,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                     break;
             }
         }
+
+        public void AddObserver(Action<DungeonChanged> handleDungeonChanged) => CurrentDungeonData.AddObserver(handleDungeonChanged);
+        public void RemoveObserver(Action<DungeonChanged> handleDungeonChanged) => CurrentDungeonData.RemoveObserver(handleDungeonChanged);
+        public void LoadDungeon(string redoDungeonJson) => CurrentDungeonData.Dungeon = JsonExtensions.LoadModel<Dungeon>(redoDungeonJson);
+        public void LoadDungeon(Dungeon dungeon) => CurrentDungeonData.Dungeon = dungeon;
     }
 }

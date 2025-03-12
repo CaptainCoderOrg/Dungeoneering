@@ -13,26 +13,26 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         /// </summary>
         public static void PerformEditSerializeState(this UndoRedoStackData stack, string name, System.Action perform, DungeonCrawlerData data)
         {
-            string originalDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon.Dungeon);
+            string originalDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon);
             string originalManifestJson = JsonExtensions.ToJson(data.ManifestData.Manifest);
 
-            data.CurrentDungeon.PreventNotify = true;
+            data.PreventNotify = true;
             perform.Invoke();
-            data.CurrentDungeon.PreventNotify = false;
+            data.PreventNotify = false;
 
-            string redoDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon.Dungeon);
+            string redoDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon);
             string redoManifestJson = JsonExtensions.ToJson(data.ManifestData.Manifest);
 
             void Redo()
             {
                 data.ManifestData.TryLoadManifest(redoManifestJson, out _);
-                data.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(redoDungeonJson);
+                data.LoadDungeon(redoDungeonJson);
             }
 
             void Undo()
             {
                 data.ManifestData.TryLoadManifest(originalManifestJson, out _);
-                data.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(originalDungeonJson);
+                data.LoadDungeon(originalDungeonJson);
             }
             stack.PushEdit(name, Redo, Undo);
         }

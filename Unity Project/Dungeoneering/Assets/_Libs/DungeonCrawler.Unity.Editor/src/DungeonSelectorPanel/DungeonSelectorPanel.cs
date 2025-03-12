@@ -69,7 +69,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             foreach ((string name, Dungeon d) in manifest.Dungeons)
             {
                 DungeonSelectorButton button = Instantiate(_dungeonButtonPrefab, _buttonTransform);
-                button.Initialize(d, _dungeonCrawlerData.CurrentDungeon.Dungeon.Name == d.Name);
+                button.Initialize(d, _dungeonCrawlerData.CurrentDungeon.Name == d.Name);
                 button.OnSelected.AddListener(TryOpenDungeon);
                 button.OnRemoved.AddListener(PromptDeleteDungeon);
                 button.OnInfo.AddListener(_dungeonInfoPanel.Show);
@@ -79,7 +79,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void PromptDeleteDungeon(Dungeon dungeon)
         {
-            if (_dungeonCrawlerData.CurrentDungeon.Dungeon == dungeon)
+            if (_dungeonCrawlerData.CurrentDungeon == dungeon)
             {
                 _confirmPromptPanel.Prompt($"Cannot delete <b>{dungeon.Name}</b> because it is currently open.", null, null);
                 return;
@@ -93,9 +93,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void WarnIfChanges(System.Action action)
         {
-            if (_dungeonCrawlerData.CurrentDungeon.HasChanged)
+            if (_dungeonCrawlerData.HasChanged)
             {
-                _confirmPromptPanel.Prompt($"You have unsaved changes in <b>{_dungeonCrawlerData.CurrentDungeon.Dungeon.Name}</b>.\nAre you sure you want to continue?\n<b><color=red>This cannot be undone!</color></b>", action);
+                _confirmPromptPanel.Prompt($"You have unsaved changes in <b>{_dungeonCrawlerData.CurrentDungeon.Name}</b>.\nAre you sure you want to continue?\n<b><color=red>This cannot be undone!</color></b>", action);
             }
             else
             {
@@ -127,7 +127,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void OpenDungeon(Dungeon d)
         {
             Hide();
-            _dungeonCrawlerData.CurrentDungeon.Dungeon = d.Copy();
+            _dungeonCrawlerData.LoadDungeon(d.Copy());
         }
 
         public void Hide() => gameObject.SetActive(false);

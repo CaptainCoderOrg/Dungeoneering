@@ -27,12 +27,12 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         void OnEnable()
         {
-            DungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
+            DungeonCrawlerData.AddObserver(HandleDungeonChanged);
         }
 
         void OnDisable()
         {
-            DungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleDungeonChanged);
+            DungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
         }
 
         private void HandleDungeonChanged(DungeonChanged change)
@@ -101,7 +101,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void UpdateTile(TileReference tileRef)
         {
-            if (tileRef.Dungeon == DungeonCrawlerData.CurrentDungeon.Dungeon)
+            if (tileRef.Dungeon == DungeonCrawlerData.CurrentDungeon)
             {
                 DungeonTile tile = _tiles[tileRef.Position];
                 tile.UpdateFloor(DungeonCrawlerData.MaterialCache.GetTexture(tileRef));
@@ -109,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
             else
             {
-                Debug.Log($"No scene changes made. Current dungeon is {DungeonCrawlerData.CurrentDungeon.Dungeon.Name}");
+                Debug.Log($"No scene changes made. Current dungeon is {DungeonCrawlerData.CurrentDungeon.Name}");
             }
         }
 

@@ -74,13 +74,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (_selectionData.Tiles.Count() == 0) { return; }
             HashSet<Position> tiles = _selectionData.Tiles.Select(t => t.Position).ToHashSet();
-            IEnumerable<WallChangeData> changes = _dungeonCrawlerData.CurrentDungeon.Dungeon.FindWallChanges(tiles, wallType, facings);
+            IEnumerable<WallChangeData> changes = _dungeonCrawlerData.CurrentDungeon.FindWallChanges(tiles, wallType, facings);
             WallData[] newWalls = changes.Select(c => c.Changed).ToArray();
             void Perform()
             {
                 foreach (WallData change in newWalls)
                 {
-                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon.Dungeon, change.Position, change.Facing);
+                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon, change.Position, change.Facing);
                     _dungeonCrawlerData.SetWallType(wallRef, change.WallType);
                 }
             }

@@ -4,7 +4,7 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
-public class DungeonData
+internal class DungeonData
 {
     private bool _preventNotify = false;
     public bool PreventNotify
@@ -33,7 +33,7 @@ public class DungeonData
     public Dungeon Dungeon
     {
         get => _dungeon;
-        set
+        internal set
         {
             if (_dungeon == value) { return; }
 
@@ -67,9 +67,6 @@ public class DungeonData
         _onChange?.Invoke(new DungeonTilesChanged(_changes.AsEnumerable()));
         _changes.Clear();
     }
-
-    // TODO: Redesign message type here so force notify is not required
-    // internal void ForceNotify() => OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
 
     internal void AddChange(TileReference tile)
     {

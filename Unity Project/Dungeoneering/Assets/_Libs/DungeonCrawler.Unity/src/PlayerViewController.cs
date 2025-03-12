@@ -26,7 +26,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 HandleInputIgnoringWalls(action);
                 return;
             }
-            PlayerView.View = PlayerControls.Move(_dungeonCrawlerData.CurrentDungeon.Dungeon, PlayerView.View, action);
+            PlayerView.View = PlayerControls.Move(_dungeonCrawlerData.CurrentDungeon, PlayerView.View, action);
         }
 
         private void HandleInputIgnoringWalls(MovementAction action)
@@ -38,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.Unity
                 MovementAction.StepBackward => new PlayerView(p.Step(f.Opposite()), f),
                 MovementAction.StrafeLeft => new PlayerView(p.Step(f.RotateCounterClockwise()), f),
                 MovementAction.StrafeRight => new PlayerView(p.Step(f.Rotate()), f),
-                _ => PlayerControls.Move(_dungeonCrawlerData.CurrentDungeon.Dungeon, PlayerView.View, action),
+                _ => PlayerControls.Move(_dungeonCrawlerData.CurrentDungeon, PlayerView.View, action),
             };
             PlayerView.View = newView;
         }

@@ -1,7 +1,3 @@
-
-
-using System.Collections.Generic;
-
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
@@ -14,8 +10,8 @@ public static class DungeonCrawlerDataExtensions
     /// <param name="data"></param>
     public static void SyncWithManifest(this DungeonCrawlerData data)
     {
-        data.ManifestData.UpdateDungeon(data.CurrentDungeon.Dungeon);
-        data.CurrentDungeon.HasChanged = false;
+        data.ManifestData.UpdateDungeon(data.CurrentDungeon);
+        data.CurrentDungeonData.HasChanged = false;
     }
 
     /// <summary>
@@ -24,9 +20,9 @@ public static class DungeonCrawlerDataExtensions
     public static void SetTexture(this DungeonCrawlerData data, TileReference tile, TextureReference newTexture)
     {
         data.MaterialCache.SetTexture(tile, newTexture);
-        if (data.CurrentDungeon.Dungeon == tile.Dungeon)
+        if (data.CurrentDungeon == tile.Dungeon)
         {
-            data.CurrentDungeon.AddChange(tile);
+            data.CurrentDungeonData.AddChange(tile);
         }
     }
 
@@ -36,9 +32,9 @@ public static class DungeonCrawlerDataExtensions
     public static void SetTexture(this DungeonCrawlerData data, WallReference wall, TextureReference newTexture)
     {
         data.MaterialCache.SetTexture(wall, newTexture);
-        if (data.CurrentDungeon.Dungeon == wall.Dungeon)
+        if (data.CurrentDungeon == wall.Dungeon)
         {
-            data.CurrentDungeon.AddChange(wall);
+            data.CurrentDungeonData.AddChange(wall);
         }
     }
 
@@ -49,9 +45,9 @@ public static class DungeonCrawlerDataExtensions
     {
         tileRef.Dungeon.TileTextures.Textures.Remove(tileRef.Position);
         data.MaterialCache.RemoveTexture(tileRef);
-        if (data.CurrentDungeon.Dungeon == tileRef.Dungeon)
+        if (data.CurrentDungeon == tileRef.Dungeon)
         {
-            data.CurrentDungeon.AddChange(tileRef);
+            data.CurrentDungeonData.AddChange(tileRef);
         }
     }
 
@@ -62,9 +58,9 @@ public static class DungeonCrawlerDataExtensions
     {
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
         data.MaterialCache.RemoveTexture(wallRef);
-        if (data.CurrentDungeon.Dungeon == wallRef.Dungeon)
+        if (data.CurrentDungeon == wallRef.Dungeon)
         {
-            data.CurrentDungeon.AddChange(wallRef);
+            data.CurrentDungeonData.AddChange(wallRef);
         }
     }
 
@@ -81,11 +77,11 @@ public static class DungeonCrawlerDataExtensions
         dungeon.TileTextures.Default = newTexture.TextureName;
         previousTexture.DefaultTileDungeons.Remove(dungeon);
         newTexture.DefaultTileDungeons.Add(dungeon);
-        if (targetDungeon.Name == data.CurrentDungeon.Dungeon.Name)
+        if (targetDungeon.Name == data.CurrentDungeon.Name)
         {
-            previousTexture.DefaultTileDungeons.Remove(data.CurrentDungeon.Dungeon);
-            newTexture.DefaultTileDungeons.Add(data.CurrentDungeon.Dungeon);
-            data.CurrentDungeon.Dungeon.TileTextures.Default = newTexture.TextureName;
+            previousTexture.DefaultTileDungeons.Remove(data.CurrentDungeon);
+            newTexture.DefaultTileDungeons.Add(data.CurrentDungeon);
+            data.CurrentDungeon.TileTextures.Default = newTexture.TextureName;
         }
     }
 
@@ -102,11 +98,11 @@ public static class DungeonCrawlerDataExtensions
         dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
         previousTexture.RemoveDefaultWall(wallType, dungeon);
         newTexture.AddDefaultWall(wallType, dungeon);
-        if (targetDungeon.Name == data.CurrentDungeon.Dungeon.Name)
+        if (targetDungeon.Name == data.CurrentDungeon.Name)
         {
-            previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon.Dungeon);
-            newTexture.AddDefaultWall(wallType, data.CurrentDungeon.Dungeon);
-            data.CurrentDungeon.Dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+            previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon);
+            newTexture.AddDefaultWall(wallType, data.CurrentDungeon);
+            data.CurrentDungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
         }
     }
 
@@ -134,9 +130,9 @@ public static class DungeonCrawlerDataExtensions
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Opposite()));
         wallRef.Dungeon.Walls.SetWall(wallRef.Position, wallRef.Facing, type);
-        if (wallRef.Dungeon == data.CurrentDungeon.Dungeon)
+        if (wallRef.Dungeon == data.CurrentDungeon)
         {
-            data.CurrentDungeon.AddChange(wallRef);
+            data.CurrentDungeonData.AddChange(wallRef);
         }
     }
 

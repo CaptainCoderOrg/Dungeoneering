@@ -10,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public TileReference TileReference => new(Dungeon, Position);
-        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
