@@ -15,7 +15,17 @@ namespace CaptainCoder.Unity
             _undoStack.Clear();
         }
 
-        public void PerformEdit(string name, System.Action perform, System.Action undo)
+        /// <summary>
+        /// Pushes the edit to the stack without calling perform. This assumes the action was performed before calling this method
+        /// </summary>
+        public void PushEdit(string name, System.Action perform, System.Action undo)
+        {
+            EditorOperation operation = new() { Name = name, Perform = perform, Undo = undo };
+            _undoStack.Push(operation);
+            _redoStack.Clear();
+        }
+
+        public void PerformAndPushEdit(string name, System.Action perform, System.Action undo)
         {
             EditorOperation operation = new() { Name = name, Perform = perform, Undo = undo };
             operation.Perform?.Invoke();

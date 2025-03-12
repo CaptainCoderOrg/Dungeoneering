@@ -7,24 +7,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public static class UndoRedoStackDataExtensions
     {
-        public static void PerformEdit(this UndoRedoStackData stack, string name, System.Action perform, System.Action undo, DungeonData dungeon)
-        {
-            if (perform == null || undo == null) { return; }
-            System.Action wrappedPerform = () =>
-            {
-                dungeon.PreventNotify = true;
-                perform.Invoke();
-                dungeon.PreventNotify = false;
-            };
-
-            System.Action wrappedUndo = () =>
-            {
-                dungeon.PreventNotify = true;
-                undo.Invoke();
-                dungeon.PreventNotify = false;
-            };
-            stack.PerformEdit(name, wrappedPerform, wrappedUndo);
-        }
 
         /// <summary>
         /// Serializes the state of the manifest before performing the specified action. The undo action loads the entire previous state.
@@ -33,12 +15,26 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             string originalDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon.Dungeon);
             string originalManifestJson = JsonExtensions.ToJson(data.ManifestData.Manifest);
-            System.Action undo = () =>
+
+            data.CurrentDungeon.PreventNotify = true;
+            perform.Invoke();
+            data.CurrentDungeon.PreventNotify = false;
+
+            string redoDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon.Dungeon);
+            string redoManifestJson = JsonExtensions.ToJson(data.ManifestData.Manifest);
+
+            void Redo()
+            {
+                data.ManifestData.TryLoadManifest(redoManifestJson, out _);
+                data.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(redoDungeonJson);
+            }
+
+            void Undo()
             {
                 data.ManifestData.TryLoadManifest(originalManifestJson, out _);
                 data.CurrentDungeon.Dungeon = JsonExtensions.LoadModel<Dungeon>(originalDungeonJson);
-            };
-            stack.PerformEdit(name, perform, undo, data.CurrentDungeon);
+            }
+            stack.PushEdit(name, Redo, Undo);
         }
     }
 }
