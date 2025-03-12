@@ -19,8 +19,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public DungeonTile TilePrefab { get; private set; } = null!;
         [field: SerializeField]
-        public UnityEvent<DungeonData> OnDungeonChanged { get; private set; } = new();
-        [field: SerializeField]
         public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
@@ -82,9 +80,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 Destroy(tile.gameObject);
             }
-
-            // TODO: We should be able to eliminate this and replace with DungeonData.OnChange
-            OnDungeonChanged.Invoke(DungeonCrawlerData.CurrentDungeon);
 
             // TODO: I suspect there is a memory leak here, we never unregister these
             DungeonCrawlerData.CurrentDungeon.Dungeon.Walls.OnWallChanged += UpdateWalls;
