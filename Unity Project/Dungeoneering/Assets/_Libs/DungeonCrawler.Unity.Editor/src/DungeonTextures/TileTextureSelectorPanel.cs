@@ -57,50 +57,65 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
 
             _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon.TileTextures.Default).Texture;
-            _useDefault = UseDefaultTile;
+            _useDefault = UseDefaultTileTexture;
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
 
-        public void ShowWallSelection(System.Action<TextureReference> onSelected)
+        private static string TypeLabel(WallType wallType) => wallType switch
         {
-            HashSet<DungeonWallController> selection = _selectionData.Walls.Where(w => w.WallType == WallType.Solid).ToHashSet();
+            WallType.Solid => "Walls",
+            WallType.Door => "Doors",
+            WallType.SecretDoor => "Secrets",
+            _ => throw new System.Exception($"Unexpected {nameof(WallType)}: {wallType}"),
+        };
+
+        private static string DefaultTexture(Dungeon dungeon, WallType wallType) => wallType switch
+        {
+            WallType.Solid => dungeon.WallTextures.DefaultSolid,
+            WallType.Door => dungeon.WallTextures.DefaultDoor,
+            WallType.SecretDoor => dungeon.WallTextures.DefaultSecretDoor,
+            _ => throw new System.Exception($" Unexpected {nameof(WallType)}: {wallType}"),
+        };
+
+        public void ShowWallSelection(System.Action<TextureReference> onSelected, WallType wallType, ISet<(Position position, Facing facing)> selection)
+        {
+            WallReference[] walls = selection.Select(s => new WallReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, s.position, s.facing)).ToArray();
             _onSelected = onSelected;
-            _selectedText.text = $"Walls Selected: {selection.Count}";
-            _currentTextureName.text = _selectionData.Tiles.Count > 0 ? "Multiple Selected" : "None Selected";
+            _selectedText.text = $"{TypeLabel(wallType)} Selected: {walls.Length}";
+            _currentTextureName.text = walls.Length > 0 ? "Multiple Selected" : "None Selected";
             _currentTexture.texture = _multipleTexturesImage;
-            if (selection.Count > 0)
+            if (walls.Length > 0)
             {
-                TextureReference textureReference = selection.First().Texture;
-                if (selection.All(t => t.Texture == textureReference))
+                TextureReference textureReference = _dungeonCrawlerData.MaterialCache.GetTexture(walls[0]);
+                if (walls.All(t => _dungeonCrawlerData.MaterialCache.GetTexture(t) == textureReference))
                 {
                     _currentTextureName.text = textureReference.TextureName;
                     _currentTexture.texture = textureReference.Texture;
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon.WallTextures.DefaultSolid).Texture;
-            _useDefault = UseDefaultWall;
+            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon, wallType)).Texture;
+            _useDefault = () => UseDefaultWallTexture(walls);
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
 
         public void UseDefault() => _useDefault.Invoke();
 
-        private void UseDefaultWall()
+        private void UseDefaultWallTexture(IEnumerable<WallReference> walls)
         {
             gameObject.SetActive(false);
-            DungeonWallController[] selection = _selectionData.Walls.Where(w => w.WallType == WallType.Solid).ToArray();
-            if (selection.Length == 0) { return; }
+            if (!walls.Any()) { return; }
             void Perform()
             {
-                foreach (DungeonWallController wall in selection)
+                foreach (WallReference wall in walls)
                 {
-                    _dungeonCrawlerData.CurrentDungeon.RemoveWallTexture(wall.Parent.Position, wall.Facing);
+                    _dungeonCrawlerData.CurrentDungeon.RemoveWallTexture(wall.Position, wall.Facing);
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
         }
 
-        private void UseDefaultTile()
+        private void UseDefaultTileTexture()
         {
             gameObject.SetActive(false);
             if (_selectionData.Tiles.Count == 0) { return; }
