@@ -38,14 +38,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _selectorToggleButton.onClick.AddListener(_dungeonSelectorPanel.Toggle);
         }
 
-        private void HandleDungeonChanged(DungeonChanged changes)
+        private void HandleDungeonChanged(DungeonChangeEvent changes)
         {
             switch (changes)
             {
                 case DungeonLoaded(Dungeon loaded):
                     _nameLabel.text = loaded.Name;
                     break;
-                case DungeonSyncedStateChanged(Dungeon dungeon, bool isSynced):
+                case SyncedStateChange(Dungeon dungeon, bool isSynced):
                     _nameLabel.text = isSynced ? dungeon.Name : $"{dungeon?.Name}*";
                     break;
             }

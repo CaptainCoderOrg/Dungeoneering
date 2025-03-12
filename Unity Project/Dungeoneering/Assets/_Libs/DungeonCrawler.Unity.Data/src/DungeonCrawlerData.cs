@@ -16,7 +16,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
         public DungeonManifestData ManifestData { get; private set; }
-        internal DungeonData CurrentDungeonData;
+        internal LoadedDungeon CurrentDungeonData;
         public Dungeon CurrentDungeon => CurrentDungeonData.Dungeon;
         public MaterialCache MaterialCache { get; private set; }
         public bool PreventNotify
@@ -94,7 +94,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             MaterialCache = new();
             CurrentDungeonData = new();
             ManifestData = new(MaterialCache);
-            CurrentDungeonData.AddObserver(HandleDungeonChanged);
             if (!ManifestData.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
@@ -102,22 +101,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             Init();
         }
 
-        private void HandleDungeonChanged(DungeonChanged changes)
+        public void AddObserver(Action<DungeonChangeEvent> handleDungeonChanged) => CurrentDungeonData.AddObserver(handleDungeonChanged);
+        public void RemoveObserver(Action<DungeonChangeEvent> handleDungeonChanged) => CurrentDungeonData.RemoveObserver(handleDungeonChanged);
+        public void LoadDungeon(string dungeonJson) => LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
+        public void LoadDungeon(Dungeon dungeon)
         {
-            switch (changes)
+            if (CurrentDungeon != null)
             {
-                case DungeonLoaded(Dungeon dungeon):
-                    MaterialCache.AddDungeonReferences(dungeon);
-                    break;
-                case DungeonUnloaded(Dungeon dungeon):
-                    MaterialCache.RemoveDungeonReferences(dungeon);
-                    break;
+                MaterialCache.RemoveDungeonReferences(dungeon);
             }
+            CurrentDungeonData.Dungeon = dungeon;
+            MaterialCache.AddDungeonReferences(dungeon);
         }
-
-        public void AddObserver(Action<DungeonChanged> handleDungeonChanged) => CurrentDungeonData.AddObserver(handleDungeonChanged);
-        public void RemoveObserver(Action<DungeonChanged> handleDungeonChanged) => CurrentDungeonData.RemoveObserver(handleDungeonChanged);
-        public void LoadDungeon(string redoDungeonJson) => CurrentDungeonData.Dungeon = JsonExtensions.LoadModel<Dungeon>(redoDungeonJson);
-        public void LoadDungeon(Dungeon dungeon) => CurrentDungeonData.Dungeon = dungeon;
     }
 }

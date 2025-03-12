@@ -4,36 +4,36 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
-internal class DungeonData
+internal class LoadedDungeon
 {
     private bool _preventNotify = false;
-    public bool PreventNotify
+    internal bool PreventNotify
     {
         get => _preventNotify;
         set
         {
             _preventNotify = value;
-            Notify();
+            NotifyTileChanges();
         }
     }
     private bool _hasChanged = false;
-    public bool HasChanged
+    internal bool HasChanged
     {
         get => _hasChanged;
-        internal set
+        set
         {
             if (value == _hasChanged) { return; }
             _hasChanged = value;
-            _onChange?.Invoke(new DungeonSyncedStateChanged(_dungeon, !_hasChanged));
+            _onChange?.Invoke(new SyncedStateChange(_dungeon, !_hasChanged));
         }
     }
-    private System.Action<DungeonChanged> _onChange;
+    private System.Action<DungeonChangeEvent> _onChange;
+    private readonly HashSet<TileReference> _cachedTileChanges = new();
     private Dungeon _dungeon;
-    private readonly HashSet<TileReference> _changes = new();
-    public Dungeon Dungeon
+    internal Dungeon Dungeon
     {
         get => _dungeon;
-        internal set
+        set
         {
             if (_dungeon == value) { return; }
 
@@ -49,7 +49,7 @@ internal class DungeonData
             HasChanged = false;
         }
     }
-    public void AddObserver(System.Action<DungeonChanged> handle)
+    internal void AddObserver(System.Action<DungeonChangeEvent> handle)
     {
         _onChange += handle;
         if (_dungeon != null)
@@ -58,35 +58,51 @@ internal class DungeonData
         }
     }
 
-    public void RemoveObserver(System.Action<DungeonChanged> handle) => _onChange -= handle;
+    internal void RemoveObserver(System.Action<DungeonChangeEvent> handle) => _onChange -= handle;
 
-    private void Notify()
+    private void NotifyTileChanges()
     {
         if (_preventNotify) { return; }
-        if (!_changes.Any()) { return; }
-        _onChange?.Invoke(new DungeonTilesChanged(_changes.AsEnumerable()));
-        _changes.Clear();
+        if (!_cachedTileChanges.Any()) { return; }
+        _onChange?.Invoke(new TilesChanged(_cachedTileChanges.AsEnumerable()));
+        _cachedTileChanges.Clear();
     }
 
     internal void AddChange(TileReference tile)
     {
         if (tile.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
-        _changes.Add(tile);
+        _cachedTileChanges.Add(tile);
         HasChanged = true;
-        Notify();
+        NotifyTileChanges();
     }
 
     internal void AddChange(WallReference wall)
     {
         if (wall.Dungeon != Dungeon) { throw new System.ArgumentException($"Cannot add change to dungeon that is not loaded"); }
-        _changes.Add(new TileReference(wall.Dungeon, wall.Position));
+        _cachedTileChanges.Add(new TileReference(wall.Dungeon, wall.Position));
         HasChanged = true;
-        Notify();
+        NotifyTileChanges();
+    }
+
+    internal void SetDefaultTileTexture(TextureReference newTexture)
+    {
+        _dungeon.TileTextures.Default = newTexture.TextureName;
+        HasChanged = true;
+        _onChange?.Invoke(new DefaultTileTextureChanged(_dungeon, newTexture));
+    }
+
+    internal void SetDefaultWallTexture(WallType wallType, TextureReference newTexture)
+    {
+        _dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+        HasChanged = true;
+        _onChange?.Invoke(new DefaultWallTextureChanged(_dungeon, wallType, newTexture));
     }
 }
 
-public abstract record DungeonChanged;
-public sealed record class DungeonLoaded(Dungeon Dungeon) : DungeonChanged;
-public sealed record class DungeonUnloaded(Dungeon Dungeon) : DungeonChanged;
-public sealed record class DungeonTilesChanged(IEnumerable<TileReference> Tiles) : DungeonChanged;
-public sealed record class DungeonSyncedStateChanged(Dungeon Dungeon, bool IsSynced) : DungeonChanged;
+public abstract record DungeonChangeEvent;
+public sealed record class DungeonLoaded(Dungeon Dungeon) : DungeonChangeEvent;
+public sealed record class DungeonUnloaded(Dungeon Dungeon) : DungeonChangeEvent;
+public sealed record class TilesChanged(IEnumerable<TileReference> Tiles) : DungeonChangeEvent;
+public sealed record class DefaultTileTextureChanged(Dungeon Dungeon, TextureReference Texture) : DungeonChangeEvent;
+public sealed record class DefaultWallTextureChanged(Dungeon Dungeon, WallType WallType, TextureReference Texture) : DungeonChangeEvent;
+public sealed record class SyncedStateChange(Dungeon Dungeon, bool IsSynced) : DungeonChangeEvent;

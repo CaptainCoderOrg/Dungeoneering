@@ -35,15 +35,27 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             DungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
         }
 
-        private void HandleDungeonChanged(DungeonChanged change)
+        private void HandleDungeonChanged(DungeonChangeEvent change)
         {
             switch (change)
             {
                 case DungeonLoaded(Dungeon _):
                     UpdateDungeonTiles();
                     break;
-                case DungeonTilesChanged(IEnumerable<TileReference> tiles):
+                case TilesChanged(IEnumerable<TileReference> tiles):
                     UpdateTiles(tiles);
+                    break;
+                case DefaultTileTextureChanged(Dungeon dungeon, TextureReference _):
+                    if (dungeon == DungeonCrawlerData.CurrentDungeon)
+                    {
+                        UpdateDungeonTiles();
+                    }
+                    break;
+                case DefaultWallTextureChanged(Dungeon dungeon, WallType _, TextureReference __):
+                    if (dungeon == DungeonCrawlerData.CurrentDungeon)
+                    {
+                        UpdateDungeonTiles();
+                    }
                     break;
             }
         }

@@ -81,7 +81,7 @@ public static class DungeonCrawlerDataExtensions
         {
             previousTexture.DefaultTileDungeons.Remove(data.CurrentDungeon);
             newTexture.DefaultTileDungeons.Add(data.CurrentDungeon);
-            data.CurrentDungeon.TileTextures.Default = newTexture.TextureName;
+            data.CurrentDungeonData.SetDefaultTileTexture(newTexture);
         }
     }
 
@@ -102,11 +102,11 @@ public static class DungeonCrawlerDataExtensions
         {
             previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon);
             newTexture.AddDefaultWall(wallType, data.CurrentDungeon);
-            data.CurrentDungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+            data.CurrentDungeonData.SetDefaultWallTexture(wallType, newTexture);
         }
     }
 
-    private static void SetDefaultTexture(this WallTextureMap wallTextures, WallType wallType, string textureName)
+    internal static void SetDefaultTexture(this WallTextureMap wallTextures, WallType wallType, string textureName)
     {
         System.Action<string> setter = wallType switch
         {

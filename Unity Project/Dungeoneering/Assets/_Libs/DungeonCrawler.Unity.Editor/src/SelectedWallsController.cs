@@ -47,9 +47,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _altSelectedWalls.Clear();
         }
 
-        public void HandleDungeonChanged(DungeonChanged changes)
+        public void HandleDungeonChanged(DungeonChangeEvent changes)
         {
-            if (changes is DungeonLoaded)
+            if (changes is DungeonLoaded or DefaultTileTextureChanged or DefaultWallTextureChanged)
             {
                 // Assuming this event only happens when a new dungeon is loaded.
                 // If that changes, we'll need to do some checking/updating 
