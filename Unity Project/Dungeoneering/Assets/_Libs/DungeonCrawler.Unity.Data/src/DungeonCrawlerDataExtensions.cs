@@ -88,4 +88,38 @@ public static class DungeonCrawlerDataExtensions
         }
     }
 
+    /// <summary>
+    /// Sets the default texture for the specified dungeon and wall type.
+    /// </summary>
+    public static void SetDefaultWallTexture(this DungeonCrawlerData data, Dungeon targetDungeon, TextureReference newTexture, WallType wallType)
+    {
+        if (!data.ManifestData.Manifest.Dungeons.TryGetValue(targetDungeon.Name, out Dungeon dungeon))
+        {
+            throw new System.InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
+        }
+        TextureReference previousTexture = data.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSolid);
+        dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+        previousTexture.RemoveDefaultWall(wallType, dungeon);
+        newTexture.AddDefaultWall(wallType, dungeon);
+        if (targetDungeon.Name == data.CurrentDungeon.Dungeon.Name)
+        {
+            previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon.Dungeon);
+            newTexture.AddDefaultWall(wallType, data.CurrentDungeon.Dungeon);
+            data.CurrentDungeon.Dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+            data.CurrentDungeon.ForceNotify();
+        }
+    }
+
+    private static void SetDefaultTexture(this WallTextureMap wallTextures, WallType wallType, string textureName)
+    {
+        System.Action<string> setter = wallType switch
+        {
+            WallType.Solid => s => wallTextures.DefaultSolid = s,
+            WallType.Door => s => wallTextures.DefaultDoor = s,
+            WallType.SecretDoor => s => wallTextures.DefaultSecretDoor = s,
+            _ => throw new System.Exception($"Cannot set texture for wall type None"),
+        };
+        setter.Invoke(textureName);
+    }
+
 }

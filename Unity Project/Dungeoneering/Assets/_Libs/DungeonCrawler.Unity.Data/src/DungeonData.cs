@@ -101,20 +101,6 @@ public class DungeonData
     // TODO: Redesign message type here so force notify is not required
     internal void ForceNotify() => OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
 
-    internal void SetDefaultWallTexture(TextureReference newTexture, WallType wallType)
-    {
-        Action<string> setter = wallType switch
-        {
-            WallType.Solid => s => _dungeon.WallTextures.DefaultSolid = s,
-            WallType.Door => s => _dungeon.WallTextures.DefaultDoor = s,
-            WallType.SecretDoor => s => _dungeon.WallTextures.DefaultSecretDoor = s,
-            _ => throw new Exception($"Cannot set texture for wall type None"),
-        };
-        setter.Invoke(newTexture.TextureName);
-        HasChanged = true;
-        OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
-    }
-
     internal void AddChange(TileReference tile)
     {
         if (tile.Dungeon != Dungeon) { throw new ArgumentException($"Cannot add change to dungeon that is not loaded"); }
