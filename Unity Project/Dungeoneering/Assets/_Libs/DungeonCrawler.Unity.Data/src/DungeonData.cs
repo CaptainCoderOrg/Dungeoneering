@@ -88,6 +88,7 @@ public class DungeonData
     public void RemoveFloorTexture(Position position)
     {
         Dungeon.TileTextures.Textures.Remove(position);
+        _materialCache.RemoveTexture(new TileReference(_dungeon, position));
         _changes.AddChange(Dungeon, position);
         HasChanged = true;
         Notify();
@@ -101,9 +102,10 @@ public class DungeonData
         Notify();
     }
 
-    internal void RemoveWallTexture(Position position, Facing facing)
+    public void RemoveWallTexture(Position position, Facing facing)
     {
         Dungeon.WallTextures.Textures.Remove((position, facing));
+        _materialCache.RemoveTexture(new WallReference(_dungeon, position, facing));
         _changes.AddChange(Dungeon, position);
         HasChanged = true;
         Notify();

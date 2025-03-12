@@ -13,6 +13,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public Facing Facing { get; private set; }
         private SelectableMaterial _material;
+        public TextureReference Texture => Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.GetTexture(Parent.Position, Facing);
         public SelectableMaterial Material
         {
             get => _material;

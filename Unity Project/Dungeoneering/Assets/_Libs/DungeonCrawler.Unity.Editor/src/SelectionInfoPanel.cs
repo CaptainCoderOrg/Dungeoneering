@@ -6,34 +6,24 @@ using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
+using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class SelectionInfoPanel : MonoBehaviour
     {
-        [SerializeField]
-        private DungeonCrawlerData _dungeonCrawlerData;
         private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
-        [SerializeField]
-        private DungeonEditorSelectionData _selection;
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStack;
-        [field: SerializeField]
-        public TextureSelectorPanel TextureSelector { get; private set; }
-        [SerializeField]
-        private GameObject _content;
-        [SerializeField]
-        private TextureLabelController _tilesLabel;
-        [SerializeField]
-        private TextureLabelController _wallsLabel;
-        [SerializeField]
-        private TextureLabelController _doorsLabel;
-        [SerializeField]
-        private TextureLabelController _secretDoorLabel;
-        private readonly HashSet<(Position, Facing)> _walls = new();
-        private readonly HashSet<(Position, Facing)> _doors = new();
-        private readonly HashSet<(Position, Facing)> _secretDoors = new();
+        [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
+        [AssertIsSet][SerializeField] private DungeonEditorSelectionData _selection;
+        [AssertIsSet][SerializeField] private UndoRedoStackData _undoRedoStack;
+        [AssertIsSet][SerializeField] private TileTextureSelectorPanel _tileTextureSelector;
+        [AssertIsSet][SerializeField] private GameObject _content;
+        [AssertIsSet][SerializeField] private TextureLabelController _tilesLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _wallsLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _doorsLabel;
+        [AssertIsSet][SerializeField] private TextureLabelController _secretDoorLabel;
+        private WallSelectionData _wallSelectionData = new();
 
         private void HandleTilesChanged(TilesChangedData _) => RenderInfo(_selection.Tiles, _selection.Walls);
 
@@ -42,41 +32,28 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.AddListener(HandleTilesChanged);
             _selection.AddListener(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
-            _tilesLabel.Button.OnClick.AddListener(OpenTileTextureSelector);
-            _wallsLabel.Button.OnClick.AddListener(OpenWallTextureSelector);
-            _doorsLabel.Button.OnClick.AddListener(OpenDoorsTextureSelector);
-            _secretDoorLabel.Button.OnClick.AddListener(OpenSecretDoorsTextureSelector);
         }
 
         void OnDisable()
         {
             _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.RemoveListener(HandleTilesChanged);
             _selection.RemoveListener(HandleSelectionChanged);
-            _tilesLabel.Button.OnClick.RemoveListener(OpenTileTextureSelector);
-            _wallsLabel.Button.OnClick.RemoveListener(OpenWallTextureSelector);
-            _doorsLabel.Button.OnClick.RemoveListener(OpenDoorsTextureSelector);
-            _secretDoorLabel.Button.OnClick.RemoveListener(OpenSecretDoorsTextureSelector);
-        }
-
-        void Awake()
-        {
-            Assertion.NotNull(this, _selection, _undoRedoStack, TextureSelector, _content, _tilesLabel, _wallsLabel, _doorsLabel, _secretDoorLabel, _dungeonCrawlerData);
         }
 
         private void HandleSelectionChanged(SelectionChangedData changes) => RenderInfo(changes.SelectedTiles, changes.SelectedWalls);
 
         private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
         {
-            CountWalls(tiles, walls);
+            _wallSelectionData.CountWalls(tiles, walls);
             _content.SetActive(true);
 
             (string tileTextureName, TextureReference tileTexture) = TextureLabel(tiles);
             _tilesLabel.Label.text = $"{tiles.Count()} Tiles: {tileTextureName}";
             _tilesLabel.Button.Texture = tileTexture;
 
-            UpdateLabel(_wallsLabel, "Walls", _walls);
-            UpdateLabel(_doorsLabel, "Doors", _doors);
-            UpdateLabel(_secretDoorLabel, "Secret Doors", _secretDoors);
+            UpdateLabel(_wallsLabel, "Walls", _wallSelectionData.Solid);
+            UpdateLabel(_doorsLabel, "Doors", _wallSelectionData.Doors);
+            UpdateLabel(_secretDoorLabel, "Secret Doors", _wallSelectionData.SecretDoors);
         }
 
         private void UpdateLabel(TextureLabelController label, string name, ISet<(Position, Facing)> walls)
@@ -109,36 +86,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             return ("Multiple textures", null);
         }
 
-        private void CountWalls(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
-        {
-            _walls.Clear();
-            _doors.Clear();
-            _secretDoors.Clear();
-            foreach (var wall in walls)
-            {
-                HashSet<(Position, Facing)> wallSet = wall.WallType switch
-                {
-                    WallType.Solid => _walls,
-                    WallType.Door => _doors,
-                    WallType.SecretDoor => _secretDoors,
-                    _ => null,
-                };
-                if (wallSet == null) { continue; }
-                wallSet.Add((wall.Parent.Position, wall.Facing));
-            }
-            foreach (var tile in tiles)
-            {
-                foreach (var facing in Facings)
-                {
-                    (Position p, Facing f) key = (tile.Position, facing);
-                    WallType wallType = tile.Dungeon.Walls.GetWall(key.p, key.f);
-                    if (wallType == WallType.Solid) { _walls.Add((key.p, key.f)); }
-                    else if (wallType == WallType.Door) { _doors.Add((key.p, key.f)); }
-                    else if (wallType == WallType.SecretDoor) { _secretDoors.Add((key.p, key.f)); }
-                }
-            }
-        }
-
         private void SetTileTexture(TextureReference newTexture)
         {
             if (!_selection.Tiles.Any()) { return; }
@@ -155,11 +102,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _walls);
-        private void SetDoorTextures(TextureReference newTexture) => SetWallTextures(newTexture, _doors);
-        private void SetSecretTextures(TextureReference newTexture) => SetWallTextures(newTexture, _secretDoors);
+        private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Solid);
+        private void SetDoorTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Doors);
+        private void SetSecretTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.SecretDoors);
 
-        private void SetWallTextures(TextureReference newTexture, HashSet<(Position, Facing)> walls)
+        private void SetWallTextures(TextureReference newTexture, ISet<(Position, Facing)> walls)
         {
             DungeonManifestData manifest = _dungeonCrawlerData.ManifestData;
             Dungeon d = _dungeonCrawlerData.CurrentDungeon.Dungeon;
@@ -174,9 +121,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void OpenTileTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetTileTexture, null);
-        private void OpenWallTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSolidTextures, null);
-        private void OpenDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetDoorTextures, null);
-        private void OpenSecretDoorsTextureSelector(DungeonTextureButton _) => TextureSelector.ShowDialogue(SetSecretTextures, null);
+        public void OpenTileTextureSelector() => _tileTextureSelector.ShowTileSelection(SetTileTexture);
+        public void OpenWallTextureSelector() => _tileTextureSelector.ShowWallSelection(SetSolidTextures, WallType.Solid, _wallSelectionData.Solid);
+        public void OpenDoorsTextureSelector() => _tileTextureSelector.ShowWallSelection(SetDoorTextures, WallType.Door, _wallSelectionData.Doors);
+        public void OpenSecretDoorsTextureSelector() => _tileTextureSelector.ShowWallSelection(SetSecretTextures, WallType.SecretDoor, _wallSelectionData.SecretDoors);
     }
 }

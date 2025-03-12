@@ -491,7 +491,7 @@ MonoBehaviour:
   _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _selection: {fileID: 11400000, guid: 1c5699de80a00204abf734fcaa403be9, type: 2}
   _undoRedoStack: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
-  <TextureSelector>k__BackingField: {fileID: 0}
+  _tileTextureSelector: {fileID: 0}
   _content: {fileID: 5089779043125872555}
   _tilesLabel: {fileID: 7558897718290654293}
   _wallsLabel: {fileID: 1459665425661576918}
@@ -929,6 +929,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6787889872006418220}
     m_Modifications:
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9011893654948372653}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenTileTextureSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Unity.Editor.SelectionInfoPanel, DungeonCrawler.Unity.Editor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3364714784095637824, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -980,6 +1008,10 @@ PrefabInstance:
     - target: {fileID: 6396300970075534034, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 8005051858065938714, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_Pivot.x
@@ -1090,6 +1122,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6787889872006418220}
     m_Modifications:
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9011893654948372653}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenSecretDoorsTextureSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Unity.Editor.SelectionInfoPanel, DungeonCrawler.Unity.Editor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3364714784095637824, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1145,6 +1205,10 @@ PrefabInstance:
     - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_text
       value: 'Secret Door: some.png'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 8005051858065938714, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_Pivot.x
@@ -1677,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1186
+      value: 1868
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1713,7 +1777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 598
+      value: 939
       objectReference: {fileID: 0}
     - target: {fileID: 6243470868309647435, guid: 2ea3db817d7c864498f37f394f5df200, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1965,6 +2029,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6787889872006418220}
     m_Modifications:
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9011893654948372653}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenDoorsTextureSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Unity.Editor.SelectionInfoPanel, DungeonCrawler.Unity.Editor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3364714784095637824, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2020,6 +2112,10 @@ PrefabInstance:
     - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_text
       value: 'Doors: some.png'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 8005051858065938714, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_Pivot.x
@@ -2130,6 +2226,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6787889872006418220}
     m_Modifications:
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 9011893654948372653}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenWallTextureSelector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Unity.Editor.SelectionInfoPanel, DungeonCrawler.Unity.Editor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858695532026760211, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: <OnClick>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3364714784095637824, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2185,6 +2309,10 @@ PrefabInstance:
     - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_text
       value: 'Walls: some.png'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634444430105073995, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 8005051858065938714, guid: 3b72fa448d39ab141b62712a94e5b1cb, type: 3}
       propertyPath: m_Pivot.x

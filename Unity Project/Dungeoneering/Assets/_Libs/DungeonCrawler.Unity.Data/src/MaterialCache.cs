@@ -121,6 +121,24 @@ public class MaterialCache
         tileRef.Dungeon.TileTextures.Textures[tileRef.Position] = newTexture.TextureName;
     }
 
+    public void RemoveTexture(TileReference tileRef)
+    {
+        if (_tileReferences.TryGetValue(tileRef, out TextureReference oldRef))
+        {
+            oldRef.Tiles.Remove(tileRef);
+            _tileReferences.Remove(tileRef);
+        }
+    }
+
+    public void RemoveTexture(WallReference wallRef)
+    {
+        if (_wallReferences.TryGetValue(wallRef, out TextureReference oldRef))
+        {
+            oldRef.Walls.Remove(wallRef);
+            _wallReferences.Remove(wallRef);
+        }
+    }
+
     public void RemoveTextureReference(TextureReference textureRef)
     {
         if (textureRef.IsDefaultTexture)
@@ -192,7 +210,7 @@ public class MaterialCache
     public TileWallTextures GetTileWallMaterials(Dungeon d, Position p) => _textureDatabase.GetTileWallMaterials(d, p);
     public TextureReference GetTexture(string textureName) => _textureDatabase.FromName(textureName);
 
-    internal TextureReference GetTexture(WallReference wallReference)
+    public TextureReference GetTexture(WallReference wallReference)
     {
         if (_wallReferences.TryGetValue(wallReference, out TextureReference tRef))
         {

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Unity;
 using CaptainCoder.Unity.UI;
 
 using SFB;
@@ -17,35 +16,25 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-using TMPro;
+using CaptainCoder.Unity.Assertions;
+
 namespace CaptainCoder.Dungeoneering.Unity.Editor
 {
     public class TextureSelectorPanel : MonoBehaviour
     {
-        [SerializeField]
-        private DungeonCrawlerData _dungeonCrawlerData;
-        [SerializeField]
-        private TextureInfoPanel _textureInfoPanel;
-        [field: SerializeField]
-        public Transform Grid { get; private set; }
-        [field: SerializeField]
-        public DungeonTexturePreview PreviewPrefab { get; private set; }
-        [field: SerializeField]
-        public Button AddTextureButton { get; private set; }
-        [SerializeField]
-        private ConfirmTexturePromptPanel _confirmPanel;
-        [SerializeField]
-        private ScrollRect _scrollRect;
-        [SerializeField]
-        private TextMeshProUGUI _headerText;
+        [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
+        [AssertIsSet][SerializeField] private TextureInfoPanel _textureInfoPanel;
+        [AssertIsSet][SerializeField] private Transform _grid;
+        [AssertIsSet][field: SerializeField] public DungeonTexturePreview PreviewPrefab { get; private set; }
+        [AssertIsSet][field: SerializeField] public Button AddTextureButton { get; private set; }
+        [AssertIsSet][SerializeField] private ConfirmTexturePromptPanel _confirmPanel;
         private Dictionary<TextureReference, DungeonTexturePreview> _textureButtons = new();
         private System.Action<TextureReference> _onSelectedCallback;
         private System.Action _onCanceledCallback;
 
         void Awake()
         {
-            Assertion.NotNull(this, _confirmPanel, Grid, _dungeonCrawlerData, PreviewPrefab, AddTextureButton, _scrollRect, _textureInfoPanel, _headerText);
-            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _grid.DestroyAllChildren(AddTextureButton.transform);
         }
 
         void OnEnable()
@@ -83,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool AddTexture(TextureReference texture)
         {
             if (_textureButtons.ContainsKey(texture)) { return false; }
-            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, Grid, texture);
+            DungeonTexturePreview preview = DungeonTexturePreview.Instantiate(PreviewPrefab, _grid, texture);
             _textureButtons[texture] = preview;
             preview.SelectButton.OnClick.AddListener(SelectTexture);
             preview.OnDelete.AddListener(OpenTextureInfoPanel);
@@ -93,7 +82,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         public bool InitializeGrid(IEnumerable<TextureReference> textures)
         {
             // TODO: Deleting all children is bad, this happens everytime the window is opened
-            Grid.DestroyAllChildren(AddTextureButton.transform);
+            _grid.DestroyAllChildren(AddTextureButton.transform);
             _textureButtons.Clear();
             foreach (TextureReference texture in textures)
             {
@@ -108,17 +97,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _textureInfoPanel.Show();
         }
 
-        private void AddTexture(string name, Texture2D texture)
-        {
-            _dungeonCrawlerData.MaterialCache.AddTexture(name, texture);
-            StartCoroutine(ScrollToBottom());
-        }
-
-        private IEnumerator ScrollToBottom()
-        {
-            yield return null;
-            _scrollRect.verticalNormalizedPosition = 0;
-        }
+        private void AddTexture(string name, Texture2D texture) => _dungeonCrawlerData.MaterialCache.AddTexture(name, texture);
 
         public void Cancel()
         {
@@ -132,18 +111,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _onSelectedCallback?.Invoke(textureButton.Texture);
         }
 
-        public void ShowDialogue(string headerText, System.Action<TextureReference> onSelected, System.Action onCanceled)
-        {
-            _headerText.text = headerText;
-            _headerText.gameObject.SetActive(true);
-            _onSelectedCallback = onSelected;
-            _onCanceledCallback = onCanceled;
-            gameObject.SetActive(true);
-        }
-
         public void ShowDialogue(System.Action<TextureReference> onSelected, System.Action onCanceled = null)
         {
-            _headerText.gameObject.SetActive(false);
             _onSelectedCallback = onSelected;
             _onCanceledCallback = onCanceled ?? NoOp;
             gameObject.SetActive(true);
