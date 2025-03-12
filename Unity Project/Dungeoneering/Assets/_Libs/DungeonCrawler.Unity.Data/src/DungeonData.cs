@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
@@ -71,15 +70,6 @@ public class DungeonData
     private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
     private void HandleWallChanged(Position _, Facing __, WallType ___) => HasChanged = true;
 
-    public void RemoveWallTexture(Position position, Facing facing)
-    {
-        Dungeon.WallTextures.Textures.Remove((position, facing));
-        _materialCache.RemoveTexture(new WallReference(_dungeon, position, facing));
-        _changes.AddChange(Dungeon, position);
-        HasChanged = true;
-        Notify();
-    }
-
     public void SetWallType(Position position, Facing facing, WallType type)
     {
         if (Dungeon.Walls[position, facing] == type) { return; }
@@ -106,25 +96,6 @@ public class DungeonData
     public DungeonData(MaterialCache materialCache)
     {
         _materialCache = materialCache;
-        _materialCache.AddObserver(HandleRemovedReferences);
-    }
-
-    private void HandleRemovedReferences(CacheUpdateData update)
-    {
-        switch (update)
-        {
-            case CacheRemoveTexture(TextureReference removed):
-                foreach (WallReference walRef in removed.Walls.Where(t => t.Dungeon == Dungeon))
-                {
-                    RemoveWallTexture(walRef.Position, walRef.Facing);
-                }
-                foreach (TileReference tileRef in removed.Tiles.Where(t => t.Dungeon == Dungeon))
-                {
-                    // RemoveFloorTexture(tileRef.Position);
-                }
-                Notify();
-                break;
-        }
     }
 
     internal void SetDefaultTileTexture(TextureReference newTexture)

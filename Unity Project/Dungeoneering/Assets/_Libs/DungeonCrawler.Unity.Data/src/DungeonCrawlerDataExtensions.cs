@@ -41,13 +41,26 @@ public static class DungeonCrawlerDataExtensions
     /// <summary>
     /// Sets the specified tile to use the default texture
     /// </summary>
-    public static void UseDefaultTexture(this DungeonCrawlerData data, TileReference tile)
+    public static void UseDefaultTexture(this DungeonCrawlerData data, TileReference tileRef)
     {
-        tile.Dungeon.TileTextures.Textures.Remove(tile.Position);
-        data.MaterialCache.RemoveTexture(tile);
-        if (data.CurrentDungeon.Dungeon == tile.Dungeon)
+        tileRef.Dungeon.TileTextures.Textures.Remove(tileRef.Position);
+        data.MaterialCache.RemoveTexture(tileRef);
+        if (data.CurrentDungeon.Dungeon == tileRef.Dungeon)
         {
-            data.CurrentDungeon.AddChange(tile);
+            data.CurrentDungeon.AddChange(tileRef);
+        }
+    }
+
+    /// <summary>
+    /// Sets the specified wall to use the default texture
+    /// </summary>
+    public static void UseDefaultTexture(this DungeonCrawlerData data, WallReference wallRef)
+    {
+        wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
+        data.MaterialCache.RemoveTexture(wallRef);
+        if (data.CurrentDungeon.Dungeon == wallRef.Dungeon)
+        {
+            data.CurrentDungeon.AddChange(wallRef);
         }
     }
 

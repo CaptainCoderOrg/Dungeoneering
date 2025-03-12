@@ -109,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (WallReference wall in walls)
                 {
-                    _dungeonCrawlerData.CurrentDungeon.RemoveWallTexture(wall.Position, wall.Facing);
+                    _dungeonCrawlerData.UseDefaultTexture(wall);
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
