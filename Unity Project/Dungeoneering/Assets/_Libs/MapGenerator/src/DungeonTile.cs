@@ -109,6 +109,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(TextureReference newTexture) => DungeonController.DungeonCrawlerData.CurrentDungeon.SetTexture(Position, newTexture);
+        public void SetTexture(TextureReference newTexture) => DungeonController.DungeonCrawlerData.SetTexture(TileReference, newTexture);
     }
 }

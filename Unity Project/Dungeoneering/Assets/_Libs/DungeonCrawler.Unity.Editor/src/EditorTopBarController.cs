@@ -52,7 +52,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void HandleDungeonChanged(DungeonChangedData dungeon) => _nameLabel.text = dungeon.New?.Name;
         public void ShowExportPanel() => _exportManifestPanel.Toggle();
-        public void Save() => _dungeonCrawlerData.CurrentDungeon.SaveToManifest(_dungeonCrawlerData.ManifestData);
+        public void Save() => _dungeonCrawlerData.SyncWithManifest();
         private void HandleDungeonDataStateChanged(Dungeon dungeon, bool hasChanged) => _nameLabel.text = hasChanged ? $"{dungeon?.Name}*" : dungeon?.Name;
     }
 }

@@ -124,7 +124,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (DungeonTile tile in selected)
                 {
-                    _dungeonCrawlerData.CurrentDungeon.RemoveFloorTexture(tile.Position);
+                    _dungeonCrawlerData.UseDefaultTexture(new TileReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, tile.Position));
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);

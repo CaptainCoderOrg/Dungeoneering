@@ -22,7 +22,7 @@ public class DungeonData
     public bool HasChanged
     {
         get => _hasChanged;
-        private set
+        internal set
         {
             if (value == _hasChanged) { return; }
             _hasChanged = value;
@@ -70,37 +70,6 @@ public class DungeonData
 
     private void HandleWallTextureChanged(Position _, Facing __, string ___) => HasChanged = true;
     private void HandleWallChanged(Position _, Facing __, WallType ___) => HasChanged = true;
-
-    public void SaveToManifest(DungeonManifestData manifest)
-    {
-        manifest.UpdateDungeon(_dungeon);
-        HasChanged = false;
-    }
-
-    public void SetTexture(Position position, TextureReference newTexture)
-    {
-        _materialCache.SetTexture(new TileReference(Dungeon, position), newTexture);
-        _changes.AddChange(Dungeon, position);
-        HasChanged = true;
-        Notify();
-    }
-
-    public void RemoveFloorTexture(Position position)
-    {
-        Dungeon.TileTextures.Textures.Remove(position);
-        _materialCache.RemoveTexture(new TileReference(_dungeon, position));
-        _changes.AddChange(Dungeon, position);
-        HasChanged = true;
-        Notify();
-    }
-
-    public void SetTexture(Position position, Facing facing, TextureReference newTexture)
-    {
-        _materialCache.SetTexture(new WallReference(Dungeon, position, facing), newTexture);
-        _changes.AddChange(Dungeon, position);
-        HasChanged = true;
-        Notify();
-    }
 
     public void RemoveWallTexture(Position position, Facing facing)
     {
@@ -151,7 +120,7 @@ public class DungeonData
                 }
                 foreach (TileReference tileRef in removed.Tiles.Where(t => t.Dungeon == Dungeon))
                 {
-                    RemoveFloorTexture(tileRef.Position);
+                    // RemoveFloorTexture(tileRef.Position);
                 }
                 Notify();
                 break;
@@ -177,6 +146,22 @@ public class DungeonData
         setter.Invoke(newTexture.TextureName);
         HasChanged = true;
         OnChange.Invoke(new DungeonChangedData(Dungeon, Dungeon));
+    }
+
+    internal void AddChange(TileReference tile)
+    {
+        if (tile.Dungeon != Dungeon) { throw new ArgumentException($"Cannot add change to dungeon that is not loaded"); }
+        _changes.AddChange(tile.Dungeon, tile.Position);
+        HasChanged = true;
+        Notify();
+    }
+
+    internal void AddChange(WallReference wall)
+    {
+        if (wall.Dungeon != Dungeon) { throw new ArgumentException($"Cannot add change to dungeon that is not loaded"); }
+        _changes.AddChange(wall.Dungeon, wall.Position);
+        HasChanged = true;
+        Notify();
     }
 }
 

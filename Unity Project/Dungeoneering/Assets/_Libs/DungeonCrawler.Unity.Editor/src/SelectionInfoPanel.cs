@@ -96,8 +96,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Dungeon d = tile.Dungeon;
                 Position p = tile.Position;
                 TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p);
-                perform += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, newTexture);
-                undo += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, originalTexture);
+                perform += () => _dungeonCrawlerData.SetTexture(new TileReference(d, p), newTexture);
+                undo += () => _dungeonCrawlerData.SetTexture(new TileReference(d, p), originalTexture);
             }
             _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
@@ -108,17 +108,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private void SetWallTextures(TextureReference newTexture, ISet<(Position, Facing)> walls)
         {
-            DungeonManifestData manifest = _dungeonCrawlerData.ManifestData;
             Dungeon d = _dungeonCrawlerData.CurrentDungeon.Dungeon;
-            System.Action perform = default;
-            System.Action undo = default;
-            foreach ((Position p, Facing f) in walls)
+            void Perform()
             {
-                TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p, f);
-                perform += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, f, newTexture);
-                undo += () => _dungeonCrawlerData.CurrentDungeon.SetTexture(p, f, originalTexture);
+                foreach ((Position p, Facing f) in walls)
+                {
+                    TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p, f);
+                    _dungeonCrawlerData.SetTexture(new WallReference(d, p, f), newTexture);
+                }
             }
-            _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
+            _undoRedoStack.PerformEditSerializeState("Set Multiple Wall Textures", Perform, _dungeonCrawlerData);
         }
 
         public void OpenTileTextureSelector() => _tileTextureSelector.ShowTileSelection(SetTileTexture);

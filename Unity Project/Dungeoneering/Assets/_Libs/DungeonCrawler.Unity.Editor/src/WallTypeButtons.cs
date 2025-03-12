@@ -15,7 +15,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private DungeonEditorSelectionData _selectionData;
         [SerializeField]
         private UndoRedoStackData _undoRedoStackData;
-
         [field: SerializeField]
         public Button NoWallButton { get; private set; }
         [field: SerializeField]
@@ -60,9 +59,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (!_selectionData.Walls.Any()) { return; }
             DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
-            DungeonData dungeonData = controller.DungeonCrawlerData.CurrentDungeon;
+            DungeonCrawlerData data = controller.DungeonCrawlerData;
             System.Action perform = default;
-            System.Action undo = default;
 
             foreach (DungeonWallController wall in _selectionData.Walls)
             {
@@ -70,23 +68,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 Position p = wall.Parent.Position;
                 Facing f = wall.Facing;
                 WallType originalWallType = d.Walls[p, f];
-                TextureReference originalTexture = dungeonData.GetTexture(p, f);
-                TextureReference originalBackTexture = dungeonData.GetTexture(p.Step(f), f.Opposite());
+                TextureReference originalTexture = data.CurrentDungeon.GetTexture(p, f);
+                TextureReference originalBackTexture = data.CurrentDungeon.GetTexture(p.Step(f), f.Opposite());
                 if (originalWallType == newWallType) { continue; }
-                perform += () => dungeonData.SetWallType(p, f, newWallType);
-                undo += () =>
-                {
-                    dungeonData.SetWallType(p, f, originalWallType);
-                    dungeonData.SetTexture(p, f, originalTexture);
-                    Position neighbor = p.Step(f);
-                    if (controller.HasTile(neighbor))
-                    {
-                        dungeonData.SetTexture(neighbor, f.Opposite(), originalBackTexture);
-                    }
-                };
+                perform += () => data.CurrentDungeon.SetWallType(p, f, newWallType);
             }
 
-            _undoRedoStackData.PerformEdit($"Set WallType: {newWallType}", perform, undo, dungeonData);
+            _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", perform, data);
         }
 
     }
