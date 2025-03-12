@@ -32,20 +32,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.AddListener(HandleTilesChanged);
             _selection.AddListener(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
-            _tilesLabel.Button.OnClick.AddListener(OpenTileTextureSelector);
-            _wallsLabel.Button.OnClick.AddListener(OpenWallTextureSelector);
-            _doorsLabel.Button.OnClick.AddListener(OpenDoorsTextureSelector);
-            _secretDoorLabel.Button.OnClick.AddListener(OpenSecretDoorsTextureSelector);
         }
 
         void OnDisable()
         {
             _dungeonCrawlerData.CurrentDungeon.OnTilesChanged.RemoveListener(HandleTilesChanged);
             _selection.RemoveListener(HandleSelectionChanged);
-            _tilesLabel.Button.OnClick.RemoveListener(OpenTileTextureSelector);
-            _wallsLabel.Button.OnClick.RemoveListener(OpenWallTextureSelector);
-            _doorsLabel.Button.OnClick.RemoveListener(OpenDoorsTextureSelector);
-            _secretDoorLabel.Button.OnClick.RemoveListener(OpenSecretDoorsTextureSelector);
         }
 
         private void HandleSelectionChanged(SelectionChangedData changes) => RenderInfo(changes.SelectedTiles, changes.SelectedWalls);
@@ -129,9 +121,9 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _undoRedoStack.PerformEdit("Set Multiple Wall Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
         }
 
-        private void OpenTileTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowTileSelection(SetTileTexture);
-        private void OpenWallTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowWallSelection(SetSolidTextures, WallType.Solid, _wallSelectionData.Solid);
-        private void OpenDoorsTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowWallSelection(SetDoorTextures, WallType.Door, _wallSelectionData.Doors);
-        private void OpenSecretDoorsTextureSelector(DungeonTextureButton _) => _tileTextureSelector.ShowWallSelection(SetSecretTextures, WallType.SecretDoor, _wallSelectionData.SecretDoors);
+        public void OpenTileTextureSelector() => _tileTextureSelector.ShowTileSelection(SetTileTexture);
+        public void OpenWallTextureSelector() => _tileTextureSelector.ShowWallSelection(SetSolidTextures, WallType.Solid, _wallSelectionData.Solid);
+        public void OpenDoorsTextureSelector() => _tileTextureSelector.ShowWallSelection(SetDoorTextures, WallType.Door, _wallSelectionData.Doors);
+        public void OpenSecretDoorsTextureSelector() => _tileTextureSelector.ShowWallSelection(SetSecretTextures, WallType.SecretDoor, _wallSelectionData.SecretDoors);
     }
 }
