@@ -78,10 +78,6 @@ public class DungeonData
         _changes = new();
     }
 
-    public TextureReference GetTexture(Position p) => _materialCache.GetTexture(Dungeon, p);
-    public TextureReference GetTexture(Position p, Facing f) => _materialCache.GetTexture(new WallReference(Dungeon, p, f));
-    public string GetWallTextureName(Position p, Facing f) => Dungeon.GetWallTexture(p, f);
-
     public DungeonData(MaterialCache materialCache)
     {
         _materialCache = materialCache;

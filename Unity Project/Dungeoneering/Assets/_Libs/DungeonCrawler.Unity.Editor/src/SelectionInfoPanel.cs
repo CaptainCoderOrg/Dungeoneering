@@ -72,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 return (textureName, _dungeonCrawlerData.MaterialCache.GetTexture(textureName));
             }
             return ("Multiple textures", null);
-            string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.CurrentDungeon.GetWallTextureName(wall.p, wall.f);
+            string GetTextureName((Position p, Facing f) wall) => _dungeonCrawlerData.GetTexture(new WallReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, wall.p, wall.f)).TextureName;
         }
 
         private (string, TextureReference) TextureLabel(ISet<DungeonTile> tiles)
@@ -89,32 +89,32 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SetTileTexture(TextureReference newTexture)
         {
             if (!_selection.Tiles.Any()) { return; }
-            System.Action perform = default;
-            System.Action undo = default;
-            foreach (DungeonTile tile in _selection.Tiles)
+            void Perform()
             {
-                Dungeon d = tile.Dungeon;
-                Position p = tile.Position;
-                TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p);
-                perform += () => _dungeonCrawlerData.SetTexture(new TileReference(d, p), newTexture);
-                undo += () => _dungeonCrawlerData.SetTexture(new TileReference(d, p), originalTexture);
+                foreach (DungeonTile tile in _selection.Tiles)
+                {
+                    TileReference tileRef = tile.TileReference;
+                    TextureReference originalTexture = _dungeonCrawlerData.GetTexture(tileRef);
+                    _dungeonCrawlerData.SetTexture(tileRef, newTexture);
+                }
             }
-            _undoRedoStack.PerformEdit("Set Multiple Textures", perform, undo, _dungeonCrawlerData.CurrentDungeon);
+
+            _undoRedoStack.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
         }
 
         private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Solid);
         private void SetDoorTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Doors);
         private void SetSecretTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.SecretDoors);
 
-        private void SetWallTextures(TextureReference newTexture, ISet<(Position, Facing)> walls)
+        private void SetWallTextures(TextureReference newTexture, ISet<(Position p, Facing f)> walls)
         {
-            Dungeon d = _dungeonCrawlerData.CurrentDungeon.Dungeon;
+            (Position p, Facing f)[] cachedWalls = walls.ToArray();
             void Perform()
             {
-                foreach ((Position p, Facing f) in walls)
+                foreach ((Position p, Facing f) in cachedWalls)
                 {
-                    TextureReference originalTexture = _dungeonCrawlerData.CurrentDungeon.GetTexture(p, f);
-                    _dungeonCrawlerData.SetTexture(new WallReference(d, p, f), newTexture);
+                    WallReference wallRef = new(_dungeonCrawlerData.CurrentDungeon.Dungeon, p, f);
+                    _dungeonCrawlerData.SetTexture(wallRef, newTexture);
                 }
             }
             _undoRedoStack.PerformEditSerializeState("Set Multiple Wall Textures", Perform, _dungeonCrawlerData);

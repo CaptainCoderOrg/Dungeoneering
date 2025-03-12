@@ -66,14 +66,10 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (DungeonWallController wall in walls)
                 {
-                    Dungeon d = wall.Parent.Dungeon;
-                    Position p = wall.Parent.Position;
-                    Facing f = wall.Facing;
-                    WallType originalWallType = d.Walls[p, f];
-                    TextureReference originalTexture = data.CurrentDungeon.GetTexture(p, f);
-                    TextureReference originalBackTexture = data.CurrentDungeon.GetTexture(p.Step(f), f.Opposite());
+                    WallReference wallRef = wall.WallReference;
+                    WallType originalWallType = wallRef.Dungeon.Walls[wallRef.Position, wallRef.Facing];
                     if (originalWallType == newWallType) { continue; }
-                    data.SetWallType(new WallReference(d, p, f), newWallType);
+                    data.SetWallType(wallRef, newWallType);
                 }
             }
             _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", Perform, data);

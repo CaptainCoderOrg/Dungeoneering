@@ -140,4 +140,7 @@ public static class DungeonCrawlerDataExtensions
         }
     }
 
+    public static TextureReference GetTexture(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTexture(tileRef);
+    public static TextureReference GetTexture(this DungeonCrawlerData data, WallReference wallRef) => data.MaterialCache.GetTexture(wallRef);
+
 }
