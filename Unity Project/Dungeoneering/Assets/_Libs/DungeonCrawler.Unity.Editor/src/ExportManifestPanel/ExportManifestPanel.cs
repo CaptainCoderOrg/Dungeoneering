@@ -64,7 +64,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             var path = StandaloneFileBrowser.SaveFilePanel("Title", "", "dungeon-manifest", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                File.WriteAllText(path, _dungeonCrawlerData.ManifestData.Manifest.ToJson());
+                File.WriteAllText(path, _dungeonCrawlerData.Manifest.ToJson());
             }
             Hide();
         }
@@ -112,7 +112,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 yield break;
             }
 
-            if (_dungeonCrawlerData.ManifestData.TryLoadManifest(www.downloadHandler.text, out string message))
+            if (_dungeonCrawlerData.TryLoadManifest(www.downloadHandler.text, out string message))
             {
                 Hide();
                 yield break;

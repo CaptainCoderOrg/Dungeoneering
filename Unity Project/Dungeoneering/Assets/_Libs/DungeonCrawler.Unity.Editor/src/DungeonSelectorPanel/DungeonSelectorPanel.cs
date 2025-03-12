@@ -33,12 +33,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void OnEnable()
         {
-            _dungeonCrawlerData.ManifestData.AddObserver(HandleManifestChanges);
+            _dungeonCrawlerData.AddObserver(HandleManifestChanges);
         }
 
         void OnDisable()
         {
-            _dungeonCrawlerData.ManifestData.RemoveObserver(HandleManifestChanges);
+            _dungeonCrawlerData.RemoveObserver(HandleManifestChanges);
         }
 
         private void HandleManifestChanges(DungeonManifestChanged change)
@@ -85,10 +85,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 return;
             }
             _confirmPromptPanel.Prompt($"Are you sure you want to delete <b>{dungeon.Name}</b>?\n<b><color=red>This cannot be undone!</color></b>", DeleteDungeon);
-            void DeleteDungeon()
-            {
-                _dungeonCrawlerData.ManifestData.RemoveDungeon(dungeon);
-            }
+            void DeleteDungeon() => _dungeonCrawlerData.DeleteDungeon(dungeon);
         }
 
         private void WarnIfChanges(System.Action action)
@@ -109,7 +106,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         private string ValidateDungeonName(string name)
         {
-            if (!_dungeonCrawlerData.ManifestData.Manifest.Dungeons.ContainsKey(name)) { return null; }
+            if (!_dungeonCrawlerData.Manifest.Dungeons.ContainsKey(name)) { return null; }
             return $"A dungeon named {name} already exists";
         }
 
@@ -117,7 +114,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             Dungeon newDungeon = new() { Name = name };
             newDungeon.SetBorderWalls(DungeonGlobals.Positions, WallType.Solid, DungeonGlobals.AllFacings);
-            if (!_dungeonCrawlerData.ManifestData.TryAddDungeon(newDungeon, out string error))
+            if (!_dungeonCrawlerData.TryAddDungeon(newDungeon, out string error))
             {
                 _textEntryDialogPanel.ShowError(error);
             }

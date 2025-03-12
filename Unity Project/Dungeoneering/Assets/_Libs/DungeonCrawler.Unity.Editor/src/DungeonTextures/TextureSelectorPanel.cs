@@ -163,7 +163,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 string filename = www.uri.Segments.Last();
                 Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                _confirmPanel.Prompt(_dungeonCrawlerData.ManifestData, texture, filename, AddTexture);
+                _confirmPanel.Prompt(_dungeonCrawlerData, texture, filename, AddTexture);
             }
         }
 

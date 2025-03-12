@@ -51,7 +51,7 @@ public class DungeonSelectorTest
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
         Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
-        Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["Second Dungeon"];
+        Dungeon manifestVersion = panel.DungeonCrawlerData.Manifest.Dungeons["Second Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");
         panel.gameObject.SetActive(true);
         yield return null;
@@ -76,7 +76,7 @@ public class DungeonSelectorTest
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
         Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
-        Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["New Dungeon"];
+        Dungeon manifestVersion = panel.DungeonCrawlerData.Manifest.Dungeons["New Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");
         panel.gameObject.SetActive(true);
         yield return null;
@@ -95,7 +95,7 @@ public class DungeonSelectorTest
     {
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
-        DungeonCrawlerManifest manifest = panel.DungeonCrawlerData.ManifestData.Manifest;
+        DungeonCrawlerManifest manifest = panel.DungeonCrawlerData.Manifest;
         panel.gameObject.SetActive(true);
         yield return null;
         DungeonSelectorButton[] buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
@@ -113,8 +113,8 @@ public class DungeonSelectorTest
         confirmPrompt.Confirm();
         yield return null;
         Assert.That(confirmPrompt.gameObject.activeInHierarchy, Is.False, "Confirm prompt was active after confirming");
-        Assert.That(panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons.Count, Is.EqualTo(1), "Manifest should have only 1 dungeon");
-        Assert.That(panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons.ContainsKey("Second Dungeon"), Is.False, "Manifest should not contain Second Dungeon");
+        Assert.That(panel.DungeonCrawlerData.Manifest.Dungeons.Count, Is.EqualTo(1), "Manifest should have only 1 dungeon");
+        Assert.That(panel.DungeonCrawlerData.Manifest.Dungeons.ContainsKey("Second Dungeon"), Is.False, "Manifest should not contain Second Dungeon");
 
         buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
         Assert.That(buttons.Count, Is.EqualTo(1));

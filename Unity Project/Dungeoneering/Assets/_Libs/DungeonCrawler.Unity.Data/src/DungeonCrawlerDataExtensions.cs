@@ -159,5 +159,10 @@ public static class DungeonCrawlerDataExtensions
     public static bool HasReference(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.HasReference(tileRef);
     public static TileWallTextures GetTileWallTextures(this DungeonCrawlerData data, TileReference tileRef) => data.MaterialCache.GetTileWallTextures(tileRef);
 
+    public static bool TryLoadManifest(this DungeonCrawlerData data, string json, out string message) => data.ManifestData.TryLoadManifest(json, out message);
+    public static bool TryAddDungeon(this DungeonCrawlerData data, Dungeon newDungeon, out string error) => data.ManifestData.TryAddDungeon(newDungeon, out error);
+    public static void DeleteDungeon(this DungeonCrawlerData data, Dungeon dungeon) => data.ManifestData.DeleteDungeon(dungeon);
+    public static void UpdateTexture(this DungeonCrawlerData data, TextureReference texture, Texture2D newTexture) => data.ManifestData.UpdateTexture(texture, newTexture);
+    public static bool HasTexture(this DungeonCrawlerData data, string textureName) => data.ManifestData.Manifest.Textures.ContainsKey(textureName);
 
 }

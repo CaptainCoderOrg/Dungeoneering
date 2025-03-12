@@ -1,5 +1,3 @@
-using System.Linq;
-
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
@@ -40,7 +38,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 (_wallTexture, nameof(_wallTexture)),
                 (_secretTexture, nameof(_secretTexture))
             );
-            Show(_dungeonCrawlerData.ManifestData.Manifest.Dungeons.Values.First());
+            Show(_dungeonCrawlerData.CurrentDungeon);
         }
 
         public void Show(Dungeon dungeon)
