@@ -111,7 +111,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 }
             }
 
-            _dungeonCrawlerData.PerformEditSerializeState("Set Multiple Textures", Perform);
+            _dungeonCrawlerData.PerformEditSerializeState($"Set Multiple Textures: {newTexture.TextureName}", Perform);
         }
 
         private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Solid);

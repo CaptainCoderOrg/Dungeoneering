@@ -13,10 +13,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     [CreateAssetMenu(menuName = "DC/DungeonCrawlerData")]
     public class DungeonCrawlerData : ObservableSO
     {
-        /// <summary>
-        /// For undo / redo purposes, tracks if changes have been made to the manifest
-        /// </summary>
-        internal bool HasManifestChanged = false;
         private bool _preventNotify = false;
         internal bool PreventNotify
         {
