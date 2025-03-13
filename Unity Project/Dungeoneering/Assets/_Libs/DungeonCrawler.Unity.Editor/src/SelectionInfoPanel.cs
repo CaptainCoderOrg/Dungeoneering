@@ -36,14 +36,14 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void OnEnable()
         {
             _dungeonCrawlerData.AddObserver(HandleTilesChanged);
-            _selection.AddListener(HandleSelectionChanged);
+            _selection.AddObserver(HandleSelectionChanged);
             RenderInfo(_selection.Tiles, _selection.Walls);
         }
 
         void OnDisable()
         {
             _dungeonCrawlerData.RemoveObserver(HandleTilesChanged);
-            _selection.RemoveListener(HandleSelectionChanged);
+            _selection.RemoveObserver(HandleSelectionChanged);
         }
 
         private void HandleSelectionChanged(SelectionChangedEvent @event)
