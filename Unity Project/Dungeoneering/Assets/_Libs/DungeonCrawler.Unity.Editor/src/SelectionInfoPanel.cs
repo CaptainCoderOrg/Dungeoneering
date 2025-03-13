@@ -37,7 +37,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             _dungeonCrawlerData.AddObserver(HandleTilesChanged);
             _selection.AddObserver(HandleSelectionChanged);
-            RenderInfo(_selection.Tiles, _selection.Walls);
         }
 
         void OnDisable()
@@ -54,18 +53,21 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
+        private void RenderTileInfo(ISet<DungeonTile> tiles)
         {
-            _wallSelectionData.CountWalls(tiles, walls);
-            _content.SetActive(true);
-
             (string tileTextureName, TextureReference tileTexture) = TextureLabel(tiles);
             _tilesLabel.Label.text = $"{tiles.Count()} Tiles: {tileTextureName}";
             _tilesLabel.Button.Texture = tileTexture;
+        }
 
+        private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
+        {
+            _wallSelectionData.CountWalls(tiles, walls);
+            RenderTileInfo(tiles);
             UpdateLabel(_wallsLabel, "Walls", _wallSelectionData.Solid);
             UpdateLabel(_doorsLabel, "Doors", _wallSelectionData.Doors);
             UpdateLabel(_secretDoorLabel, "Secret Doors", _wallSelectionData.SecretDoors);
+            _content.SetActive(true);
         }
 
         private void UpdateLabel(TextureLabelController label, string name, ISet<(Position, Facing)> walls)
