@@ -195,16 +195,21 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.AddTextureData(dungeonTexture);
     }
 
+    public static void LoadManifest(this DungeonCrawlerData data, DungeonCrawlerManifest manifest)
+    {
+        data.MaterialCache.InitializeMaterialCache(manifest);
+        data.Manifest = manifest;
+        data.LoadDungeon(manifest.Dungeons.First().Value.Copy());
+        data.NotifyObservers(new ManifestInitialized(manifest));
+    }
+
     public static bool TryLoadManifest(this DungeonCrawlerData data, string json, out string message)
     {
         try
         {
             DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
-            data.MaterialCache.InitializeMaterialCache(manifest);
-            data.Manifest = manifest;
-            data.LoadDungeon(manifest.Dungeons.First().Value.Copy());
+            data.LoadManifest(manifest);
             message = "Manifest loaded successfully";
-            data.NotifyObservers(new ManifestInitialized(manifest));
         }
         // TODO: Figure out best exception type
         catch (Exception e)

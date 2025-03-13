@@ -1,15 +1,44 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using CaptainCoder.Dungeoneering.DungeonMap.IO;
+using CaptainCoder.Dungeoneering.DungeonCrawler;
+
 namespace CaptainCoder.Dungeoneering.DungeonMap;
 public static class DungeonExtensions
 {
-    public static Dungeon Copy(this Dungeon toCopy)
+    public static WallMap Copy(this WallMap wallMap) => new() { Map = new(wallMap.Map) };
+    public static EventMap Copy(this EventMap wallMap) => new() { Events = wallMap.Events.ToDictionary(kv => kv.Key, kv => kv.Value.ToList()) };
+    public static WallTextureMap Copy(this WallTextureMap wallMap) => new()
     {
-        string jsonified = JsonExtensions.ToJson(toCopy);
-        return JsonExtensions.LoadModel<Dungeon>(jsonified);
-    }
+        DefaultDoor = wallMap.DefaultDoor,
+        DefaultSecretDoor = wallMap.DefaultSecretDoor,
+        DefaultSolid = wallMap.DefaultSolid,
+        Textures = new(wallMap.Textures)
+    };
+
+    public static TileTextureMap Copy(this TileTextureMap wallMap) => new()
+    {
+        Default = wallMap.Default,
+        Textures = new(wallMap.Textures),
+    };
+
+    public static Dungeon Copy(this Dungeon toCopy) => new()
+    {
+        Name = toCopy.Name,
+        Walls = toCopy.Walls.Copy(),
+        EventMap = toCopy.EventMap.Copy(),
+        WallTextures = toCopy.WallTextures.Copy(),
+        TileTextures = toCopy.TileTextures.Copy()
+    };
+
+    public static DungeonCrawlerManifest Copy(this DungeonCrawlerManifest original) => new()
+    {
+        Dungeons = original.Dungeons.ToDictionary(kv => kv.Key, kv => kv.Value.Copy()),
+        Scripts = new(original.Scripts),
+        Textures = original.Textures.ToDictionary(kv => kv.Key, kv => kv.Value.Copy())
+    };
+
+    public static Texture Copy(this Texture texture) => new(texture.Name, texture.Data.ToArray());
 
     /// <summary>
     /// Given a set of positions, wall types, and facings, calculates the changes necessary to change the walls on the boundary of the selected tiles.
