@@ -155,6 +155,7 @@ public static class DungeonCrawlerDataExtensions
         if (wallRef.Dungeon.Walls[wallRef.Position, wallRef.Facing] == type) { return; }
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Opposite()));
+        data.MaterialCache.RemoveTexture(wallRef);
         wallRef.Dungeon.Walls.SetWall(wallRef.Position, wallRef.Facing, type);
         if (wallRef.Dungeon == data.CurrentDungeon)
         {
