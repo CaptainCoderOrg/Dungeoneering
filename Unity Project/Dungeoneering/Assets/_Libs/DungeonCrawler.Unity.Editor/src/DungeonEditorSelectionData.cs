@@ -15,14 +15,14 @@ namespace CaptainCoder.Dungeoneering.Unity
         private readonly HashSet<DungeonWallController> _walls = new();
         private ReadOnlySetView<DungeonWallController> _cachedWalls;
         public ReadOnlySetView<DungeonWallController> Walls => _cachedWalls ??= new(_walls);
-        private readonly UnityEvent<SelectionChangedData> _onDataChanged = new();
-        private SelectionChangedData _changes;
+        private readonly UnityEvent<SelectionChangedEvent> _onDataChanged = new();
+        private SelectionChangedEvent _changes;
 
-        public void AddListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.AddListener(onChange);
-        public void RemoveListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.RemoveListener(onChange);
+        public void AddListener(UnityAction<SelectionChangedEvent> onChange) => _onDataChanged.AddListener(onChange);
+        public void RemoveListener(UnityAction<SelectionChangedEvent> onChange) => _onDataChanged.RemoveListener(onChange);
         private void Notify()
         {
-            _changes ??= new SelectionChangedData(this);
+            _changes ??= new SelectionChanged(Tiles, Walls);
             _onDataChanged.Invoke(_changes);
         }
 
@@ -75,12 +75,5 @@ namespace CaptainCoder.Dungeoneering.Unity
             _selectedTiles.Clear();
         }
 
-    }
-
-    public class SelectionChangedData
-    {
-        public readonly ReadOnlySetView<DungeonTile> SelectedTiles;
-        public readonly ReadOnlySetView<DungeonWallController> SelectedWalls;
-        public SelectionChangedData(DungeonEditorSelectionData data) => (SelectedTiles, SelectedWalls) = (data.Tiles, data.Walls);
     }
 }

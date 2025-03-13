@@ -27,7 +27,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Selected.RemoveListener(HandleSelectionChanged);
         }
 
-        private void HandleSelectionChanged(SelectionChangedData data) => HandleSelectionChanged(data.SelectedWalls);
+        private void HandleSelectionChanged(SelectionChangedEvent data)
+        {
+            if (data is SelectionChanged selection)
+            {
+                HandleSelectionChanged(selection.Walls);
+            }
+        }
 
         private void HandleSelectionChanged(IEnumerable<DungeonWallController> newWalls)
         {

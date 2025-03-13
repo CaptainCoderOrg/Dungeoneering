@@ -27,7 +27,13 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Selected.RemoveListener(HandleSelectionChanged);
         }
 
-        private void HandleSelectionChanged(SelectionChangedData changes) => HandleSelectionChanged(changes.SelectedTiles);
+        private void HandleSelectionChanged(SelectionChangedEvent @event)
+        {
+            if (@event is SelectionChanged changes)
+            {
+                HandleSelectionChanged(changes.Tiles);
+            }
+        }
 
         private void HandleSelectionChanged(ReadOnlySetView<DungeonTile> tiles)
         {
