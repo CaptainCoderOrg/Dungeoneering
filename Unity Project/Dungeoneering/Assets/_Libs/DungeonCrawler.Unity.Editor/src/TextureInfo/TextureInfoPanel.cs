@@ -124,7 +124,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         // Broser plugin should be called in OnPointerDown.
         public void PromptExport()
         {
-            var bytes = _dungeonCrawlerData.ManifestData.Manifest.Textures[_texture.TextureName].Data;
+            var bytes = _dungeonCrawlerData.Manifest.Textures[_texture.TextureName].Data;
             DownloadFile(gameObject.name, "OnFileDownload", $"{TextureFileNameWithoutExtension}.png", bytes, bytes.Length);
         }
 
