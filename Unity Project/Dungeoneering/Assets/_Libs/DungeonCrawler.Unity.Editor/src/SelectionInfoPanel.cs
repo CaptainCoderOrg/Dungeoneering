@@ -5,7 +5,6 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Unity;
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -16,7 +15,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
         [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
         [AssertIsSet][SerializeField] private DungeonEditorSelectionData _selection;
-        [AssertIsSet][SerializeField] private UndoRedoStackData _undoRedoStack;
         [AssertIsSet][SerializeField] private TileTextureSelectorPanel _tileTextureSelector;
         [AssertIsSet][SerializeField] private GameObject _content;
         [AssertIsSet][SerializeField] private TextureLabelController _tilesLabel;
@@ -113,7 +111,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 }
             }
 
-            _undoRedoStack.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Set Multiple Textures", Perform);
         }
 
         private void SetSolidTextures(TextureReference newTexture) => SetWallTextures(newTexture, _wallSelectionData.Solid);
@@ -131,7 +129,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     _dungeonCrawlerData.SetTexture(wallRef, newTexture);
                 }
             }
-            _undoRedoStack.PerformEditSerializeState("Set Multiple Wall Textures", Perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Set Multiple Wall Textures", Perform);
         }
 
         public void OpenTileTextureSelector() => _tileTextureSelector.ShowTileSelection(SetTileTexture);

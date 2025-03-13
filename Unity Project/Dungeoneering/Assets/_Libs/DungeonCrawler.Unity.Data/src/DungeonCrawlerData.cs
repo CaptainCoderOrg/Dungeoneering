@@ -4,6 +4,7 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonCrawler;
 using CaptainCoder.Dungeoneering.DungeonMap;
+using CaptainCoder.Unity;
 
 using UnityEngine;
 
@@ -12,9 +13,12 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     [CreateAssetMenu(menuName = "DC/DungeonCrawlerData")]
     public class DungeonCrawlerData : ObservableSO
     {
-
+        /// <summary>
+        /// For undo / redo purposes, tracks if changes have been made to the manifest
+        /// </summary>
+        internal bool HasManifestChanged = false;
         private bool _preventNotify = false;
-        public bool PreventNotify
+        internal bool PreventNotify
         {
             get => _preventNotify;
             set
@@ -26,6 +30,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
+        internal readonly UndoRedoStack UndoRedoStack = new();
         public DungeonCrawlerManifest Manifest { get; internal set; }
         private Action<DungeonManifestChanged> _onManifestChanged;
 
@@ -68,7 +73,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         /// <summary>
         /// Forces all DungeonCrawlerData to be reinitialized. This is an expensive operation and is designed for testing.
         /// Note: This clears all listeners on data objects.
-        /// </summary>
+        /// </summary> 
         public void ForceInitialize()
         {
             MaterialCache = new();
@@ -111,5 +116,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
 
         public void AddObserver(Action<CacheUpdateData> handler) => MaterialCache.AddObserver(handler);
         public void RemoveObserver(Action<CacheUpdateData> handler) => MaterialCache.RemoveObserver(handler);
+
+        public void Undo() => UndoRedoStack.Undo();
+        public void Redo() => UndoRedoStack.Redo();
     }
 }

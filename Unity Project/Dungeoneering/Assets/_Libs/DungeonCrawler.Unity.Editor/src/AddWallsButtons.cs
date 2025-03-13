@@ -3,7 +3,6 @@ using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Unity;
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -15,9 +14,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         [AssertIsSet][SerializeField] DungeonCrawlerData _dungeonCrawlerData;
         [SerializeField]
         private DungeonEditorSelectionData _selectionData;
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStackData;
-
         [field: SerializeField]
         public Button NorthButton { get; private set; }
         [field: SerializeField]
@@ -34,7 +30,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void Awake()
         {
             Debug.Assert(_selectionData != null, this);
-            Debug.Assert(_undoRedoStackData != null, this);
             Debug.Assert(NorthButton != null, this);
             Debug.Assert(EastButotn != null, this);
             Debug.Assert(SouthButton != null, this);
@@ -84,7 +79,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     _dungeonCrawlerData.SetWallType(wallRef, change.WallType);
                 }
             }
-            _undoRedoStackData.PerformEditSerializeState($"Set Wall", Perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState($"Set Wall", Perform);
         }
 
     }

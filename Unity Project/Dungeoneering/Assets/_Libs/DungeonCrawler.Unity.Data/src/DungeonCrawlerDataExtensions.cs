@@ -195,11 +195,11 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.AddTextureData(dungeonTexture);
     }
 
-    public static void LoadManifest(this DungeonCrawlerData data, DungeonCrawlerManifest manifest)
+    public static void LoadManifest(this DungeonCrawlerData data, DungeonCrawlerManifest manifest, bool clearUndo = true)
     {
         data.MaterialCache.InitializeMaterialCache(manifest);
         data.Manifest = manifest;
-        data.LoadDungeon(manifest.Dungeons.First().Value.Copy());
+        data.LoadDungeon(manifest.Dungeons.First().Value.Copy(), clearUndo);
         data.NotifyObservers(new ManifestInitialized(manifest));
     }
 
@@ -245,7 +245,7 @@ public static class DungeonCrawlerDataExtensions
     }
 
     public static void LoadDungeon(this DungeonCrawlerData data, string dungeonJson) => data.LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
-    public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon)
+    public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon, bool clearUndo = true)
     {
         if (dungeon == data.CurrentDungeon) { return; }
         if (data.CurrentDungeon != null)
@@ -261,5 +261,38 @@ public static class DungeonCrawlerDataExtensions
         DungeonLoaded loaded = new(data.CurrentDungeon);
         data.NotifyObservers(loaded);
         data.HasChanged = false;
+        if (clearUndo)
+        {
+            data.UndoRedoStack.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Serializes the state of the manifest before performing the specified action. The undo action loads the entire previous state.
+    /// </summary>
+    public static void PerformEditSerializeState(this DungeonCrawlerData data, string name, Action perform)
+    {
+        Dungeon originalDungeon = data.CurrentDungeon.Copy();
+        DungeonCrawlerManifest originalManifest = data.Manifest.Copy();
+
+        data.PreventNotify = true;
+        perform.Invoke();
+        data.PreventNotify = false;
+
+        Dungeon redoDungeon = data.CurrentDungeon.Copy();
+        DungeonCrawlerManifest redoManifest = data.Manifest.Copy();
+
+        void Redo()
+        {
+            data.LoadManifest(redoManifest, false);
+            data.LoadDungeon(redoDungeon, false);
+        }
+
+        void Undo()
+        {
+            data.LoadManifest(originalManifest, false);
+            data.LoadDungeon(originalDungeon, false);
+        }
+        data.UndoRedoStack.PushEdit(name, Redo, Undo);
     }
 }

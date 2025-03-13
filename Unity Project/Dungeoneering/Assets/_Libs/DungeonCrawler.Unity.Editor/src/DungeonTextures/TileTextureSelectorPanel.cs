@@ -27,7 +27,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     [RequireComponent(typeof(TextureSelectorPanel))]
     public class TileTextureSelectorPanel : MonoBehaviour
     {
-        [AssertIsSet][SerializeField] private UndoRedoStackData _undoRedoStackData;
         [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
         [AssertIsSet][SerializeField] private DungeonEditorSelectionData _selectionData;
         [AssertIsSet][SerializeField] private RawImage _currentTexture;
@@ -112,7 +111,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     _dungeonCrawlerData.UseDefaultTexture(wall);
                 }
             }
-            _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Set Multiple Textures", Perform);
         }
 
         private void UseDefaultTileTexture()
@@ -127,7 +126,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     _dungeonCrawlerData.UseDefaultTexture(new TileReference(_dungeonCrawlerData.CurrentDungeon, tile.Position));
                 }
             }
-            _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Set Multiple Textures", Perform);
         }
 
     }
