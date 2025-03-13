@@ -45,7 +45,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             switch (change)
             {
-                case ManifestChanged(DungeonCrawlerManifest manifest):
+                case ManifestInitialized(DungeonCrawlerManifest manifest):
                     HandleManifestLoaded(manifest);
                     break;
                 case DungeonRemovedEvent(Dungeon removed):

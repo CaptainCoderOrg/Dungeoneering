@@ -13,8 +13,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     {
         [field: SerializeField]
         public TextAsset DefaultManifestJson { get; private set; }
-        internal LoadedManifest ManifestData { get; private set; }
-        public DungeonCrawlerManifest Manifest => ManifestData.Manifest;
+        private Action<DungeonManifestChanged> _onManifestChanged;
+        public DungeonCrawlerManifest Manifest { get; internal set; }
         internal LoadedDungeon CurrentDungeonData { get; private set; }
         public Dungeon CurrentDungeon => CurrentDungeonData.Dungeon;
         internal MaterialCache MaterialCache { get; private set; }
@@ -24,14 +24,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             set => CurrentDungeonData.PreventNotify = value;
         }
         public bool HasChanged => CurrentDungeonData.HasChanged;
-
-        private void HandleDungeonRemoved(Dungeon dungeon) => MaterialCache.RemoveDungeonReferences(dungeon);
-
-        private void HandleDungeonAdded(Dungeon dungeon)
-        {
-            CurrentDungeonData.Dungeon = dungeon;
-            MaterialCache.AddDungeonReferences(dungeon);
-        }
 
         public override void OnBeforeEnterPlayMode()
         {
@@ -59,14 +51,22 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         {
             MaterialCache = new();
             CurrentDungeonData = new();
-            ManifestData = new();
             if (!this.TryLoadManifest(DefaultManifestJson.text, out _))
             {
                 Debug.Log("Manifest could not be loaded");
             }
         }
-        public void AddObserver(Action<DungeonManifestChanged> handler) => ManifestData.AddObserver(handler);
-        public void RemoveObserver(Action<DungeonManifestChanged> handler) => ManifestData.RemoveObserver(handler);
+
+        public void AddObserver(Action<DungeonManifestChanged> onChange)
+        {
+            _onManifestChanged += onChange;
+            if (Manifest != null)
+            {
+                onChange.Invoke(new ManifestInitialized(Manifest));
+            }
+        }
+        public void RemoveObserver(Action<DungeonManifestChanged> onChange) => _onManifestChanged -= onChange;
+        internal void NotifyObservers(DungeonManifestChanged change) => _onManifestChanged?.Invoke(change);
         public void AddObserver(Action<CacheUpdateData> handler) => MaterialCache.AddObserver(handler);
         public void RemoveObserver(Action<CacheUpdateData> handler) => MaterialCache.RemoveObserver(handler);
         public void AddObserver(Action<DungeonChangeEvent> handleDungeonChanged) => CurrentDungeonData.AddObserver(handleDungeonChanged);
