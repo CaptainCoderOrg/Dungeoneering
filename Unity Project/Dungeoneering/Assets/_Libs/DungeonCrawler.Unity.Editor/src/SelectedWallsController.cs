@@ -18,16 +18,22 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void OnEnable()
         {
             _dungeonCrawlerData.AddObserver(HandleDungeonChanged);
-            Selected.AddListener(HandleSelectionChanged);
+            Selected.AddObserver(HandleSelectionChanged);
         }
 
         void OnDisable()
         {
             _dungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
-            Selected.RemoveListener(HandleSelectionChanged);
+            Selected.RemoveObserver(HandleSelectionChanged);
         }
 
-        private void HandleSelectionChanged(SelectionChangedData data) => HandleSelectionChanged(data.SelectedWalls);
+        private void HandleSelectionChanged(SelectionChangedEvent data)
+        {
+            if (data is SelectionChanged selection)
+            {
+                HandleSelectionChanged(selection.Walls);
+            }
+        }
 
         private void HandleSelectionChanged(IEnumerable<DungeonWallController> newWalls)
         {

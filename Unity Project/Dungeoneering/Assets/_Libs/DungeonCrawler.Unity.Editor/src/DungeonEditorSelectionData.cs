@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 
 using UnityEngine;
-using UnityEngine.Events;
+
 namespace CaptainCoder.Dungeoneering.Unity
 {
     [CreateAssetMenu(menuName = "DC/SelectionData")]
@@ -15,15 +15,19 @@ namespace CaptainCoder.Dungeoneering.Unity
         private readonly HashSet<DungeonWallController> _walls = new();
         private ReadOnlySetView<DungeonWallController> _cachedWalls;
         public ReadOnlySetView<DungeonWallController> Walls => _cachedWalls ??= new(_walls);
-        private readonly UnityEvent<SelectionChangedData> _onDataChanged = new();
-        private SelectionChangedData _changes;
+        private System.Action<SelectionChangedEvent> _onDataChanged;
+        private SelectionChangedEvent _changes;
 
-        public void AddListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.AddListener(onChange);
-        public void RemoveListener(UnityAction<SelectionChangedData> onChange) => _onDataChanged.RemoveListener(onChange);
+        public void AddObserver(System.Action<SelectionChangedEvent> onChange)
+        {
+            _onDataChanged += onChange;
+            onChange.Invoke(_changes ??= new SelectionChanged(Tiles, Walls));
+        }
+        public void RemoveObserver(System.Action<SelectionChangedEvent> onChange) => _onDataChanged -= onChange;
         private void Notify()
         {
-            _changes ??= new SelectionChangedData(this);
-            _onDataChanged.Invoke(_changes);
+            _changes ??= new SelectionChanged(Tiles, Walls);
+            _onDataChanged?.Invoke(_changes);
         }
 
         public void ToggleWallSelected(DungeonWallController wall)
@@ -70,17 +74,10 @@ namespace CaptainCoder.Dungeoneering.Unity
         protected override void OnExitPlayMode()
         {
             base.OnExitPlayMode();
-            _onDataChanged.RemoveAllListeners();
+            _onDataChanged = null;
             _walls.Clear();
             _selectedTiles.Clear();
         }
 
-    }
-
-    public class SelectionChangedData
-    {
-        public readonly ReadOnlySetView<DungeonTile> SelectedTiles;
-        public readonly ReadOnlySetView<DungeonWallController> SelectedWalls;
-        public SelectionChangedData(DungeonEditorSelectionData data) => (SelectedTiles, SelectedWalls) = (data.Tiles, data.Walls);
     }
 }
