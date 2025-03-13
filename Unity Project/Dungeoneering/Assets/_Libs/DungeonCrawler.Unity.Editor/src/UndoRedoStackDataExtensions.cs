@@ -1,4 +1,7 @@
-using CaptainCoder.Dungeoneering.DungeonMap.IO;
+using System;
+
+using CaptainCoder.Dungeoneering.DungeonCrawler;
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
 
@@ -10,28 +13,28 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         /// <summary>
         /// Serializes the state of the manifest before performing the specified action. The undo action loads the entire previous state.
         /// </summary>
-        public static void PerformEditSerializeState(this UndoRedoStackData stack, string name, System.Action perform, DungeonCrawlerData data)
+        public static void PerformEditSerializeState(this UndoRedoStackData stack, string name, Action perform, DungeonCrawlerData data)
         {
-            string originalDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon);
-            string originalManifestJson = JsonExtensions.ToJson(data.Manifest);
+            Dungeon originalDungeon = data.CurrentDungeon.Copy();
+            DungeonCrawlerManifest originalManifest = data.Manifest.Copy();
 
             data.PreventNotify = true;
             perform.Invoke();
             data.PreventNotify = false;
 
-            string redoDungeonJson = JsonExtensions.ToJson(data.CurrentDungeon);
-            string redoManifestJson = JsonExtensions.ToJson(data.Manifest);
+            Dungeon redoDungeon = data.CurrentDungeon.Copy();
+            DungeonCrawlerManifest redoManifest = data.Manifest.Copy();
 
             void Redo()
             {
-                data.TryLoadManifest(redoManifestJson, out _);
-                data.LoadDungeon(redoDungeonJson);
+                data.LoadManifest(redoManifest);
+                data.LoadDungeon(redoDungeon);
             }
 
             void Undo()
             {
-                data.TryLoadManifest(originalManifestJson, out _);
-                data.LoadDungeon(originalDungeonJson);
+                data.LoadManifest(originalManifest);
+                data.LoadDungeon(originalDungeon);
             }
             stack.PushEdit(name, Redo, Undo);
         }
