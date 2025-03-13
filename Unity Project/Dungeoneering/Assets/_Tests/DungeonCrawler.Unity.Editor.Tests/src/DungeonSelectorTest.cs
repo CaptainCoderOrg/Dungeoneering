@@ -41,7 +41,7 @@ public class DungeonSelectorTest
     {
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
-        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon;
         panel.gameObject.SetActive(true);
         yield return null;
         DungeonSelectorButton[] buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
@@ -49,9 +49,9 @@ public class DungeonSelectorTest
         second.Select();
         yield return null;
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
-        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
-        Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["Second Dungeon"];
+        Dungeon manifestVersion = panel.DungeonCrawlerData.Manifest.Dungeons["Second Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");
         panel.gameObject.SetActive(true);
         yield return null;
@@ -69,14 +69,14 @@ public class DungeonSelectorTest
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
         panel.gameObject.SetActive(true);
-        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon initialDungeon = panel.DungeonCrawlerData.CurrentDungeon;
         yield return null;
         panel.CreateNewDungeon("New Dungeon");
         yield return null;
         Assert.That(panel.gameObject.activeInHierarchy, Is.False, "Panel is not hidden");
-        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        Dungeon loaded = panel.DungeonCrawlerData.CurrentDungeon;
         Assert.That(loaded, Is.Not.EqualTo(initialDungeon));
-        Dungeon manifestVersion = panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons["New Dungeon"];
+        Dungeon manifestVersion = panel.DungeonCrawlerData.Manifest.Dungeons["New Dungeon"];
         Assert.That(loaded, Is.EqualTo(manifestVersion), "Loaded dungeon did not match manifest dungeon.");
         panel.gameObject.SetActive(true);
         yield return null;
@@ -95,8 +95,7 @@ public class DungeonSelectorTest
     {
         DungeonSelectorPanel panel = GameObject.FindFirstObjectByType<DungeonSelectorPanel>(FindObjectsInactive.Include);
         panel.DungeonCrawlerData.ForceInitialize();
-        MaterialCache cache = panel.DungeonCrawlerData.MaterialCache;
-        DungeonCrawlerManifest manifest = panel.DungeonCrawlerData.ManifestData.Manifest;
+        DungeonCrawlerManifest manifest = panel.DungeonCrawlerData.Manifest;
         panel.gameObject.SetActive(true);
         yield return null;
         DungeonSelectorButton[] buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
@@ -105,7 +104,7 @@ public class DungeonSelectorTest
         Dungeon removedDungeon = manifest.Dungeons["Second Dungeon"];
         // The tile at position (0, 0) has a "white-tile.png"
         TileReference topLeftReference = new(removedDungeon, new Position(0, 0));
-        Assert.That(cache.HasReference(topLeftReference), Is.True, "Expected reference at (0, 0) to exist");
+        Assert.That(panel.DungeonCrawlerData.HasReference(topLeftReference), Is.True, "Expected reference at (0, 0) to exist");
         second.Remove();
         yield return null;
         ConfirmPromptPanel confirmPrompt = GameObject.FindFirstObjectByType<ConfirmPromptPanel>();
@@ -114,12 +113,12 @@ public class DungeonSelectorTest
         confirmPrompt.Confirm();
         yield return null;
         Assert.That(confirmPrompt.gameObject.activeInHierarchy, Is.False, "Confirm prompt was active after confirming");
-        Assert.That(panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons.Count, Is.EqualTo(1), "Manifest should have only 1 dungeon");
-        Assert.That(panel.DungeonCrawlerData.ManifestData.Manifest.Dungeons.ContainsKey("Second Dungeon"), Is.False, "Manifest should not contain Second Dungeon");
+        Assert.That(panel.DungeonCrawlerData.Manifest.Dungeons.Count, Is.EqualTo(1), "Manifest should have only 1 dungeon");
+        Assert.That(panel.DungeonCrawlerData.Manifest.Dungeons.ContainsKey("Second Dungeon"), Is.False, "Manifest should not contain Second Dungeon");
 
         buttons = panel.GetComponentsInChildren<DungeonSelectorButton>();
         Assert.That(buttons.Count, Is.EqualTo(1));
-        Assert.That(cache.HasReference(topLeftReference), Is.False, "Expected reference at (0, 0) to be removed");
+        Assert.That(panel.DungeonCrawlerData.HasReference(topLeftReference), Is.False, "Expected reference at (0, 0) to be removed");
 
     }
 }

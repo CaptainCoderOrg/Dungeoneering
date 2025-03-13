@@ -10,10 +10,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public MeshRenderer[] Renderers { get; private set; } = default!;
         private MouseEvents _mouseEvents;
         public DungeonTile Parent { get; private set; }
+        public WallReference WallReference => new(Parent.Dungeon, Parent.Position, Facing);
         [field: SerializeField]
         public Facing Facing { get; private set; }
         private SelectableMaterial _material;
-        public TextureReference Texture => Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.GetTexture(Parent.Position, Facing);
+        public TextureReference Texture => Parent.DungeonController.DungeonCrawlerData.GetTexture(WallReference);
         public SelectableMaterial Material
         {
             get => _material;
@@ -48,10 +49,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
 
-        public void SetTexture(TextureReference newTexture)
-        {
-            Parent.DungeonController.DungeonCrawlerData.CurrentDungeon.SetTexture(Parent.Position, Facing, newTexture);
-        }
+        public void SetTexture(TextureReference newTexture) => Parent.DungeonController.DungeonCrawlerData.SetTexture(WallReference, newTexture);
 
         void Awake()
         {

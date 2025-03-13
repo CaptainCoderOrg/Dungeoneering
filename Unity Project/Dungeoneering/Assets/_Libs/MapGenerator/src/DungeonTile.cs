@@ -10,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public TileReference TileReference => new(Dungeon, Position);
-        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon.Dungeon;
+        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon;
         public DungeonController DungeonController { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
@@ -71,13 +71,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public static void UpdateTile(DungeonController controller, Position position, DungeonTile newTile)
         {
-            newTile.UpdateFloor(controller.DungeonCrawlerData.MaterialCache.GetTexture(newTile.Dungeon, position));
-            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.MaterialCache.GetTileWallMaterials(newTile.Dungeon, position));
+            newTile.UpdateFloor(controller.DungeonCrawlerData.GetTexture(newTile.TileReference));
+            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.GetTileWallTextures(newTile.TileReference));
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(DungeonController.DungeonCrawlerData.MaterialCache.GetTexture(Dungeon, Position), isSelected);
+            UpdateFloor(DungeonController.DungeonCrawlerData.GetTexture(new TileReference(Dungeon, Position)), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)
@@ -109,6 +109,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(TextureReference newTexture) => DungeonController.DungeonCrawlerData.CurrentDungeon.SetTexture(Position, newTexture);
+        public void SetTexture(TextureReference newTexture) => DungeonController.DungeonCrawlerData.SetTexture(TileReference, newTexture);
     }
 }

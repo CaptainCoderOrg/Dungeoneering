@@ -15,7 +15,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private DungeonEditorSelectionData _selectionData;
         [SerializeField]
         private UndoRedoStackData _undoRedoStackData;
-
         [field: SerializeField]
         public Button NoWallButton { get; private set; }
         [field: SerializeField]
@@ -60,33 +59,20 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             if (!_selectionData.Walls.Any()) { return; }
             DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
-            DungeonData dungeonData = controller.DungeonCrawlerData.CurrentDungeon;
-            System.Action perform = default;
-            System.Action undo = default;
+            DungeonCrawlerData data = controller.DungeonCrawlerData;
+            DungeonWallController[] walls = _selectionData.Walls.ToArray();
 
-            foreach (DungeonWallController wall in _selectionData.Walls)
+            void Perform()
             {
-                Dungeon d = wall.Parent.Dungeon;
-                Position p = wall.Parent.Position;
-                Facing f = wall.Facing;
-                WallType originalWallType = d.Walls[p, f];
-                TextureReference originalTexture = dungeonData.GetTexture(p, f);
-                TextureReference originalBackTexture = dungeonData.GetTexture(p.Step(f), f.Opposite());
-                if (originalWallType == newWallType) { continue; }
-                perform += () => dungeonData.SetWallType(p, f, newWallType);
-                undo += () =>
+                foreach (DungeonWallController wall in walls)
                 {
-                    dungeonData.SetWallType(p, f, originalWallType);
-                    dungeonData.SetTexture(p, f, originalTexture);
-                    Position neighbor = p.Step(f);
-                    if (controller.HasTile(neighbor))
-                    {
-                        dungeonData.SetTexture(neighbor, f.Opposite(), originalBackTexture);
-                    }
-                };
+                    WallReference wallRef = wall.WallReference;
+                    WallType originalWallType = wallRef.Dungeon.Walls[wallRef.Position, wallRef.Facing];
+                    if (originalWallType == newWallType) { continue; }
+                    data.SetWallType(wallRef, newWallType);
+                }
             }
-
-            _undoRedoStackData.PerformEdit($"Set WallType: {newWallType}", perform, undo, dungeonData);
+            _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", Perform, data);
         }
 
     }

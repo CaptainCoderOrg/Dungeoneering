@@ -48,7 +48,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
     // Broser plugin should be called in OnPointerDown.
     public void PromptExport() {
-        var bytes = Encoding.UTF8.GetBytes(_dungeonCrawlerData.ManifestData.Manifest.ToJson());
+        var bytes = Encoding.UTF8.GetBytes(_dungeonCrawlerData.Manifest.ToJson());
         DownloadFile(gameObject.name, "OnFileDownload", "dungeon-manifest.json", bytes, bytes.Length);
         Hide();
     }
@@ -64,7 +64,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             var path = StandaloneFileBrowser.SaveFilePanel("Title", "", "dungeon-manifest", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                File.WriteAllText(path, _dungeonCrawlerData.ManifestData.Manifest.ToJson());
+                File.WriteAllText(path, _dungeonCrawlerData.Manifest.ToJson());
             }
             Hide();
         }
@@ -112,7 +112,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 yield break;
             }
 
-            if (_dungeonCrawlerData.ManifestData.TryLoadManifest(www.downloadHandler.text, out string message))
+            if (_dungeonCrawlerData.TryLoadManifest(www.downloadHandler.text, out string message))
             {
                 Hide();
                 yield break;

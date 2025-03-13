@@ -14,7 +14,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         void Awake()
         {
-            Dungeon dungeon = Data.ManifestData.Manifest.Dungeons.Values.First();
+            Dungeon dungeon = Data.Manifest.Dungeons.Values.First();
             UnderTest.Show(dungeon);
         }
     }

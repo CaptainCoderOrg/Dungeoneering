@@ -97,8 +97,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             System.Action perform = () =>
             {
-                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
-                _dungeonCrawlerData.ManifestData.UpdateTexture(textureRef, newTexture);
+                TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
+                _dungeonCrawlerData.SyncTextureData(textureRef, newTexture);
             };
             _undoRedoStack.PerformEditSerializeState("Replace Texture", perform, _dungeonCrawlerData);
         }
@@ -107,8 +107,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         {
             System.Action perform = () =>
             {
-                TextureReference textureRef = _dungeonCrawlerData.MaterialCache.GetTexture(_texture.TextureName);
-                _dungeonCrawlerData.MaterialCache.RemoveTextureReference(textureRef);
+                TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
+                _dungeonCrawlerData.DeleteTexture(textureRef);
             };
             _undoRedoStack.PerformEditSerializeState("Delete Texture", perform, _dungeonCrawlerData);
             Hide();
@@ -124,7 +124,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         // Broser plugin should be called in OnPointerDown.
         public void PromptExport()
         {
-            var bytes = _dungeonCrawlerData.ManifestData.Manifest.Textures[_texture.TextureName].Data;
+            var bytes = _dungeonCrawlerData.Manifest.Textures[_texture.TextureName].Data;
             DownloadFile(gameObject.name, "OnFileDownload", $"{TextureFileNameWithoutExtension}.png", bytes, bytes.Length);
         }
 
@@ -138,7 +138,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             var path = StandaloneFileBrowser.SaveFilePanel("Title", "", TextureFileNameWithoutExtension, "png");
             if (!string.IsNullOrEmpty(path))
             {
-                File.WriteAllBytes(path, _dungeonCrawlerData.ManifestData.Manifest.Textures[_texture.TextureName].Data);
+                File.WriteAllBytes(path, _dungeonCrawlerData.Manifest.Textures[_texture.TextureName].Data);
             }
         }
 #endif

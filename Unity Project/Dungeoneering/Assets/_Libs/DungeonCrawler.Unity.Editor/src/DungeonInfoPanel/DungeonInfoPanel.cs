@@ -1,5 +1,3 @@
-using System.Linq;
-
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
@@ -40,17 +38,17 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 (_wallTexture, nameof(_wallTexture)),
                 (_secretTexture, nameof(_secretTexture))
             );
-            Show(_dungeonCrawlerData.ManifestData.Manifest.Dungeons.Values.First());
+            Show(_dungeonCrawlerData.CurrentDungeon);
         }
 
         public void Show(Dungeon dungeon)
         {
             _dungeon = dungeon;
             _dungeonNameInput.text = dungeon.Name;
-            _tileTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.TileTextures.Default);
-            _doorTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultDoor);
-            _wallTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSolid);
-            _secretTexture.Texture = _dungeonCrawlerData.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSecretDoor);
+            _tileTexture.Texture = _dungeonCrawlerData.GetTexture(dungeon.TileTextures.Default);
+            _doorTexture.Texture = _dungeonCrawlerData.GetTexture(dungeon.WallTextures.DefaultDoor);
+            _wallTexture.Texture = _dungeonCrawlerData.GetTexture(dungeon.WallTextures.DefaultSolid);
+            _secretTexture.Texture = _dungeonCrawlerData.GetTexture(dungeon.WallTextures.DefaultSecretDoor);
             gameObject.SetActive(true);
         }
 

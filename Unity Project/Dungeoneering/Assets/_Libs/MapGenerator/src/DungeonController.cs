@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
 using CaptainCoder.Unity;
+using CaptainCoder.Unity.Assertions;
 
 using NaughtyAttributes;
 
@@ -12,18 +13,11 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonController : MonoBehaviour
     {
-        [field: SerializeField]
-        public DungeonCrawlerData DungeonCrawlerData { get; private set; }
-        [field: SerializeField]
-        public Transform TileParent { get; private set; } = null!;
-        [field: SerializeField]
-        public DungeonTile TilePrefab { get; private set; } = null!;
-        [field: SerializeField]
-        public UnityEvent<DungeonData> OnDungeonChanged { get; private set; } = new();
-        [field: SerializeField]
-        public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
-        [field: SerializeField]
-        public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
+        [AssertIsSet][field: SerializeField] public DungeonCrawlerData DungeonCrawlerData { get; private set; }
+        [AssertIsSet][field: SerializeField] public Transform TileParent { get; private set; } = null!;
+        [AssertIsSet][field: SerializeField] public DungeonTile TilePrefab { get; private set; } = null!;
+        [AssertIsSet][field: SerializeField] public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
+        [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
         private Dictionary<Position, DungeonTile> _tiles = new();
 
         void Awake()
@@ -33,22 +27,43 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         void OnEnable()
         {
-            DungeonCrawlerData.CurrentDungeon.OnTilesChanged.AddListener(UpdateTiles);
-            DungeonCrawlerData.CurrentDungeon.AddObserver(HandleDungeonChanged);
+            DungeonCrawlerData.AddObserver(HandleDungeonChanged);
         }
 
         void OnDisable()
         {
-            DungeonCrawlerData.CurrentDungeon.OnTilesChanged.RemoveListener(UpdateTiles);
-            DungeonCrawlerData.CurrentDungeon.RemoveObserver(HandleDungeonChanged);
+            DungeonCrawlerData.RemoveObserver(HandleDungeonChanged);
         }
 
-        private void HandleDungeonChanged(DungeonChangedData _) => UpdateDungeonTiles();
+        private void HandleDungeonChanged(DungeonChangeEvent change)
+        {
+            switch (change)
+            {
+                case DungeonLoaded(Dungeon _):
+                    UpdateDungeonTiles();
+                    break;
+                case TilesChanged(IEnumerable<TileReference> tiles):
+                    UpdateTiles(tiles);
+                    break;
+                case DefaultTileTextureChanged(Dungeon dungeon, TextureReference _):
+                    if (dungeon == DungeonCrawlerData.CurrentDungeon)
+                    {
+                        UpdateDungeonTiles();
+                    }
+                    break;
+                case DefaultWallTextureChanged(Dungeon dungeon, WallType _, TextureReference __):
+                    if (dungeon == DungeonCrawlerData.CurrentDungeon)
+                    {
+                        UpdateDungeonTiles();
+                    }
+                    break;
+            }
+        }
 
         [Button]
         public void ClearDungeon() => TileParent.DestroyAllChildren();
 
-        public void UpdateDungeonTiles() => BuildOrUpdateTiles(TileParent, TilePrefab);
+        private void UpdateDungeonTiles() => BuildOrUpdateTiles(TileParent, TilePrefab);
 
         private void BuildOrUpdateTiles(Transform parent, DungeonTile tilePrefab)
         {
@@ -82,50 +97,31 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             {
                 Destroy(tile.gameObject);
             }
-
-            // TODO: We should be able to eliminate this and replace with DungeonData.OnChange
-            OnDungeonChanged.Invoke(DungeonCrawlerData.CurrentDungeon);
-
-            // TODO: I suspect there is a memory leak here, we never unregister these
-            DungeonCrawlerData.CurrentDungeon.Dungeon.Walls.OnWallChanged += UpdateWalls;
-            DungeonCrawlerData.CurrentDungeon.Dungeon.WallTextures.OnTextureChange += UpdateTextures;
-
-            void UpdateWalls(Position position, Facing facing, WallType wall)
-            {
-                DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(DungeonCrawlerData.CurrentDungeon.Dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(DungeonCrawlerData.CurrentDungeon.Dungeon, position));
-            }
-
-            void UpdateTextures(Position position, Facing facing, string textureName)
-            {
-                DungeonTile toUpdate = _tiles.GetValueOrDefault(position);
-                toUpdate?.UpdateWalls(DungeonCrawlerData.CurrentDungeon.Dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(DungeonCrawlerData.CurrentDungeon.Dungeon, position));
-            }
         }
 
         public bool HasTile(Position position) => _tiles.ContainsKey(position);
         public DungeonTile GetDungeonTile(Position position) => _tiles[position];
         public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _tiles.TryGetValue(position, out tile);
 
-        private void UpdateTiles(TilesChangedData changes)
+        private void UpdateTiles(IEnumerable<TileReference> tiles)
         {
-            foreach ((Dungeon d, Position p) in changes.Tiles)
+            foreach (TileReference tileRef in tiles)
             {
-                UpdateTile(d, p);
+                UpdateTile(tileRef);
             }
         }
 
-        private void UpdateTile(Dungeon dungeon, Position position)
+        private void UpdateTile(TileReference tileRef)
         {
-            if (dungeon == DungeonCrawlerData.CurrentDungeon.Dungeon)
+            if (tileRef.Dungeon == DungeonCrawlerData.CurrentDungeon)
             {
-                DungeonTile tile = _tiles[position];
-                tile.UpdateFloor(DungeonCrawlerData.MaterialCache.GetTexture(dungeon, position));
-                tile.UpdateWalls(dungeon.GetTile(position).Walls, DungeonCrawlerData.MaterialCache.GetTileWallMaterials(dungeon, position));
+                DungeonTile tile = _tiles[tileRef.Position];
+                tile.UpdateFloor(DungeonCrawlerData.GetTexture(tileRef));
+                tile.UpdateWalls(tileRef.Dungeon.GetTile(tileRef.Position).Walls, DungeonCrawlerData.GetTileWallTextures(tileRef));
             }
             else
             {
-                Debug.Log($"No scene changes made. Current dungeon is {DungeonCrawlerData.CurrentDungeon.Dungeon.Name}");
+                Debug.Log($"No scene changes made. Current dungeon is {DungeonCrawlerData.CurrentDungeon.Name}");
             }
         }
 

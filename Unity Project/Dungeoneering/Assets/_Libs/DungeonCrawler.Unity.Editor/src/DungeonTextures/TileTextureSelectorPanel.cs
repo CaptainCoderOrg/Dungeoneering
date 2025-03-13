@@ -52,11 +52,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 if (_selectionData.Tiles.All(t => t.FloorTextureName == name))
                 {
                     _currentTextureName.text = name;
-                    _currentTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(name).Texture;
+                    _currentTexture.texture = _dungeonCrawlerData.GetTexture(name).Texture;
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon.TileTextures.Default).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.GetTexture(_dungeonCrawlerData.CurrentDungeon.TileTextures.Default).Texture;
             _useDefault = UseDefaultTileTexture;
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
@@ -79,22 +79,22 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
 
         public void ShowWallSelection(System.Action<TextureReference> onSelected, WallType wallType, ISet<(Position position, Facing facing)> selection)
         {
-            WallReference[] walls = selection.Select(s => new WallReference(_dungeonCrawlerData.CurrentDungeon.Dungeon, s.position, s.facing)).ToArray();
+            WallReference[] walls = selection.Select(s => new WallReference(_dungeonCrawlerData.CurrentDungeon, s.position, s.facing)).ToArray();
             _onSelected = onSelected;
             _selectedText.text = $"{TypeLabel(wallType)} Selected: {walls.Length}";
             _currentTextureName.text = walls.Length > 0 ? "Multiple Selected" : "None Selected";
             _currentTexture.texture = _multipleTexturesImage;
             if (walls.Length > 0)
             {
-                TextureReference textureReference = _dungeonCrawlerData.MaterialCache.GetTexture(walls[0]);
-                if (walls.All(t => _dungeonCrawlerData.MaterialCache.GetTexture(t) == textureReference))
+                TextureReference textureReference = _dungeonCrawlerData.GetTexture(walls[0]);
+                if (walls.All(t => _dungeonCrawlerData.GetTexture(t) == textureReference))
                 {
                     _currentTextureName.text = textureReference.TextureName;
                     _currentTexture.texture = textureReference.Texture;
                 }
             }
 
-            _defaultTexture.texture = _dungeonCrawlerData.MaterialCache.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon.Dungeon, wallType)).Texture;
+            _defaultTexture.texture = _dungeonCrawlerData.GetTexture(DefaultTexture(_dungeonCrawlerData.CurrentDungeon, wallType)).Texture;
             _useDefault = () => UseDefaultWallTexture(walls);
             TextureSelectorPanel.ShowDialogue(onSelected);
         }
@@ -109,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (WallReference wall in walls)
                 {
-                    _dungeonCrawlerData.CurrentDungeon.RemoveWallTexture(wall.Position, wall.Facing);
+                    _dungeonCrawlerData.UseDefaultTexture(wall);
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
@@ -124,7 +124,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             {
                 foreach (DungeonTile tile in selected)
                 {
-                    _dungeonCrawlerData.CurrentDungeon.RemoveFloorTexture(tile.Position);
+                    _dungeonCrawlerData.UseDefaultTexture(new TileReference(_dungeonCrawlerData.CurrentDungeon, tile.Position));
                 }
             }
             _undoRedoStackData.PerformEditSerializeState("Set Multiple Textures", Perform, _dungeonCrawlerData);
