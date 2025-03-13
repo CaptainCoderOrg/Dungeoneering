@@ -12,14 +12,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
     [CreateAssetMenu(menuName = "DC/DungeonCrawlerData")]
     public class DungeonCrawlerData : ObservableSO
     {
-        private Action<DungeonManifestChanged> _onManifestChanged;
-        private Action<DungeonChangeEvent> _onDungeonChanged;
 
-        [field: SerializeField]
-        public TextAsset DefaultManifestJson { get; private set; }
-        public DungeonCrawlerManifest Manifest { get; internal set; }
-        public Dungeon CurrentDungeon { get; internal set; }
-        internal MaterialCache MaterialCache { get; private set; }
         private bool _preventNotify = false;
         public bool PreventNotify
         {
@@ -30,6 +23,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 NotifyTileChanges();
             }
         }
+
+        [field: SerializeField]
+        public TextAsset DefaultManifestJson { get; private set; }
+        public DungeonCrawlerManifest Manifest { get; internal set; }
+        private Action<DungeonManifestChanged> _onManifestChanged;
+
+        public Dungeon CurrentDungeon { get; internal set; }
+        private Action<DungeonChangeEvent> _onDungeonChanged;
+        private readonly HashSet<TileReference> _cachedTileChanges = new();
+
         private bool _hasChanged = false;
         public bool HasChanged
         {
@@ -41,6 +44,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
                 _onDungeonChanged?.Invoke(new SyncedStateChange(CurrentDungeon, !_hasChanged));
             }
         }
+
+        internal MaterialCache MaterialCache { get; private set; }
 
         public override void OnBeforeEnterPlayMode()
         {
@@ -83,18 +88,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         }
         public void RemoveObserver(Action<DungeonManifestChanged> onChange) => _onManifestChanged -= onChange;
         internal void NotifyObservers(DungeonManifestChanged change) => _onManifestChanged?.Invoke(change);
-        public void AddObserver(Action<CacheUpdateData> handler) => MaterialCache.AddObserver(handler);
-        public void RemoveObserver(Action<CacheUpdateData> handler) => MaterialCache.RemoveObserver(handler);
-        internal void NotifyObservers(DungeonChangeEvent change) => _onDungeonChanged?.Invoke(change);
-        private readonly HashSet<TileReference> _cachedTileChanges = new();
-        internal void NotifyTileChanges()
-        {
-            if (_preventNotify) { return; }
-            if (!_cachedTileChanges.Any()) { return; }
-            _onDungeonChanged?.Invoke(new TilesChanged(_cachedTileChanges.AsEnumerable()));
-            _cachedTileChanges.Clear();
-        }
-        internal void AddTileChange(TileReference tile) => _cachedTileChanges.Add(tile);
+
         public void AddObserver(Action<DungeonChangeEvent> handle)
         {
             _onDungeonChanged += handle;
@@ -104,5 +98,18 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
             }
         }
         public void RemoveObserver(Action<DungeonChangeEvent> handle) => _onDungeonChanged -= handle;
+        internal void NotifyObservers(DungeonChangeEvent change) => _onDungeonChanged?.Invoke(change);
+        internal void NotifyTileChanges()
+        {
+            if (_preventNotify) { return; }
+            if (!_cachedTileChanges.Any()) { return; }
+            _onDungeonChanged?.Invoke(new TilesChanged(_cachedTileChanges.AsEnumerable()));
+            _cachedTileChanges.Clear();
+        }
+        internal void AddTileChange(TileReference tile) => _cachedTileChanges.Add(tile);
+
+
+        public void AddObserver(Action<CacheUpdateData> handler) => MaterialCache.AddObserver(handler);
+        public void RemoveObserver(Action<CacheUpdateData> handler) => MaterialCache.RemoveObserver(handler);
     }
 }

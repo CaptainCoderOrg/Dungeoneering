@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.Unity.Data;
 
-public class MaterialCache
+internal class MaterialCache
 {
     private TextureDatabase _textureDatabase = new();
     private readonly Dictionary<TileReference, TextureReference> _tileReferences = new();
