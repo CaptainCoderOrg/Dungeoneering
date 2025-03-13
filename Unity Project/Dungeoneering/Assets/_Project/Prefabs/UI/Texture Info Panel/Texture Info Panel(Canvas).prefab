@@ -158,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314ffa95e54102043834f44dbfc8878b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _undoRedoStack: {fileID: 11400000, guid: ebba17630ec3c1b4583c3d3527a5b966, type: 2}
   _dungeonCrawlerData: {fileID: 11400000, guid: ab74159b5d6b1da4ea6c200032209da6, type: 2}
   _textureImage: {fileID: 6904159982047011246}
   _textureNameLabel: {fileID: 3204197203450209768}
@@ -2239,7 +2238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628303024808711443, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Size
-      value: 0.97236615
+      value: 0.9770294
+      objectReference: {fileID: 0}
+    - target: {fileID: 1628303024808711443, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_Value
+      value: -0.000002294557
       objectReference: {fileID: 0}
     - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2287,11 +2290,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_PreferredWidth
+      value: 614.7
       objectReference: {fileID: 0}
     - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_PreferredHeight
-      value: 330.8
+      value: 358.1
       objectReference: {fileID: 0}
     - target: {fileID: 5460023963247928268, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Enabled
@@ -2367,7 +2374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7840243611544170039, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 7850162060512820116, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Pivot.x

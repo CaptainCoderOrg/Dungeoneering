@@ -958,11 +958,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_PreferredWidth
@@ -970,7 +970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_PreferredHeight
-      value: 520
+      value: 568
       objectReference: {fileID: 0}
     - target: {fileID: 5460023963247928268, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Enabled

@@ -1826,6 +1826,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7441055728185403732}
     m_Modifications:
+    - target: {fileID: 1208071039726683670, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1208071039726683670, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894277834448359092, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604837142347234495, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604837142347234495, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4083161311131862084, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Name
       value: Sized Panel (Viewport)
@@ -1845,6 +1877,10 @@ PrefabInstance:
     - target: {fileID: 4729569694689681758, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_Size
       value: 0.975
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769637123644766950, guid: bf29983e87105d1408891bd1e658220c, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 568
       objectReference: {fileID: 0}
     - target: {fileID: 7760965153269841171, guid: bf29983e87105d1408891bd1e658220c, type: 3}
       propertyPath: m_AnchorMax.x
