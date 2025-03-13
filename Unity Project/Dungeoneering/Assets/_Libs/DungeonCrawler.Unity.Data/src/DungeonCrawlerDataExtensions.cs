@@ -156,10 +156,13 @@ public static class DungeonCrawlerDataExtensions
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position, wallRef.Facing));
         wallRef.Dungeon.WallTextures.Textures.Remove((wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Opposite()));
         data.MaterialCache.RemoveTexture(wallRef);
+        WallReference oppositeWallRef = new(wallRef.Dungeon, wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Opposite());
+        data.MaterialCache.RemoveTexture(oppositeWallRef);
         wallRef.Dungeon.Walls.SetWall(wallRef.Position, wallRef.Facing, type);
         if (wallRef.Dungeon == data.CurrentDungeon)
         {
             data.AddTileChange(new TileReference(wallRef.Dungeon, wallRef.Position));
+            data.AddTileChange(new TileReference(oppositeWallRef.Dungeon, oppositeWallRef.Position));
             data.HasChanged = true;
             data.NotifyTileChanges();
         }
