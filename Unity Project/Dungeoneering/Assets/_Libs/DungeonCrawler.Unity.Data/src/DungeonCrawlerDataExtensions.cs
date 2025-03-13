@@ -21,30 +21,34 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.RemoveDungeonReferences(data.Manifest.Dungeons[copy.Name]);
         data.MaterialCache.AddDungeonReferences(copy);
         data.Manifest.Dungeons[copy.Name] = copy;
-        data.CurrentDungeonData.HasChanged = false;
+        data.HasChanged = false;
     }
 
     /// <summary>
     /// Sets the specified tile to use the new texture
     /// </summary>
-    public static void SetTexture(this DungeonCrawlerData data, TileReference tile, TextureReference newTexture)
+    public static void SetTexture(this DungeonCrawlerData data, TileReference tileRef, TextureReference newTexture)
     {
-        data.MaterialCache.SetTexture(tile, newTexture);
-        if (data.CurrentDungeon == tile.Dungeon)
+        data.MaterialCache.SetTexture(tileRef, newTexture);
+        if (data.CurrentDungeon == tileRef.Dungeon)
         {
-            data.CurrentDungeonData.AddChange(tile);
+            data.AddTileChange(tileRef);
+            data.HasChanged = true;
+            data.NotifyTileChanges();
         }
     }
 
     /// <summary>
     /// Sets the specified wall to use the new texture
     /// </summary>
-    public static void SetTexture(this DungeonCrawlerData data, WallReference wall, TextureReference newTexture)
+    public static void SetTexture(this DungeonCrawlerData data, WallReference wallRef, TextureReference newTexture)
     {
-        data.MaterialCache.SetTexture(wall, newTexture);
-        if (data.CurrentDungeon == wall.Dungeon)
+        data.MaterialCache.SetTexture(wallRef, newTexture);
+        if (data.CurrentDungeon == wallRef.Dungeon)
         {
-            data.CurrentDungeonData.AddChange(wall);
+            data.AddTileChange(new TileReference(wallRef.Dungeon, wallRef.Position));
+            data.HasChanged = true;
+            data.NotifyTileChanges();
         }
     }
 
@@ -57,7 +61,9 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.RemoveTexture(tileRef);
         if (data.CurrentDungeon == tileRef.Dungeon)
         {
-            data.CurrentDungeonData.AddChange(tileRef);
+            data.AddTileChange(tileRef);
+            data.HasChanged = true;
+            data.NotifyTileChanges();
         }
     }
 
@@ -70,7 +76,9 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.RemoveTexture(wallRef);
         if (data.CurrentDungeon == wallRef.Dungeon)
         {
-            data.CurrentDungeonData.AddChange(wallRef);
+            data.AddTileChange(new TileReference(wallRef.Dungeon, wallRef.Position));
+            data.HasChanged = true;
+            data.NotifyTileChanges();
         }
     }
 
@@ -83,15 +91,19 @@ public static class DungeonCrawlerDataExtensions
         {
             throw new System.InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
         }
+
         TextureReference previousTexture = data.MaterialCache.GetTexture(dungeon.TileTextures.Default);
         dungeon.TileTextures.Default = newTexture.TextureName;
         previousTexture.DefaultTileDungeons.Remove(dungeon);
         newTexture.DefaultTileDungeons.Add(dungeon);
+
         if (targetDungeon.Name == data.CurrentDungeon.Name)
         {
             previousTexture.DefaultTileDungeons.Remove(data.CurrentDungeon);
             newTexture.DefaultTileDungeons.Add(data.CurrentDungeon);
-            data.CurrentDungeonData.SetDefaultTileTexture(newTexture);
+            data.CurrentDungeon.TileTextures.Default = newTexture.TextureName;
+            data.HasChanged = true;
+            data.NotifyObservers(new DefaultTileTextureChanged(data.CurrentDungeon, newTexture));
         }
     }
 
@@ -104,15 +116,19 @@ public static class DungeonCrawlerDataExtensions
         {
             throw new System.InvalidOperationException($"The specified dungeon {targetDungeon.Name} does not exist in the manifest.");
         }
+
         TextureReference previousTexture = data.MaterialCache.GetTexture(dungeon.WallTextures.DefaultSolid);
         dungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
         previousTexture.RemoveDefaultWall(wallType, dungeon);
         newTexture.AddDefaultWall(wallType, dungeon);
+
         if (targetDungeon.Name == data.CurrentDungeon.Name)
         {
             previousTexture.RemoveDefaultWall(wallType, data.CurrentDungeon);
             newTexture.AddDefaultWall(wallType, data.CurrentDungeon);
-            data.CurrentDungeonData.SetDefaultWallTexture(wallType, newTexture);
+            data.CurrentDungeon.WallTextures.SetDefaultTexture(wallType, newTexture.TextureName);
+            data.HasChanged = true;
+            data.NotifyObservers(new DefaultWallTextureChanged(data.CurrentDungeon, wallType, newTexture));
         }
     }
 
@@ -142,7 +158,9 @@ public static class DungeonCrawlerDataExtensions
         wallRef.Dungeon.Walls.SetWall(wallRef.Position, wallRef.Facing, type);
         if (wallRef.Dungeon == data.CurrentDungeon)
         {
-            data.CurrentDungeonData.AddChange(wallRef);
+            data.AddTileChange(new TileReference(wallRef.Dungeon, wallRef.Position));
+            data.HasChanged = true;
+            data.NotifyTileChanges();
         }
     }
 
@@ -180,7 +198,7 @@ public static class DungeonCrawlerDataExtensions
             DungeonCrawlerManifest manifest = JsonExtensions.LoadModel<DungeonCrawlerManifest>(json);
             data.MaterialCache.InitializeMaterialCache(manifest);
             data.Manifest = manifest;
-            data.CurrentDungeonData.Dungeon = manifest.Dungeons.First().Value.Copy();
+            data.LoadDungeon(manifest.Dungeons.First().Value.Copy());
             message = "Manifest loaded successfully";
             data.NotifyObservers(new ManifestInitialized(manifest));
         }
@@ -201,7 +219,7 @@ public static class DungeonCrawlerDataExtensions
             message = $"A dungeon named {newDungeon.Name} already exists.";
             return false;
         }
-        data.CurrentDungeonData.Dungeon = newDungeon.Copy();
+        data.LoadDungeon(newDungeon.Copy());
         data.MaterialCache.AddDungeonReferences(newDungeon);
         data.Manifest.AddDungeon(newDungeon.Name, newDungeon);
         message = "Dungeon added";
@@ -215,5 +233,24 @@ public static class DungeonCrawlerDataExtensions
             data.MaterialCache.RemoveDungeonReferences(dungeon);
             data.NotifyObservers(new DungeonRemovedEvent(dungeon));
         }
+    }
+
+    public static void LoadDungeon(this DungeonCrawlerData data, string dungeonJson) => data.LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
+    public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon)
+    {
+        if (dungeon == data.CurrentDungeon) { return; }
+        if (data.CurrentDungeon != null)
+        {
+            data.MaterialCache.RemoveDungeonReferences(data.CurrentDungeon);
+            DungeonUnloaded unloaded = new(data.CurrentDungeon);
+            data.NotifyObservers(unloaded);
+        }
+
+        data.CurrentDungeon = dungeon;
+        data.MaterialCache.AddDungeonReferences(dungeon);
+
+        DungeonLoaded loaded = new(data.CurrentDungeon);
+        data.NotifyObservers(loaded);
+        data.HasChanged = false;
     }
 }
