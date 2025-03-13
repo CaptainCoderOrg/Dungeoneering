@@ -3,7 +3,6 @@ using System.Linq;
 using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Dungeoneering.DungeonMap.Unity;
 using CaptainCoder.Dungeoneering.Unity.Data;
-using CaptainCoder.Unity;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +12,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [SerializeField]
         private DungeonEditorSelectionData _selectionData;
-        [SerializeField]
-        private UndoRedoStackData _undoRedoStackData;
         [field: SerializeField]
         public Button NoWallButton { get; private set; }
         [field: SerializeField]
@@ -27,7 +24,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         void Awake()
         {
             Debug.Assert(_selectionData != null, this);
-            Debug.Assert(_undoRedoStackData != null, this);
             Debug.Assert(NoWallButton != null, this);
             Debug.Assert(SolidButton != null, this);
             Debug.Assert(DoorButton != null, this);
@@ -72,7 +68,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                     data.SetWallType(wallRef, newWallType);
                 }
             }
-            _undoRedoStackData.PerformEditSerializeState($"Set WallType: {newWallType}", Perform, data);
+            data.PerformEditSerializeState($"Set WallType: {newWallType}", Perform);
         }
 
     }

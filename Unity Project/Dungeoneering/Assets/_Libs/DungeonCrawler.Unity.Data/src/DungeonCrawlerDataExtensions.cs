@@ -11,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Data;
 
 public static class DungeonCrawlerDataExtensions
 {
+    private static bool s_hasManifestChanged = false;
     /// <summary>
     /// Save the current DungeonData with the ManifestData
     /// </summary>
@@ -22,6 +23,7 @@ public static class DungeonCrawlerDataExtensions
         data.MaterialCache.AddDungeonReferences(copy);
         data.Manifest.Dungeons[copy.Name] = copy;
         data.HasChanged = false;
+        s_hasManifestChanged = true;
     }
 
     /// <summary>
@@ -172,6 +174,7 @@ public static class DungeonCrawlerDataExtensions
     {
         data.Manifest.Textures[texture.TextureName] = new Texture(texture.TextureName, ImageConversion.EncodeToPNG(newTexture));
         texture.SetTexture(newTexture);
+        data.HasChanged = true;
     }
 
     public static bool HasTexture(this DungeonCrawlerData data, string textureName) => data.Manifest.Textures.ContainsKey(textureName);
@@ -185,6 +188,7 @@ public static class DungeonCrawlerDataExtensions
     {
         data.Manifest.Textures.Remove(textureRef.TextureName);
         data.MaterialCache.DeleteTexture(textureRef);
+        s_hasManifestChanged = true;
     }
 
     public static void CreateTexture(this DungeonCrawlerData data, string name, Texture2D texture2D)
@@ -193,14 +197,16 @@ public static class DungeonCrawlerDataExtensions
         Texture dungeonTexture = new(name, ImageConversion.EncodeToPNG(texture2D));
         data.Manifest.AddTexture(dungeonTexture);
         data.MaterialCache.AddTextureData(dungeonTexture);
+        s_hasManifestChanged = true;
     }
 
-    public static void LoadManifest(this DungeonCrawlerData data, DungeonCrawlerManifest manifest)
+    public static void LoadManifest(this DungeonCrawlerData data, DungeonCrawlerManifest manifest, bool clearUndo = true)
     {
         data.MaterialCache.InitializeMaterialCache(manifest);
         data.Manifest = manifest;
-        data.LoadDungeon(manifest.Dungeons.First().Value.Copy());
+        data.LoadDungeon(manifest.Dungeons.First().Value.Copy(), clearUndo);
         data.NotifyObservers(new ManifestInitialized(manifest));
+        data.HasChanged = true;
     }
 
     public static bool TryLoadManifest(this DungeonCrawlerData data, string json, out string message)
@@ -231,6 +237,7 @@ public static class DungeonCrawlerDataExtensions
         data.LoadDungeon(newDungeon.Copy());
         data.MaterialCache.AddDungeonReferences(newDungeon);
         data.Manifest.AddDungeon(newDungeon.Name, newDungeon);
+        data.HasChanged = true;
         message = "Dungeon added";
         return true;
     }
@@ -239,13 +246,14 @@ public static class DungeonCrawlerDataExtensions
     {
         if (data.Manifest.Dungeons.Remove(dungeon.Name))
         {
+            data.HasChanged = true;
             data.MaterialCache.RemoveDungeonReferences(dungeon);
             data.NotifyObservers(new DungeonRemovedEvent(dungeon));
         }
     }
 
     public static void LoadDungeon(this DungeonCrawlerData data, string dungeonJson) => data.LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
-    public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon)
+    public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon, bool clearUndo = true)
     {
         if (dungeon == data.CurrentDungeon) { return; }
         if (data.CurrentDungeon != null)
@@ -261,5 +269,60 @@ public static class DungeonCrawlerDataExtensions
         DungeonLoaded loaded = new(data.CurrentDungeon);
         data.NotifyObservers(loaded);
         data.HasChanged = false;
+        if (clearUndo)
+        {
+            data.UndoRedoStack.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Serializes the state of the manifest before performing the specified action. The undo action loads the entire previous state.
+    /// </summary>
+    public static void PerformEditSerializeState(this DungeonCrawlerData data, string name, Action perform)
+    {
+        Dungeon originalDungeon = data.CurrentDungeon.Copy();
+        DungeonCrawlerManifest originalManifest = data.Manifest.Copy();
+
+        s_hasManifestChanged = false;
+        data.PreventNotify = true;
+        perform.Invoke();
+        data.PreventNotify = false;
+
+        if (s_hasManifestChanged)
+        {
+            data.SerializeRedoManifest(name, originalDungeon, originalManifest);
+        }
+        else
+        {
+            data.SerializeDungeonRedo(name, originalDungeon);
+        }
+
+    }
+
+    private static void SerializeDungeonRedo(this DungeonCrawlerData data, string name, Dungeon originalDungeon)
+    {
+        Dungeon redoDungeon = data.CurrentDungeon.Copy();
+        void Redo() => data.LoadDungeon(redoDungeon.Copy(), false);
+        void Undo() => data.LoadDungeon(originalDungeon, false);
+        data.UndoRedoStack.PushEdit(name, Redo, Undo);
+    }
+
+    private static void SerializeRedoManifest(this DungeonCrawlerData data, string name, Dungeon originalDungeon, DungeonCrawlerManifest originalManifest)
+    {
+        Dungeon redoDungeon = data.CurrentDungeon.Copy();
+        DungeonCrawlerManifest redoManifest = data.Manifest.Copy();
+
+        void Redo()
+        {
+            data.LoadManifest(redoManifest.Copy(), false);
+            data.LoadDungeon(redoDungeon.Copy(), false);
+        }
+
+        void Undo()
+        {
+            data.LoadManifest(originalManifest, false);
+            data.LoadDungeon(originalDungeon, false);
+        }
+        data.UndoRedoStack.PushEdit(name, Redo, Undo);
     }
 }

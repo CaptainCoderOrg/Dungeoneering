@@ -25,8 +25,6 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     public class TextureInfoPanel : MonoBehaviour
     {
         [SerializeField]
-        private UndoRedoStackData _undoRedoStack;
-        [SerializeField]
         private DungeonCrawlerData _dungeonCrawlerData;
         [SerializeField]
         private RawImage _textureImage;
@@ -68,7 +66,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             Debug.Assert(_confirmPromptPanel != null, "Confirm Prompt not set", gameObject);
             _confirmTexturePrompt = GetComponentInChildren<ConfirmTextureReplacementPrompt>(true);
             Debug.Assert(_confirmTexturePrompt != null, "Confirm Texture Prompt not set", gameObject);
-            Assertion.NotNull(this, _textureImage, _textureNameLabel, _textureInfoLabel, _confirmPromptPanel, _dungeonCrawlerData, _undoRedoStack);
+            Assertion.NotNull(this, _textureImage, _textureNameLabel, _textureInfoLabel, _confirmPromptPanel, _dungeonCrawlerData);
         }
 
         public void PromptDelete()
@@ -100,7 +98,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
                 _dungeonCrawlerData.SyncTextureData(textureRef, newTexture);
             };
-            _undoRedoStack.PerformEditSerializeState("Replace Texture", perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Replace Texture", perform);
         }
 
         private void DeleteTexture()
@@ -110,7 +108,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 TextureReference textureRef = _dungeonCrawlerData.GetTexture(_texture.TextureName);
                 _dungeonCrawlerData.DeleteTexture(textureRef);
             };
-            _undoRedoStack.PerformEditSerializeState("Delete Texture", perform, _dungeonCrawlerData);
+            _dungeonCrawlerData.PerformEditSerializeState("Delete Texture", perform);
             Hide();
         }
 
