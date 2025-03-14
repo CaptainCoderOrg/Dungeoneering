@@ -56,11 +56,11 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             if (!_selectionData.Walls.Any()) { return; }
             DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
             DungeonCrawlerData data = controller.DungeonCrawlerData;
-            DungeonWallController[] walls = _selectionData.Walls.ToArray();
+            DungeonWall[] walls = _selectionData.Walls.ToArray();
 
             void Perform()
             {
-                foreach (DungeonWallController wall in walls)
+                foreach (DungeonWall wall in walls)
                 {
                     WallReference wallRef = wall.WallReference;
                     WallType originalWallType = wallRef.Dungeon.Walls[wallRef.Position, wallRef.Facing];

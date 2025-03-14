@@ -17,7 +17,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [AssertIsSet][field: SerializeField] public Transform TileParent { get; private set; } = null!;
         [AssertIsSet][field: SerializeField] public DungeonTile TilePrefab { get; private set; } = null!;
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
-        [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
+        [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWall> OnDungeonWallClicked { get; private set; }
         private Dictionary<Position, DungeonTile> _tiles = new();
 
         void Awake()
@@ -128,6 +128,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         }
 
         private void HandleTileClicked(DungeonTile clicked) => OnDungeonTileClicked.Invoke(clicked);
-        private void HandleWallClicked(DungeonWallController clicked) => OnDungeonWallClicked.Invoke(clicked);
+        private void HandleWallClicked(DungeonWall clicked) => OnDungeonWallClicked.Invoke(clicked);
     }
 }

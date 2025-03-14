@@ -12,9 +12,9 @@ namespace CaptainCoder.Dungeoneering.Unity
         private readonly HashSet<DungeonTile> _selectedTiles = new();
         private ReadOnlySetView<DungeonTile> _cachedView;
         public ReadOnlySetView<DungeonTile> Tiles => _cachedView ??= new(_selectedTiles);
-        private readonly HashSet<DungeonWallController> _walls = new();
-        private ReadOnlySetView<DungeonWallController> _cachedWalls;
-        public ReadOnlySetView<DungeonWallController> Walls => _cachedWalls ??= new(_walls);
+        private readonly HashSet<DungeonWall> _walls = new();
+        private ReadOnlySetView<DungeonWall> _cachedWalls;
+        public ReadOnlySetView<DungeonWall> Walls => _cachedWalls ??= new(_walls);
         private System.Action<SelectionChangedEvent> _onDataChanged;
         private SelectionChangedEvent _changes;
 
@@ -30,15 +30,15 @@ namespace CaptainCoder.Dungeoneering.Unity
             _onDataChanged?.Invoke(_changes);
         }
 
-        public void ToggleWallSelected(DungeonWallController wall)
+        public void ToggleWallSelected(DungeonWall wall)
         {
             if (!_walls.Add(wall)) { _walls.Remove(wall); }
             Notify();
         }
 
-        public void SetWallSelection(params DungeonWallController[] walls) => SetWallSelection((IEnumerable<DungeonWallController>)walls);
+        public void SetWallSelection(params DungeonWall[] walls) => SetWallSelection((IEnumerable<DungeonWall>)walls);
 
-        public void SetWallSelection(IEnumerable<DungeonWallController> walls)
+        public void SetWallSelection(IEnumerable<DungeonWall> walls)
         {
             _walls.Clear();
             _selectedTiles.Clear();
@@ -46,7 +46,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             Notify();
         }
 
-        public void AddWallSelection(IEnumerable<DungeonWallController> walls)
+        public void AddWallSelection(IEnumerable<DungeonWall> walls)
         {
             _walls.UnionWith(walls);
             Notify();

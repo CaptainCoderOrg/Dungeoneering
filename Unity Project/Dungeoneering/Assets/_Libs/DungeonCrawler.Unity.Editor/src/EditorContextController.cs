@@ -21,7 +21,7 @@ namespace CaptainCoder.Dungeoneering.Unity
         private DungeonController _dungeonController;
         private float _lastClick;
         private DungeonTile _lastClicked;
-        private DungeonWallController _lastClickedWall;
+        private DungeonWall _lastClickedWall;
         private static readonly Facing[] Facings = { Facing.North, Facing.East, Facing.South, Facing.West };
 
         public void Click(DungeonTile clicked)
@@ -49,7 +49,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             _lastClickedWall = null;
         }
 
-        public void Click(DungeonWallController clicked)
+        public void Click(DungeonWall clicked)
         {
             float time = Time.time;
             bool isDoubleClick = _lastClickedWall == clicked && time - _lastClick <= DoubleClickTime;
@@ -99,7 +99,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             return allTiles.Select(_dungeonController.GetDungeonTile);
         }
 
-        private (DungeonWallController wall, Facing newIncomingSide) GetNextWall(DungeonWallController wall, Facing incomingSide)
+        private (DungeonWall wall, Facing newIncomingSide) GetNextWall(DungeonWall wall, Facing incomingSide)
         {
 #if UNITY_EDITOR
             Debug.Assert(wall.enabled);
@@ -117,7 +117,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             Facing exitSide = (Facing)((int)incomingSide ^ FACING_DIRECTION_BIT);
 
             // First check for the next wall as a turn in the current tile
-            DungeonWallController candidate = tile[exitSide];
+            DungeonWall candidate = tile[exitSide];
 
             if (candidate.isActiveAndEnabled)
                 return (candidate, wall.Facing);
@@ -162,7 +162,7 @@ namespace CaptainCoder.Dungeoneering.Unity
             return default;
         }
 
-        private IEnumerable<DungeonWallController> GetConnectedWalls(DungeonWallController start)
+        private IEnumerable<DungeonWall> GetConnectedWalls(DungeonWall start)
         {
             yield return start;
 

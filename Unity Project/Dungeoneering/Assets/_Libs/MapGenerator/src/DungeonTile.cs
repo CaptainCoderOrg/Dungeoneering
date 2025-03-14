@@ -16,15 +16,15 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public UnityEvent<DungeonTile> OnClicked { get; private set; }
         [field: SerializeField]
-        public UnityEvent<DungeonWallController> OnWallClicked { get; private set; }
+        public UnityEvent<DungeonWall> OnWallClicked { get; private set; }
         [field: SerializeField]
-        public DungeonWallController NorthWall { get; private set; } = default!;
+        public DungeonWall NorthWall { get; private set; } = default!;
         [field: SerializeField]
-        public DungeonWallController EastWall { get; private set; } = default!;
+        public DungeonWall EastWall { get; private set; } = default!;
         [field: SerializeField]
-        public DungeonWallController SouthWall { get; private set; } = default!;
+        public DungeonWall SouthWall { get; private set; } = default!;
         [field: SerializeField]
-        public DungeonWallController WestWall { get; private set; } = default!;
+        public DungeonWall WestWall { get; private set; } = default!;
         [field: SerializeField]
         public MeshRenderer FloorTile { get; private set; } = default!;
         private bool _isSelected;
@@ -40,7 +40,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             }
         }
 
-        public DungeonWallController this[Facing facing]
+        public DungeonWall this[Facing facing]
         {
             get
             {

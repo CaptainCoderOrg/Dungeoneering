@@ -16,7 +16,7 @@ public class WallSelectionData
     private readonly HashSet<(Position, Facing)> _secretDoors = new();
     public ISet<(Position, Facing)> SecretDoors => _secretDoors;
 
-    public void CountWalls(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
+    public void CountWalls(ISet<DungeonTile> tiles, ISet<DungeonWall> walls)
     {
         _walls.Clear();
         _doors.Clear();

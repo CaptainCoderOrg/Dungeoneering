@@ -58,7 +58,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             _tilesLabel.Button.Texture = tileTexture;
         }
 
-        private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWallController> walls)
+        private void RenderInfo(ISet<DungeonTile> tiles, ISet<DungeonWall> walls)
         {
             _wallSelectionData.CountWalls(tiles, walls);
             RenderTileInfo(tiles);

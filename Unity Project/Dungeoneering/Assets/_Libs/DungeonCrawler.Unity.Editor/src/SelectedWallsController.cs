@@ -12,8 +12,8 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
     {
         [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
         [field: SerializeField] public DungeonEditorSelectionData Selected { get; private set; }
-        private HashSet<DungeonWallController> _selectedWalls = new();
-        private HashSet<DungeonWallController> _altSelectedWalls = new();
+        private HashSet<DungeonWall> _selectedWalls = new();
+        private HashSet<DungeonWall> _altSelectedWalls = new();
 
         void OnEnable()
         {
@@ -35,7 +35,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
             }
         }
 
-        private void HandleSelectionChanged(IEnumerable<DungeonWallController> newWalls)
+        private void HandleSelectionChanged(IEnumerable<DungeonWall> newWalls)
         {
             foreach (var wall in newWalls)
             {
@@ -60,7 +60,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
                 // Assuming this event only happens when a new dungeon is loaded.
                 // If that changes, we'll need to do some checking/updating 
                 _selectedWalls.Clear();
-                Selected.SetWallSelection(System.Array.Empty<DungeonWallController>());
+                Selected.SetWallSelection(System.Array.Empty<DungeonWall>());
             }
         }
     }
