@@ -85,9 +85,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                     UpdateWallTexture(wallRef);
                 }
             }
+
             foreach (WallReference corner in corners)
             {
-                ShowNeighborCorner(corner);
+                CheckNeighborCorner(corner);
             }
         }
 
@@ -112,15 +113,16 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         private IEnumerable<WallReference> HideWall(WallReference wallRef)
         {
             TextureTarget[] targets = GetTargets(wallRef.Facing);
-            foreach (TextureTarget target in targets)
+            foreach (TextureTarget target in targets) { target.Apply(_transparentMaterial); }
+            // If we don't have a wall to our right, we may need to add our neighbors corner
+            if ((wallRef with { Facing = wallRef.Facing.Rotate() }).WallType == WallType.None)
             {
-                target.Apply(_transparentMaterial);
+                yield return new(wallRef.Dungeon, wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Rotate());
+                yield return new(wallRef.Dungeon, wallRef.Position.Step(wallRef.Facing.Rotate()), wallRef.Facing);
             }
-            yield return new(wallRef.Dungeon, wallRef.Position.Step(wallRef.Facing), wallRef.Facing.Rotate());
-            yield return new(wallRef.Dungeon, wallRef.Position.Step(wallRef.Facing.Rotate()), wallRef.Facing);
         }
 
-        private void ShowNeighborCorner(WallReference neighbor)
+        private void CheckNeighborCorner(WallReference neighbor)
         {
             if (neighbor.WallType != WallType.None)
             {
