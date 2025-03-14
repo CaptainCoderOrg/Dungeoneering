@@ -26,7 +26,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [SerializeField] private TextureTarget _stepSouthFaceWest;
         [SerializeField] private TextureTarget _stepEastFaceSouth;
         [SerializeField] private TextureTarget _stepSouthFaceEast;
-        private readonly Dictionary<WallReference, TextureTarget> _neighborTargets;
+        private readonly Dictionary<WallReference, TextureTarget> _neighborTargets = new();
         private DungeonCrawlerData _dungeonCrawlerData;
         private TileReference _tileReference;
 

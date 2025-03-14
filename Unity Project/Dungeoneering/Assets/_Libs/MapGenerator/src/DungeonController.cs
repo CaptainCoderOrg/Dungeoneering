@@ -20,6 +20,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWall> OnDungeonWallClicked { get; private set; }
         private Dictionary<Position, DungeonTile> _tiles = new();
+        private Dictionary<Position, DungeonTileController> _tileControllers = new();
 
         void Awake()
         {
@@ -89,15 +90,46 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                         tile.OnClicked.AddListener(HandleTileClicked);
                         tile.OnWallClicked.AddListener(HandleWallClicked);
                         tile.gameObject.SetActive(false);
-
-                        DungeonTileController tileController = Instantiate(_tileControllerPrefab, TileParent);
-                        tileController.name = $"({position.X}, {position.Y})";
-                        tileController.transform.position = new Vector3(position.Y, 0, position.X);
-                        tileController.DungeonCrawlerData = DungeonCrawlerData;
-                        tileController.TileReference = new TileReference(DungeonCrawlerData.CurrentDungeon, position);
                     }
-
                     _tiles[new Position(x, y)] = tile;
+                }
+            }
+
+            foreach (var tile in pooledTiles.Values)
+            {
+                Destroy(tile.gameObject);
+            }
+            BuildOrUpdateTileController();
+        }
+
+        private void BuildOrUpdateTileController()
+        {
+            Dictionary<Position, DungeonTileController> pooledTiles = _tileControllers;
+            _tileControllers = new(Mathf.Max(_tiles.Count, DungeonGlobals.DIMENSION * DungeonGlobals.DIMENSION));
+
+            for (int x = 0; x < DungeonGlobals.DIMENSION; x++)
+            {
+                for (int y = 0; y < DungeonGlobals.DIMENSION; y++)
+                {
+                    Position position = new(x, y);
+                    if (pooledTiles.TryGetValue(position, out DungeonTileController tile))
+                    {
+                        // tile.IsSelected = false;
+                        // tile.SetAllWallsSelected(false);
+                        // DungeonTile.UpdateTile(this, position, tile);
+                        tile.TileReference = new TileReference(DungeonCrawlerData.CurrentDungeon, position);
+                        pooledTiles.Remove(position);
+                    }
+                    else
+                    {
+                        Debug.Log("Miss!");
+                        tile = Instantiate(_tileControllerPrefab, TileParent);
+                        tile.name = $"({position.X}, {position.Y})";
+                        tile.transform.position = new Vector3(position.Y, 0, position.X);
+                        tile.DungeonCrawlerData = DungeonCrawlerData;
+                        tile.TileReference = new TileReference(DungeonCrawlerData.CurrentDungeon, position);
+                    }
+                    _tileControllers[new Position(x, y)] = tile;
                 }
             }
 
