@@ -16,6 +16,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [AssertIsSet][field: SerializeField] public DungeonCrawlerData DungeonCrawlerData { get; private set; }
         [AssertIsSet][field: SerializeField] public Transform TileParent { get; private set; } = null!;
         [AssertIsSet][field: SerializeField] public DungeonTile TilePrefab { get; private set; } = null!;
+        [AssertIsSet][SerializeField] private DungeonTileController _tileControllerPrefab;
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWall> OnDungeonWallClicked { get; private set; }
         private Dictionary<Position, DungeonTile> _tiles = new();
@@ -87,6 +88,13 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
                         tile = DungeonTile.Create(tilePrefab, parent, this, position);
                         tile.OnClicked.AddListener(HandleTileClicked);
                         tile.OnWallClicked.AddListener(HandleWallClicked);
+                        tile.gameObject.SetActive(false);
+
+                        DungeonTileController tileController = Instantiate(_tileControllerPrefab, TileParent);
+                        tileController.name = $"({position.X}, {position.Y})";
+                        tileController.transform.position = new Vector3(position.Y, 0, position.X);
+                        tileController.DungeonCrawlerData = DungeonCrawlerData;
+                        tileController.TileReference = new TileReference(DungeonCrawlerData.CurrentDungeon, position);
                     }
 
                     _tiles[new Position(x, y)] = tile;
