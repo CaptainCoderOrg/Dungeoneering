@@ -251,7 +251,7 @@ public static class DungeonCrawlerDataExtensions
             data.NotifyObservers(new DungeonRemovedEvent(dungeon));
         }
     }
-
+    public static void LoadDungeonByName(this DungeonCrawlerData data, string dungeonName) => data.LoadDungeon(data.Manifest.Dungeons[dungeonName]);
     public static void LoadDungeon(this DungeonCrawlerData data, string dungeonJson) => data.LoadDungeon(JsonExtensions.LoadModel<Dungeon>(dungeonJson));
     public static void LoadDungeon(this DungeonCrawlerData data, Dungeon dungeon, bool clearUndo = true)
     {

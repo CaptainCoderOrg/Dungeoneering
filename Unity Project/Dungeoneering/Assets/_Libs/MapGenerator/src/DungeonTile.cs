@@ -10,8 +10,8 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
     public class DungeonTile : MonoBehaviour, ISelectable
     {
         public TileReference TileReference => new(Dungeon, Position);
-        public Dungeon Dungeon => DungeonController.DungeonCrawlerData.CurrentDungeon;
-        public DungeonController DungeonController { get; private set; }
+        public Dungeon Dungeon => DungeonCrawlerData.CurrentDungeon;
+        public DungeonCrawlerData DungeonCrawlerData { get; private set; }
         public Position Position { get; private set; }
         [field: SerializeField]
         public UnityEvent<DungeonTile> OnClicked { get; private set; }
@@ -58,26 +58,26 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         public string FloorTextureName => Dungeon.TileTextures.GetTileTextureName(Position);
         public void Click() => OnClicked.Invoke(this);
 
-        public static DungeonTile Create(DungeonTile prefab, Transform parent, DungeonController controller, Position position)
+        public static DungeonTile Create(DungeonTile prefab, Transform parent, DungeonCrawlerData dungeonCrawlerData, Position position)
         {
             DungeonTile newTile = Instantiate(prefab, parent);
-            newTile.DungeonController = controller;
+            newTile.DungeonCrawlerData = dungeonCrawlerData;
             newTile.Position = position;
             newTile.name = $"({position.X}, {position.Y})";
             newTile.transform.position = new Vector3(position.Y, 0, position.X);
-            UpdateTile(controller, position, newTile);
+            UpdateTile(dungeonCrawlerData, position, newTile);
             return newTile;
         }
 
-        public static void UpdateTile(DungeonController controller, Position position, DungeonTile newTile)
+        public static void UpdateTile(DungeonCrawlerData dungeonCrawlerData, Position position, DungeonTile newTile)
         {
-            newTile.UpdateFloor(controller.DungeonCrawlerData.GetTexture(newTile.TileReference));
-            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, controller.DungeonCrawlerData.GetTileWallTextures(newTile.TileReference));
+            newTile.UpdateFloor(dungeonCrawlerData.GetTexture(newTile.TileReference));
+            newTile.UpdateWalls(newTile.Dungeon.GetTile(position).Walls, dungeonCrawlerData.GetTileWallTextures(newTile.TileReference));
         }
 
         private void IsSelectedChanged(bool isSelected)
         {
-            UpdateFloor(DungeonController.DungeonCrawlerData.GetTexture(new TileReference(Dungeon, Position)), isSelected);
+            UpdateFloor(DungeonCrawlerData.GetTexture(new TileReference(Dungeon, Position)), isSelected);
         }
 
         public void SetAllWallsSelected(bool isSelected)
@@ -109,6 +109,6 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
             SouthWall.gameObject.SetActive(configuration.South is not WallType.None);
         }
 
-        public void SetTexture(TextureReference newTexture) => DungeonController.DungeonCrawlerData.SetTexture(TileReference, newTexture);
+        public void SetTexture(TextureReference newTexture) => DungeonCrawlerData.SetTexture(TileReference, newTexture);
     }
 }

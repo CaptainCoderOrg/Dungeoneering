@@ -8,10 +8,10 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 {
     public class DungeonBuilder
     {
-        public int MinX { get; private set; } = 0;
-        public int MaxX { get; private set; } = DungeonGlobals.DIMENSION;
-        public int MinY { get; private set; } = 0;
-        public int MaxY { get; private set; } = DungeonGlobals.DIMENSION;
+        public int MinX { get; set; } = 0;
+        public int MaxX { get; set; } = DungeonGlobals.DIMENSION;
+        public int MinY { get; set; } = 0;
+        public int MaxY { get; set; } = DungeonGlobals.DIMENSION;
         private int CellCount => (MaxX - MinX + 1) * (MaxY - MinY + 1);
         private Dictionary<Position, DungeonTile> _tiles = new();
         public bool HasTile(Position position) => _tiles.ContainsKey(position);

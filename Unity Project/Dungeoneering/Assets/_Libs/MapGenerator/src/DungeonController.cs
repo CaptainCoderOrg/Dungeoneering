@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
@@ -68,7 +67,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private DungeonTile CreateDungeonTile(DungeonTile tilePrefab, Transform parent, Position position)
         {
-            DungeonTile tile = DungeonTile.Create(tilePrefab, parent, this, position);
+            DungeonTile tile = DungeonTile.Create(tilePrefab, parent, DungeonCrawlerData, position);
             tile.OnClicked.AddListener(HandleTileClicked);
             tile.OnWallClicked.AddListener(HandleWallClicked);
             return tile;
@@ -78,7 +77,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             tile.IsSelected = false;
             tile.SetAllWallsSelected(false);
-            DungeonTile.UpdateTile(this, position, tile);
+            DungeonTile.UpdateTile(DungeonCrawlerData, position, tile);
         }
 
         private void UpdateTiles(IEnumerable<TileReference> tiles)

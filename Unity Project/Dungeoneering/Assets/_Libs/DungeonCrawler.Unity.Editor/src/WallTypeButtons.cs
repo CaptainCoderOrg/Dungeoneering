@@ -54,8 +54,7 @@ namespace CaptainCoder.Dungeoneering.Unity.Editor
         private void SetWallType(WallType newWallType)
         {
             if (!_selectionData.Walls.Any()) { return; }
-            DungeonController controller = _selectionData.Walls.First().Parent.DungeonController;
-            DungeonCrawlerData data = controller.DungeonCrawlerData;
+            DungeonCrawlerData data = _selectionData.Walls.First().Parent.DungeonCrawlerData;
             DungeonWallController[] walls = _selectionData.Walls.ToArray();
 
             void Perform()

@@ -14,7 +14,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [field: SerializeField]
         public Facing Facing { get; private set; }
         private SelectableMaterial _material;
-        public TextureReference Texture => Parent.DungeonController.DungeonCrawlerData.GetTexture(WallReference);
+        public TextureReference Texture => Parent.DungeonCrawlerData.GetTexture(WallReference);
         public SelectableMaterial Material
         {
             get => _material;
@@ -49,7 +49,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         public WallType WallType => Parent.Dungeon.Walls.GetWall(Parent.Position, Facing);
 
-        public void SetTexture(TextureReference newTexture) => Parent.DungeonController.DungeonCrawlerData.SetTexture(WallReference, newTexture);
+        public void SetTexture(TextureReference newTexture) => Parent.DungeonCrawlerData.SetTexture(WallReference, newTexture);
 
         void Awake()
         {
