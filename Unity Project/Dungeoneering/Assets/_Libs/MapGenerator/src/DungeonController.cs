@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using CaptainCoder.Dungeoneering.Unity.Data;
@@ -18,7 +19,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [AssertIsSet][field: SerializeField] public DungeonTile TilePrefab { get; private set; } = null!;
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonTile> OnDungeonTileClicked { get; private set; }
         [AssertIsSet][field: SerializeField] public UnityEvent<DungeonWallController> OnDungeonWallClicked { get; private set; }
-        private Dictionary<Position, DungeonTile> _tiles = new();
+        private readonly DungeonBuilder _builder = new();
 
         void Awake()
         {
@@ -63,45 +64,22 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         [Button]
         public void ClearDungeon() => TileParent.DestroyAllChildren();
 
-        private void UpdateDungeonTiles() => BuildOrUpdateTiles(TileParent, TilePrefab);
+        private void UpdateDungeonTiles() => _builder.BuildOrUpdateTiles(TileParent, TilePrefab, UpdateDungeonTile, CreateDungeonTile);
 
-        private void BuildOrUpdateTiles(Transform parent, DungeonTile tilePrefab)
+        private DungeonTile CreateDungeonTile(DungeonTile tilePrefab, Transform parent, Position position)
         {
-            Dictionary<Position, DungeonTile> pooledTiles = _tiles;
-            _tiles = new(Mathf.Max(_tiles.Count, DungeonGlobals.DIMENSION * DungeonGlobals.DIMENSION));
-
-            for (int x = 0; x < DungeonGlobals.DIMENSION; x++)
-            {
-                for (int y = 0; y < DungeonGlobals.DIMENSION; y++)
-                {
-                    Position position = new(x, y);
-                    if (pooledTiles.TryGetValue(position, out DungeonTile tile))
-                    {
-                        tile.IsSelected = false;
-                        tile.SetAllWallsSelected(false);
-                        DungeonTile.UpdateTile(this, position, tile);
-                        pooledTiles.Remove(position);
-                    }
-                    else
-                    {
-                        tile = DungeonTile.Create(tilePrefab, parent, this, position);
-                        tile.OnClicked.AddListener(HandleTileClicked);
-                        tile.OnWallClicked.AddListener(HandleWallClicked);
-                    }
-
-                    _tiles[new Position(x, y)] = tile;
-                }
-            }
-
-            foreach (var tile in pooledTiles.Values)
-            {
-                Destroy(tile.gameObject);
-            }
+            DungeonTile tile = DungeonTile.Create(tilePrefab, parent, this, position);
+            tile.OnClicked.AddListener(HandleTileClicked);
+            tile.OnWallClicked.AddListener(HandleWallClicked);
+            return tile;
         }
 
-        public bool HasTile(Position position) => _tiles.ContainsKey(position);
-        public DungeonTile GetDungeonTile(Position position) => _tiles[position];
-        public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _tiles.TryGetValue(position, out tile);
+        private void UpdateDungeonTile(DungeonTile tile, Position position)
+        {
+            tile.IsSelected = false;
+            tile.SetAllWallsSelected(false);
+            DungeonTile.UpdateTile(this, position, tile);
+        }
 
         private void UpdateTiles(IEnumerable<TileReference> tiles)
         {
@@ -115,7 +93,7 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
         {
             if (tileRef.Dungeon == DungeonCrawlerData.CurrentDungeon)
             {
-                if (_tiles.TryGetValue(tileRef.Position, out DungeonTile tile))
+                if (_builder.TryGetDungeonTile(tileRef, out DungeonTile tile))
                 {
                     tile.UpdateFloor(DungeonCrawlerData.GetTexture(tileRef));
                     tile.UpdateWalls(tileRef.Dungeon.GetTile(tileRef.Position).Walls, DungeonCrawlerData.GetTileWallTextures(tileRef));
@@ -129,5 +107,9 @@ namespace CaptainCoder.Dungeoneering.DungeonMap.Unity
 
         private void HandleTileClicked(DungeonTile clicked) => OnDungeonTileClicked.Invoke(clicked);
         private void HandleWallClicked(DungeonWallController clicked) => OnDungeonWallClicked.Invoke(clicked);
+
+        public bool HasTile(Position position) => _builder.HasTile(position);
+        public bool TryGetDungeonTile(Position position, out DungeonTile tile) => _builder.TryGetDungeonTile(position, out tile);
+        public DungeonTile GetDungeonTile(Position position) => _builder.GetDungeonTile(position);
     }
 }

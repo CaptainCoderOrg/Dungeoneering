@@ -1,7 +1,10 @@
 {
-    "name": "DungeonCrawler.Extensions",
+    "name": "DungeonCrawler.Encounter",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:e072846562b62be4283e5f06423c9923",
+        "GUID:ec88aec9f2bba5f4a8732813932550c3"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
