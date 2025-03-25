@@ -10,21 +10,24 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private int _currentFrame;
         [field: SerializeField] public bool IsPlaying { get; private set; } = true;
+        [field: SerializeField] public float PlaybackSpeed { get; private set; } = 1;
         [AssertIsSet][SerializeField] private AnimationData _currentAnimation;
         private float _currentWait;
         void Awake()
         {
             _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
+            _currentFrame = _currentAnimation.StartIx;
+            _currentWait = Mathf.Sign(_currentAnimation.FramesPerSecond);
         }
         void Update()
         {
             if (!IsPlaying) { return; }
-            _currentWait -= Time.deltaTime * _currentAnimation.FramesPerSecond;
+            _currentWait -= Time.deltaTime * _currentAnimation.FramesPerSecond * PlaybackSpeed;
             int frameChange = CalcFrameChange(_currentWait);
             if (frameChange != 0)
             {
                 _currentWait += frameChange;
-                AdvanceFrames(frameChange);
+                UpdateFrameBy(frameChange);
             }
         }
 
@@ -52,28 +55,52 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         [Button("Advance Frame")]
         private void AdvanceFrame() => AdvanceFrames(1);
+        private void UpdateFrameBy(int count)
+        {
+            if (count >= 0) { AdvanceFrames(count); }
+            else { RevertFrames(count); }
+        }
+
         private void AdvanceFrames(int count)
         {
             _currentFrame += count;
-            if (_currentFrame < _currentAnimation.StartIx)
+            if (_currentFrame > _currentAnimation.EndIx)
             {
-                _currentFrame = _currentAnimation.Loops ? _currentAnimation.EndIx : _currentAnimation.StartIx;
-                if (_currentAnimation.NextAnimation != null)
+                if (_currentAnimation.Loops)
+                {
+                    _currentFrame = _currentAnimation.StartIx;
+                }
+                else if (_currentAnimation.NextAnimation != null)
                 {
                     Play(_currentAnimation.NextAnimation);
                 }
-            }
-            else if (_currentFrame > _currentAnimation.EndIx)
-            {
-                _currentFrame = _currentAnimation.Loops ? _currentAnimation.StartIx : _currentAnimation.EndIx;
-                if (_currentAnimation.NextAnimation != null)
+                else
                 {
-                    Play(_currentAnimation.NextAnimation);
+                    _currentFrame = _currentAnimation.EndIx;
                 }
             }
             UpdateMaterial();
         }
-        private void UpdateMaterial() => Material.SetTextureOffset("_BaseMap", _currentAnimation.SpriteSheet.GetTextureOffset(_currentFrame));
-        private Material Material => _meshRenderer.material;
+        private void RevertFrames(int count)
+        {
+            _currentFrame += count;
+            if (_currentFrame < _currentAnimation.StartIx && _currentAnimation.Loops)
+            {
+                if (_currentAnimation.Loops)
+                {
+                    _currentFrame = _currentAnimation.EndIx;
+                }
+                else if (_currentAnimation.NextAnimation != null)
+                {
+                    Play(_currentAnimation.NextAnimation);
+                }
+                else
+                {
+                    _currentFrame = _currentAnimation.StartIx;
+                }
+            }
+            UpdateMaterial();
+        }
+        private void UpdateMaterial() => _meshRenderer.material.SetTextureOffset("_BaseMap", _currentAnimation.SpriteSheet.GetTextureOffset(_currentFrame));
     }
 }

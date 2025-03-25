@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _currentAnimation
       value: 
-      objectReference: {fileID: 11400000, guid: e5337fd69d2b3ef4c87fffc6b65dda59, type: 2}
+      objectReference: {fileID: 11400000, guid: 5feaeee0bc46e8d46929b9c8c2bba3f0, type: 2}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.size
       value: 1
@@ -181,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 1977473612}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_VersionIndex
-      value: 1760
+      value: 1763
       objectReference: {fileID: 0}
     - target: {fileID: 7322637996049705952, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh
@@ -1066,7 +1066,7 @@ PrefabInstance:
       objectReference: {fileID: 818487328}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_VersionIndex
-      value: 1760
+      value: 1763
       objectReference: {fileID: 0}
     - target: {fileID: 7322637996049705952, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh

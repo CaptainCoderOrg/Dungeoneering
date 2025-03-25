@@ -12,5 +12,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public int FramesPerSecond = 6;
         public bool Loops = true;
         public AnimationData NextAnimation;
+        public int FinalFrame => FramesPerSecond >= 0 ? EndIx : StartIx;
     }
 }
