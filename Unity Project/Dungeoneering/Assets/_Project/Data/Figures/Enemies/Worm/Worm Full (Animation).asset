@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9163f5f800004464fbafd1bedfd74723, type: 3}
-  m_Name: Worm Full A (Animation)
+  m_Name: Worm Full (Animation)
   m_EditorClassIdentifier: 
-  Name: Worm Full A
+  Name: Worm Full
   SpriteSheet: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
-  StartIx: 0
-  EndIx: 13
+  Frames: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000001000000011000000120000001300000014000000150000001600000017000000
   FramesPerSecond: 6
   Loops: 0
-  NextAnimation: {fileID: 11400000, guid: 75ea6112042720a45970ef54751044a5, type: 2}
+  NextAnimation: {fileID: 0}
+  StartIx: 0
+  EndIx: 13

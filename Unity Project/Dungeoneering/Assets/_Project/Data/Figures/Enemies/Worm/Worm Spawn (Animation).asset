@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Worm Spawn
   SpriteSheet: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
-  StartIx: 0
-  EndIx: 7
+  Frames: 000000000100000002000000030000000400000005000000060000000700000006000000
   FramesPerSecond: 6
   Loops: 0
-  NextAnimation: -1
+  NextAnimation: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}
+  StartIx: 0
+  EndIx: 7

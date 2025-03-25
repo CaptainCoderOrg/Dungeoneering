@@ -8,7 +8,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class QuadAnimator : MonoBehaviour
     {
         [AssertIsSet][SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private int _currentFrame;
+        [SerializeField] private int _frameIx;
         [field: SerializeField] public bool IsPlaying { get; private set; } = true;
         [field: SerializeField] public float PlaybackSpeed { get; private set; } = 1;
         [AssertIsSet][SerializeField] private AnimationData _currentAnimation;
@@ -16,7 +16,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         void Awake()
         {
             _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
-            _currentFrame = _currentAnimation.StartIx;
+            _frameIx = _currentAnimation.StartIx;
             _currentWait = Mathf.Sign(_currentAnimation.FramesPerSecond);
         }
         void Update()
@@ -44,7 +44,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _currentAnimation = animationData;
             _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
-            _currentFrame = _currentAnimation.FirstFrame;
+            _frameIx = 0;
             _currentWait = _currentAnimation.FramesPerSecond >= 0 ? 1 : 0;
             IsPlaying = true;
             UpdateMaterial();
@@ -63,12 +63,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void AdvanceFrames(int count)
         {
-            _currentFrame += count;
-            if (_currentFrame > _currentAnimation.EndIx)
+            _frameIx += count;
+            if (_frameIx >= _currentAnimation.Frames.Length)
             {
                 if (_currentAnimation.Loops)
                 {
-                    _currentFrame = _currentAnimation.StartIx;
+                    _frameIx = 0;
                 }
                 else if (_currentAnimation.NextAnimation != null)
                 {
@@ -76,19 +76,19 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
                 else
                 {
-                    _currentFrame = _currentAnimation.EndIx;
+                    _frameIx = _currentAnimation.Frames.Length - 1;
                 }
             }
             UpdateMaterial();
         }
         private void RevertFrames(int count)
         {
-            _currentFrame += count;
-            if (_currentFrame < _currentAnimation.StartIx)
+            _frameIx += count;
+            if (_frameIx < 0)
             {
                 if (_currentAnimation.Loops)
                 {
-                    _currentFrame = _currentAnimation.EndIx;
+                    _frameIx = _currentAnimation.Frames.Length - 1;
                 }
                 else if (_currentAnimation.NextAnimation != null)
                 {
@@ -96,11 +96,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
                 else
                 {
-                    _currentFrame = _currentAnimation.StartIx;
+                    _frameIx = 0;
                 }
             }
             UpdateMaterial();
         }
-        private void UpdateMaterial() => _meshRenderer.material.SetTextureOffset("_BaseMap", _currentAnimation.SpriteSheet.GetTextureOffset(_currentFrame));
+        private void UpdateMaterial() => _meshRenderer.material.SetTextureOffset("_BaseMap", _currentAnimation.GetTextureOffset(_frameIx));
     }
 }

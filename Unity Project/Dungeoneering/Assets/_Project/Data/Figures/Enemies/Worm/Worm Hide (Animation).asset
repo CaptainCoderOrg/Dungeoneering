@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Worm Hide
   SpriteSheet: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
-  StartIx: 15
-  EndIx: 23
+  Frames: 0f0000001000000011000000120000001300000014000000150000001600000017000000
   FramesPerSecond: 6
   Loops: 0
   NextAnimation: {fileID: 0}
+  StartIx: 15
+  EndIx: 23

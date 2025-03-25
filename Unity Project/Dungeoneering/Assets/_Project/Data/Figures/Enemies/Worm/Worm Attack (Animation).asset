@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Worm Attack
   SpriteSheet: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+  Frames: 08000000090000000a0000000b0000000c0000000d0000000700000006000000
+  FramesPerSecond: 6
+  Loops: 0
+  NextAnimation: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}
   StartIx: 8
   EndIx: 13
-  FramesPerSecond: 6
-  Loops: 1
-  NextAnimation: {fileID: 0}

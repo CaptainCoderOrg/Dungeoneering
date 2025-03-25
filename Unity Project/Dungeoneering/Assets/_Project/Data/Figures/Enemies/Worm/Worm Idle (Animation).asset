@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9163f5f800004464fbafd1bedfd74723, type: 3}
-  m_Name: Worm Full B (Animation)
+  m_Name: Worm Idle (Animation)
   m_EditorClassIdentifier: 
-  Name: Worm Full B
+  Name: Worm Idle A
   SpriteSheet: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
-  StartIx: 16
-  EndIx: 23
-  FramesPerSecond: 6
-  Loops: 0
-  NextAnimation: {fileID: 11400000, guid: e5337fd69d2b3ef4c87fffc6b65dda59, type: 2}
+  Frames: 0500000006000000070000000700000007000000060000000500000005000000
+  FramesPerSecond: 5
+  Loops: 1
+  NextAnimation: {fileID: 0}
+  StartIx: 6
+  EndIx: 7
