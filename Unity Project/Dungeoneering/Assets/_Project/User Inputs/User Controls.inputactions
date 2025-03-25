@@ -130,13 +130,58 @@
             ]
         },
         {
-            "name": "Dialogue Mode",
+            "name": "Encounter Mode",
             "id": "9caee043-5134-4d9a-960c-5bd6914a5142",
             "actions": [
                 {
-                    "name": "Cancel",
+                    "name": "CameraClockwise",
                     "type": "Button",
                     "id": "92167495-5701-43a6-83a4-ef28d3e361e4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraCounterClockwise",
+                    "type": "Button",
+                    "id": "5fa6abb5-6bfa-4524-bc0c-5ab697594f61",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraZoom",
+                    "type": "Value",
+                    "id": "50a4af6f-0ee4-4d97-99e7-13d42ef85a82",
+                    "expectedControlType": "Delta",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CameraPan",
+                    "type": "Value",
+                    "id": "36e15dfb-ea71-4ee4-8e63-072c83be3bdd",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CameraPitchUp",
+                    "type": "Button",
+                    "id": "a963b655-b12e-417f-be18-03b743e4ce82",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraPitchDown",
+                    "type": "Button",
+                    "id": "216440b9-c249-4e9f-bc91-c16512bb75ac",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -147,11 +192,110 @@
                 {
                     "name": "",
                     "id": "e75ce4a6-32e7-403c-8a1d-960372eac4e1",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cancel",
+                    "action": "CameraClockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a5cf564-349e-4229-996e-ee81deb2fcc4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraCounterClockwise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d6a778d-5e64-4201-8b40-8c108e606fbf",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "7e681c5c-2478-4640-8f01-82f223f2dd3b",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraPan",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e0b09243-4bdc-462a-a9c8-968b9ca42d6e",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraPan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d7a062b7-52bd-410a-82c8-a32889073197",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mouse/Keyboard",
+                    "action": "CameraPan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "869976dc-54c2-46c5-a690-3100743dc82c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mouse/Keyboard",
+                    "action": "CameraPan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "af227e4a-2b23-455b-93fd-b2371c3f17d0",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mouse/Keyboard",
+                    "action": "CameraPan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "57798a5f-31a6-4c8b-ae1a-ffd745b71f71",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraPitchUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8565abc-cd7b-478d-8b09-7d2a57f1e18f",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraPitchDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

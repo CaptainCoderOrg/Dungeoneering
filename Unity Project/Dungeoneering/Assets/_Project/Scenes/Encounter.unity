@@ -236,14 +236,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877684974}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
+  m_LocalRotation: {x: 0.3966766, y: 0.3966766, z: -0.19561921, w: 0.8043808}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1663222554}
   m_Father: {fileID: 1098048165}
-  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 52.5, y: 52.5, z: 0}
 --- !u!114 &877684978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +298,8 @@ GameObject:
   m_Component:
   - component: {fileID: 887420313}
   - component: {fileID: 887420314}
+  - component: {fileID: 887420315}
+  - component: {fileID: 887420316}
   m_Layer: 0
   m_Name: EncounterController
   m_TagString: Untagged
@@ -318,6 +320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1098048165}
   - {fileID: 782024478}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -341,6 +344,52 @@ MonoBehaviour:
   _maxX: 14
   _minY: 3
   _maxY: 13
+--- !u!114 &887420315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887420312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 8b07760c4a20b4d4490dbb1245a0e4ab, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Encounter Mode
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &887420316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887420312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbca1ccaa066be498513a32b9c2e773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _logInputs: 0
+  <OnInputEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1098048164
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,8 +399,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1098048165}
+  - component: {fileID: 1098048166}
   m_Layer: 0
-  m_Name: Camera Pivot
+  m_Name: Encounter Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,14 +415,42 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098048164}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8, y: 0, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 877684977}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 887420313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1098048166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098048164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c30a66a7ef4f34f94499d9e31d723d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetRotation: 0
+  _pitches:
+  - 30
+  - 37.5
+  - 45
+  - 52.5
+  - 60
+  _targetPitch: 1
+  <RotationDuration>k__BackingField: 0.25
+  <PitchDuration>k__BackingField: 0.1
+  <ZoomDuration>k__BackingField: 0.25
+  <ZoomScale>k__BackingField: 0.75
+  <MinZoom>k__BackingField: 3
+  <MaxZoom>k__BackingField: 10
+  <PanSpeed>k__BackingField: 8
+  _targetZoom: 5
 --- !u!1 &1663222552
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,5 +576,4 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1098048165}
   - {fileID: 887420313}
