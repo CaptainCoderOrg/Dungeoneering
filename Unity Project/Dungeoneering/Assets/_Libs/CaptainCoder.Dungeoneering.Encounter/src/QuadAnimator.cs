@@ -44,8 +44,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _currentAnimation = animationData;
             _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
-            _currentFrame = _currentAnimation.StartIx;
-            _currentWait = Mathf.Sign(_currentAnimation.FramesPerSecond);
+            _currentFrame = _currentAnimation.FirstFrame;
+            _currentWait = _currentAnimation.FramesPerSecond >= 0 ? 1 : 0;
             IsPlaying = true;
             UpdateMaterial();
         }
@@ -84,7 +84,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private void RevertFrames(int count)
         {
             _currentFrame += count;
-            if (_currentFrame < _currentAnimation.StartIx && _currentAnimation.Loops)
+            if (_currentFrame < _currentAnimation.StartIx)
             {
                 if (_currentAnimation.Loops)
                 {

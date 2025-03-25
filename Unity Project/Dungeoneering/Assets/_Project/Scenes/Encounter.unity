@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _currentAnimation
       value: 
-      objectReference: {fileID: 11400000, guid: 5feaeee0bc46e8d46929b9c8c2bba3f0, type: 2}
+      objectReference: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.size
       value: 1
@@ -1059,6 +1059,10 @@ PrefabInstance:
     - target: {fileID: 1991601547447831758, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Name
       value: Eyeball (Encounter Token)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991601547447831758, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh
