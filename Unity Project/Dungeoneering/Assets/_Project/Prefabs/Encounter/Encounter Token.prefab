@@ -92,8 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 1853647173031483902}
-  _columns: 8
-  _rows: 3
   _currentFrame: 0
   <IsPlaying>k__BackingField: 1
   _animations: []
@@ -1334,7 +1332,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8613e739c709ad4ab721ba13eca481e, type: 2}
+  - {fileID: 2100000, guid: 77999b9cdd3be6c44943d61e60d9f646, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

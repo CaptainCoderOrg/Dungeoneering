@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Worm
+  m_Name: Encounter Token Quad Material
   m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 78bd380158631da4fbeccf9e4cd41073, type: 3}
+        m_Texture: {fileID: 2800000, guid: 23960808c4d2f7647941d49291f41b86, type: 3}
         m_Scale: {x: 0.125, y: 0.3}
         m_Offset: {x: 0.125, y: 0.33333334}
     - _BumpMap:
@@ -57,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 78bd380158631da4fbeccf9e4cd41073, type: 3}
+        m_Texture: {fileID: 2800000, guid: 23960808c4d2f7647941d49291f41b86, type: 3}
         m_Scale: {x: 0.125, y: 0.3}
         m_Offset: {x: 0.125, y: 0.33333334}
     - _MetallicGlossMap:

@@ -132,6 +132,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _currentAnimation
+      value: 
+      objectReference: {fileID: 11400000, guid: e5337fd69d2b3ef4c87fffc6b65dda59, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -148,6 +152,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[0].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 73718680ff7f97542a233bade8cdf2a8, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.data[0].NextAnimation
       value: -1
       objectReference: {fileID: 0}
@@ -161,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 77999b9cdd3be6c44943d61e60d9f646, type: 2}
     - target: {fileID: 1991601547447831758, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Name
-      value: Encounter Token (1)
+      value: Worm (Encounter Token)
       objectReference: {fileID: 0}
     - target: {fileID: 1991601547447831758, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_IsActive
@@ -173,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 1977473612}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_VersionIndex
-      value: 1748
+      value: 1760
       objectReference: {fileID: 0}
     - target: {fileID: 7322637996049705952, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh
@@ -909,6 +917,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _currentAnimation
+      value: 
+      objectReference: {fileID: 11400000, guid: fb7a2adc2ed051e4c8aa258122b852bc, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -985,6 +997,26 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[0].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[1].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[2].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[3].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
+      propertyPath: _animations.Array.data[4].SpriteSheet
+      value: 
+      objectReference: {fileID: 11400000, guid: 442e1ed996e3d6246b81cb16f2e09b82, type: 2}
+    - target: {fileID: 713691489963012972, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: _animations.Array.data[0].NextAnimation
       value: -1
       objectReference: {fileID: 0}
@@ -1026,7 +1058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1991601547447831758, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Name
-      value: Encounter Token
+      value: Eyeball (Encounter Token)
       objectReference: {fileID: 0}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh
@@ -1034,7 +1066,7 @@ PrefabInstance:
       objectReference: {fileID: 818487328}
     - target: {fileID: 5078568648224531102, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_VersionIndex
-      value: 1748
+      value: 1760
       objectReference: {fileID: 0}
     - target: {fileID: 7322637996049705952, guid: 4531c26a3d85ca546b32a8d88f1e6c6c, type: 3}
       propertyPath: m_Mesh

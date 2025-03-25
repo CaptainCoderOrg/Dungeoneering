@@ -1,5 +1,3 @@
-using System;
-
 using CaptainCoder.Unity.Assertions;
 
 using NaughtyAttributes;
@@ -10,27 +8,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class QuadAnimator : MonoBehaviour
     {
         [AssertIsSet][SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private int _columns;
-        [SerializeField] private int _rows;
         [SerializeField] private int _currentFrame;
         [field: SerializeField] public bool IsPlaying { get; private set; } = true;
-        [SerializeField] private AnimationData[] _animations;
-        [SerializeField] private int _animationIx = 0;
-        private AnimationData CurrentAnimation => _animations[_animationIx];
+        [AssertIsSet][SerializeField] private AnimationData _currentAnimation;
         private float _currentWait;
-        private float _xScale;
-        private float _yScale;
-
         void Awake()
         {
-            _xScale = 1f / _columns;
-            _yScale = 1f / _rows;
+            _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
         }
-
         void Update()
         {
             if (!IsPlaying) { return; }
-            _currentWait -= Time.deltaTime * CurrentAnimation.FramesPerSecond;
+            _currentWait -= Time.deltaTime * _currentAnimation.FramesPerSecond;
             int frameChange = CalcFrameChange(_currentWait);
             if (frameChange != 0)
             {
@@ -47,15 +36,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
         };
 
         [Button("Play")]
-        private void Play() => Play(_animationIx);
-        private void Play(int ix)
+        private void Play() => Play(_currentAnimation);
+        private void Play(AnimationData animationData)
         {
-            _animationIx = ix;
-            _currentFrame = CurrentAnimation.StartIx;
-            _currentWait = Mathf.Sign(CurrentAnimation.FramesPerSecond);
+            _currentAnimation = animationData;
+            _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
+            _currentFrame = _currentAnimation.StartIx;
+            _currentWait = Mathf.Sign(_currentAnimation.FramesPerSecond);
             IsPlaying = true;
             UpdateMaterial();
         }
+
         [Button("Pause")]
         private void Pause() => IsPlaying = false;
 
@@ -64,42 +55,25 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private void AdvanceFrames(int count)
         {
             _currentFrame += count;
-            if (_currentFrame < CurrentAnimation.StartIx)
+            if (_currentFrame < _currentAnimation.StartIx)
             {
-                _currentFrame = CurrentAnimation.Loops ? CurrentAnimation.EndIx : CurrentAnimation.StartIx;
-                if (CurrentAnimation.NextAnimation >= 0)
+                _currentFrame = _currentAnimation.Loops ? _currentAnimation.EndIx : _currentAnimation.StartIx;
+                if (_currentAnimation.NextAnimation != null)
                 {
-                    Play(CurrentAnimation.NextAnimation);
+                    Play(_currentAnimation.NextAnimation);
                 }
             }
-            else if (_currentFrame > CurrentAnimation.EndIx)
+            else if (_currentFrame > _currentAnimation.EndIx)
             {
-                _currentFrame = CurrentAnimation.Loops ? CurrentAnimation.StartIx : CurrentAnimation.EndIx;
-                if (CurrentAnimation.NextAnimation >= 0)
+                _currentFrame = _currentAnimation.Loops ? _currentAnimation.StartIx : _currentAnimation.EndIx;
+                if (_currentAnimation.NextAnimation != null)
                 {
-                    Play(CurrentAnimation.NextAnimation);
+                    Play(_currentAnimation.NextAnimation);
                 }
             }
             UpdateMaterial();
         }
-        private void UpdateMaterial()
-        {
-            (int x, int y) = IndexToOffset(_currentFrame);
-            Material.SetTextureOffset("_BaseMap", new(_xScale * x, 1 - (_yScale * (y + 1))));
-        }
+        private void UpdateMaterial() => Material.SetTextureOffset("_BaseMap", _currentAnimation.SpriteSheet.GetTextureOffset(_currentFrame));
         private Material Material => _meshRenderer.material;
-        private (int X, int Y) IndexToOffset(int ix) => (ix % _columns, ix / _columns);
-        private int OffsetToIndex((int x, int y) offset) => offset.y * _columns + offset.x;
-    }
-
-    [Serializable]
-    public struct AnimationData
-    {
-        public string Name;
-        public int StartIx;
-        public int EndIx;
-        public int FramesPerSecond;
-        public bool Loops;
-        public int NextAnimation;
     }
 }
