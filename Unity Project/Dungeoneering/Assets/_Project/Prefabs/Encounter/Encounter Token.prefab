@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8335717642505081482}
   - component: {fileID: 6166829868250832788}
+  - component: {fileID: 713691489963012972}
   m_Layer: 0
   m_Name: Encounter Token
   m_TagString: Untagged
@@ -79,6 +80,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _figureQuad: {fileID: 2582274736861848836}
+--- !u!114 &713691489963012972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991601547447831758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447c362c363dcf04d9325285d88fcf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 1853647173031483902}
+  _columns: 8
+  _rows: 3
+  _currentFrame: 0
+  _framesPerSecond: 6
+  <IsPlaying>k__BackingField: 1
 --- !u!1 &3196589377614998172
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +830,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1691
+  m_VersionIndex: 1697
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
