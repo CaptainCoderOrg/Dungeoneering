@@ -47,7 +47,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
         };
 
         [Button("Play")]
-        private void Play() => IsPlaying = true;
+        private void Play() => Play(_animationIx);
+        private void Play(int ix)
+        {
+            _animationIx = ix;
+            _currentFrame = CurrentAnimation.StartIx;
+            _currentWait = Mathf.Sign(CurrentAnimation.FramesPerSecond);
+            IsPlaying = true;
+            UpdateMaterial();
+        }
         [Button("Pause")]
         private void Pause() => IsPlaying = false;
 
@@ -59,11 +67,23 @@ namespace CaptainCoder.Dungeoneering.Encounter
             if (_currentFrame < CurrentAnimation.StartIx)
             {
                 _currentFrame = CurrentAnimation.Loops ? CurrentAnimation.EndIx : CurrentAnimation.StartIx;
+                if (CurrentAnimation.NextAnimation >= 0)
+                {
+                    Play(CurrentAnimation.NextAnimation);
+                }
             }
             else if (_currentFrame > CurrentAnimation.EndIx)
             {
                 _currentFrame = CurrentAnimation.Loops ? CurrentAnimation.StartIx : CurrentAnimation.EndIx;
+                if (CurrentAnimation.NextAnimation >= 0)
+                {
+                    Play(CurrentAnimation.NextAnimation);
+                }
             }
+            UpdateMaterial();
+        }
+        private void UpdateMaterial()
+        {
             (int x, int y) = IndexToOffset(_currentFrame);
             Material.SetTextureOffset("_BaseMap", new(_xScale * x, 1 - (_yScale * (y + 1))));
         }
@@ -80,5 +100,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public int EndIx;
         public int FramesPerSecond;
         public bool Loops;
+        public int NextAnimation;
     }
 }

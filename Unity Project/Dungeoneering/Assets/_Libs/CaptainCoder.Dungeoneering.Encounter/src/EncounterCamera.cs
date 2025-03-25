@@ -1,14 +1,15 @@
 using System.Collections;
 
+using CaptainCoder.Unity.Assertions;
+
 using UnityEngine;
-using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterCamera : MonoBehaviour
     {
-        [field: SerializeField] public UnityEvent<Camera> OnCameraRotate { get; private set; }
+        private System.Action<Camera> _onCameraRotate;
         private EncounterInputController _inputController;
-        private Camera _camera;
+        [AssertIsSet][SerializeField] private Camera _camera;
         [SerializeField] private float _targetRotation;
         [SerializeField] private float[] _pitches = { 30, 37.5f, 45, 52.5f, 60 };
         [SerializeField] private int _targetPitch = 3;
@@ -25,12 +26,21 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private Coroutine _zoomCoroutine;
         private Coroutine _panCoroutine;
 
+        public void ObserveCamera(System.Action<Camera> observer)
+        {
+            _onCameraRotate += observer;
+            observer.Invoke(_camera);
+        }
+
+        public void RemoveObserver(System.Action<Camera> observer)
+        {
+            _onCameraRotate -= observer;
+        }
+
         void Awake()
         {
             _inputController = GetComponentInParent<EncounterInputController>();
             Debug.Assert(_inputController != null, $"{nameof(_inputController)} was not found", this);
-            _camera = GetComponentInChildren<Camera>();
-            Debug.Assert(_camera != null, $"{nameof(_camera)} was not found", this);
             _targetZoom = _camera.orthographicSize;
         }
 
@@ -140,10 +150,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 elapsedTime += Time.deltaTime;
                 _camera.transform.rotation = Quaternion.Lerp(startQ, endQ, percent);
+                _onCameraRotate?.Invoke(_camera);
                 yield return null;
                 percent = elapsedTime / PitchDuration;
             }
             _camera.transform.rotation = endQ;
+            _onCameraRotate?.Invoke(_camera);
         }
 
         private IEnumerator RotateCamera()
@@ -156,12 +168,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 elapsedTime += Time.deltaTime;
                 transform.rotation = Quaternion.Lerp(startQ, endQ, percent);
-                OnCameraRotate?.Invoke(_camera);
+                _onCameraRotate?.Invoke(_camera);
                 yield return null;
                 percent = elapsedTime / RotationDuration;
             }
             transform.rotation = endQ;
-            OnCameraRotate?.Invoke(_camera);
+            _onCameraRotate?.Invoke(_camera);
         }
     }
 }

@@ -16,20 +16,23 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         void OnEnable()
         {
-            _controller.EncounterCamera.OnCameraRotate.AddListener(FollowCamera);
+            _controller.EncounterCamera.ObserveCamera(FollowCamera);
         }
 
         void OnDisable()
         {
-            _controller.EncounterCamera.OnCameraRotate.RemoveListener(FollowCamera);
+            _controller.EncounterCamera.RemoveObserver(FollowCamera);
         }
 
         private void FollowCamera(Camera camera)
         {
             Vector3 eulers = camera.transform.rotation.eulerAngles;
-            eulers.x = 0;
+            eulers.x *= 0.25f;
             eulers.z = 0;
             _figureQuad.rotation = Quaternion.Euler(eulers);
+            Vector3 position = _figureQuad.localPosition;
+            position.y = 0.8f + (eulers.x * .01f);
+            _figureQuad.localPosition = position;
         }
     }
 }
