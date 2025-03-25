@@ -1,10 +1,12 @@
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterCamera : MonoBehaviour
     {
+        [field: SerializeField] public UnityEvent<Camera> OnCameraRotate { get; private set; }
         private EncounterInputController _inputController;
         private Camera _camera;
         [SerializeField] private float _targetRotation;
@@ -154,10 +156,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 elapsedTime += Time.deltaTime;
                 transform.rotation = Quaternion.Lerp(startQ, endQ, percent);
+                OnCameraRotate?.Invoke(_camera);
                 yield return null;
                 percent = elapsedTime / RotationDuration;
             }
             transform.rotation = endQ;
+            OnCameraRotate?.Invoke(_camera);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterController : MonoBehaviour
     {
+        [AssertIsSet][field: SerializeField] public EncounterCamera EncounterCamera { get; private set; }
         [AssertIsSet][SerializeField] private DungeonCrawlerData _dungeonCrawlerData;
         private readonly DungeonBuilder _builder = new();
         [AssertIsSet][SerializeField] private Transform _tileContainer;
