@@ -15,9 +15,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private float _currentWait;
         void Awake()
         {
-            _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
-            _frameIx = _currentAnimation.StartIx;
-            _currentWait = Mathf.Sign(_currentAnimation.FramesPerSecond);
+            InitializeAnimation(_currentAnimation);
+            UpdateMaterial();
         }
         void Update()
         {
@@ -38,14 +37,19 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _ => 0
         };
 
+        private void InitializeAnimation(AnimationData animationData)
+        {
+            _currentAnimation = animationData;
+            _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
+            _meshRenderer.material.mainTextureScale = new Vector2(_currentAnimation.SpriteSheet.XScale, _currentAnimation.SpriteSheet.YScale);
+            _frameIx = 0;
+            _currentWait = _currentAnimation.FramesPerSecond >= 0 ? 1 : 0;
+        }
         [Button("Play")]
         private void Play() => Play(_currentAnimation);
         private void Play(AnimationData animationData)
         {
-            _currentAnimation = animationData;
-            _meshRenderer.material.mainTexture = _currentAnimation.SpriteSheet.SpriteSheet;
-            _frameIx = 0;
-            _currentWait = _currentAnimation.FramesPerSecond >= 0 ? 1 : 0;
+            InitializeAnimation(animationData);
             IsPlaying = true;
             UpdateMaterial();
         }
@@ -72,7 +76,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
                 else if (_currentAnimation.NextAnimation != null)
                 {
-                    Play(_currentAnimation.NextAnimation);
+                    InitializeAnimation(_currentAnimation.NextAnimation);
                 }
                 else
                 {
@@ -92,7 +96,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
                 else if (_currentAnimation.NextAnimation != null)
                 {
-                    Play(_currentAnimation.NextAnimation);
+                    InitializeAnimation(_currentAnimation.NextAnimation);
                 }
                 else
                 {
