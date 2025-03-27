@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a75e7e0ec1ff149a54421e609c76a8, type: 3}
+  m_Name: Default Die Material Generator
+  m_EditorClassIdentifier: 
+  DamageSprites:
+  - {fileID: 422520654, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: 1185316343, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: -34917072, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: 397811727, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  AimSprites:
+  - {fileID: -1784610829, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: 2094035650, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: -2088663561, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: -167724875, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  - {fileID: -1149871255, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  MissSprite: {fileID: 786850284, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  PowerSprite: {fileID: 1411669975, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  SplitSprite: {fileID: -191478920, guid: 0503551957f18064f8c541cb97a3202b, type: 3}
+  DieTextureTemplate: {fileID: 2800000, guid: 046ef81b3467f564e9ec81dd9d29015a, type: 3}
+  DieData: {fileID: 11400000, guid: f829d025ee391e34ca58391647108064, type: 2}
+  FileName: test.png
