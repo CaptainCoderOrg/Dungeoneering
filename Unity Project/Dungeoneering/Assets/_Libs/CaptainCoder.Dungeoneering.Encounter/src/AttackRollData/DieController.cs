@@ -92,22 +92,30 @@ namespace CaptainCoder.Dungeoneering.Encounter
             yield return WaitForFixedUpdate;
             _rigidbody.AddForce(Vector3.up * _upForce, ForceMode.Impulse);
             yield return WaitForFixedUpdate;
-            _rigidbody.angularVelocity = new(Random.Range(-_rollVelocity, _rollVelocity), Random.Range(-_rollVelocity, _rollVelocity), Random.Range(-_rollVelocity, _rollVelocity));
+            _rigidbody.angularVelocity = new(RandomValue(), RandomValue(), RandomValue());
             yield return new WaitForSeconds(_rollTime);
             RollToNearest();
         }
 
+        private float RandomValue()
+        {
+            float value = Random.Range(-_rollVelocity, _rollVelocity);
+            if (Mathf.Abs(value) < 5)
+            {
+                return Mathf.Sign(value) * 5;
+            }
+            return value;
+        }
+
         private void RollToNearest()
         {
-            Ray ray = new (_pivot.transform.position + Vector3.up, Vector3.down);
-            Physics.Raycast(ray, out RaycastHit hitInfo);
-            Vector3 closest = hitInfo.point;
+            Vector3 above = _pivot.transform.position + Vector3.up;
             float distance = float.MaxValue;
             int target = 0;
             for (int ix = 0; ix < _faces.Length; ix++)
             {
                 var face = _faces[ix];
-                float value = Vector3.Distance(face.position, closest);
+                float value = Vector3.Distance(face.position, above);
                 if (value < distance)
                 {
                     target = ix;
