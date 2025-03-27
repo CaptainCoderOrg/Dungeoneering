@@ -1088,6 +1088,8 @@ GameObject:
   - component: {fileID: 3573042334456160685}
   - component: {fileID: 4422103700002858057}
   - component: {fileID: 4144636291722176799}
+  - component: {fileID: 4697996104052014827}
+  - component: {fileID: 7391697298739030987}
   m_Layer: 0
   m_Name: Figure Info Panel
   m_TagString: Untagged
@@ -1136,6 +1138,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
+  _canvasGroup: {fileID: 4697996104052014827}
+--- !u!225 &4697996104052014827
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796601850171508013}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!223 &7391697298739030987
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796601850171508013}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &4010669116452483636
 GameObject:
   m_ObjectHideFlags: 0
@@ -3397,7 +3435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2165923018173073166, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 53.43
       objectReference: {fileID: 0}
     - target: {fileID: 2165923018173073166, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4617,7 +4655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8274435306305115746, guid: 83aa65bb32cd9b64f977f82d5359e052, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 70.62
       objectReference: {fileID: 0}
     - target: {fileID: 8274435306305115746, guid: 83aa65bb32cd9b64f977f82d5359e052, type: 3}
       propertyPath: m_SizeDelta.y

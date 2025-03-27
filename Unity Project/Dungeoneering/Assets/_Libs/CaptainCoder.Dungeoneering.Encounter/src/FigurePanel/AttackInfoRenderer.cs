@@ -1,5 +1,7 @@
 using CaptainCoder.Unity.Assertions;
 
+using NaughtyAttributes;
+
 using TMPro;
 
 using UnityEngine;
@@ -27,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 dieIcon.sprite = die.Sprite;
                 dieIcon.color = die.Albedo;
             }
+            LayoutRebuilder.MarkLayoutForRebuild((RectTransform)transform);
         }
     }
 }

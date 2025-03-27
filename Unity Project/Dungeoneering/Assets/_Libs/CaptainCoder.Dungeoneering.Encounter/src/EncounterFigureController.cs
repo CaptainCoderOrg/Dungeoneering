@@ -1,6 +1,7 @@
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
+using UnityEngine.Events;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterFigureController : MonoBehaviour
@@ -9,6 +10,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private FigureData _figureData;
         [AssertIsSet][SerializeField] private QuadAnimator _animator;
         private EncounterController _controller;
+        [field: SerializeField] public UnityEvent<FigureData> OnSelected { get; private set; }
+
+        public void Select()
+        {
+            OnSelected.Invoke(_figureData);
+        }
 
         void Awake()
         {

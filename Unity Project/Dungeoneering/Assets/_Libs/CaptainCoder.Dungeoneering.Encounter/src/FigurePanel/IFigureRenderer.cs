@@ -1,6 +1,3 @@
-
-using UnityEngine;
-
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     public interface IFigureRenderer
