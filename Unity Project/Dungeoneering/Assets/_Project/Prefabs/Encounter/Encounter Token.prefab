@@ -79,6 +79,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _figureQuad: {fileID: 2582274736861848836}
+  _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
+  _animator: {fileID: 713691489963012972}
 --- !u!114 &713691489963012972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,10 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 1853647173031483902}
-  _currentFrame: 0
+  _frameIx: 0
   <IsPlaying>k__BackingField: 1
-  _animations: []
-  _animationIx: 0
+  <PlaybackSpeed>k__BackingField: 1
+  _currentAnimation: {fileID: 11400000, guid: fb7a2adc2ed051e4c8aa258122b852bc, type: 2}
 --- !u!1 &3196589377614998172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1162,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1767
+  m_VersionIndex: 1784
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53360b02c812e3f4990e32f292075e31, type: 3}
+  m_Name: Magic (Attack Type)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Magic
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 1194f854fde498548bb52e3d88725d67, type: 3}
+  <AttackDie>k__BackingField: {fileID: 11400000, guid: f829d025ee391e34ca58391647108064, type: 2}

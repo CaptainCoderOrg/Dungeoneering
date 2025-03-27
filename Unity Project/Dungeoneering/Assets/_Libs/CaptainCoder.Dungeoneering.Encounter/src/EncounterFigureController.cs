@@ -3,15 +3,18 @@ using CaptainCoder.Unity.Assertions;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public class EncounterTokenController : MonoBehaviour
+    public class EncounterFigureController : MonoBehaviour
     {
         [AssertIsSet][SerializeField] private Transform _figureQuad;
+        [AssertIsSet][SerializeField] private FigureData _figureData;
+        [AssertIsSet][SerializeField] private QuadAnimator _animator;
         private EncounterController _controller;
 
         void Awake()
         {
             _controller = GetComponentInParent<EncounterController>();
             Debug.Assert(_controller != null, $"Could not find {nameof(_controller)}", this);
+            _animator.Play(_figureData.SpawnAnimation);
         }
 
         void OnEnable()

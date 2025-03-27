@@ -13,11 +13,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public float PlaybackSpeed { get; private set; } = 1;
         [AssertIsSet][SerializeField] private AnimationData _currentAnimation;
         private float _currentWait;
-        void Awake()
-        {
-            InitializeAnimation(_currentAnimation);
-            UpdateMaterial();
-        }
         void Update()
         {
             if (!IsPlaying) { return; }
@@ -47,7 +42,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         }
         [Button("Play")]
         private void Play() => Play(_currentAnimation);
-        private void Play(AnimationData animationData)
+        public void Play(AnimationData animationData)
         {
             InitializeAnimation(animationData);
             IsPlaying = true;

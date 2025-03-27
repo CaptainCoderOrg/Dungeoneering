@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0463992ffb71d64c8466770b0d47a00, type: 3}
+  m_Name: Worm Bite (Attack Data)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Bite
+  <AttackType>k__BackingField: {fileID: 11400000, guid: 4e433a5879078cc47994f25e4b151f7a, type: 2}
+  <PowerDice>k__BackingField:
+  - {fileID: 11400000, guid: 6ff66278692d20f4bbab8724307dc9a8, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
