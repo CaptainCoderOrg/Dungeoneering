@@ -42,10 +42,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public IEnumerator Show()
         {
             yield return null;
-            _canvasGroup.alpha = 1;
             _rebuilder.ForceRebuild();
+            _canvasGroup.alpha = 1;
         }
-
-
     }
 }

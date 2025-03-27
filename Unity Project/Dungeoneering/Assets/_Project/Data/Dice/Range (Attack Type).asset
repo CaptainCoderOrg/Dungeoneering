@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Range
   <Sprite>k__BackingField: {fileID: 21300000, guid: 1194f854fde498548bb52e3d88725d67, type: 3}
-  <AttackDie>k__BackingField: {fileID: 11400000, guid: aa176604be1e7df4cafcb094a3e2ed8b, type: 2}
+  <AttackDie>k__BackingField: {fileID: 11400000, guid: 86411c1fed386f84894d0d5be57e81ef, type: 2}
