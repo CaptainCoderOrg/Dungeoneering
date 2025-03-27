@@ -14,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
+        [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
 
         void Awake()
         {
@@ -35,14 +36,16 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 renderer.Render(data);
             }
-            Show();
+            StartCoroutine(Show());
         }
 
-        public void Show()
+        public IEnumerator Show()
         {
-            LayoutRebuilder.MarkLayoutForRebuild((RectTransform)transform);
+            yield return null;
             _canvasGroup.alpha = 1;
+            _rebuilder.ForceRebuild();
         }
+
 
     }
 }

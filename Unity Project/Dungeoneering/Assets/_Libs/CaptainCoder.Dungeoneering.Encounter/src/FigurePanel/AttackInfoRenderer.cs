@@ -29,7 +29,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 dieIcon.sprite = die.Sprite;
                 dieIcon.color = die.Albedo;
             }
-            LayoutRebuilder.MarkLayoutForRebuild((RectTransform)transform);
         }
     }
 }

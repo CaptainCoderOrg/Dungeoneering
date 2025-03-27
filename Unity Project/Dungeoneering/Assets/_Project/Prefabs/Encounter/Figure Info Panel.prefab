@@ -1139,6 +1139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
   _canvasGroup: {fileID: 4697996104052014827}
+  _rebuilder: {fileID: 4728563851175913264}
 --- !u!225 &4697996104052014827
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1869,6 +1870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7054162185616793131}
   - component: {fileID: 5145705219615491959}
+  - component: {fileID: 4728563851175913264}
   m_Layer: 0
   m_Name: Panel Sizer
   m_TagString: Untagged
@@ -1924,6 +1926,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4728563851175913264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5277080649679163118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5680ade8abb92c742b9fe93f60701716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5599522129776364333
 GameObject:
   m_ObjectHideFlags: 0

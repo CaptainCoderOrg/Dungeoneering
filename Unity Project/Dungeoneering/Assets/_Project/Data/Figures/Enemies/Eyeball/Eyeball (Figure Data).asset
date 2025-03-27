@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 424a78a2161181e4483984ec22899905, type: 3}
+  m_Name: Eyeball (Figure Data)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Evil Eye
+  <Portrait>k__BackingField: {fileID: 21300000, guid: 2d205952d31107b4b83c5775f50bdc87, type: 3}
+  <BaseHealth>k__BackingField: 6
+  <Wounds>k__BackingField: 0
+  <Speed>k__BackingField: 4
+  <Armor>k__BackingField: 0
+  <Abilities>k__BackingField: []
+  <Attacks>k__BackingField:
+  - {fileID: 11400000, guid: c215af986ec541943a878a6dd029148d, type: 2}
+  <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: fb7a2adc2ed051e4c8aa258122b852bc, type: 2}
+  <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 5feaeee0bc46e8d46929b9c8c2bba3f0, type: 2}
+  <IdleAnimation>k__BackingField: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}
