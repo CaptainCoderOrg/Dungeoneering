@@ -80,7 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameLabel: {fileID: 619542674214198745}
   _iconParent: {fileID: 6012776908146351051}
-  _iconPrefab: {fileID: 7034008397562962773, guid: 905ade2422e249c439d357e19f232d2d, type: 3}
+  _attackIconPrefab: {fileID: 4388139761559486867, guid: 905ade2422e249c439d357e19f232d2d, type: 3}
+  _dieIconPrefab: {fileID: -3004091237272586243, guid: 9b2a937eb70e60641a683ec409cf1cff, type: 3}
 --- !u!114 &5252151382460232609
 MonoBehaviour:
   m_ObjectHideFlags: 0

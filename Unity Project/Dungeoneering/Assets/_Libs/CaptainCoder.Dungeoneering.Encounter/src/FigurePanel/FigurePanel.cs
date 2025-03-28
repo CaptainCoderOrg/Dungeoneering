@@ -19,6 +19,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         void Awake()
         {
             _canvasGroup.alpha = 0;
+            _canvasGroup.blocksRaycasts = false;
             FindAllRenderers();
         }
 
@@ -39,11 +40,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
             StartCoroutine(Show());
         }
 
+        public void Hide()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.blocksRaycasts = false;
+        }
+
         public IEnumerator Show()
         {
             yield return null;
             _rebuilder.ForceRebuild();
             _canvasGroup.alpha = 1;
+            _canvasGroup.blocksRaycasts = true;
         }
     }
 }

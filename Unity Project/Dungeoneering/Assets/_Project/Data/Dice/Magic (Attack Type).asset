@@ -15,3 +15,4 @@ MonoBehaviour:
   <Name>k__BackingField: Magic
   <Sprite>k__BackingField: {fileID: 21300000, guid: b2badd97d3d9af44594224e2d5a965ab, type: 3}
   <AttackDie>k__BackingField: {fileID: 11400000, guid: aa176604be1e7df4cafcb094a3e2ed8b, type: 2}
+  <Tooltip>k__BackingField: Magic Attack

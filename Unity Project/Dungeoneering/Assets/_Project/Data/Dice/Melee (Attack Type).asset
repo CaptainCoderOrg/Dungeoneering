@@ -15,3 +15,4 @@ MonoBehaviour:
   <Name>k__BackingField: Melee
   <Sprite>k__BackingField: {fileID: 21300000, guid: cca78bba9e884cd46ba51a7a93b6018d, type: 3}
   <AttackDie>k__BackingField: {fileID: 11400000, guid: f829d025ee391e34ca58391647108064, type: 2}
+  <Tooltip>k__BackingField: Melee Attack
