@@ -20,7 +20,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
             
         };
         [SerializeField] private Transform[] _faces;
-        [AssertIsSet][SerializeField] private DieMaterialGenerator _materialGenerator;
         [AssertIsSet][SerializeField] private DieData _dieData;
         [AssertIsSet][SerializeField] private MeshRenderer _dieRenderer;
         [AssertIsSet][SerializeField] private MeshRenderer _dieAlbedoRenderer;
@@ -38,7 +37,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void InitializeDie()
         {
             _startPosition = _pivot.transform.position;
-            Texture2D texture = _materialGenerator.GenerateTexture(_dieData);
+            Texture2D texture = _dieData.Texture;
             _dieRenderer.material.SetTexture("_BaseMap", texture);
             _dieAlbedoRenderer.material.color = _dieData.Albedo;
         }

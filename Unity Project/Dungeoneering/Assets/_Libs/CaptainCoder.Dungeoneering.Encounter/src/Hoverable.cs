@@ -1,29 +1,25 @@
+using System;
 using System.Collections;
 
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class Hoverable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
     {
-        [AssertIsSet][SerializeField] private TooltipElementData _tooltipElement;
-        [AssertIsSet][SerializeField] public TooltipData TooltipData { get; set; }
         [AssertIsSet][SerializeField] private RectTransform _hoverTarget;
         [SerializeField] private float _hoverDelay = .5f;
-        private PointerEventData _eventData;
+        [field: SerializeField] public UnityEvent<RectTransform> OnHoverStart { get; private set; }
+        [field: SerializeField] public UnityEvent OnHoverEnd { get; private set; }
 
-        public void Hover()
-        {
-            TooltipData.Render(_tooltipElement.Tooltip);
-            _tooltipElement.Tooltip.ShowAbove(_hoverTarget);
-        }
+        public void Hover() => OnHoverStart.Invoke(_hoverTarget);
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _eventData = eventData;
             StartCoroutine(PointerEntered());
         }
 
@@ -37,12 +33,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void OnPointerExit(PointerEventData eventData)
         {
             StopAllCoroutines();
-            _tooltipElement.Tooltip.Hide();
+            OnHoverEnd.Invoke();
         }
 
         public void OnPointerMove(PointerEventData eventData)
         {
-            _eventData = eventData;
         }
     }
 }

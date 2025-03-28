@@ -3883,6 +3883,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7380421982484638473, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
+      propertyPath: _tooltip
+      value: 'Speed: Each time a figure uses a move action they gain this many movement
+        points'
+      objectReference: {fileID: 0}
     - target: {fileID: 7422931525090736694, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
       propertyPath: m_text
       value: 3
@@ -4067,6 +4072,10 @@ PrefabInstance:
     - target: {fileID: 6159523474391375109, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380421982484638473, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
+      propertyPath: _tooltip
+      value: Health
       objectReference: {fileID: 0}
     - target: {fileID: 7422931525090736694, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
       propertyPath: m_text
@@ -4256,6 +4265,10 @@ PrefabInstance:
     - target: {fileID: 6159523474391375109, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380421982484638473, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
+      propertyPath: _tooltip
+      value: 'Armor: Reduces damage from each attack by this amount.'
       objectReference: {fileID: 0}
     - target: {fileID: 7422931525090736694, guid: 46cae0f9e3e96b941a6193c7528088d8, type: 3}
       propertyPath: m_text

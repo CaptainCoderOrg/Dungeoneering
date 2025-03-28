@@ -7,11 +7,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
     {
         private TooltipController _tooltip;
         public TooltipController Tooltip => _tooltip ??= FindFirstObjectByType<TooltipController>();
+        private DiceTooltipController _diceTooltipController;
+        public DiceTooltipController DiceTooltipController => _diceTooltipController ??= FindFirstObjectByType<DiceTooltipController>();
 
         public override void OnBeforeEnterPlayMode()
         {
             base.OnBeforeEnterPlayMode();
             _tooltip = null;
+            _diceTooltipController = null;
         }
     }
 }

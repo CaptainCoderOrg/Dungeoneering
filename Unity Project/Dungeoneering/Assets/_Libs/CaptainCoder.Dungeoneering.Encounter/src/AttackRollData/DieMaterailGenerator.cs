@@ -20,7 +20,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public Sprite SplitSprite;
         public Texture2D DieTextureTemplate;
 
-        const int TextureSize = 32;
+        public const int TextureSize = 32;
+        public const int Rows = 2;
+        public const int Columns = 3;
+
+        public static Rect FaceIxToRect(int ix) => new(ix % Columns * TextureSize, ix / Columns * TextureSize, TextureSize, TextureSize);
 
 
 #if UNITY_EDITOR
@@ -40,17 +44,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public Texture2D GenerateTexture(DieData die)
         {
-            const int rows = 2;
-            const int columns = 3;
             Texture2D texture = new(DieTextureTemplate.width, DieTextureTemplate.height, DieTextureTemplate.format, false);
             texture.LoadRawTextureData(texture.GetRawTextureData());
             texture.filterMode = FilterMode.Point;
             SetTransparent(texture);
-            for (int row = 0; row < rows; row++)
+            for (int row = 0; row < Rows; row++)
             {
-                for (int col = 0; col < columns; col++)
+                for (int col = 0; col < Columns; col++)
                 {
-                    FaceData face = die.Faces[row * columns + col];
+                    FaceData face = die.Faces[row * Columns + col];
                     if (face.IsMiss)
                     {
                         CopyTexture(texture, MissSprite, row, col);

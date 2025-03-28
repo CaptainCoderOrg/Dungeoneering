@@ -6,6 +6,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class DieIconController : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private TooltipElementData _tooltipElement;
         [AssertIsSet][SerializeField] private Image _image;
         [AssertIsSet][SerializeField] private Hoverable _hoverable;
         private DieData _die;
@@ -18,6 +19,23 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _image.sprite = value.Sprite;
                 _image.color = value.UIAlbedo;
             }
+        }
+
+        void Awake()
+        {
+            _hoverable.OnHoverStart.AddListener(ShowHover);
+            _hoverable.OnHoverEnd.AddListener(HideHover);
+        }
+
+        private void HideHover()
+        {
+            _tooltipElement.DiceTooltipController.Hide();
+        }
+
+        private void ShowHover(RectTransform target)
+        {
+            _tooltipElement.DiceTooltipController.Die = _die;
+            _tooltipElement.DiceTooltipController.ShowAbove(target);
         }
     }
 }
