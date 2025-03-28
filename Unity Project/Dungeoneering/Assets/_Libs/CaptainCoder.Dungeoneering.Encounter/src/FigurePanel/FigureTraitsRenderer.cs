@@ -12,9 +12,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private TextMeshProUGUI _speedLabel;
         public void Render(FigureData data)
         {
-            _healthLabel.text = $"{data.Health}/{data.BaseHealth}";
-            _armorLabel.text = data.Armor.ToString();
-            _speedLabel.text = data.Speed.ToString();
+            _healthLabel.text = $"{data.EntityData.Health}/{data.EntityData.BaseHealth}";
+            _armorLabel.text = data.EntityData.Armor.ToString();
+            _speedLabel.text = data.EntityData.Speed.ToString();
         }
     }
 }

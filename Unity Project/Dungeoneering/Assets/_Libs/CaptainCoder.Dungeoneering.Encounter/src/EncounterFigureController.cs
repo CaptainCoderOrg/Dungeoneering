@@ -21,7 +21,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _controller = GetComponentInParent<EncounterController>();
             Debug.Assert(_controller != null, $"Could not find {nameof(_controller)}", this);
-            _animator.Play(_figureData.SpawnAnimation);
+            _animator.Play(_figureData.EntityData.SpawnAnimation);
+            transform.localPosition = _figureData.LocalPosition;
         }
 
         void OnEnable()

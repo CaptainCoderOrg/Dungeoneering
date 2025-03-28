@@ -1107,7 +1107,7 @@ GameObject:
   - component: {fileID: 7391697298739030987}
   - component: {fileID: 1948527277252495579}
   m_Layer: 0
-  m_Name: Figure Info Panel
+  m_Name: Enemy Figure Info Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

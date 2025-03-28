@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12bd66080aac434f95af5246eebb5bc, type: 3}
+  m_Name: Test Encounter
+  m_EditorClassIdentifier: 
+  <Figures>k__BackingField:
+  - {fileID: 11400000, guid: 16a79e7a007dca34788c1d0f003ce0d6, type: 2}
+  - {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
+  <DungeonCrawlerData>k__BackingField: {fileID: 11400000, guid: 1c4fbd066f77bfb4eabe6d7d406623c7, type: 2}
+  <DungeonName>k__BackingField: Encounter
+  <MinX>k__BackingField: 5
+  <MaxX>k__BackingField: 14
+  <MinY>k__BackingField: 3
+  <MaxY>k__BackingField: 13

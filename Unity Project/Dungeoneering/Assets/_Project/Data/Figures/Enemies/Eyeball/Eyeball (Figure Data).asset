@@ -12,16 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424a78a2161181e4483984ec22899905, type: 3}
   m_Name: Eyeball (Figure Data)
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Evil Eye
-  <Portrait>k__BackingField: {fileID: 21300000, guid: 3deebda7c293dc649a38c8c84353dd78, type: 3}
-  <BaseHealth>k__BackingField: 6
-  <Wounds>k__BackingField: 0
-  <Speed>k__BackingField: 4
-  <Armor>k__BackingField: 0
-  <Abilities>k__BackingField:
-  - {fileID: 11400000, guid: e3d43aed646cb3c48a4caaf303f670a7, type: 2}
-  <Attacks>k__BackingField:
-  - {fileID: 11400000, guid: 018fb47d479afdc45941cb3b3749a729, type: 2}
-  <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: fb7a2adc2ed051e4c8aa258122b852bc, type: 2}
-  <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 5feaeee0bc46e8d46929b9c8c2bba3f0, type: 2}
-  <IdleAnimation>k__BackingField: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}
+  <EntityData>k__BackingField: {fileID: 11400000, guid: e17845345b9eccf4392b51db5e1f311d, type: 2}
+  <Position>k__BackingField: {x: 6, y: 7}

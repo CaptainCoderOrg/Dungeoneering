@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public class FigurePanel : MonoBehaviour
+    public class EnemyFigurePanel : MonoBehaviour
     {
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;

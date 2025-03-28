@@ -10,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void Render(FigureData data)
         {
             _abilitiesParent.DestroyAllChildren();
-            foreach (var ability in data.Abilities)
+            foreach (var ability in ((EnemyEntityData)(data.EntityData)).Abilities)
             {
                 var info = Instantiate(_abilityRendererPrefab, _abilitiesParent);
                 info.Ability = ability;

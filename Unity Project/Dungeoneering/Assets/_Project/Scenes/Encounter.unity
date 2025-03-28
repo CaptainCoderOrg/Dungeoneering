@@ -4639,14 +4639,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <EncounterCamera>k__BackingField: {fileID: 1098048166}
-  _dungeonCrawlerData: {fileID: 11400000, guid: 1c4fbd066f77bfb4eabe6d7d406623c7, type: 2}
+  _encounterData: {fileID: 11400000, guid: fed4f87497a24784cbf01f60e12f0454, type: 2}
   _tileContainer: {fileID: 782024478}
   _tilePrefab: {fileID: 5189569618308452288, guid: decae128b91dcc24482b5fcd864b9448, type: 3}
-  _dungeonName: Encounter
-  _minX: 5
-  _maxX: 14
-  _minY: 3
-  _maxY: 13
 --- !u!114 &887420315
 MonoBehaviour:
   m_ObjectHideFlags: 0
