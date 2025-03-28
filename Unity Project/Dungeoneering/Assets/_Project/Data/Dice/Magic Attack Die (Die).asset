@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4b244f42d92988428588fda40dc7305, type: 3}
-  m_Name: Melee Die (Die)
+  m_Name: Magic Attack Die (Die)
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Melee Attack Die
+  <Name>k__BackingField: Magic Attack Die
   <Sprite>k__BackingField: {fileID: 21300000, guid: ac7a434d4239eb84f91f9f214fe4c951, type: 3}
-  <UIAlbedo>k__BackingField: {r: 1, g: 0.19607843, b: 0, a: 1}
-  <Albedo>k__BackingField: {r: 1, g: 0.19551288, b: 0, a: 1}
+  <UIAlbedo>k__BackingField: {r: 0.6745098, g: 0, b: 0.6784314, a: 1}
+  <Albedo>k__BackingField: {r: 0.67366403, g: 0, b: 0.6792453, a: 1}
   <Faces>k__BackingField:
   - Damage: 0
     Aim: 0
@@ -27,6 +27,11 @@ MonoBehaviour:
     Power: 0
     IsMiss: 0
     IsSplit: 0
+  - Damage: 1
+    Aim: 3
+    Power: 1
+    IsMiss: 0
+    IsSplit: 0
   - Damage: 3
     Aim: 1
     Power: 1
@@ -34,17 +39,12 @@ MonoBehaviour:
     IsSplit: 0
   - Damage: 3
     Aim: 1
-    Power: 0
+    Power: 1
     IsMiss: 0
     IsSplit: 0
   - Damage: 1
-    Aim: 2
+    Aim: 3
     Power: 1
-    IsMiss: 0
-    IsSplit: 0
-  - Damage: 4
-    Aim: 0
-    Power: 0
     IsMiss: 0
     IsSplit: 0
   _texture2D: {fileID: 0}
