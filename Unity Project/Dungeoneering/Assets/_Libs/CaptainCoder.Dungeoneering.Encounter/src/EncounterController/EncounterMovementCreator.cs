@@ -17,8 +17,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [Button]
         public void SimulateMovement()
         {
-            FigureData data = _controller.State.Figures[Path.First()].Figure;
-            _controller.HandleMovementEvent(new MoveFigureEvent(data, Path));
+            _controller.HandleMovementEvent(new MoveFigureEvent(_controller.State.Figures[Path.First()], Path));
         }
 
         void Awake()

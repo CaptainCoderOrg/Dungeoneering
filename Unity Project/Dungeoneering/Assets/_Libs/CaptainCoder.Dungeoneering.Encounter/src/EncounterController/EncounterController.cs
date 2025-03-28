@@ -49,9 +49,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 throw new System.Exception($"Illegal movement. No figure found at position {start}.");
             }
-            if (controller.Figure != @event.Figure)
+            if (controller != @event.Controller)
             {
-                throw new System.Exception($"Illegal movement. Expected {@event.Figure.name} ({@event.Figure.GetInstanceID()}) at position {start}.");
+                throw new System.Exception($"Illegal movement. Expected {@event.Controller} ({@event.Controller.GetInstanceID()}) at position {start}.");
             }
             if (State.Figures.ContainsKey(last))
             {
@@ -65,10 +65,20 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private IEnumerator<YieldInstruction> AnimateMove(EncounterFigureController controller, IEnumerable<Vector2Int> path)
         {
+            float moveTime = 0;
             foreach (Vector2Int position in path)
             {
-                controller.transform.localPosition = new Vector3(position.x, 0, position.y);
-                yield return _encounterSettingsData.WaitForMovement;
+                Vector3 start = controller.transform.localPosition;
+                Vector3 end = new(position.x, 0, position.y);
+                moveTime += _encounterSettingsData.MovementSpeed;
+                while (moveTime > 0)
+                {
+                    moveTime -= Time.deltaTime;
+                    float percent = 1 - (moveTime / _encounterSettingsData.MovementSpeed);
+                    controller.transform.localPosition = Vector3.Lerp(start, end, percent);
+                    yield return null;
+                }
+                controller.transform.localPosition = end;
             }
         }
     }
