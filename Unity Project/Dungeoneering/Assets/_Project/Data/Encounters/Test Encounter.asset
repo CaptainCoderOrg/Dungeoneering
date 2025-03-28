@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12bd66080aac434f95af5246eebb5bc, type: 3}
   m_Name: Test Encounter
   m_EditorClassIdentifier: 
-  <Figures>k__BackingField:
-  - {fileID: 11400000, guid: 16a79e7a007dca34788c1d0f003ce0d6, type: 2}
-  - {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
+  <EnemyFigures>k__BackingField:
+  - EnemyEntityTemplate: {fileID: 11400000, guid: b0e15e9c7f4f9a644949e032eab5b56b, type: 2}
+    Position: {x: 5, y: 9}
+  - EnemyEntityTemplate: {fileID: 11400000, guid: e17845345b9eccf4392b51db5e1f311d, type: 2}
+    Position: {x: 6, y: 7}
   <DungeonCrawlerData>k__BackingField: {fileID: 11400000, guid: 1c4fbd066f77bfb4eabe6d7d406623c7, type: 2}
   <DungeonName>k__BackingField: Encounter
   <MinX>k__BackingField: 5

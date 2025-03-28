@@ -7,7 +7,16 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class EncounterFigureController : MonoBehaviour
     {
         [AssertIsSet][SerializeField] private Transform _figureQuad;
-        [AssertIsSet][SerializeField] private FigureData _figureData;
+        [SerializeField] private FigureData _figureData;
+        public FigureData Figure
+        {
+            get => _figureData;
+            set
+            {
+                _figureData = value;
+                Initialize();
+            }
+        }
         [AssertIsSet][SerializeField] private QuadAnimator _animator;
         private EncounterController _controller;
         [field: SerializeField] public UnityEvent<FigureData> OnSelected { get; private set; }
@@ -21,6 +30,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _controller = GetComponentInParent<EncounterController>();
             Debug.Assert(_controller != null, $"Could not find {nameof(_controller)}", this);
+        }
+
+        private void Initialize()
+        {
             _animator.Play(_figureData.EntityData.SpawnAnimation);
             transform.localPosition = _figureData.LocalPosition;
         }
