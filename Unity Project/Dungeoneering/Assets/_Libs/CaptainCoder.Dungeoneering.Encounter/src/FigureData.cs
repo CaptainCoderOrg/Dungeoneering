@@ -14,7 +14,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public int Health => BaseHealth - Wounds;
         [field: SerializeField] public int Speed { get; private set; }
         [field: SerializeField] public int Armor { get; private set; }
-        [field: SerializeField] public List<string> Abilities { get; private set; }
+        [field: SerializeField] public List<FigureAbilityData> Abilities { get; private set; }
         [field: SerializeField] public List<AttackData> Attacks { get; private set; }
         [field: SerializeField] public AnimationData SpawnAnimation { get; private set; }
         [field: SerializeField] public AnimationData AttackAnimation { get; private set; }

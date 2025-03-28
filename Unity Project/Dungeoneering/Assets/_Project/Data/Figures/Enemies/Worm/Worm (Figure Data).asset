@@ -19,8 +19,8 @@ MonoBehaviour:
   <Speed>k__BackingField: 3
   <Armor>k__BackingField: 2
   <Abilities>k__BackingField:
-  - Pierce 2
-  - Poison
+  - {fileID: 11400000, guid: 1fb593814fe562745acd002069b74c0d, type: 2}
+  - {fileID: 11400000, guid: 662d4acdfe3cb4f4abb35994b25d226e, type: 2}
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: c215af986ec541943a878a6dd029148d, type: 2}
   - {fileID: 11400000, guid: 8647db9aa60950449bb8b6c4b2f18f13, type: 2}

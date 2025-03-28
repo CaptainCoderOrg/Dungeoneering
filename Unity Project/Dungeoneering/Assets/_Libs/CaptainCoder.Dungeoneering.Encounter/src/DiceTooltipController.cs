@@ -26,8 +26,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         void Awake() => Hide();
 
-        private float Height => ((RectTransform)transform).rect.height;
-
         public void ShowAbove(RectTransform parent)
         {
             transform.position = parent.position;

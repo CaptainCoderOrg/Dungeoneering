@@ -18,7 +18,8 @@ MonoBehaviour:
   <Wounds>k__BackingField: 0
   <Speed>k__BackingField: 4
   <Armor>k__BackingField: 0
-  <Abilities>k__BackingField: []
+  <Abilities>k__BackingField:
+  - {fileID: 11400000, guid: e3d43aed646cb3c48a4caaf303f670a7, type: 2}
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: 018fb47d479afdc45941cb3b3749a729, type: 2}
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: fb7a2adc2ed051e4c8aa258122b852bc, type: 2}
