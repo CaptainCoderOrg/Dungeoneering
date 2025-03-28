@@ -144,21 +144,24 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private IEnumerator PitchCamera()
         {
-            Quaternion startQ = _camera.transform.rotation;
-            Vector3 endEuler = _camera.transform.rotation.eulerAngles;
-            endEuler.x = _pitches[_encounterSettingsData.TargetPitch];
-            Quaternion endQ = Quaternion.Euler(endEuler);
+            float startPitch = _camera.transform.rotation.eulerAngles.x;
+            float endPitch = _pitches[_encounterSettingsData.TargetPitch];
             float elapsedTime = 0;
             float percent = 0;
             while (percent < 1)
             {
                 elapsedTime += Time.deltaTime;
-                _camera.transform.rotation = Quaternion.Lerp(startQ, endQ, percent);
+                float pitch = Mathf.Lerp(startPitch, endPitch, percent);
+                Vector3 euler = _camera.transform.rotation.eulerAngles;
+                euler.x = pitch;
+                _camera.transform.rotation = Quaternion.Euler(euler);
                 _onCameraRotate?.Invoke(_camera);
                 yield return null;
                 percent = elapsedTime / PitchDuration;
             }
-            _camera.transform.rotation = endQ;
+            Vector3 final = _camera.transform.rotation.eulerAngles;
+            final.x = endPitch;
+            _camera.transform.rotation = Quaternion.Euler(final);
             _onCameraRotate?.Invoke(_camera);
         }
 
