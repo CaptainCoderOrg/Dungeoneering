@@ -4564,6 +4564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04d7cb0802654b439771557faf8b07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _encounterSettingsData: {fileID: 11400000, guid: d0f3755972dc40245aef2cc864b73ad9, type: 2}
   _initializer: {fileID: 1819747918}
   <EncounterCamera>k__BackingField: {fileID: 1098048166}
   _encounterData: {fileID: 11400000, guid: fed4f87497a24784cbf01f60e12f0454, type: 2}
@@ -5193,15 +5194,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c30a66a7ef4f34f94499d9e31d723d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _encounterSettingsData: {fileID: 11400000, guid: d0f3755972dc40245aef2cc864b73ad9, type: 2}
   _camera: {fileID: 877684976}
-  _targetRotation: 0
   _pitches:
   - 30
   - 37.5
   - 45
   - 52.5
   - 60
-  _targetPitch: 1
   <RotationDuration>k__BackingField: 0.25
   <PitchDuration>k__BackingField: 0.1
   <ZoomDuration>k__BackingField: 0.25
@@ -5209,7 +5209,6 @@ MonoBehaviour:
   <MinZoom>k__BackingField: 1
   <MaxZoom>k__BackingField: 10
   <PanSpeed>k__BackingField: 8
-  _targetZoom: 5
 --- !u!43 &1106309594
 Mesh:
   m_ObjectHideFlags: 0

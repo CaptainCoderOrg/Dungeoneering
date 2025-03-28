@@ -7,12 +7,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterCamera : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private EncounterSettingsData _encounterSettingsData;
         private System.Action<Camera> _onCameraRotate;
         private EncounterInputController _inputController;
         [AssertIsSet][SerializeField] private Camera _camera;
-        [SerializeField] private float _targetRotation;
         [SerializeField] private float[] _pitches = { 30, 37.5f, 45, 52.5f, 60 };
-        [SerializeField] private int _targetPitch = 3;
         [field: SerializeField] public float RotationDuration { get; private set; } = 0.4f;
         [field: SerializeField] public float PitchDuration { get; private set; } = 0.10f;
         [field: SerializeField] public float ZoomDuration { get; private set; } = 0.25f;
@@ -20,7 +19,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public float MinZoom { get; private set; } = 3;
         [field: SerializeField] public float MaxZoom { get; private set; } = 10;
         [field: SerializeField] public float PanSpeed { get; private set; } = 1f;
-        [SerializeField] private float _targetZoom = 5f;
         private Coroutine _rotateCoroutine;
         private Coroutine _pitchCoroutine;
         private Coroutine _zoomCoroutine;
@@ -41,7 +39,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _inputController = GetComponentInParent<EncounterInputController>();
             Debug.Assert(_inputController != null, $"{nameof(_inputController)} was not found", this);
-            _targetZoom = _camera.orthographicSize;
+            _camera.orthographicSize = _encounterSettingsData.TargetZoom;
+            transform.rotation = Quaternion.Euler(0, _encounterSettingsData.TargetRotation, 0);
+            Vector3 endEuler = _camera.transform.rotation.eulerAngles;
+            endEuler.x = _pitches[_encounterSettingsData.TargetPitch];
+            Quaternion endQ = Quaternion.Euler(endEuler);
+            _camera.transform.rotation = endQ;
+            _onCameraRotate?.Invoke(_camera);
         }
 
         void OnEnable()
@@ -97,7 +101,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void ZoomCamera(float delta)
         {
-            _targetZoom = Mathf.Clamp(_targetZoom - delta, MinZoom, MaxZoom);
+            _encounterSettingsData.TargetZoom = Mathf.Clamp(_encounterSettingsData.TargetZoom - delta, MinZoom, MaxZoom);
             CancelCoroutine(_zoomCoroutine);
             _zoomCoroutine = StartCoroutine(ZoomCamera());
         }
@@ -105,7 +109,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private IEnumerator ZoomCamera()
         {
             float startSize = _camera.orthographicSize;
-            float endSize = _targetZoom;
+            float endSize = _encounterSettingsData.TargetZoom;
             float elapsedTime = 0;
             float percent = 0;
             while (percent < 1)
@@ -120,14 +124,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void RotateClockwise(float delta)
         {
-            _targetRotation += delta;
+            _encounterSettingsData.TargetRotation += delta;
             CancelCoroutine(_rotateCoroutine);
             _rotateCoroutine = StartCoroutine(RotateCamera());
         }
 
         public void AdjustPitch(int delta)
         {
-            _targetPitch = (((_targetPitch + delta) % _pitches.Length) + _pitches.Length) % _pitches.Length;
+            _encounterSettingsData.TargetPitch = (((_encounterSettingsData.TargetPitch + delta) % _pitches.Length) + _pitches.Length) % _pitches.Length;
             CancelCoroutine(_pitchCoroutine);
             _pitchCoroutine = StartCoroutine(PitchCamera());
         }
@@ -142,7 +146,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             Quaternion startQ = _camera.transform.rotation;
             Vector3 endEuler = _camera.transform.rotation.eulerAngles;
-            endEuler.x = _pitches[_targetPitch];
+            endEuler.x = _pitches[_encounterSettingsData.TargetPitch];
             Quaternion endQ = Quaternion.Euler(endEuler);
             float elapsedTime = 0;
             float percent = 0;
@@ -161,7 +165,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private IEnumerator RotateCamera()
         {
             Quaternion startQ = transform.rotation;
-            Quaternion endQ = Quaternion.Euler(0, _targetRotation, 0);
+            Quaternion endQ = Quaternion.Euler(0, _encounterSettingsData.TargetRotation, 0);
             float elapsedTime = 0;
             float percent = 0;
             while (percent < 1)

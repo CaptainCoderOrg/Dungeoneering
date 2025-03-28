@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterController : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private EncounterSettingsData _encounterSettingsData;
         [AssertIsSet][SerializeField] private EncounterInitializer _initializer;
         [AssertIsSet][field: SerializeField] public EncounterCamera EncounterCamera { get; private set; }
         [AssertIsSet][SerializeField] private EncounterData _encounterData;
@@ -63,12 +63,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             StartCoroutine(AnimateMove(controller, @event.Path));
         }
 
-        private IEnumerator AnimateMove(EncounterFigureController controller, IEnumerable<Vector2Int> path)
+        private IEnumerator<YieldInstruction> AnimateMove(EncounterFigureController controller, IEnumerable<Vector2Int> path)
         {
             foreach (Vector2Int position in path)
             {
                 controller.transform.localPosition = new Vector3(position.x, 0, position.y);
-                yield return new WaitForSeconds(0.1f);
+                yield return _encounterSettingsData.WaitForMovement;
             }
         }
     }
