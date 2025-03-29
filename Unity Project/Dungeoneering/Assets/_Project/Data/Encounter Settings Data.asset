@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c833b35c06e924a9325bde6f46b719, type: 3}
   m_Name: Encounter Settings Data
   m_EditorClassIdentifier: 
-  ZoomLevel: 5
-  TargetRotation: 0
-  TargetPitch: 1
-  _movementSpeed: 0.1
+  TargetZoom: 4
+  TargetRotation: 1440
+  TargetPitch: 4
+  _movementSpeed: 0.25

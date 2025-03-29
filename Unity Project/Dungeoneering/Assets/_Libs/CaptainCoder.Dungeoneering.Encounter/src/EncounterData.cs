@@ -10,6 +10,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class EncounterData : ObservableSO
     {
         [field: SerializeField] public List<EnemyFigure> EnemyFigures { get; private set; }
+        [field: SerializeField] public List<HeroFigure> HeroFigures { get; private set; }
         [field: SerializeField] public DungeonCrawlerData DungeonCrawlerData { get; private set; }
         [field: SerializeField] public string DungeonName { get; private set; }
         [field: SerializeField] public int MinX { get; private set; }
@@ -22,6 +23,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public struct EnemyFigure
     {
         public EnemyEntityData EnemyEntityTemplate;
+        public Vector2Int Position;
+    }
+
+    [System.Serializable]
+    public struct HeroFigure
+    {
+        public HeroEntityData HeroEntity;
         public Vector2Int Position;
     }
 }

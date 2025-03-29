@@ -19,7 +19,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private Transform _tileContainer;
         [AssertIsSet][SerializeField] private DungeonTile _tilePrefab;
 
-        public EncounterState State { get; internal set; } = new();
+        private EncounterState _state;
+        public EncounterState State { get => _state ??= new(); }
 
         void Awake()
         {

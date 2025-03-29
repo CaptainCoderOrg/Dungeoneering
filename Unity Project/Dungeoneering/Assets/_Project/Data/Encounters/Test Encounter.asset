@@ -17,6 +17,9 @@ MonoBehaviour:
     Position: {x: 5, y: 9}
   - EnemyEntityTemplate: {fileID: 11400000, guid: e17845345b9eccf4392b51db5e1f311d, type: 2}
     Position: {x: 6, y: 7}
+  <HeroFigures>k__BackingField:
+  - HeroEntity: {fileID: 11400000, guid: 639c39d7073c6ec42a83ee9d248b2611, type: 2}
+    Position: {x: 5, y: 5}
   <DungeonCrawlerData>k__BackingField: {fileID: 11400000, guid: 1c4fbd066f77bfb4eabe6d7d406623c7, type: 2}
   <DungeonName>k__BackingField: Encounter
   <MinX>k__BackingField: 5
