@@ -11,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private EncounterFigureController _enemyFigurePrefab;
         [AssertIsSet][SerializeField] private Transform _enemyFigureParent;
         [AssertIsSet][field: SerializeField] private EnemyFigurePanel _enemyFigurePanel;
+        [AssertIsSet][field: SerializeField] private EnemyFigurePanel _heroFigurePanel;
 
         public void Init(EncounterData encounterData)
         {
@@ -38,7 +39,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.Create(h.HeroEntity, h.Position);
 
                 State.Figures[h.Position] = controller;
-                controller.OnSelected.AddListener(_enemyFigurePanel.Render);
+                controller.OnSelected.AddListener(_heroFigurePanel.Render);
             }
         }
     }

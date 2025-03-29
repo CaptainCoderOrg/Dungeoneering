@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0291ece0a77194ea9ba1d19505a222, type: 3}
+  m_Name: Sprite Merger
+  m_EditorClassIdentifier: 
+  SpriteSheets:
+  - {fileID: 0}
+  - {fileID: 2800000, guid: 746aa32794e5a49428eea9b5d2c35f2f, type: 3}
+  - {fileID: 2800000, guid: 363f4726289e87b45a639d9470570c2d, type: 3}
+  - {fileID: 2800000, guid: 44dd994caea97ed4faac443b8d4bf5eb, type: 3}
+  - {fileID: 2800000, guid: dc4bdc322d5ca914dae0f784ce19cc43, type: 3}
+  - {fileID: 2800000, guid: 127d0b6990173f84583ee8644b40fae8, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
