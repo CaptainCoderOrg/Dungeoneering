@@ -48,7 +48,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Toggle(FigureData data)
         {
-            if (_canvasGroup.alpha == 0) { Render(data); }
+            if (_figureData != data) { Render(data); }
+            else if (_canvasGroup.alpha == 0) { Render(data); }
             else { Hide(); }
         }
 
