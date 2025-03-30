@@ -46,6 +46,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             StartCoroutine(Show());
         }
 
+        public void Toggle(FigureData data)
+        {
+            if (_canvasGroup.alpha == 0) { Render(data); }
+            else { Hide(); }
+        }
+
         public void Hide()
         {
             _canvasGroup.alpha = 0;

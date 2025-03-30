@@ -26,7 +26,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.CopyEnemyAndCreate(f.EnemyEntityTemplate, f.Position);
 
                 State.Figures[f.Position] = controller;
-                controller.OnSelected.AddListener(_enemyFigurePanel.Render);
+                controller.OnSelected.AddListener(_enemyFigurePanel.Toggle);
             }
 
             for (int ix = 0; ix < encounterData.HeroFigures.Count; ix++)
@@ -40,7 +40,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.Create(h.HeroEntity, h.Position);
 
                 State.Figures[h.Position] = controller;
-                controller.OnSelected.AddListener(_heroFigurePanels[ix].Render);
+                controller.OnSelected.AddListener(_heroFigurePanels[ix].Toggle);
             }
         }
     }

@@ -28,7 +28,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void OnDrag(PointerEventData eventData)
         {
-            if(_dragging == null) { return; }
+            if (_dragging == null) { return; }
             _dragging.transform.position = eventData.position;
         }
 
