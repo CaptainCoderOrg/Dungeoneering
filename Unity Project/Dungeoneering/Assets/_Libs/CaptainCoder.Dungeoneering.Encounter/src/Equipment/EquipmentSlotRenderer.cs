@@ -67,7 +67,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             _image.enabled = true;
             _image.sprite = EquipmentSlotReference.Data.Sprite;
-            _simpleTooltip.Tooltip = EquipmentSlotReference.Data.Name;
+            _simpleTooltip.Tooltip = $"<b><u>{EquipmentSlotReference.Data.Name}</u></b>\nClick for Details";
         }
 
         public void Render(EquipmentSlotReference slot)
@@ -81,6 +81,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void OnPointerClick(PointerEventData eventData)
         {
             _equipmentInfoPanel.Toggle(EquipmentSlotReference, transform.position);
+            _simpleTooltip.Hide();
         }
     }
 

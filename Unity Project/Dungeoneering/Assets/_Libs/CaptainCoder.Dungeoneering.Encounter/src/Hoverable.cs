@@ -39,5 +39,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void OnPointerMove(PointerEventData eventData)
         {
         }
+
+        internal void Cancel()
+        {
+            StopAllCoroutines();
+            OnHoverEnd.Invoke();
+        }
     }
 }

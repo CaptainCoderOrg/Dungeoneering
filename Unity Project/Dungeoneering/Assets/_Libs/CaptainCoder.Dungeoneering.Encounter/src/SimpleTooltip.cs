@@ -1,3 +1,5 @@
+using System;
+
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -9,13 +11,16 @@ namespace CaptainCoder.Dungeoneering.Encounter
     {
         [AssertIsSet][SerializeField] private TooltipElementData _tooltipElement;
         [TextArea(3, 5)][SerializeField] private string _tooltip;
+        private Hoverable _hoverable;
         public string Tooltip { get => _tooltip; set => _tooltip = value; }
+
+        public void Hide() => _hoverable.Cancel();
 
         void Awake()
         {
-            Hoverable hoverable = GetComponent<Hoverable>();
-            hoverable.OnHoverStart.AddListener(ShowHover);
-            hoverable.OnHoverEnd.AddListener(HideHover);
+            _hoverable = GetComponent<Hoverable>();
+            _hoverable.OnHoverStart.AddListener(ShowHover);
+            _hoverable.OnHoverEnd.AddListener(HideHover);
         }
 
         private void HideHover()
