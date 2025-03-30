@@ -23,9 +23,12 @@ MonoBehaviour:
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <BaseStamina>k__BackingField: 3
   <Exertion>k__BackingField: 0
-  <LeftHand>k__BackingField: {fileID: 0}
-  <RightHand>k__BackingField: {fileID: 0}
+  <LeftHand>k__BackingField: {fileID: 11400000, guid: 387dd2e57087810468a2384ef8cbbe90, type: 2}
+  <RightHand>k__BackingField: {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
   <WornArmor>k__BackingField: {fileID: 0}
   <Accessory>k__BackingField: {fileID: 0}
   <Inventory>k__BackingField:
+  - {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
+  - {fileID: 11400000, guid: 070ebd9bebcef8f44bc3801c48e58538, type: 2}
+  - {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   - {fileID: 0}

@@ -13,10 +13,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Render(HeroEntityData data)
         {
-            _leftHand.Render(data.LeftHand);
-            _rightHand.Render(data.RightHand);
-            _wornArmor.Render(data.WornArmor);
-            _accessory.Render(data.Accessory);
+            _leftHand.Render(data.LeftHandSlot);
+            _rightHand.Render(data.RightHandSlot);
+            _wornArmor.Render(data.WornSlot);
+            _accessory.Render(data.AccessorySlot);
         }
 
         public void Render(LivingEntityData data) => Render((HeroEntityData)data);

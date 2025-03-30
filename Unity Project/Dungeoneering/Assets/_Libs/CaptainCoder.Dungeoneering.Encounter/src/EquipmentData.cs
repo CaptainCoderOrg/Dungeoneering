@@ -1,5 +1,3 @@
-using System.IO;
-
 using NaughtyAttributes;
 
 #if UNITY_EDITOR

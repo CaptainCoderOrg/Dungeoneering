@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             for (int ix = 0; ix < _backpack.Length; ix++)
             {
-                _backpack[ix].Render(data.Inventory.Count > ix ? data.Inventory[ix] : null);
+                _backpack[ix].Render(data.BackpackReferences[ix]);
             }
         }
 

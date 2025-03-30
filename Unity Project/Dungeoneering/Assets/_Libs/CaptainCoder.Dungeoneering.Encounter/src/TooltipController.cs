@@ -28,7 +28,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private readonly Vector3[] _corners = { default, default, default, default };
         public IEnumerator Show()
         {
-            yield return null; 
+            yield return null;
             // We must wait one frame for any visual changes to take place then
             // we calculate if we are on the screen and adjust accordingly
             RectTransform rect = (RectTransform)transform;
