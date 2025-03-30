@@ -1,3 +1,5 @@
+using System;
+
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -18,7 +20,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _die = value;
                 _image.sprite = value.Sprite;
                 _image.color = value.UIAlbedo;
+                _image.enabled = true;
             }
+        }
+
+        internal void Hide()
+        {
+            _image.enabled = false;
         }
 
         void Awake()

@@ -15,6 +15,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public WornEquipmentData WornArmor { get; set; }
         [field: SerializeField] public AccessoryEquipmentData Accessory { get; set; }
         [field: SerializeField] public List<EquipmentData> Inventory { get; private set; }
+        [field: SerializeField] public List<DieData> MeleeSkillDice { get; set; }
+        [field: SerializeField] public List<DieData> RangeSkillDice { get; set; }
+        [field: SerializeField] public List<DieData> MagicSkillDice { get; set; }
         private BackpackSlotReference[] _backpackReferences;
         public BackpackSlotReference[] BackpackReferences => _backpackReferences ??= new BackpackSlotReference[] { new(this, 0), new(this, 1), new(this, 2), new(this, 3) };
         private LeftHandSlotReference _leftHandSlot;

@@ -20,4 +20,4 @@ MonoBehaviour:
   <SpeedBonus>k__BackingField: 0
   <StaminaBonus>k__BackingField: 0
   <Hands>k__BackingField: 2
-  <Attack>k__BackingField: {fileID: 11400000, guid: c215af986ec541943a878a6dd029148d, type: 2}
+  <Attack>k__BackingField: {fileID: 11400000, guid: e49e3d2e658c01348846073462c1dcc0, type: 2}

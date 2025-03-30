@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
   m_Name: Vlad Runehand
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Vlad
+  <Name>k__BackingField: Vlad Runehand
   <Portrait>k__BackingField: {fileID: 21300000, guid: a5b1ddb442265e94eb12fcedd69bca51, type: 3}
   <BaseHealth>k__BackingField: 8
   <Wounds>k__BackingField: 0
@@ -32,3 +32,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
+  <MeleeSkillDice>k__BackingField:
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  <RangeSkillDice>k__BackingField: []
+  <MagicSkillDice>k__BackingField:
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}

@@ -32,3 +32,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
+  <MeleeSkillDice>k__BackingField:
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  <RangeSkillDice>k__BackingField:
+  - {fileID: 11400000, guid: b03ce4f193623d04283e21d3c8b1db9c, type: 2}
+  <MagicSkillDice>k__BackingField: []
