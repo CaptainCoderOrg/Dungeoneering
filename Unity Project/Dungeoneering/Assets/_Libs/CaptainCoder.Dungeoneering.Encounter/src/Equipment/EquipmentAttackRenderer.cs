@@ -17,11 +17,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _attackInfoRenderer.Render(held.Attack);
                 _layoutElement.ignoreLayout = false;
                 _canvasGroup.alpha = 1;
+                _canvasGroup.blocksRaycasts = true;
             }
             else
             {
                 _layoutElement.ignoreLayout = true;
                 _canvasGroup.alpha = 0;
+                _canvasGroup.blocksRaycasts = false;
             }
         }
     }

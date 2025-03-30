@@ -8,16 +8,24 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public sealed class EquipmentSlotRenderer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public sealed class EquipmentSlotRenderer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
     {
         [AssertIsSet][SerializeField] private Image _image;
         [AssertIsSet][SerializeField] private SimpleTooltip _simpleTooltip;
         public EquipmentSlotReference EquipmentSlotReference { get; private set; }
         private Image _dragging;
+        private EquipmentInfoPanel _equipmentInfoPanel;
+
+        void Awake()
+        {
+            _equipmentInfoPanel = FindFirstObjectByType<EquipmentInfoPanel>();
+            Debug.Assert(_equipmentInfoPanel != null, $"Could not find {nameof(EquipmentInfoPanel)}", this);
+        }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (EquipmentSlotReference.Data == null) { return; }
+            _equipmentInfoPanel.Hide();
             _dragging = Instantiate(_image, GetComponentsInParent<Canvas>().Last().transform);
             _dragging.raycastTarget = false;
             Color color = _dragging.color;
@@ -44,8 +52,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 if (result.gameObject.TryGetComponent<EquipmentSlotDropZone>(out var dropZone))
                 {
-                    dropZone.SlotRenderer.EquipmentSlotReference.TrySwapEquipment(EquipmentSlotReference, out string message);
-                    Debug.Log(message);
+                    dropZone.SlotRenderer.EquipmentSlotReference.TrySwapEquipment(EquipmentSlotReference, out string _);
+                    // Debug.Log(message, this);
                 }
             }
         }
@@ -68,6 +76,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
             EquipmentSlotReference = slot;
             EquipmentSlotReference.OnDataChanged += Redraw;
             Redraw();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            _equipmentInfoPanel.Toggle(EquipmentSlotReference, transform.position);
         }
     }
 
