@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/Encounter.unity
+    guid: 1acbfc65f0ffac64dabe9cd8cf2f3bcb
+  - enabled: 1
     path: Assets/_Project/Scenes/DungeonEditor.unity
     guid: 921b2f2465f1d0141ac5b372e46b271e
   - enabled: 1

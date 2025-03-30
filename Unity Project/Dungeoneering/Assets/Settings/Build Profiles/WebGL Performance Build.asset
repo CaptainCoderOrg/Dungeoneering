@@ -21,6 +21,8 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
+    m_path: Assets/_Project/Scenes/Encounter.unity
+  - m_enabled: 1
     m_path: Assets/_Project/Scenes/DungeonEditor.unity
   - m_enabled: 0
     m_path: Assets/_Tests/Test Scenes/Dungeon Selector Test.unity
