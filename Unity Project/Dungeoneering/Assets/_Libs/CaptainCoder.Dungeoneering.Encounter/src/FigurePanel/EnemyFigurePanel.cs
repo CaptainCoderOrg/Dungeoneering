@@ -11,6 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EnemyFigurePanel : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private LayoutElement _layoutElement;
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
@@ -19,8 +20,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         void Awake()
         {
-            _canvasGroup.alpha = 0;
-            _canvasGroup.blocksRaycasts = false;
+            Hide();
             FindAllRenderers();
         }
 
@@ -50,6 +50,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _canvasGroup.alpha = 0;
             _canvasGroup.blocksRaycasts = false;
+            _layoutElement.ignoreLayout = true;
         }
 
         public IEnumerator Show()
@@ -58,6 +59,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _rebuilder.ForceRebuild();
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
+            _layoutElement.ignoreLayout = false;
         }
     }
 }

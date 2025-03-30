@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
+  m_Name: Vlad Runehand
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Vlad
+  <Portrait>k__BackingField: {fileID: 21300000, guid: a5b1ddb442265e94eb12fcedd69bca51, type: 3}
+  <BaseHealth>k__BackingField: 8
+  <Wounds>k__BackingField: 0
+  <Speed>k__BackingField: 4
+  <Armor>k__BackingField: 1
+  <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
+  <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
+  <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
+  <BaseStamina>k__BackingField: 6
+  <Exertion>k__BackingField: 0
+  <LeftHand>k__BackingField: {fileID: 11400000, guid: 387dd2e57087810468a2384ef8cbbe90, type: 2}
+  <RightHand>k__BackingField: {fileID: 0}
+  <WornArmor>k__BackingField: {fileID: 11400000, guid: 070ebd9bebcef8f44bc3801c48e58538, type: 2}
+  <Accessory>k__BackingField: {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
+  <Inventory>k__BackingField:
+  - {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
+  - {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
+  - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
+  - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}

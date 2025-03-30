@@ -89,6 +89,9 @@ GameObject:
   - component: {fileID: 9197683928218813677}
   - component: {fileID: 7363617063048731981}
   - component: {fileID: 3683599748779935446}
+  - component: {fileID: 2246128744643838807}
+  - component: {fileID: 7258624234954115050}
+  - component: {fileID: 6952755835001734443}
   m_Layer: 0
   m_Name: Hero Figure Info Panel
   m_TagString: Untagged
@@ -136,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5e5272d29d1554fabe47b899e4df45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layoutElement: {fileID: 6952755835001734443}
   _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
   _canvasGroup: {fileID: 9197683928218813677}
   _rebuilder: {fileID: 5700688046619367775}
@@ -191,6 +195,66 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2246128744643838807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062980251527119971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &7258624234954115050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062980251527119971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
+--- !u!114 &6952755835001734443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062980251527119971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &1064615655101284969
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +463,7 @@ GameObject:
   - component: {fileID: 442838319759124671}
   - component: {fileID: 5217425235894957922}
   - component: {fileID: 5700688046619367775}
+  - component: {fileID: 1659445358055558705}
   m_Layer: 0
   m_Name: Panel Sizer
   m_TagString: Untagged
@@ -425,8 +490,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 10, y: 10}
-  m_SizeDelta: {x: 320, y: 300}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &5217425235894957922
 MonoBehaviour:
@@ -466,6 +531,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5680ade8abb92c742b9fe93f60701716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1659445358055558705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763966326852617328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 320
+  m_PreferredHeight: 300
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &2485275674502049569
 GameObject:
   m_ObjectHideFlags: 0

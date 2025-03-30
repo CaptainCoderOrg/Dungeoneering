@@ -1107,6 +1107,7 @@ GameObject:
   - component: {fileID: 4697996104052014827}
   - component: {fileID: 7391697298739030987}
   - component: {fileID: 1948527277252495579}
+  - component: {fileID: 3938333808634634263}
   m_Layer: 0
   m_Name: Enemy Figure Info Panel
   m_TagString: Untagged
@@ -1154,6 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5e5272d29d1554fabe47b899e4df45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layoutElement: {fileID: 3938333808634634263}
   _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
   _canvasGroup: {fileID: 4697996104052014827}
   _rebuilder: {fileID: 4728563851175913264}
@@ -1209,6 +1211,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3938333808634634263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796601850171508013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &4010669116452483636
 GameObject:
   m_ObjectHideFlags: 0

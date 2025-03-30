@@ -13,14 +13,9 @@ MonoBehaviour:
   m_Name: Sprite Merger
   m_EditorClassIdentifier: 
   SpriteSheets:
-  - {fileID: 0}
-  - {fileID: 2800000, guid: 746aa32794e5a49428eea9b5d2c35f2f, type: 3}
-  - {fileID: 2800000, guid: 363f4726289e87b45a639d9470570c2d, type: 3}
-  - {fileID: 2800000, guid: 44dd994caea97ed4faac443b8d4bf5eb, type: 3}
-  - {fileID: 2800000, guid: dc4bdc322d5ca914dae0f784ce19cc43, type: 3}
-  - {fileID: 2800000, guid: 127d0b6990173f84583ee8644b40fae8, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2800000, guid: f0846c73faf542547847e3cb098aa455, type: 3}
+  - {fileID: 2800000, guid: 3ed8337d371687a4e9d6853ed6bd0da3, type: 3}
+  - {fileID: 2800000, guid: 0a1b1adff18152345be3202f2733f20d, type: 3}
+  - {fileID: 2800000, guid: 7e11f9e25de97d14490c414e1966cf87, type: 3}
+  - {fileID: 2800000, guid: d3daf3f97dcfc504b90bb33255a69a7f, type: 3}
+  - {fileID: 2800000, guid: 177c52b8444a5824cb10ba5312f65a44, type: 3}

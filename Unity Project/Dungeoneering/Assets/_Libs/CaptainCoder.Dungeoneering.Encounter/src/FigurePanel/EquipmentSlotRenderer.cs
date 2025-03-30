@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using CaptainCoder.Unity.Assertions;
 
@@ -17,7 +18,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (EquipmentSlotReference.Data == null) { return; }
-            _dragging = Instantiate(_image, GetComponentInParent<Canvas>().transform);
+            _dragging = Instantiate(_image, GetComponentsInParent<Canvas>().Last().transform);
             _dragging.raycastTarget = false;
             Color color = _dragging.color;
             color.a = 0.75f;

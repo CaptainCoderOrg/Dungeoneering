@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
+  m_Name: Bailar (Hero Entity Data)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Vlad
+  <Portrait>k__BackingField: {fileID: 21300000, guid: 60eb1e66118ba2942bfc880f7e596352, type: 3}
+  <BaseHealth>k__BackingField: 8
+  <Wounds>k__BackingField: 0
+  <Speed>k__BackingField: 4
+  <Armor>k__BackingField: 1
+  <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
+  <AttackAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
+  <IdleAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
+  <BaseStamina>k__BackingField: 3
+  <Exertion>k__BackingField: 0
+  <LeftHand>k__BackingField: {fileID: 0}
+  <RightHand>k__BackingField: {fileID: 0}
+  <WornArmor>k__BackingField: {fileID: 0}
+  <Accessory>k__BackingField: {fileID: 0}
+  <Inventory>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9163f5f800004464fbafd1bedfd74723, type: 3}
+  m_Name: Bailar Character (Animation)
+  m_EditorClassIdentifier: 
+  Name: Character Idle
+  SpriteSheet: {fileID: 11400000, guid: da4b4ead71827844e82c6914a0399a80, type: 2}
+  Frames: 0e0000000f000000100000001100000012000000130000001300000013000000120000001100000014000000140000001400000014000000
+  FramesPerSecond: 4
+  Loops: 1
+  NextAnimation: {fileID: 0}
+  StartIx: 14
+  EndIx: 15

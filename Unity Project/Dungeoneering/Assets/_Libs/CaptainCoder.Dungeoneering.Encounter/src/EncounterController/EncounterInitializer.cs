@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private EncounterFigureController _enemyFigurePrefab;
         [AssertIsSet][SerializeField] private Transform _enemyFigureParent;
         [AssertIsSet][field: SerializeField] private EnemyFigurePanel _enemyFigurePanel;
-        [AssertIsSet][field: SerializeField] private EnemyFigurePanel _heroFigurePanel;
+        [AssertIsSet][field: SerializeField] private EnemyFigurePanel[] _heroFigurePanels;
 
         public void Init(EncounterData encounterData)
         {
@@ -29,8 +29,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.OnSelected.AddListener(_enemyFigurePanel.Render);
             }
 
-            foreach (HeroFigure h in encounterData.HeroFigures)
+            for (int ix = 0; ix < encounterData.HeroFigures.Count; ix++)
             {
+                HeroFigure h = encounterData.HeroFigures[ix];
                 if (State.Figures.ContainsKey(h.Position))
                 {
                     Debug.Log($"Illegal configuration, multiple figures in {h.Position}");
@@ -39,7 +40,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.Create(h.HeroEntity, h.Position);
 
                 State.Figures[h.Position] = controller;
-                controller.OnSelected.AddListener(_heroFigurePanel.Render);
+                controller.OnSelected.AddListener(_heroFigurePanels[ix].Render);
             }
         }
     }
