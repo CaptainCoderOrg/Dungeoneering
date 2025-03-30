@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
   m_Name: Bailar (Hero Entity Data)
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Bailar
+  <Name>k__BackingField: Bailar the Wise
   <Portrait>k__BackingField: {fileID: 21300000, guid: 60eb1e66118ba2942bfc880f7e596352, type: 3}
   <BaseHealth>k__BackingField: 8
   <Wounds>k__BackingField: 0
-  <Speed>k__BackingField: 4
-  <Armor>k__BackingField: 1
+  <Speed>k__BackingField: 3
+  <Armor>k__BackingField: 0
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
-  <BaseStamina>k__BackingField: 3
+  <BaseStamina>k__BackingField: 4
   <Exertion>k__BackingField: 0
-  <LeftHand>k__BackingField: {fileID: 11400000, guid: 387dd2e57087810468a2384ef8cbbe90, type: 2}
+  <LeftHand>k__BackingField: {fileID: 11400000, guid: 15cc947609fc41342ad2ddff3155cdfd, type: 2}
   <RightHand>k__BackingField: {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
   <WornArmor>k__BackingField: {fileID: 0}
   <Accessory>k__BackingField: {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   <Inventory>k__BackingField:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 061830f8bd4d8754eb6207025ffa744c, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}

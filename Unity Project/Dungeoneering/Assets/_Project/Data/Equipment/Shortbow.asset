@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7622b905e598a8740ac682815641fbf9, type: 3}
-  m_Name: Battle Axe
+  m_Name: Shortbow
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Battle Axe
-  <Description>k__BackingField: A massive two handed axe
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 31e3874b210183f46b40fc1769971397, type: 3}
+  <Name>k__BackingField: Shortbow
+  <Description>k__BackingField: A simple bow
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 05a65b488bc5be747a1859dffec9d941, type: 3}
   <Value>k__BackingField: 100
   <ArmorBonus>k__BackingField: 0
   <SpeedBonus>k__BackingField: 0
   <StaminaBonus>k__BackingField: 0
   <IsTwoHanded>k__BackingField: 1
-  <Attack>k__BackingField: {fileID: 11400000, guid: e49e3d2e658c01348846073462c1dcc0, type: 2}
+  <Attack>k__BackingField: {fileID: 11400000, guid: 60aadbae52ad3f44f87f9bd89ef84995, type: 2}

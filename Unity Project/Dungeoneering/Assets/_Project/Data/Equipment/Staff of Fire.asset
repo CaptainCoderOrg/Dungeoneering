@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7622b905e598a8740ac682815641fbf9, type: 3}
-  m_Name: Battle Axe
+  m_Name: Staff of Fire
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Battle Axe
-  <Description>k__BackingField: A massive two handed axe
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 31e3874b210183f46b40fc1769971397, type: 3}
-  <Value>k__BackingField: 100
+  <Name>k__BackingField: Staff of Fire
+  <Description>k__BackingField: A magic staff that summons fire
+  <Sprite>k__BackingField: {fileID: 21300000, guid: d5e2a50062df1f045919f94723e23514, type: 3}
+  <Value>k__BackingField: 250
   <ArmorBonus>k__BackingField: 0
   <SpeedBonus>k__BackingField: 0
   <StaminaBonus>k__BackingField: 0
   <IsTwoHanded>k__BackingField: 1
-  <Attack>k__BackingField: {fileID: 11400000, guid: e49e3d2e658c01348846073462c1dcc0, type: 2}
+  <Attack>k__BackingField: {fileID: 11400000, guid: a3d24ecfe2f7bc343beb5c3cd20d3368, type: 2}

@@ -58,13 +58,13 @@ public sealed record class LeftHandSlotReference(HeroEntityData Hero) : Equipmen
         get => Hero.LeftHand;
         set
         {
-            if (Data is HeldEquipmentData previous && previous.Hands == 2)
+            if (Data is HeldEquipmentData previous && previous.IsTwoHanded)
             {
                 Hero.RightHandSlot.SetTwoHanded(null);
             }
             HeldEquipmentData data = (HeldEquipmentData)value;
             Hero.LeftHand = data;
-            if (data != null && data.Hands == 2)
+            if (data != null && data.IsTwoHanded)
             {
                 Hero.RightHandSlot.SetTwoHanded(data);
             }
@@ -84,7 +84,7 @@ public sealed record class LeftHandSlotReference(HeroEntityData Hero) : Equipmen
             result = "Not a held item";
             return false;
         }
-        if (heldEquipmentData.Hands == 2 && Hero.RightHand != null)
+        if (heldEquipmentData.IsTwoHanded && Hero.RightHand != null)
         {
             result = "Requires two hands";
             return false;
@@ -106,13 +106,13 @@ public sealed record class RightHandSlotReference(HeroEntityData Hero) : Equipme
         get => Hero.RightHand;
         set
         {
-            if (Data is HeldEquipmentData previous && previous.Hands == 2)
+            if (Data is HeldEquipmentData previous && previous.IsTwoHanded)
             {
                 Hero.LeftHandSlot.SetTwoHanded(null);
             }
             HeldEquipmentData data = (HeldEquipmentData)value;
             Hero.RightHand = data;
-            if (data != null && data.Hands == 2)
+            if (data != null && data.IsTwoHanded)
             {
                 Hero.LeftHandSlot.SetTwoHanded(data);
             }
@@ -132,7 +132,7 @@ public sealed record class RightHandSlotReference(HeroEntityData Hero) : Equipme
             result = "Not a held item";
             return false;
         }
-        if (heldEquipmentData.Hands == 2 && Hero.LeftHand != null)
+        if (heldEquipmentData.IsTwoHanded && Hero.LeftHand != null)
         {
             result = "Requires two hands";
             return false;

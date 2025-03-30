@@ -13,8 +13,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _label.text = data switch
             {
-                HeldEquipmentData held when held.Hands == 1 => "Held",
-                HeldEquipmentData held when held.Hands == 2 => "Held\nTwo-Handed",
+                HeldEquipmentData held when held.IsTwoHanded => "Held\nTwo-Handed",
+                HeldEquipmentData => "Held",
                 WornEquipmentData => "Armor",
                 AccessoryEquipmentData => "Accessory",
                 _ => "Item"

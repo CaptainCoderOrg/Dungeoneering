@@ -29,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void ShowAbove(RectTransform parent)
         {
             transform.position = parent.position;
+            ((RectTransform)transform).EnsureOnScreen();
             Show();
         }
 

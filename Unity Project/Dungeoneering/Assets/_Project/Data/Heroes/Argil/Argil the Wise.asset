@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
   m_Name: Argil the Wise
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Argil the Wise
+  <Name>k__BackingField: Argil the Swift
   <Portrait>k__BackingField: {fileID: 21300000, guid: c38c033bc81f0be4bb1f1934706e94f0, type: 3}
-  <BaseHealth>k__BackingField: 16
+  <BaseHealth>k__BackingField: 12
   <Wounds>k__BackingField: 0
-  <Speed>k__BackingField: 3
-  <Armor>k__BackingField: 2
+  <Speed>k__BackingField: 4
+  <Armor>k__BackingField: 1
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
-  <BaseStamina>k__BackingField: 3
+  <BaseStamina>k__BackingField: 4
   <Exertion>k__BackingField: 0
-  <LeftHand>k__BackingField: {fileID: 11400000, guid: 387dd2e57087810468a2384ef8cbbe90, type: 2}
-  <RightHand>k__BackingField: {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
+  <LeftHand>k__BackingField: {fileID: 0}
+  <RightHand>k__BackingField: {fileID: 0}
   <WornArmor>k__BackingField: {fileID: 11400000, guid: 070ebd9bebcef8f44bc3801c48e58538, type: 2}
   <Accessory>k__BackingField: {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   <Inventory>k__BackingField:
-  - {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 81ba2e047495d0e4f8c9d3ee93e366f8, type: 2}
+  - {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
-  <MeleeSkillDice>k__BackingField:
-  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
-  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  <MeleeSkillDice>k__BackingField: []
   <RangeSkillDice>k__BackingField:
   - {fileID: 11400000, guid: b03ce4f193623d04283e21d3c8b1db9c, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
+  - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
   <MagicSkillDice>k__BackingField: []
