@@ -27,4 +27,5 @@ MonoBehaviour:
   <RightHand>k__BackingField: {fileID: 0}
   <WornArmor>k__BackingField: {fileID: 0}
   <Accessory>k__BackingField: {fileID: 0}
-  <Inventory>k__BackingField: []
+  <Inventory>k__BackingField:
+  - {fileID: 0}

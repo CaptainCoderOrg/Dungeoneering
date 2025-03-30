@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -12,8 +13,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public int Stamina => BaseStamina - Exertion;
         [field: SerializeField] public HeldEquipmentData LeftHand { get; private set; }
         [field: SerializeField] public HeldEquipmentData RightHand { get; private set; }
-        [field: SerializeField] public ArmorData WornArmor { get; private set; }
-        [field: SerializeField] public EquipmentData Accessory { get; private set; }
+        [field: SerializeField] public WornEquipmentData WornArmor { get; private set; }
+        [field: SerializeField] public AccessoryEquipmentData Accessory { get; private set; }
         [field: SerializeField] public List<EquipmentData> Inventory { get; private set; }
     }
 }

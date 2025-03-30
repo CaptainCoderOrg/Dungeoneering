@@ -13,6 +13,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     {
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
+        [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
 
@@ -27,6 +28,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private void FindAllRenderers()
         {
             _figureRenderers ??= GetComponentsInChildren<IFigureRenderer>(true).Where(c => (Object)c != this).ToArray();
+            _entityRenderers ??= GetComponentsInChildren<ILivingEntityRenderer>(true).Where(c => (Object)c != this).ToArray();
         }
         [Button]
         public void Render() => Render(_figureData);
@@ -36,6 +38,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
             foreach (IFigureRenderer renderer in _figureRenderers)
             {
                 renderer.Render(data);
+            }
+            foreach (ILivingEntityRenderer renderer in _entityRenderers)
+            {
+                renderer.Render(data.EntityData);
             }
             StartCoroutine(Show());
         }

@@ -9,6 +9,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     {
         [AssertIsSet][SerializeField] private TooltipElementData _tooltipElement;
         [TextArea(3, 5)][SerializeField] private string _tooltip;
+        public string Tooltip { get => _tooltip; set => _tooltip = value; }
 
         void Awake()
         {

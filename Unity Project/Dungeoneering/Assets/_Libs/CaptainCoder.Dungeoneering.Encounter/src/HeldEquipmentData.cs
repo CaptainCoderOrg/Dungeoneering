@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    [CreateAssetMenu(menuName = "DC/Weapon Data")]
+    [CreateAssetMenu(menuName = "DC/Equipment/Held Equipment Data")]
     public sealed class HeldEquipmentData : EquipmentData
     {
         [field: SerializeField] public int Hands { get; private set; }
