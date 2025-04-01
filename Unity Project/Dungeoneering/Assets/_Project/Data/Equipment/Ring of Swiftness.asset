@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62d92c92494d7b040b6bb46fbf8b784e, type: 3}
-  m_Name: Ring of Protection
+  m_Name: Ring of Swiftness
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Ring of Protection
-  <Description>k__BackingField: A small ring that grants 1 armor
+  <Name>k__BackingField: Ring of Swiftness
+  <Description>k__BackingField: A small ring that increase the wearers speed by 2
   <Sprite>k__BackingField: {fileID: 21300000, guid: c89efc066845139498bbab8fb019862f, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:
-  - TraitType: {fileID: 11400000, guid: b3ae518fd7594eb4da74229b28f08a35, type: 2}
-    Value: 1
-    Source: Ring of Protection
+  - TraitType: {fileID: 11400000, guid: 1393999b02328a34980db8fccc7464fe, type: 2}
+    Value: 2
+    Source: Ring of Swiftness

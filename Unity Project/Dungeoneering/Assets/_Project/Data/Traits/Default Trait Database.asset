@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b81196a7dc384428aad8dd7e3d93c1, type: 3}
+  m_Name: Default Trait Database
+  m_EditorClassIdentifier: 
+  <StaminaTrait>k__BackingField: {fileID: 11400000, guid: 415032e52697c8c45960139df73d4aef, type: 2}
+  <HealthTrait>k__BackingField: {fileID: 11400000, guid: d451602fc10531d4a99ee49d8ff1a408, type: 2}
+  <SpeedTrait>k__BackingField: {fileID: 11400000, guid: 1393999b02328a34980db8fccc7464fe, type: 2}
+  <ArmorTrait>k__BackingField: {fileID: 11400000, guid: b3ae518fd7594eb4da74229b28f08a35, type: 2}

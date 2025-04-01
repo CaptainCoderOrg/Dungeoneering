@@ -12,14 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983a1d16753cfe439faeedb0aaa5c78, type: 3}
   m_Name: Trenloe the Strong
   m_EditorClassIdentifier: 
+  <TraitDatabase>k__BackingField: {fileID: 11400000, guid: 4c0b7d2687886aa4cbcc722656a2a10d, type: 2}
   <Name>k__BackingField: Trenloe the Strong
   <Portrait>k__BackingField: {fileID: 0}
   <BaseHealth>k__BackingField: 0
   <Wounds>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Armor>k__BackingField: 0
-  <Abilities>k__BackingField: []
-  <Attacks>k__BackingField: []
   <SpawnAnimation>k__BackingField: {fileID: 0}
   <AttackAnimation>k__BackingField: {fileID: 0}
   <IdleAnimation>k__BackingField: {fileID: 0}
+  <BaseStamina>k__BackingField: 0
+  <Exertion>k__BackingField: 0
+  <LeftHand>k__BackingField: {fileID: 0}
+  <RightHand>k__BackingField: {fileID: 0}
+  <WornArmor>k__BackingField: {fileID: 0}
+  <Accessory>k__BackingField: {fileID: 0}
+  <Inventory>k__BackingField: []
+  <MeleeSkillDice>k__BackingField: []
+  <RangeSkillDice>k__BackingField: []
+  <MagicSkillDice>k__BackingField: []

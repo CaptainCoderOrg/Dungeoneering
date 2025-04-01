@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab2e91af0bc19c34f9f8445696e58c8e, type: 3}
-  m_Name: Leather Armor
+  m_Name: Chain Armor
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Leather Armor
-  <Description>k__BackingField: Light armor that provides 2 armor
-  <Sprite>k__BackingField: {fileID: 21300000, guid: bdf29fdfa4810f749b4ae1cc80d5ae36, type: 3}
+  <Name>k__BackingField: Chain Armor
+  <Description>k__BackingField: Heavy armor providing 3 armor but reducing the wearers
+    speed by 1.
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 451971b0b4001d243a97054eafe62bfc, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:
   - TraitType: {fileID: 11400000, guid: b3ae518fd7594eb4da74229b28f08a35, type: 2}
-    Value: 2
-    Source: Leather Armor
+    Value: 3
+    Source: Chain Armor
+  - TraitType: {fileID: 11400000, guid: 1393999b02328a34980db8fccc7464fe, type: 2}
+    Value: -1
+    Source: Chain Armor

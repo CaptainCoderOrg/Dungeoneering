@@ -1,3 +1,5 @@
+using System.Linq;
+
 using NaughtyAttributes;
 
 #if UNITY_EDITOR
@@ -15,9 +17,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public string Description { get; private set; }
         [field: SerializeField] public Sprite Sprite { get; private set; }
         [field: SerializeField] public int Value { get; private set; }
-        [field: SerializeField] public int ArmorBonus { get; private set; }
-        [field: SerializeField] public int SpeedBonus { get; private set; }
-        [field: SerializeField] public int StaminaBonus { get; private set; }
+        [field: SerializeField] public TraitEffect[] WornTraitEffects { get; private set; }
 
         public static void CopyTo(EquipmentData from, EquipmentData to)
         {
@@ -25,12 +25,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
             to.Description = from.Description;
             to.Sprite = from.Sprite;
             to.Value = from.Value;
-            to.ArmorBonus = from.ArmorBonus;
-            to.SpeedBonus = from.SpeedBonus;
-            to.StaminaBonus = from.StaminaBonus;
+            to.WornTraitEffects = from.WornTraitEffects.ToArray();
         }
 
 #if UNITY_EDITOR
+        void OnValidate()
+        {
+            for (int ix = 0; ix < WornTraitEffects.Length; ix++)
+            {
+                WornTraitEffects[ix].Source = Name;
+            }
+        }
+
         [Button]
         public void CopyAsHeldEquipment()
         {
