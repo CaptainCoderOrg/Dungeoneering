@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Staff of Fire - Burn (Attack)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Burn
-  <AttackType>k__BackingField: {fileID: 11400000, guid: 4e433a5879078cc47994f25e4b151f7a, type: 2}
+  <AttackType>k__BackingField: {fileID: 11400000, guid: 2df3029b40cb3df498624dc184ae9d79, type: 2}
   <PowerDice>k__BackingField:
   - {fileID: 11400000, guid: 6ff66278692d20f4bbab8724307dc9a8, type: 2}
