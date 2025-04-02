@@ -19,18 +19,21 @@ MonoBehaviour:
   <Wounds>k__BackingField: 0
   <BaseSpeed>k__BackingField: 4
   <BaseArmor>k__BackingField: 0
+  <Effects>k__BackingField:
+  - {fileID: 11400000, guid: 359736f1273d2eb40a02b1a243906e17, type: 2}
+  - {fileID: 11400000, guid: f27e10be29f66784f81be13dba35346e, type: 2}
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
-  <BaseStamina>k__BackingField: 5
+  <BaseStamina>k__BackingField: 3
   <Exertion>k__BackingField: 0
   _leftHand: {fileID: 0}
   _rightHand: {fileID: 0}
   _wornArmor: {fileID: 11400000, guid: 070ebd9bebcef8f44bc3801c48e58538, type: 2}
-  _accessory: {fileID: 11400000, guid: fb49bbf683db59441962c15f4497f0c8, type: 2}
+  _accessory: {fileID: 0}
   <Inventory>k__BackingField:
   - {fileID: 11400000, guid: 061830f8bd4d8754eb6207025ffa744c, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: fb49bbf683db59441962c15f4497f0c8, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
   <MeleeSkillDice>k__BackingField: []

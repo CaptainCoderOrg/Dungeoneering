@@ -15,24 +15,27 @@ MonoBehaviour:
   <TraitDatabase>k__BackingField: {fileID: 11400000, guid: 4c0b7d2687886aa4cbcc722656a2a10d, type: 2}
   <Name>k__BackingField: Vlad Runehand
   <Portrait>k__BackingField: {fileID: 21300000, guid: a5b1ddb442265e94eb12fcedd69bca51, type: 3}
-  <BaseHealth>k__BackingField: 16
+  <BaseHealth>k__BackingField: 8
   <Wounds>k__BackingField: 0
   <BaseSpeed>k__BackingField: 4
-  <BaseArmor>k__BackingField: 2
+  <BaseArmor>k__BackingField: 0
+  <Effects>k__BackingField:
+  - {fileID: 11400000, guid: 85d35bae4900f3249aab4be7512e7444, type: 2}
+  - {fileID: 11400000, guid: 7c906c062cbae7c468cb8b1d4c762214, type: 2}
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
   <BaseStamina>k__BackingField: 3
-  <Exertion>k__BackingField: 5
+  <Exertion>k__BackingField: 0
   _leftHand: {fileID: 0}
   _rightHand: {fileID: 11400000, guid: debdbf392a3987e4bb41c62e1a6b1f57, type: 2}
   _wornArmor: {fileID: 11400000, guid: 21a3804b2ed493d4a9667071b885f2ec, type: 2}
-  _accessory: {fileID: 11400000, guid: 4107218502d2da146ba0b00d92717fdc, type: 2}
+  _accessory: {fileID: 11400000, guid: bf2fb0c2ad0b2e544b1aacc17cf6dc45, type: 2}
   <Inventory>k__BackingField:
   - {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4107218502d2da146ba0b00d92717fdc, type: 2}
   <MeleeSkillDice>k__BackingField:
   - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
   - {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}

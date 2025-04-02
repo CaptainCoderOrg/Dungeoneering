@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Chain Armor
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Chain Armor
-  <Description>k__BackingField: Heavy armor providing 3 armor but reducing the wearers
+  <Description>k__BackingField: Heavy armor providing 2 armor but reducing the wearers
     speed by 1.
   <Sprite>k__BackingField: {fileID: 21300000, guid: 451971b0b4001d243a97054eafe62bfc, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:
   - TraitType: {fileID: 11400000, guid: b3ae518fd7594eb4da74229b28f08a35, type: 2}
-    Value: 3
+    Value: 2
     Source: Chain Armor
   - TraitType: {fileID: 11400000, guid: 1393999b02328a34980db8fccc7464fe, type: 2}
     Value: -1

@@ -16,3 +16,7 @@ MonoBehaviour:
   <HealthTrait>k__BackingField: {fileID: 11400000, guid: d451602fc10531d4a99ee49d8ff1a408, type: 2}
   <SpeedTrait>k__BackingField: {fileID: 11400000, guid: 1393999b02328a34980db8fccc7464fe, type: 2}
   <ArmorTrait>k__BackingField: {fileID: 11400000, guid: b3ae518fd7594eb4da74229b28f08a35, type: 2}
+  <AimTrait>k__BackingField: {fileID: 11400000, guid: 8eaed8e31941368448a24d338f1c41d0, type: 2}
+  <MeleeDamageTrait>k__BackingField: {fileID: 11400000, guid: 4d18553513a186645ad0e31ffa500433, type: 2}
+  <RangedDamageTrait>k__BackingField: {fileID: 11400000, guid: 6c92e6cd3cfeca24aa101eef4088f20b, type: 2}
+  <MagicDamageTrait>k__BackingField: {fileID: 11400000, guid: b48c29f0bee59b54a8648c6c603480d0, type: 2}

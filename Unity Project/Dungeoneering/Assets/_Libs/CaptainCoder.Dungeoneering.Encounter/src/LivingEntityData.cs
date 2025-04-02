@@ -20,12 +20,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public int Speed => BaseSpeed + TraitEffects().Where(te => te.TraitType == TraitDatabase.SpeedTrait).Sum(te => te.Value);
         [field: SerializeField] public int BaseArmor { get; private set; }
         public int Armor => BaseArmor + TraitEffects().Where(te => te.TraitType == TraitDatabase.ArmorTrait).Sum(te => te.Value);
+        [field: SerializeField] public List<EffectData> Effects { get; private set; } = new();
         [field: SerializeField] public AnimationData SpawnAnimation { get; private set; }
         [field: SerializeField] public AnimationData AttackAnimation { get; private set; }
         [field: SerializeField] public AnimationData IdleAnimation { get; private set; }
         public event System.Action<LivingEntityChangeEvent> OnChanged;
         protected void Notify(LivingEntityChangeEvent @event) => OnChanged?.Invoke(@event);
-        public virtual IEnumerable<TraitEffect> TraitEffects() => Enumerable.Empty<TraitEffect>();
+        public virtual IEnumerable<TraitEffect> TraitEffects() => Effects.SelectMany(e => e.TraitEffects);
 
         protected static void CopyTo(LivingEntityData original, LivingEntityData copy)
         {

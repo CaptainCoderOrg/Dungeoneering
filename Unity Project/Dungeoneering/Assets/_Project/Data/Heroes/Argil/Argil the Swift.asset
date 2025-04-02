@@ -15,10 +15,13 @@ MonoBehaviour:
   <TraitDatabase>k__BackingField: {fileID: 11400000, guid: 4c0b7d2687886aa4cbcc722656a2a10d, type: 2}
   <Name>k__BackingField: Argil the Swift
   <Portrait>k__BackingField: {fileID: 21300000, guid: c38c033bc81f0be4bb1f1934706e94f0, type: 3}
-  <BaseHealth>k__BackingField: 12
+  <BaseHealth>k__BackingField: 8
   <Wounds>k__BackingField: 0
-  <BaseSpeed>k__BackingField: 5
-  <BaseArmor>k__BackingField: 1
+  <BaseSpeed>k__BackingField: 4
+  <BaseArmor>k__BackingField: 0
+  <Effects>k__BackingField:
+  - {fileID: 11400000, guid: 2c4e807652d5ac74cb653276b92565a2, type: 2}
+  - {fileID: 11400000, guid: 29c5fdb2df13e1c45aed2ce424da38ae, type: 2}
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
@@ -27,11 +30,11 @@ MonoBehaviour:
   _leftHand: {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
   _rightHand: {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
   _wornArmor: {fileID: 11400000, guid: 593fce6b49fecfa43bd8d7547ba4b0b3, type: 2}
-  _accessory: {fileID: 11400000, guid: bf2fb0c2ad0b2e544b1aacc17cf6dc45, type: 2}
+  _accessory: {fileID: 0}
   <Inventory>k__BackingField:
   - {fileID: 11400000, guid: 81ba2e047495d0e4f8c9d3ee93e366f8, type: 2}
-  - {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   - {fileID: 0}
+  - {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
   <MeleeSkillDice>k__BackingField: []
   <RangeSkillDice>k__BackingField:

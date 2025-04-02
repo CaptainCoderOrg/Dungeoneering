@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c0d687a3a4f564faa00223968c8ff1, type: 3}
+  m_Name: Unbreakable
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Unbreakable
+  _description: '<u>Unbreakable</u>
+
+    +4 Health'
+  <Icon>k__BackingField: {fileID: 21300000, guid: 191016e2318843744b7cc035b0e3d34d, type: 3}
+  <TraitEffects>k__BackingField:
+  - TraitType: {fileID: 11400000, guid: d451602fc10531d4a99ee49d8ff1a408, type: 2}
+    Value: 4
+    Source: Unbreakable
