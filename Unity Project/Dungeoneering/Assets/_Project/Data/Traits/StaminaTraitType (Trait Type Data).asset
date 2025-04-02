@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: StaminaTraitType (Trait Type Data)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Stamina
+  <IconName>k__BackingField: stamina

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: HealthTraitType (Trait Type Data)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Health
+  <IconName>k__BackingField: health

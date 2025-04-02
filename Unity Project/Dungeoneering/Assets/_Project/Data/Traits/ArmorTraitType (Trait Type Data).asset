@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ArmorTraitType (Trait Type Data)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Armor
+  <IconName>k__BackingField: armor

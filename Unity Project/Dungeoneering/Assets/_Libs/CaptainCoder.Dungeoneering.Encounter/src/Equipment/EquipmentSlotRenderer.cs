@@ -67,7 +67,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             _image.enabled = true;
             _image.sprite = EquipmentSlotReference.Data.Sprite;
-            _simpleTooltip.Tooltip = $"<b><u>{EquipmentSlotReference.Data.Name}</u></b>\nClick for Details";
+            _simpleTooltip.Tooltip = EquipmentSlotReference.Data.TooltipText;
         }
 
         public void Render(EquipmentSlotReference slot)

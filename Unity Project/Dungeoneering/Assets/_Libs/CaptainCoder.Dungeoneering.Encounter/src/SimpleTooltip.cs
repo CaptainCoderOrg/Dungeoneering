@@ -1,5 +1,3 @@
-using System;
-
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;

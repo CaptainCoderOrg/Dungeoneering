@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SpeedTraitType (Trait Type Data)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Speed
+  <IconName>k__BackingField: speed
