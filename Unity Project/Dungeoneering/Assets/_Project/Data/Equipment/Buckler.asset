@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buckler
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Buckler
-  <Description>k__BackingField: '<b>Spend 1 Stamina</b>: Prevent 1 <b>Melee</b> damage.'
+  _description: Lightweight buckler perfect for parrying.
   <Sprite>k__BackingField: {fileID: 21300000, guid: 6ea18556d25e1db44a6ffd8531c076d8, type: 3}
   <Value>k__BackingField: 50
   <WornTraitEffects>k__BackingField: []

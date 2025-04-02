@@ -33,8 +33,8 @@ MonoBehaviour:
   _accessory: {fileID: 11400000, guid: 37fb4deed852bbe4bb7461864078727b, type: 2}
   <Inventory>k__BackingField:
   - {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 81ba2e047495d0e4f8c9d3ee93e366f8, type: 2}
+  - {fileID: 11400000, guid: 15cc947609fc41342ad2ddff3155cdfd, type: 2}
   - {fileID: 0}
   <MeleeSkillDice>k__BackingField: []
   <RangeSkillDice>k__BackingField:

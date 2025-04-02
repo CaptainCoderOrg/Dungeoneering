@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Short Sword
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Shortsword
-  <Description>k__BackingField: A small one handed sword
+  _description: Compact blade ideal for swift, one-handed strikes.
   <Sprite>k__BackingField: {fileID: 21300000, guid: 12d10e3c2b6822c49a36895617062a5f, type: 3}
-  <Value>k__BackingField: 100
-  <ArmorBonus>k__BackingField: 0
-  <SpeedBonus>k__BackingField: 0
-  <StaminaBonus>k__BackingField: 0
-  <Hands>k__BackingField: 1
+  <Value>k__BackingField: 50
+  <WornTraitEffects>k__BackingField: []
+  <IsTwoHanded>k__BackingField: 0
   <Attack>k__BackingField: {fileID: 11400000, guid: b0944b0bb916afb4cba807ab04fd4bf0, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ring of Protection
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Ring of Protection
-  <Description>k__BackingField: A small ring that grants 1 armor
+  _description: A faintly humming ring that radiates protective magic.
   <Sprite>k__BackingField: {fileID: 21300000, guid: 467565dfb0931e042a517182eef04d78, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:

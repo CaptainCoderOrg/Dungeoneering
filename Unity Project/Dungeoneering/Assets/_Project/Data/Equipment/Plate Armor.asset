@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Plate Armor
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Plate Armor
-  <Description>k__BackingField: Heavy armor providing 3<sprite name="armor"/> but
-    reduces 2<sprite name="speed"/>.
+  _description: Heavy plate that turns blows, but hinders agility.
   <Sprite>k__BackingField: {fileID: 21300000, guid: f6ccde69d20e72e43b742035300af010, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ring of Swiftness
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Ring of Swiftness
-  <Description>k__BackingField: A small ring that increase the wearers speed by 2
+  _description: Its green glow never dims.
   <Sprite>k__BackingField: {fileID: 21300000, guid: 4529d1c36107d794eb3f2c00acce5e00, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:

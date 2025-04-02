@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ring of Vitality
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Ring of Vitality
-  <Description>k__BackingField: A small ring that provides +4 health
+  _description: Faintly glowing ring that fortifies the body.
   <Sprite>k__BackingField: {fileID: 21300000, guid: c89efc066845139498bbab8fb019862f, type: 3}
   <Value>k__BackingField: 100
   <WornTraitEffects>k__BackingField:
