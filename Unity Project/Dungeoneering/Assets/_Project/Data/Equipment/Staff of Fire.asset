@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Staff of Fire
   _description: Flames dance along this scorched, rune-carved staff.
   <Sprite>k__BackingField: {fileID: 21300000, guid: d5e2a50062df1f045919f94723e23514, type: 3}
-  <Value>k__BackingField: 250
+  <Value>k__BackingField: 150
   <WornTraitEffects>k__BackingField: []
   <IsTwoHanded>k__BackingField: 1
   <Attack>k__BackingField: {fileID: 11400000, guid: a3d24ecfe2f7bc343beb5c3cd20d3368, type: 2}

@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private EncounterFigureController _enemyFigurePrefab;
         [AssertIsSet][SerializeField] private Transform _enemyFigureParent;
         [AssertIsSet][field: SerializeField] private EnemyFigurePanel _enemyFigurePanel;
-        [AssertIsSet][field: SerializeField] private EnemyFigurePanel[] _heroFigurePanels;
+        [AssertIsSet][field: SerializeField] private HeroFigurePanel[] _heroFigurePanels;
 
         public void Init(EncounterData encounterData)
         {
@@ -29,7 +29,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.OnSelected.AddListener(_enemyFigurePanel.Toggle);
             }
 
-            for (int ix = 0; ix < encounterData.HeroFigures.Count; ix++)
+            int ix = 0;
+            for (; ix < encounterData.HeroFigures.Count; ix++)
             {
                 HeroFigure h = encounterData.HeroFigures[ix];
                 if (State.Figures.ContainsKey(h.Position))
@@ -40,7 +41,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.Create(h.HeroEntity, h.Position);
 
                 State.Figures[h.Position] = controller;
-                controller.OnSelected.AddListener(_heroFigurePanels[ix].Toggle);
+                HeroFigurePanel panel = _heroFigurePanels[ix];
+                panel.FigureData = controller.Figure;
+                controller.OnSelected.AddListener(_ => panel.Toggle());
+            }
+            for (; ix < _heroFigurePanels.Length; ix++)
+            {
+                _heroFigurePanels[ix].gameObject.SetActive(false);
             }
         }
     }
