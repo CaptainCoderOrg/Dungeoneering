@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
     [CreateAssetMenu(menuName = "DC/Hero Entity Data")]
-    public class HeroEntityData : LivingEntityData
+    public sealed class HeroEntityData : LivingEntityData
     {
         [field: SerializeField] public int BaseStamina { get; private set; }
         [field: SerializeField] public int Exertion { get; private set; }

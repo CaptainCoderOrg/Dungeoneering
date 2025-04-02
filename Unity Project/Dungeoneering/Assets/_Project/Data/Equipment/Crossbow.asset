@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7622b905e598a8740ac682815641fbf9, type: 3}
-  m_Name: Buckler
+  m_Name: Crossbow
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Buckler
-  <Description>k__BackingField: '<b>Spend 1 Stamina</b>: Prevent 1 <b>Melee</b> damage.'
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 6ea18556d25e1db44a6ffd8531c076d8, type: 3}
-  <Value>k__BackingField: 50
+  <Name>k__BackingField: Light Crossbow
+  <Description>k__BackingField: A simple one handed crossbow
+  <Sprite>k__BackingField: {fileID: 21300000, guid: d113cfb27e75f444a88f10f029b060a6, type: 3}
+  <Value>k__BackingField: 150
   <WornTraitEffects>k__BackingField: []
   <IsTwoHanded>k__BackingField: 0
-  <Attack>k__BackingField: {fileID: 0}
+  <Attack>k__BackingField: {fileID: 11400000, guid: ec8cee82ec5128c419cf50b780bc22ee, type: 2}

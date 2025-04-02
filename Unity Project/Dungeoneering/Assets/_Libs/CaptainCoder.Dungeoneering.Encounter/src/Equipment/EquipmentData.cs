@@ -31,6 +31,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 #if UNITY_EDITOR
         void OnValidate()
         {
+            if (WornTraitEffects == null) { return; }
             for (int ix = 0; ix < WornTraitEffects.Length; ix++)
             {
                 WornTraitEffects[ix].Source = Name;
