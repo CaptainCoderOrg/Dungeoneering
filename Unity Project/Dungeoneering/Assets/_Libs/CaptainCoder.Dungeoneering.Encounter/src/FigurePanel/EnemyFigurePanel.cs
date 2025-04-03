@@ -18,6 +18,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
 
+        public FigureData FigureData
+        {
+            get => _figureData;
+            set
+            {
+                _figureData = value;
+                FindAllRenderers();
+                UpdateRenderers();
+            }
+        }
+
         void Awake()
         {
             Hide();
@@ -30,27 +41,30 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _figureRenderers ??= GetComponentsInChildren<IFigureRenderer>(true).Where(c => (Object)c != this).ToArray();
             _entityRenderers ??= GetComponentsInChildren<ILivingEntityRenderer>(true).Where(c => (Object)c != this).ToArray();
         }
-        [Button]
-        public void Render() => Render(_figureData);
-        public void Render(FigureData data)
+        public void UpdateRenderers()
         {
-            _figureData = data;
             foreach (IFigureRenderer renderer in _figureRenderers)
             {
-                renderer.Render(data);
+                renderer.Render(_figureData);
             }
             foreach (ILivingEntityRenderer renderer in _entityRenderers)
             {
-                renderer.Render(data.EntityData);
+                renderer.Render(_figureData.EntityData);
             }
-            StartCoroutine(Show());
+            StartCoroutine(RebuildAtEndOfFrame());
         }
 
-        public void Toggle(FigureData data)
+        public void Render(FigureData figureData)
         {
-            if (_figureData != data) { Render(data); }
-            else if (_canvasGroup.alpha == 0) { Render(data); }
-            else { Hide(); }
+            FigureData = figureData;
+            Show();
+        }
+
+        public void Show()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.blocksRaycasts = true;
+            _layoutElement.ignoreLayout = false;
         }
 
         public void Hide()
@@ -60,13 +74,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _layoutElement.ignoreLayout = true;
         }
 
-        public IEnumerator Show()
+        public IEnumerator RebuildAtEndOfFrame()
         {
             yield return null;
             _rebuilder.ForceRebuild();
-            _canvasGroup.alpha = 1;
-            _canvasGroup.blocksRaycasts = true;
-            _layoutElement.ignoreLayout = false;
         }
     }
 }

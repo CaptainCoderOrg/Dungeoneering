@@ -26,8 +26,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 controller.Figure = FigureData.CopyEnemyAndCreate(f.EnemyEntityTemplate, f.Position);
 
                 State.Figures[f.Position] = controller;
-                controller.OnSelected.AddListener(_enemyFigurePanel.Render);
-                controller.OnSelected.AddListener(_ => _controller.Select(controller));
+                controller.OnSelected.AddListener(() => _enemyFigurePanel.Render(controller.Figure));
+                controller.OnDeselected.AddListener(_enemyFigurePanel.Hide);
+                controller.OnClick.AddListener(_controller.Select);
             }
 
             int ix = 0;
@@ -44,19 +45,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 State.Figures[h.Position] = controller;
                 HeroFigurePanel panel = _heroFigurePanels[ix];
                 panel.FigureController = controller;
-                controller.OnSelected.AddListener(_ => Toggle(controller, panel));
-                controller.OnSelected.AddListener(_ => _controller.Select(controller));
+                controller.OnClick.AddListener(_controller.Select);
+                controller.OnSelected.AddListener(panel.Select);
+                controller.OnDeselected.AddListener(panel.Deselect);
             }
             for (; ix < _heroFigurePanels.Length; ix++)
             {
                 _heroFigurePanels[ix].gameObject.SetActive(false);
             }
-        }
-
-        private void Toggle(EncounterFigureController controller, HeroFigurePanel panel)
-        {
-            if (_controller.Selected == controller) { panel.Toggle(); }
-            else { panel.Show(); }
         }
     }
 }

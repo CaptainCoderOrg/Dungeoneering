@@ -1,5 +1,3 @@
-using System;
-
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -24,11 +22,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
         }
         [AssertIsSet][SerializeField] private QuadAnimator _animator;
         private EncounterController _controller;
-        [field: SerializeField] public UnityEvent<FigureData> OnSelected { get; private set; }
+        [field: SerializeField] public UnityEvent<EncounterFigureController> OnClick { get; private set; }
+        [field: SerializeField] public UnityEvent OnSelected { get; private set; }
+        [field: SerializeField] public UnityEvent OnDeselected { get; private set; }
+
+        public void Click() => OnClick.Invoke(this);
 
         public void Select()
         {
-            OnSelected.Invoke(_figureData);
+            OnSelected.Invoke();
             _isSelected = true;
         }
 
@@ -78,8 +80,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _baseMeshRenderer.material.color = c;
         }
 
-        internal void Deselect() => _isSelected = false;
-
-        internal void Selected() => _isSelected = true;
+        internal void Deselect()
+        {
+            _isSelected = false;
+            OnDeselected.Invoke();
+        }
     }
 }

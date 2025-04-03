@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4670353101374593058}
   - component: {fileID: 8238973790768764515}
   - component: {fileID: 3584433070541937915}
+  - component: {fileID: 4912982139189387253}
+  - component: {fileID: 4313093456930402555}
   m_Layer: 0
   m_Name: Buttons
   m_TagString: Untagged
@@ -36,8 +38,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 0, y: 32}
+  m_AnchoredPosition: {x: 36.5, y: -16}
+  m_SizeDelta: {x: 73, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8238973790768764515
 MonoBehaviour:
@@ -77,8 +79,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!225 &4912982139189387253
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137667779988259575}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4313093456930402555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137667779988259575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb0e71868a11dc40a02cedf328dad00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &668785625876372307
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,12 +245,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0fadac474e5864d81b962eae31ea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedColor: {r: 1, g: 0.9033382, b: 0.4764151, a: 1}
+  _defaultColor: {r: 1, g: 0.9529412, b: 0.74509805, a: 1}
+  _backgroundColor: {fileID: 4738568371463202533}
   _encounterController: {fileID: 0}
   _layoutElement: {fileID: 6433191380394268743}
   _figureController: {fileID: 0}
   _figureData: {fileID: 11400000, guid: 16a79e7a007dca34788c1d0f003ce0d6, type: 2}
   _canvasGroup: {fileID: 8514341307643834380}
   _rebuilder: {fileID: 5700688046619367775}
+  _actionButtons: {fileID: 4313093456930402555}
 --- !u!225 &9197683928218813677
 CanvasGroup:
   m_ObjectHideFlags: 0

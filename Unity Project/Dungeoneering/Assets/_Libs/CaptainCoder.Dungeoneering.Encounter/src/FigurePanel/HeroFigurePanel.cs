@@ -9,6 +9,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class HeroFigurePanel : MonoBehaviour
     {
+        [SerializeField] private Color _selectedColor;
+        [SerializeField] private Color _defaultColor;
+        [SerializeField] private Image _backgroundColor;
         [SerializeField] private EncounterController _encounterController;
         [AssertIsSet][SerializeField] private LayoutElement _layoutElement;
         [SerializeField] private EncounterFigureController _figureController;
@@ -17,6 +20,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
+        [AssertIsSet][SerializeField] private CanvasGroupHider _actionButtons;
 
         public EncounterFigureController FigureController
         {
@@ -31,6 +35,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         void Awake()
         {
+            _actionButtons.Hide();
             _encounterController = GetComponentInParent<EncounterController>();
             Debug.Assert(_encounterController != null, "Could not find Encounter Controller", this);
             Hide();
@@ -56,6 +61,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 renderer.Render(_figureData.EntityData);
             }
             StartCoroutine(RebuildAtEndOfFrame());
+        }
+
+        public void Select()
+        {
+            _backgroundColor.color = _selectedColor;
+            _actionButtons.Show();
+        }
+        public void Deselect()
+        {
+            _backgroundColor.color = _defaultColor;
+            _actionButtons.Hide();
         }
 
         public void Show()

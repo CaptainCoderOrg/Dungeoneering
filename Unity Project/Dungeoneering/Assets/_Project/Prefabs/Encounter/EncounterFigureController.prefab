@@ -106,7 +106,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6166829868250832788}
         m_TargetAssemblyTypeName: CaptainCoder.Dungeoneering.Encounter.EncounterFigureController,
           DungeonCrawler.Encounter
-        m_MethodName: Select
+        m_MethodName: Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -168,7 +168,13 @@ MonoBehaviour:
   _figureQuad: {fileID: 2582274736861848836}
   _figureData: {fileID: 11400000, guid: bfa5762bc217377429471ce78052d437, type: 2}
   _animator: {fileID: 713691489963012972}
+  <OnClick>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   <OnSelected>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDeselected>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &713691489963012972

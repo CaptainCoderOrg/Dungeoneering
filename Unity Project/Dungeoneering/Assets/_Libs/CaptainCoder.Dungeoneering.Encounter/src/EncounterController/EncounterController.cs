@@ -20,7 +20,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private DungeonTile _tilePrefab;
         [SerializeField] private EncounterFigureController _selected;
         public EncounterFigureController Selected => _selected;
-
         private EncounterState _state;
         public EncounterState State { get => _state ??= new(); }
 
@@ -28,7 +27,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _selected?.Deselect();
             _selected = selected;
-            _selected?.Selected();
+            _selected?.Select();
             EncounterCamera.PanTo(_selected);
         }
 
