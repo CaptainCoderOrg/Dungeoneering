@@ -421,6 +421,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: atlas-icons_13
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec132eb8b10cbfa40a8a942bd6078b50
+      internalID: -942551176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -440,6 +462,7 @@ TextureImporter:
       atlas-icons_10: -1089176048
       atlas-icons_11: 1779691692
       atlas-icons_12: -20374960
+      atlas-icons_13: -942551176
       atlas-icons_2: 2128984309
       atlas-icons_3: 1911308298
       atlas-icons_4: -758210620

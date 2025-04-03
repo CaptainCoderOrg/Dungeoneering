@@ -76,8 +76,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
             _layoutElement.ignoreLayout = false;
-            _actionButtons.MinimizeButton.Show();
-            _actionButtons.ExpandButton.Hide();
+            _actionButtons.Show();
         }
 
         public void Toggle()
@@ -91,8 +90,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.alpha = 0;
             _canvasGroup.blocksRaycasts = false;
             _layoutElement.ignoreLayout = true;
-            _actionButtons.MinimizeButton.Hide();
-            _actionButtons.ExpandButton.Show();
+            _actionButtons.Hide();
         }
 
         public IEnumerator RebuildAtEndOfFrame()
