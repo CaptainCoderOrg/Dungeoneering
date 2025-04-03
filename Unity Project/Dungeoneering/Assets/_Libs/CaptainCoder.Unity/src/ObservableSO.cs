@@ -29,19 +29,17 @@ public class ObservableSO : ScriptableObject
     {
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += OnPlayModeStateChange;
-#else
+#endif
         OnBeforeEnterPlayMode();
         OnAfterEnterPlayMode();
-#endif
     }
 
     private void OnDisable()
     {
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
-#else
-        OnExitPlayMode();
 #endif
+        OnExitPlayMode();
     }
 
 #if UNITY_EDITOR

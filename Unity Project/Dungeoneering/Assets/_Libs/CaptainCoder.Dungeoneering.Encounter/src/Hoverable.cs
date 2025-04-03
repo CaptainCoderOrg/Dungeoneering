@@ -19,7 +19,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("Pointer Entered");
             StartCoroutine(PointerEntered());
         }
 
