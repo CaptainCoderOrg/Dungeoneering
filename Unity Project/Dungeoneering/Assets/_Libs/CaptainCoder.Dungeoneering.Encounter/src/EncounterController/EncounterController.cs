@@ -28,6 +28,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _selected?.Deselect();
             _selected = selected;
+            _selected?.Selected();
             EncounterCamera.PanTo(_selected);
         }
 

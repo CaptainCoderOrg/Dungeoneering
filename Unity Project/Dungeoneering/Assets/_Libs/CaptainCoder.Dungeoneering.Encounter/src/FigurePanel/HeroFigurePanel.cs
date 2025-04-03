@@ -9,28 +9,38 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class HeroFigurePanel : MonoBehaviour
     {
+        [SerializeField] private EncounterController _encounterController;
         [AssertIsSet][SerializeField] private LayoutElement _layoutElement;
+        [SerializeField] private EncounterFigureController _figureController;
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
 
-        public FigureData FigureData
+        public EncounterFigureController FigureController
         {
-            get => _figureData;
+            get => _figureController;
             set
             {
-                _figureData = value;
+                _figureController = value;
+                _figureData = _figureController.Figure;
                 UpdateRenderers();
             }
         }
 
         void Awake()
         {
+            _encounterController = GetComponentInParent<EncounterController>();
+            Debug.Assert(_encounterController != null, "Could not find Encounter Controller", this);
             Hide();
             _figureRenderers ??= GetComponentsInChildren<IFigureRenderer>(true).Where(c => (Object)c != this).ToArray();
             _entityRenderers ??= GetComponentsInChildren<ILivingEntityRenderer>(true).Where(c => (Object)c != this).ToArray();
+        }
+
+        public void SelectFigure()
+        {
+            _encounterController.Select(_figureController);
         }
 
         private void UpdateRenderers()

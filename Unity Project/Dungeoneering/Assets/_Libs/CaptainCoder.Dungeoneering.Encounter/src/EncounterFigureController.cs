@@ -79,5 +79,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         }
 
         internal void Deselect() => _isSelected = false;
+
+        internal void Selected() => _isSelected = true;
     }
 }

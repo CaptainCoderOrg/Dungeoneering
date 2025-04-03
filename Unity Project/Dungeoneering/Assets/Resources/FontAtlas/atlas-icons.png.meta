@@ -333,6 +333,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: atlas-icons_9
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 630e4c6cf7b1a954fbcd0e44f11260a1
+      internalID: 1710078805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: atlas-icons_10
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5b5a389efc57343b7f8fa244a0fa36
+      internalID: -1089176048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -349,6 +393,7 @@ TextureImporter:
     nameFileIdTable:
       atlas-icons_0: -138248448
       atlas-icons_1: -107443293
+      atlas-icons_10: -1089176048
       atlas-icons_2: 2128984309
       atlas-icons_3: 1911308298
       atlas-icons_4: -758210620
@@ -356,6 +401,7 @@ TextureImporter:
       atlas-icons_6: -2040212635
       atlas-icons_7: -847683159
       atlas-icons_8: 1004036206
+      atlas-icons_9: 1710078805
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

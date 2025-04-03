@@ -43,7 +43,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
                 State.Figures[h.Position] = controller;
                 HeroFigurePanel panel = _heroFigurePanels[ix];
-                panel.FigureData = controller.Figure;
+                panel.FigureController = controller;
                 controller.OnSelected.AddListener(_ => Toggle(controller, panel));
                 controller.OnSelected.AddListener(_ => _controller.Select(controller));
             }
