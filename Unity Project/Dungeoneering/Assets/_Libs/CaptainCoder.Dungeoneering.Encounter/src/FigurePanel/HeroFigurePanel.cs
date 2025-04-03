@@ -20,7 +20,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
-        [AssertIsSet][SerializeField] private CanvasGroupHider _actionButtons;
+        [AssertIsSet][SerializeField] private HeroActionButtons _actionButtons;
 
         public EncounterFigureController FigureController
         {
@@ -35,7 +35,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         void Awake()
         {
-            _actionButtons.Hide();
             _encounterController = GetComponentInParent<EncounterController>();
             Debug.Assert(_encounterController != null, "Could not find Encounter Controller", this);
             Hide();
@@ -66,12 +65,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void Select()
         {
             _backgroundColor.color = _selectedColor;
-            _actionButtons.Show();
         }
         public void Deselect()
         {
             _backgroundColor.color = _defaultColor;
-            _actionButtons.Hide();
         }
 
         public void Show()
@@ -79,6 +76,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
             _layoutElement.ignoreLayout = false;
+            _actionButtons.MinimizeButton.Show();
+            _actionButtons.ExpandButton.Hide();
         }
 
         public void Toggle()
@@ -92,6 +91,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.alpha = 0;
             _canvasGroup.blocksRaycasts = false;
             _layoutElement.ignoreLayout = true;
+            _actionButtons.MinimizeButton.Hide();
+            _actionButtons.ExpandButton.Show();
         }
 
         public IEnumerator RebuildAtEndOfFrame()
