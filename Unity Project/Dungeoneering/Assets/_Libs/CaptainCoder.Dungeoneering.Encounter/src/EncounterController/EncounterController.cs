@@ -18,9 +18,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private readonly DungeonBuilder _builder = new();
         [AssertIsSet][SerializeField] private Transform _tileContainer;
         [AssertIsSet][SerializeField] private DungeonTile _tilePrefab;
+        [SerializeField] private EncounterFigureController _selected;
+        public EncounterFigureController Selected => _selected;
 
         private EncounterState _state;
         public EncounterState State { get => _state ??= new(); }
+
+        public void Select(EncounterFigureController selected)
+        {
+            _selected?.Deselect();
+            _selected = selected;
+            EncounterCamera.PanTo(_selected);
+        }
 
         void Awake()
         {

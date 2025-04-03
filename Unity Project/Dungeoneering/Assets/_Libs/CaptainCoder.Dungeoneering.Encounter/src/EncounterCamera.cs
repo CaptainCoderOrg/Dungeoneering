@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using CaptainCoder.Unity.Assertions;
@@ -19,6 +20,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public float MinZoom { get; private set; } = 3;
         [field: SerializeField] public float MaxZoom { get; private set; } = 10;
         [field: SerializeField] public float PanSpeed { get; private set; } = 1f;
+        [field: SerializeField] public float PanTime { get; private set; } = .5f;
         private Coroutine _rotateCoroutine;
         private Coroutine _pitchCoroutine;
         private Coroutine _zoomCoroutine;
@@ -181,6 +183,27 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             transform.rotation = endQ;
             _onCameraRotate?.Invoke(_camera);
+        }
+
+        internal void PanTo(EncounterFigureController selected)
+        {
+            CancelCoroutine(_panCoroutine);
+            _panCoroutine = StartCoroutine(PanTo(transform.position, selected.transform.position, PanTime));
+        }
+
+        private IEnumerator PanTo(Vector3 start, Vector3 target, float duration)
+        {
+            target.y = start.y;
+            float elapsedTime = 0;
+            float percent = 0;
+            while (percent < 1)
+            {
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.Lerp(start, target, percent);
+                yield return null;
+                percent = elapsedTime / duration;
+            }
+            transform.position = target;
         }
     }
 }

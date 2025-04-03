@@ -1,3 +1,5 @@
+using System;
+
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -6,6 +8,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterFigureController : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private MeshRenderer _baseMeshRenderer;
+        [AssertIsSet][SerializeField] private float _flickerSpeed = 0.5f;
+        [SerializeField] private bool _isSelected = false;
         [AssertIsSet][SerializeField] private Transform _figureQuad;
         [SerializeField] private FigureData _figureData;
         public FigureData Figure
@@ -24,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void Select()
         {
             OnSelected.Invoke(_figureData);
+            _isSelected = true;
         }
 
         void Awake()
@@ -58,5 +64,20 @@ namespace CaptainCoder.Dungeoneering.Encounter
             position.y = 0.8f + (eulers.x * .01f);
             _figureQuad.localPosition = position;
         }
+
+        public void Update()
+        {
+            if (!_isSelected)
+            {
+                _baseMeshRenderer.enabled = false;
+                return;
+            }
+            _baseMeshRenderer.enabled = true;
+            Color c = _baseMeshRenderer.material.color;
+            c.a = Mathf.Abs(Mathf.Sin(Time.time * Mathf.PI * _flickerSpeed)) * 0.25f + 0.20f;
+            _baseMeshRenderer.material.color = c;
+        }
+
+        internal void Deselect() => _isSelected = false;
     }
 }
