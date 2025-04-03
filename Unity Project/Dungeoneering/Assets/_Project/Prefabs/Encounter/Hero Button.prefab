@@ -108,7 +108,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 6482821939845609907}
   _layoutElement: {fileID: 2898027751451597592}
+  _eventTrigger: {fileID: 2012871486777013240}
+  <Tooltip>k__BackingField: {fileID: 1108215705998665259}
   _isHiddenOnStart: 0
+  _enabled: 1
 --- !u!225 &6482821939845609907
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -4743,6 +4743,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Movement Button
       objectReference: {fileID: 0}
+    - target: {fileID: 600327956457271360, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
+      propertyPath: _enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600327956457271360, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
+      propertyPath: _isHiddenOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1108215705998665259, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
       propertyPath: _tooltip
       value: Move
@@ -6503,6 +6511,10 @@ PrefabInstance:
       value: Hide Character Sheet
       objectReference: {fileID: 0}
     - target: {fileID: 2012871486777013240, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012871486777013240, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -7245,6 +7257,10 @@ PrefabInstance:
     - target: {fileID: 350993909075801231, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
       propertyPath: m_Name
       value: Attack Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 600327956457271360, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
+      propertyPath: _enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1108215705998665259, guid: f6f588f8479630e4f92e76c60a9145e6, type: 3}
       propertyPath: _tooltip
