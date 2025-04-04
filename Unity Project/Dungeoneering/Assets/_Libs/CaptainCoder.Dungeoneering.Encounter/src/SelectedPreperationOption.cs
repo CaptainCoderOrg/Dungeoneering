@@ -12,7 +12,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     {
 
         [SerializeField] private PreperationData _preperationData;
-        const string DefaultTooltip = "<u>Preperation</u>\nSelect a preperation from the options below";
+        const string DefaultTooltip = "<u>Tactic</u>Click a tactic to select it";
         public PreperationData PreperationData
         {
             get => _preperationData;

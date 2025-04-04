@@ -9,6 +9,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class HeroFigurePanel : MonoBehaviour
     {
+        [AssertIsSet][field: SerializeField] public RectTransform TopLeftPivot { get; private set; }
         [SerializeField] private Color _selectedColor;
         [SerializeField] private Color _defaultColor;
         [SerializeField] private Image _backgroundColor;
@@ -21,6 +22,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
         [AssertIsSet][SerializeField] private HeroActionButtons _actionButtons;
+
+        public event System.Action<HeroFigurePanel> OnMoved;
 
         public EncounterFigureController FigureController
         {
@@ -62,6 +65,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
             StartCoroutine(RebuildAtEndOfFrame());
         }
 
+        public void TakeTurn()
+        {
+            _encounterController.TakeTurn(this);
+        }
+
         public void Select()
         {
             _backgroundColor.color = _selectedColor;
@@ -77,6 +85,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.blocksRaycasts = true;
             _layoutElement.ignoreLayout = false;
             _actionButtons.Show();
+            OnMoved?.Invoke(this);
         }
 
         public void Toggle()
@@ -91,12 +100,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.blocksRaycasts = false;
             _layoutElement.ignoreLayout = true;
             _actionButtons.Hide();
+            OnMoved?.Invoke(this);
         }
 
         public IEnumerator RebuildAtEndOfFrame()
         {
             yield return null;
             _rebuilder.ForceRebuild();
+            OnMoved?.Invoke(this);
         }
     }
 }
