@@ -8,13 +8,13 @@ using UnityEngine.UI;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public class PreperationMenuOption : MonoBehaviour, IPointerClickHandler
+    public class TacticOption : MonoBehaviour, IPointerClickHandler
     {
-        [AssertIsSet][field: SerializeField] public PreperationData PreperationData { get; private set; }
+        [AssertIsSet][field: SerializeField] public TacticData PreperationData { get; private set; }
         [AssertIsSet][SerializeField] private Image _icon;
         [AssertIsSet][SerializeField] private SimpleTooltip _tooltip;
         [AssertIsSet][SerializeField] private Image _background;
-        public event System.Action<PreperationData> OnSelectOption;
+        public event System.Action<TacticData> OnSelectOption;
 
         [Button]
         public void Awake()

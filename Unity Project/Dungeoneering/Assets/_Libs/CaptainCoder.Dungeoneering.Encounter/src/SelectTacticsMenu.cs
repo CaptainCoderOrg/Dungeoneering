@@ -6,12 +6,11 @@ using CaptainCoder.Unity.Assertions;
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public class PreperationMenu : MonoBehaviour
+    public class SelectTacticsMenu : MonoBehaviour
     {
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
-        [AssertIsSet][SerializeField] private SelectedPreperationOption[] _selectedOptions;
-        [AssertIsSet][SerializeField] private PreperationMenuOption[] _options;
-        // [field: SerializeField] public EncounterFigureController SelectedHeroFigure { get; private set; }
+        [AssertIsSet][SerializeField] private SelectedTactic[] _selectedOptions;
+        [AssertIsSet][SerializeField] private TacticOption[] _options;
         private HeroFigurePanel _attachedPanel;
 
         void Awake()
@@ -23,9 +22,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
         }
 
-        public void Select(PreperationData data)
+        public void Select(TacticData data)
         {
-            SelectedPreperationOption option = _selectedOptions.FirstOrDefault(o => o.PreperationData == null);
+            SelectedTactic option = _selectedOptions.FirstOrDefault(o => o.PreperationData == null);
             if (option != null)
             {
                 option.PreperationData = data;

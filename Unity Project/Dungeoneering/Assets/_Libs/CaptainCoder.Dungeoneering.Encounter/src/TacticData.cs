@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    [CreateAssetMenu(menuName = "DC/PreperationData")]
-    public class PreperationData : ObservableSO
+    [CreateAssetMenu(menuName = "DC/TacticData")]
+    public class TacticData : ObservableSO
     {
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public Color BackgroundAlbedo { get; private set; } = new Color(0, 0, 0, 0.5f);

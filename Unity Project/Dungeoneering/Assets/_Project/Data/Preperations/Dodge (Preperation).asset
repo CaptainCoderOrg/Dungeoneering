@@ -17,4 +17,4 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 1839679803, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: "At the start of the next round, if this figure is \nstill resting,
     they recover all of their stamina. \nIf this figure takes damage or makes an
-    attack, \nthe figure stops resting.\n\nEach figure may only have one status"
+    attack, \nthe figure stops resting.\n\n<b>Each figure may only have one status</b>"

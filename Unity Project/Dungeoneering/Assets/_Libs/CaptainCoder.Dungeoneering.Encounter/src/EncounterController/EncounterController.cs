@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterController : MonoBehaviour
     {
-        [AssertIsSet][SerializeField] private PreperationMenu _preperationMenu;
+        [AssertIsSet][SerializeField] private SelectTacticsMenu _preperationMenu;
         [AssertIsSet][SerializeField] private EncounterSettingsData _encounterSettingsData;
         [AssertIsSet][SerializeField] private EncounterInitializer _initializer;
         [AssertIsSet][field: SerializeField] public EncounterCamera EncounterCamera { get; private set; }

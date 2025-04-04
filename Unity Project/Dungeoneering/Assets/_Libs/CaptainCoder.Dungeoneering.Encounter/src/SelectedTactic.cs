@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
-    public class SelectedPreperationOption : MonoBehaviour, IPointerClickHandler
+    public class SelectedTactic : MonoBehaviour, IPointerClickHandler
     {
 
-        [SerializeField] private PreperationData _preperationData;
+        [SerializeField] private TacticData _preperationData;
         const string DefaultTooltip = "<u>Tactic</u>Click a tactic to select it";
-        public PreperationData PreperationData
+        public TacticData PreperationData
         {
             get => _preperationData;
             set

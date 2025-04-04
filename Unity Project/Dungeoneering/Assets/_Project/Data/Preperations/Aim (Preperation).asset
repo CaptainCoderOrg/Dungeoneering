@@ -16,4 +16,4 @@ MonoBehaviour:
   <BackgroundAlbedo>k__BackingField: {r: 0.5219412, g: 1, b: 0.495283, a: 0.5}
   <Sprite>k__BackingField: {fileID: -1692338697, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: "During this figures next attack, you may \nreroll any number of
-    dice once.\n\n<b>May not be used with other status effects</b>"
+    dice once.\n\n<b>Each figure may only have one status</b>"

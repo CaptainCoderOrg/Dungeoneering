@@ -16,5 +16,5 @@ MonoBehaviour:
   <BackgroundAlbedo>k__BackingField: {r: 0.5219412, g: 1, b: 0.495283, a: 0.5}
   <Sprite>k__BackingField: {fileID: -758210620, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: "When an enemy moves, you may interrupt that movement\nto make an
-    attack. This effect ends after that attack or at the \nstart of the next round.\n\nEach
-    figure may only have one status"
+    attack. This effect ends after that attack or at the \nstart of the next round.\n\n<b>Each
+    figure may only have one status</b>"
