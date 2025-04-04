@@ -39,6 +39,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
         }
 
+        internal void CancelWithoutNotify() => StopAllCoroutines();
+
         internal void Cancel()
         {
             StopAllCoroutines();

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8277974406064873423}
   - component: {fileID: 911038126116977442}
   - component: {fileID: 4566077585292037732}
+  - component: {fileID: 1448583158158163521}
   m_Layer: 0
-  m_Name: Action Option
+  m_Name: Preperation Menu Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,6 +76,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _tooltip: 
+--- !u!114 &1448583158158163521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097291048621039917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f0240ed4cacb0408e9438849865d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PreperationData>k__BackingField: {fileID: 11400000, guid: f648e597ac6d5854da0e878c3088c834, type: 2}
+  _icon: {fileID: 719836922115607054}
+  _tooltip: {fileID: 4566077585292037732}
+  _background: {fileID: 870476588792128051}
 --- !u!1 &4630036278262557914
 GameObject:
   m_ObjectHideFlags: 0

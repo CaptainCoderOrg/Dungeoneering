@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca65c2c8adb03674694cf8b30569422b, type: 3}
+  m_Name: Move (Preperation)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Move
+  <BorderColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <Sprite>k__BackingField: {fileID: -942551176, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
+  _description: 'This figure gains movement equal to their speed.
+
+    This may be
+    selected multiple times.'

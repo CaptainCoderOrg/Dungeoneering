@@ -21,8 +21,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _hoverable.OnHoverEnd.AddListener(HideHover);
         }
 
-        private void HideHover()
+        public void HideHover()
         {
+            _hoverable.CancelWithoutNotify();
             _tooltipElement.Tooltip.Hide();
         }
 

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca65c2c8adb03674694cf8b30569422b, type: 3}
+  m_Name: Aim (Preperation)
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: 'Status: Aim'
+  <BackgroundAlbedo>k__BackingField: {r: 0.5219412, g: 1, b: 0.495283, a: 0.5}
+  <Sprite>k__BackingField: {fileID: -1692338697, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
+  _description: "During this figures next attack, you may \nreroll any number of
+    dice once.\n\n<b>May not be used with other status effects</b>"
