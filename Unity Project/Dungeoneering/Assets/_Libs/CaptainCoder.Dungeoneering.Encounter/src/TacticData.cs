@@ -1,3 +1,9 @@
+using System;
+
+#if UNITY_EDITOR
+using System.Reflection;
+#endif
+
 using NaughtyAttributes;
 
 using UnityEngine;
@@ -11,6 +17,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public Color BackgroundAlbedo { get; private set; } = new Color(0, 0, 0, 0.5f);
         [field: ShowAssetPreview][field: SerializeField] public Sprite Sprite { get; private set; }
         [TextArea(3, 5)][SerializeField] private string _description;
+        [field: SerializeField][field: SerializeReference] public ITacticEffect Effect { get; private set; }
         public string Description => _description;
         private string _tooltip;
         public string Tooltip => _tooltip ??= $"<u>{Name}</u>\n{_description}";
@@ -25,7 +32,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _tooltip = null;
         }
-#endif
 
+        [SerializeField] private string _namespace = "CaptainCoder.Dungeoneering.Encounter";
+        [SerializeField] private string _addEffectClassName;
+        [Button]
+        public void SetEffectType()
+        {
+            Type t = Type.GetType($"{_namespace}.{_addEffectClassName}");
+            ConstructorInfo constructor = t.GetConstructors()[0];
+            Effect = (ITacticEffect)constructor.Invoke(default);
+        }
+#endif
     }
+
 }

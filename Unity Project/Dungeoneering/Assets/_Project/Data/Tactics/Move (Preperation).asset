@@ -13,9 +13,20 @@ MonoBehaviour:
   m_Name: Move (Preperation)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Move
-  <BorderColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <BackgroundAlbedo>k__BackingField: {r: 0, g: 0, b: 0, a: 0.5}
   <Sprite>k__BackingField: {fileID: -942551176, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: 'This figure gains movement equal to their speed.
 
     This may be
     selected multiple times.'
+  <Effect>k__BackingField:
+    rid: 2294994236587376721
+  _namespace: CaptainCoder.Dungeoneering.Encounter
+  _addEffectClassName: GainMovementTacticEffect
+  references:
+    version: 2
+    RefIds:
+    - rid: 2294994236587376721
+      type: {class: GainMovementTacticEffect, ns: CaptainCoder.Dungeoneering.Encounter, asm: DungeonCrawler.Encounter}
+      data:
+        Name: Gain Movement

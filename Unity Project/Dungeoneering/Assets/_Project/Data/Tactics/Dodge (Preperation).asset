@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca65c2c8adb03674694cf8b30569422b, type: 3}
-  m_Name: Rest (Preperation)
+  m_Name: Dodge (Preperation)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: 'Status: Dodge'
   <BackgroundAlbedo>k__BackingField: {r: 0.5219412, g: 1, b: 0.495283, a: 0.5}
-  <Sprite>k__BackingField: {fileID: 1689757341, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
+  <Sprite>k__BackingField: {fileID: 1839679803, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: 'Until the start of the next round, when an attack is
 
     made against
@@ -24,4 +24,18 @@ MonoBehaviour:
 
 
     <b>Each
-    figure may only have one status</b>'
+    figure may only have one status</b>
+
+'
+  <Effect>k__BackingField:
+    rid: 2294994236587376723
+  _namespace: CaptainCoder.Dungeoneering.Encounter
+  _addEffectClassName: SetStatusTacticEffect
+  references:
+    version: 2
+    RefIds:
+    - rid: 2294994236587376723
+      type: {class: SetStatusTacticEffect, ns: CaptainCoder.Dungeoneering.Encounter, asm: DungeonCrawler.Encounter}
+      data:
+        Name: Set Status
+        <Status>k__BackingField: {fileID: 11400000, guid: 107304f21bb6aab4ab37c4331e0477e5, type: 2}

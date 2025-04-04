@@ -18,3 +18,15 @@ MonoBehaviour:
   _description: "When an enemy moves, you may interrupt that movement\nto make an
     attack. This effect ends after that attack or at the \nstart of the next round.\n\n<b>Each
     figure may only have one status</b>"
+  <Effect>k__BackingField:
+    rid: 2294994236587376724
+  _namespace: CaptainCoder.Dungeoneering.Encounter
+  _addEffectClassName: SetStatusTacticEffect
+  references:
+    version: 2
+    RefIds:
+    - rid: 2294994236587376724
+      type: {class: SetStatusTacticEffect, ns: CaptainCoder.Dungeoneering.Encounter, asm: DungeonCrawler.Encounter}
+      data:
+        Name: Set Status
+        <Status>k__BackingField: {fileID: 11400000, guid: 70ccf10a2b6b2bf4bba1038c06609fca, type: 2}

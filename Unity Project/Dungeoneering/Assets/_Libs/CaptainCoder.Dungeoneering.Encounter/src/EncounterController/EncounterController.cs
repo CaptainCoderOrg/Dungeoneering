@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -93,10 +94,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
         }
 
-        internal void TakeTurn(HeroFigurePanel heroFigurePanel)
+        internal void SelectTactics(HeroFigurePanel heroFigurePanel)
         {
             Select(heroFigurePanel.FigureController);
             _preperationMenu.SelectAndShow(heroFigurePanel);
+        }
+
+        internal void BeginTurn(EncounterFigureController figureController, IEnumerable<TacticData> enumerable)
+        {
+            throw new NotImplementedException();
         }
     }
 }

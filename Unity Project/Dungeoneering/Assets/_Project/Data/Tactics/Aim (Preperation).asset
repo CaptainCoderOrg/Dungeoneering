@@ -17,3 +17,15 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: -1692338697, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: "During this figures next attack, you may \nreroll any number of
     dice once.\n\n<b>Each figure may only have one status</b>"
+  <Effect>k__BackingField:
+    rid: 2294994236587376722
+  _namespace: CaptainCoder.Dungeoneering.Encounter
+  _addEffectClassName: SetStatusTacticEffect
+  references:
+    version: 2
+    RefIds:
+    - rid: 2294994236587376722
+      type: {class: SetStatusTacticEffect, ns: CaptainCoder.Dungeoneering.Encounter, asm: DungeonCrawler.Encounter}
+      data:
+        Name: Set Status
+        <Status>k__BackingField: {fileID: 11400000, guid: 977fc0e078580d34383f613bbae818d8, type: 2}

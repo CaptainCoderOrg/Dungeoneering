@@ -45,6 +45,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _entityRenderers ??= GetComponentsInChildren<ILivingEntityRenderer>(true).Where(c => (Object)c != this).ToArray();
         }
 
+        void Start()
+        {
+            StartCoroutine(RebuildAtEndOfFrame());
+        }
+
         public void SelectFigure()
         {
             _encounterController.Select(_figureController);
@@ -67,7 +72,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void TakeTurn()
         {
-            _encounterController.TakeTurn(this);
+            _encounterController.SelectTactics(this);
         }
 
         public void Select()

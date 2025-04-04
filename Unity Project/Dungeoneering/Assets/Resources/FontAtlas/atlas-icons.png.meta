@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: atlas-icons_0
+      name: die-icon
       rect:
         serializedVersion: 2
         x: 0
@@ -158,7 +158,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_1
+      name: magic-icon
       rect:
         serializedVersion: 2
         x: 16
@@ -180,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_2
+      name: melee-icon
       rect:
         serializedVersion: 2
         x: 32
@@ -202,7 +202,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_3
+      name: range-icon
       rect:
         serializedVersion: 2
         x: 48
@@ -224,7 +224,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_4
+      name: armor-icon
       rect:
         serializedVersion: 2
         x: 64
@@ -246,7 +246,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_5
+      name: speed-icon
       rect:
         serializedVersion: 2
         x: 80
@@ -268,7 +268,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_6
+      name: stamina-icon
       rect:
         serializedVersion: 2
         x: 96
@@ -290,7 +290,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_7
+      name: health-icon
       rect:
         serializedVersion: 2
         x: 112
@@ -312,7 +312,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_8
+      name: coin-icon
       rect:
         serializedVersion: 2
         x: 128
@@ -334,7 +334,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_9
+      name: select-icon
       rect:
         serializedVersion: 2
         x: 144
@@ -356,7 +356,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_10
+      name: arrow-icon
       rect:
         serializedVersion: 2
         x: 160
@@ -378,7 +378,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_11
+      name: expand-icon
       rect:
         serializedVersion: 2
         x: 176
@@ -400,7 +400,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_12
+      name: minimize-icon
       rect:
         serializedVersion: 2
         x: 192
@@ -422,7 +422,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_13
+      name: move-icon
       rect:
         serializedVersion: 2
         x: 208
@@ -444,7 +444,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_14
+      name: aim-icon
       rect:
         serializedVersion: 2
         x: 224
@@ -466,7 +466,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_15
+      name: dodge-icon
       rect:
         serializedVersion: 2
         x: 240
@@ -488,7 +488,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: atlas-icons_16
+      name: rest-icon
       rect:
         serializedVersion: 2
         x: 0
@@ -496,7 +496,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -505,6 +505,50 @@ TextureImporter:
       bones: []
       spriteID: 48db31cf1af661740beea8870b921df5
       internalID: 1689757341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confirm-icon
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 343b81ff924a3804fa11225703abd757
+      internalID: 1471589045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cancel-icon
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee4a7ba432795cc44a98e0e4d28a334c
+      internalID: -2064945092
       vertices: []
       indices: 
       edges: []
@@ -523,23 +567,25 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      atlas-icons_0: -138248448
-      atlas-icons_1: -107443293
-      atlas-icons_10: -1089176048
-      atlas-icons_11: 1779691692
-      atlas-icons_12: -20374960
-      atlas-icons_13: -942551176
-      atlas-icons_14: -1692338697
-      atlas-icons_15: 1839679803
-      atlas-icons_16: 1689757341
-      atlas-icons_2: 2128984309
-      atlas-icons_3: 1911308298
-      atlas-icons_4: -758210620
-      atlas-icons_5: 2116316112
-      atlas-icons_6: -2040212635
-      atlas-icons_7: -847683159
-      atlas-icons_8: 1004036206
-      atlas-icons_9: 1710078805
+      aim-icon: -1692338697
+      armor-icon: -758210620
+      arrow-icon: -1089176048
+      cancel-icon: -2064945092
+      coin-icon: 1004036206
+      confirm-icon: 1471589045
+      die-icon: -138248448
+      dodge-icon: 1839679803
+      expand-icon: 1779691692
+      health-icon: -847683159
+      magic-icon: -107443293
+      melee-icon: 2128984309
+      minimize-icon: -20374960
+      move-icon: -942551176
+      range-icon: 1911308298
+      rest-icon: 1689757341
+      select-icon: 1710078805
+      speed-icon: 2116316112
+      stamina-icon: -2040212635
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

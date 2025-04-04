@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Unity.Assertions;
@@ -8,35 +9,72 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class SelectTacticsMenu : MonoBehaviour
     {
+        private EncounterController _encounterController;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private SelectedTactic[] _selectedOptions;
         [AssertIsSet][SerializeField] private TacticOption[] _options;
         private HeroFigurePanel _attachedPanel;
+        [AssertIsSet][SerializeField] private IconButton _confirmButton;
+        [AssertIsSet][SerializeField] private IconButton _cancelButton;
 
         void Awake()
         {
+            _encounterController = GetComponentInParent<EncounterController>();
+            Debug.Assert(_encounterController != null, $"Could not locate {nameof(EncounterController)}", this);
             Hide();
+        }
+
+        void Start()
+        {
             foreach (var option in _options)
             {
                 option.OnSelectOption += Select;
             }
+            foreach (var option in _selectedOptions)
+            {
+                option.OnChange += ValidateSelection;
+            }
         }
+
+        private bool TryValidateSelection(out string message)
+        {
+            bool isValid = true;
+            SelectedTactic[] nonNullTactics = _selectedOptions.Where(t => t.TacticData != null).ToArray();
+            if (nonNullTactics.Length != _selectedOptions.Length) { isValid = false; }
+            foreach (SelectedTactic selectedTactic in nonNullTactics)
+            {
+                IEnumerable<ITacticEffect> otherTactics = nonNullTactics.Where(t => t != selectedTactic).Select(t => t.TacticData.Effect);
+                isValid &= selectedTactic.TacticData.Effect.TryValidate(_attachedPanel.FigureController.Figure, otherTactics, out string result);
+                selectedTactic.ResultLabel.text = result;
+            }
+            message = "Tactis Selected";
+            return isValid;
+        }
+
+        private void ValidateSelection(SelectedTactic _) => _confirmButton.Enabled = TryValidateSelection(out string _);
 
         public void Select(TacticData data)
         {
-            SelectedTactic option = _selectedOptions.FirstOrDefault(o => o.PreperationData == null);
+            SelectedTactic option = _selectedOptions.FirstOrDefault(o => o.TacticData == null);
             if (option != null)
             {
-                option.PreperationData = data;
+                option.TacticData = data;
             }
             else
             {
-                _selectedOptions[_selectedOptions.Length - 1].PreperationData = data;
+                _selectedOptions[_selectedOptions.Length - 1].TacticData = data;
             }
+        }
+
+        public void Clear()
+        {
+            foreach (var option in _selectedOptions) { option.Clear(); }
+            _confirmButton.Enabled = false;
         }
 
         public void SelectAndShow(HeroFigurePanel targetHeroPanel)
         {
+            Clear();
             if (_attachedPanel != null) { _attachedPanel.OnMoved -= AttachToPanel; }
             _attachedPanel = targetHeroPanel;
             _attachedPanel.OnMoved += AttachToPanel;
@@ -60,5 +98,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _canvasGroup.alpha = 0;
             _canvasGroup.blocksRaycasts = false;
         }
+
+        public void Cancel()
+        {
+            if (_attachedPanel != null) { _attachedPanel.OnMoved -= AttachToPanel; }
+            _attachedPanel = null;
+            Hide();
+        }
+
+        public void Confirm() => _encounterController.BeginTurn(_attachedPanel.FigureController, _selectedOptions.Select(o => o.TacticData));
     }
 }

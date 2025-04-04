@@ -13,7 +13,18 @@ MonoBehaviour:
   m_Name: Attack (Preperation)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Attack
-  <BorderColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <BackgroundAlbedo>k__BackingField: {r: 0, g: 0, b: 0, a: 0.5}
   <Sprite>k__BackingField: {fileID: 2128984309, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
   _description: "During this figures turn, this figure may make an attack. \nSelecting
     this multiple times allows multiple attacks."
+  <Effect>k__BackingField:
+    rid: 2294994236587376720
+  _namespace: CaptainCoder.Dungeoneering.Encounter
+  _addEffectClassName: GainAttackTacticEffect
+  references:
+    version: 2
+    RefIds:
+    - rid: 2294994236587376720
+      type: {class: GainAttackTacticEffect, ns: CaptainCoder.Dungeoneering.Encounter, asm: DungeonCrawler.Encounter}
+      data:
+        Name: Gain Attack
