@@ -9,6 +9,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class SelectTacticsMenu : MonoBehaviour
     {
+        const string BeginTurnText = "Begin turn using selected tactics";
+        const string SelectTacticsText = "Select tactics to begin turn";
         private EncounterController _encounterController;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private SelectedTactic[] _selectedOptions;
@@ -36,8 +38,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
         }
 
-        private bool TryValidateSelection(out string message)
+        private bool TryValidateSelection()
         {
+            if (_attachedPanel == null)
+            {
+                return false;
+            }
             bool isValid = true;
             SelectedTactic[] nonNullTactics = _selectedOptions.Where(t => t.TacticData != null).ToArray();
             if (nonNullTactics.Length != _selectedOptions.Length) { isValid = false; }
@@ -47,11 +53,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 isValid &= selectedTactic.TacticData.Effect.TryValidate(_attachedPanel.FigureController.Figure, otherTactics, out string result);
                 selectedTactic.ResultLabel.text = result;
             }
-            message = "Tactis Selected";
             return isValid;
         }
 
-        private void ValidateSelection(SelectedTactic _) => _confirmButton.Enabled = TryValidateSelection(out string _);
+        private void ValidateSelection(SelectedTactic _)
+        {
+            _confirmButton.Enabled = TryValidateSelection();
+            _confirmButton.Tooltip.Tooltip = _confirmButton.Enabled ? BeginTurnText : SelectTacticsText;
+        }
 
         public void Select(TacticData data)
         {
@@ -75,11 +84,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void SelectAndShow(HeroFigurePanel targetHeroPanel)
         {
             Clear();
-            if (_attachedPanel != null) { _attachedPanel.OnMoved -= AttachToPanel; }
+            if (_attachedPanel != null) 
+            { 
+                _attachedPanel.OnMoved -= AttachToPanel;
+                _attachedPanel.FigureController.Figure.EntityData.OnChanged -= HandleEntityChanged;
+            }
             _attachedPanel = targetHeroPanel;
             _attachedPanel.OnMoved += AttachToPanel;
+            _attachedPanel.FigureController.Figure.EntityData.OnChanged += HandleEntityChanged;
             AttachToPanel(targetHeroPanel);
         }
+
+        private void HandleEntityChanged(LivingEntityChangeEvent @event) => TryValidateSelection();
 
         private void AttachToPanel(HeroFigurePanel panel) => StartCoroutine(AttachAtEndOfFrame(panel));
 

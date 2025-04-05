@@ -21,7 +21,7 @@ public class SetStatusTacticEffect : ITacticEffect
         ITacticEffect other = others.FirstOrDefault(o => o is SetStatusTacticEffect);
         if (other is SetStatusTacticEffect otherStatus)
         {
-            message = $"<color=red>Conflict: with {otherStatus.Status.Name}</color>";
+            message = $"<color=red>Conflict: {otherStatus.Status.Name}</color>";
             return false;
         }
         message = Status.Name;

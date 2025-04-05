@@ -14,16 +14,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private Color _defaultColor;
         [SerializeField] private Image _backgroundColor;
         [SerializeField] private EncounterController _encounterController;
-        [AssertIsSet][SerializeField] private LayoutElement _layoutElement;
         [SerializeField] private EncounterFigureController _figureController;
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
-        [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
-        [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
-        [AssertIsSet][SerializeField] private HeroActionButtons _actionButtons;
 
         public event System.Action<HeroFigurePanel> OnMoved;
+        public event System.Action OnHeroUpdated;
 
         public EncounterFigureController FigureController
         {
@@ -40,15 +37,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _encounterController = GetComponentInParent<EncounterController>();
             Debug.Assert(_encounterController != null, "Could not find Encounter Controller", this);
-            Hide();
             _figureRenderers ??= GetComponentsInChildren<IFigureRenderer>(true).Where(c => (Object)c != this).ToArray();
             _entityRenderers ??= GetComponentsInChildren<ILivingEntityRenderer>(true).Where(c => (Object)c != this).ToArray();
         }
 
         void Start()
         {
-            StartCoroutine(RebuildAtEndOfFrame());
+            Rebuild();
         }
+
 
         public void SelectFigure()
         {
@@ -67,7 +64,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 renderer.Render(_figureData.EntityData);
             }
-            StartCoroutine(RebuildAtEndOfFrame());
         }
 
         public void TakeTurn()
@@ -84,34 +80,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _backgroundColor.color = _defaultColor;
         }
 
-        public void Show()
-        {
-            _canvasGroup.alpha = 1;
-            _canvasGroup.blocksRaycasts = true;
-            _layoutElement.ignoreLayout = false;
-            _actionButtons.Show();
-            OnMoved?.Invoke(this);
-        }
-
-        public void Toggle()
-        {
-            if (_canvasGroup.alpha == 0) { Show(); }
-            else { Hide(); }
-        }
-
-        public void Hide()
-        {
-            _canvasGroup.alpha = 0;
-            _canvasGroup.blocksRaycasts = false;
-            _layoutElement.ignoreLayout = true;
-            _actionButtons.Hide();
-            OnMoved?.Invoke(this);
-        }
+        public void Rebuild() => StartCoroutine(RebuildAtEndOfFrame());
 
         public IEnumerator RebuildAtEndOfFrame()
         {
             yield return null;
-            _rebuilder.ForceRebuild();
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
             OnMoved?.Invoke(this);
         }
     }
