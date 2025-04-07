@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
 
@@ -12,6 +13,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private EncounterController Controller => _controller = (_controller == null ? GetComponentInParent<EncounterController>() : _controller);
         private EncounterState State => Controller.State;
         [field: SerializeField] public EncounterFigureController FigureController { get; private set; }
+        private MoveInfo _currentMoveInfo;
+        private HashSet<MoveInfo> _possibleMoves;
 
         internal void BeginTurn(EncounterFigureController figureController, IEnumerable<TacticData> tactics)
         {
@@ -29,22 +32,72 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         internal void ShowMove()
         {
-            HashSet<SearchPosition> positions = FindMoves(FigureController.Figure, State, Controller.EncounterData);
-            foreach (SearchPosition position in positions)
+            _currentMoveInfo = null;
+            _possibleMoves = FindMoves(FigureController.Figure, State, Controller.EncounterData);
+            HashSet<Vector2Int> positions = _possibleMoves.Select(p => p.Position).ToHashSet();
+            foreach (MoveInfo moveInfo in _possibleMoves)
             {
-                Controller.TileSelectors[position.Position].ShowHighlight();
+                if (Controller.TileSelectors.TryGetValue(moveInfo.Position, out var selector))
+                {
+                    selector.ClearEvents();
+                    selector.Highlight();
+                    selector.OnMouseEntered += () => ShowMoveInfo(moveInfo);
+                    selector.OnMouseExited += () => ClearMoveInfo(positions);
+                    selector.OnClicked += () => PerformMove(moveInfo);
+                }
             }
         }
 
-        internal static HashSet<SearchPosition> FindMoves(FigureData figure, EncounterState state, EncounterData data)
+        private void PerformMove(MoveInfo moveInfo)
         {
-            HashSet<SearchPosition> validMoves = new();
-            HashSet<Vector2Int> visited = new() { figure.Position };
-            Queue<SearchPosition> queue = new();
-            queue.Enqueue(new SearchPosition(figure.Position, figure.Position, 0));
-            while (queue.TryDequeue(out SearchPosition currentPosition))
+            FigureController.Figure.Movement -= moveInfo.Distance;
+            foreach (Vector2Int position in moveInfo.Path())
             {
-                foreach (SearchPosition neighbor in GetNeighbors(currentPosition))
+                if (Controller.TileSelectors.TryGetValue(position, out var selector))
+                {
+                    selector.ClearEvents();
+                    selector.Hide();
+                }
+            }
+            foreach (MoveInfo info in _possibleMoves)
+            {
+                if (Controller.TileSelectors.TryGetValue(info.Position, out var selector))
+                {
+                    selector.ClearEvents();
+                    selector.Hide();
+                }
+            }
+            Controller.HandleMovementEvent(new MoveFigureEvent(FigureController, moveInfo.Path().Reverse()));
+        }
+
+        private void ClearMoveInfo(HashSet<Vector2Int> possibleMoves)
+        {
+            if (_currentMoveInfo == null) { return; }
+            foreach (Vector2Int position in _currentMoveInfo.Path())
+            {
+                EncounterTileSelector selector = Controller.TileSelectors[position];
+                if (!possibleMoves.Contains(position)) { selector.Hide(); }
+                else { selector.Highlight(); }
+            }
+        }
+        private void ShowMoveInfo(MoveInfo moveInfo)
+        {
+            _currentMoveInfo = moveInfo;
+            foreach (Vector2Int position in moveInfo.Path())
+            {
+                Controller.TileSelectors[position].Selected();
+            }
+        }
+
+        internal static HashSet<MoveInfo> FindMoves(FigureData figure, EncounterState state, EncounterData data)
+        {
+            HashSet<MoveInfo> validMoves = new();
+            HashSet<Vector2Int> visited = new() { figure.Position };
+            Queue<MoveInfo> queue = new();
+            queue.Enqueue(new MoveInfo(figure.Position, null, 0));
+            while (queue.TryDequeue(out MoveInfo currentPosition))
+            {
+                foreach (MoveInfo neighbor in GetNeighbors(currentPosition))
                 {
                     if (visited.Contains(neighbor.Position)) { continue; }
                     visited.Add(neighbor.Position);
@@ -59,7 +112,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
             return validMoves;
 
-            IEnumerable<SearchPosition> GetNeighbors(SearchPosition p)
+            IEnumerable<MoveInfo> GetNeighbors(MoveInfo p)
             {
                 if (p.Distance >= figure.Movement) { yield break; }
                 int distance = p.Distance + 1;
@@ -68,18 +121,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
                     // Cannot pass through walls
                     if (data.DungeonCrawlerData.CurrentDungeon.IsPassable(p.Position, f))
                     {
-                        Debug.Log($"Was passable: {p.Position}, {f}");
                         Vector2Int afterStep = p.Position.Step(f);
                         // Cannot move into space with enemy
                         if (state.Figures.TryGetValue(afterStep, out EncounterFigureController otherfigure) && otherfigure.Figure.EntityData is EnemyEntityData)
                         {
                             continue;
                         }
-                        yield return p with { Position = afterStep, Distance = distance, PreviousSpace = p.Position };
-                    }
-                    else
-                    {
-                        Debug.Log($"Was not passable: {p.Position}, {f}");
+                        yield return p with { Position = afterStep, Distance = distance, PreviousSpace = p };
                     }
                 }
             }
@@ -87,7 +135,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private static readonly Facing[] Facings = new[] { Facing.North, Facing.East, Facing.South, Facing.West };
     }
 
-    record struct SearchPosition(Vector2Int Position, Vector2Int PreviousSpace, int Distance);
+    record class MoveInfo(Vector2Int Position, MoveInfo PreviousSpace, int Distance)
+    {
+        public IEnumerable<Vector2Int> Path()
+        {
+            MoveInfo current = this;
+            while (current != null)
+            {
+                yield return current.Position;
+                current = current.PreviousSpace;
+            }
+        }
+    }
 
     public static class DungeonExtensions
     {

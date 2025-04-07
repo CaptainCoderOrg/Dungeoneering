@@ -103,7 +103,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             foreach (Vector2Int position in path)
             {
                 Vector3 start = controller.transform.localPosition;
-                Vector3 end = new(position.x, 0, position.y);
+                Vector3 end = new(position.y, 0, position.x);
                 moveTime += _encounterSettingsData.MovementSpeed;
                 while (moveTime > 0)
                 {

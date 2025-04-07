@@ -1566,11 +1566,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &842080762375081009
@@ -1585,6 +1585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1dc10a6a5feac42a4da76bf34a4c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _highlightColor: {r: 0, g: 0.5943396, b: 0, a: 0.5254902}
+  _selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.5019608}
   _highlightRenderer: {fileID: 508603816358642197}
 --- !u!1 &7207584568321606776
 GameObject:
