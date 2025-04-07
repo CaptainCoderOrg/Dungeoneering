@@ -84,8 +84,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void SelectAndShow(HeroFigurePanel targetHeroPanel)
         {
             Clear();
-            if (_attachedPanel != null) 
-            { 
+            if (_attachedPanel != null)
+            {
                 _attachedPanel.OnMoved -= AttachToPanel;
                 _attachedPanel.FigureController.Figure.EntityData.OnChanged -= HandleEntityChanged;
             }

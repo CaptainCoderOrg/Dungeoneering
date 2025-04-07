@@ -19,7 +19,7 @@ MonoBehaviour:
     Position: {x: 6, y: 7}
   <HeroFigures>k__BackingField:
   - HeroEntity: {fileID: 11400000, guid: 639c39d7073c6ec42a83ee9d248b2611, type: 2}
-    Position: {x: 8, y: 8}
+    Position: {x: 8, y: 7}
   - HeroEntity: {fileID: 11400000, guid: 6f7a6aa7d15bdcb4683d52c349f6a90c, type: 2}
     Position: {x: 6, y: 9}
   - HeroEntity: {fileID: 11400000, guid: c8554de155ee39547b21e84b2f7ca8e4, type: 2}

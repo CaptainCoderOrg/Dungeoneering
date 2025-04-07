@@ -29,8 +29,16 @@ namespace CaptainCoder.Dungeoneering.Unity.Data
         internal readonly UndoRedoStack UndoRedoStack = new();
         public DungeonCrawlerManifest Manifest { get; internal set; }
         private Action<DungeonManifestChanged> _onManifestChanged;
-
-        public Dungeon CurrentDungeon { get; internal set; }
+        private Dungeon _currentDungeon;
+        public Dungeon CurrentDungeon
+        {
+            get => _currentDungeon;
+            internal set
+            {
+                _currentDungeon = value;
+                Debug.Log($"Current Dungeon set to: {_currentDungeon.Name}");
+            }
+        }
         private Action<DungeonChangeEvent> _onDungeonChanged;
         private readonly HashSet<TileReference> _cachedTileChanges = new();
 

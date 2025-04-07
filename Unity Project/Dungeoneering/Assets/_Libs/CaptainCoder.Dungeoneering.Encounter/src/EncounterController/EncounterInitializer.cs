@@ -1,3 +1,4 @@
+using CaptainCoder.Dungeoneering.DungeonMap;
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -11,7 +12,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private EncounterFigureController _enemyFigurePrefab;
         [AssertIsSet][SerializeField] private Transform _enemyFigureParent;
         [AssertIsSet][field: SerializeField] private EnemyFigurePanel _enemyFigurePanel;
-        [AssertIsSet][field: SerializeField] private HeroFigurePanel[] _heroFigurePanels;
 
         public void Init(EncounterData encounterData)
         {
@@ -40,18 +40,19 @@ namespace CaptainCoder.Dungeoneering.Encounter
                     Debug.Log($"Illegal configuration, multiple figures in {h.Position}");
                 }
                 EncounterFigureController controller = Instantiate(_enemyFigurePrefab, _enemyFigureParent);
+                controller.name = $"{h.HeroEntity.Name}'s Figure";
                 controller.Figure = FigureData.Create(h.HeroEntity, h.Position);
 
                 State.Figures[h.Position] = controller;
-                HeroFigurePanel panel = _heroFigurePanels[ix];
+                HeroFigurePanel panel = Controller.HeroPanels[ix];
                 panel.FigureController = controller;
                 controller.OnClick.AddListener(_controller.Select);
                 controller.OnSelected.AddListener(panel.Select);
                 controller.OnDeselected.AddListener(panel.Deselect);
             }
-            for (; ix < _heroFigurePanels.Length; ix++)
+            for (; ix < Controller.HeroPanels.Length; ix++)
             {
-                _heroFigurePanels[ix].gameObject.SetActive(false);
+                Controller.HeroPanels[ix].gameObject.SetActive(false);
             }
         }
     }

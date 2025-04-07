@@ -12,6 +12,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private EventTrigger _eventTrigger;
         [AssertIsSet][field: SerializeField] public SimpleTooltip Tooltip { get; private set; }
         [SerializeField] private bool _isHiddenOnStart;
+        private bool _isVisible;
         [SerializeField] private bool _enabled = true;
         public bool Enabled
         {
@@ -20,6 +21,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 _enabled = value;
                 _eventTrigger.enabled = _enabled;
+                _canvasGroup.alpha = GetAlpha();
             }
         }
 
@@ -32,14 +34,22 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Show()
         {
-            _canvasGroup.alpha = _enabled ? 1 : 0.5f;
+            _isVisible = true;
+            _canvasGroup.alpha = GetAlpha();
             _canvasGroup.blocksRaycasts = true;
             _layoutElement.ignoreLayout = false;
         }
 
+        private float GetAlpha()
+        {
+            if (!_isVisible) { return 0; }
+            return _enabled ? 1 : 0.5f;
+        }
+
         public void Hide()
         {
-            _canvasGroup.alpha = 0;
+            _isVisible = false;
+            _canvasGroup.alpha = GetAlpha();
             _canvasGroup.blocksRaycasts = false;
             _layoutElement.ignoreLayout = true;
         }

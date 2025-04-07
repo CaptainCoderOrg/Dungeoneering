@@ -18,9 +18,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private FigureData _figureData;
         [SerializeField] private IFigureRenderer[] _figureRenderers;
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
+        [AssertIsSet][SerializeField] private HeroActionButtons _heroActionButtons;
 
         public event System.Action<HeroFigurePanel> OnMoved;
-        public event System.Action OnHeroUpdated;
 
         public EncounterFigureController FigureController
         {
@@ -28,9 +28,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
             set
             {
                 _figureController = value;
+                if (_figureData != null) { _figureData.OnChanged -= HandleFigureChanged; }
                 _figureData = _figureController.Figure;
+                _figureData.OnChanged += HandleFigureChanged;
                 UpdateRenderers();
+                _heroActionButtons.UpdateButtons(_figureData);
             }
+        }
+
+        private void HandleFigureChanged(FigureDataChangedEvent _)
+        {
+            Debug.Log("Handling changes");
+            _heroActionButtons.UpdateButtons(_figureData);
         }
 
         void Awake()
@@ -87,6 +96,28 @@ namespace CaptainCoder.Dungeoneering.Encounter
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
             OnMoved?.Invoke(this);
+        }
+
+        public void Move() => _encounterController.HeroTurnController.ShowMove();
+
+        public void EndTurn()
+        {
+
+        }
+
+        internal void StartTurn(EncounterFigureController figureController)
+        {
+            if (figureController == _figureController)
+            {
+                _heroActionButtons.EndTurnButton.Show();
+                _heroActionButtons.EndTurnButton.Enabled = true;
+                _heroActionButtons.TakeTurnButton.Hide();
+            }
+            else
+            {
+                _heroActionButtons.TakeTurnButton.Enabled = false;
+                _heroActionButtons.EndTurnButton.Hide();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,12 +13,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class EncounterController : MonoBehaviour
     {
-        [AssertIsSet][SerializeField] private SelectTacticsMenu _preperationMenu;
+        [AssertIsSet][field: SerializeField] public SelectTacticsMenu TacticsMenu { get; private set; }
+        [AssertIsSet][field: SerializeField] public HeroFigurePanel[] HeroPanels { get; private set; }
         [AssertIsSet][SerializeField] private EncounterSettingsData _encounterSettingsData;
         [AssertIsSet][SerializeField] private EncounterInitializer _initializer;
         [AssertIsSet][SerializeField] private HeroTurnController _heroTurnController;
         [AssertIsSet][field: SerializeField] public EncounterCamera EncounterCamera { get; private set; }
         [AssertIsSet][SerializeField] private EncounterData _encounterData;
+        public EncounterData EncounterData => _encounterData;
         private readonly DungeonBuilder _builder = new();
         [AssertIsSet][SerializeField] private Transform _tileContainer;
         [AssertIsSet][SerializeField] private DungeonTile _tilePrefab;
@@ -26,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private EncounterState _state;
         public EncounterState State { get => _state ??= new(); }
         public HeroTurnController HeroTurnController => _heroTurnController;
+        public Dictionary<Vector2Int, EncounterTileSelector> TileSelectors { get; private set; }
 
         public void Select(EncounterFigureController selected)
         {
@@ -41,17 +45,33 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _builder.MaxX = _encounterData.MaxX;
             _builder.MinY = _encounterData.MinY;
             _builder.MaxY = _encounterData.MaxY;
+            StartCoroutine(BuildAtEndOfFrame());
+        }
+
+        private IEnumerator BuildAtEndOfFrame()
+        {
+            // Cannot load the dungeon until after the scene has started so we must wait 2 frames
+            yield return null;
+            yield return null;
             Build();
         }
 
-        public void Build()
+        private void Build()
         {
-            _initializer.Init(_encounterData);
+            TileSelectors ??= new();
+            TileSelectors.Clear();
             _encounterData.DungeonCrawlerData.LoadDungeonByName(_encounterData.DungeonName);
             _builder.BuildOrUpdateTiles(_tileContainer, _tilePrefab, UpdateTile, CreateTile);
+            _initializer.Init(_encounterData);
         }
 
-        private DungeonTile CreateTile(DungeonTile tilePrefab, Transform parent, Position position) => DungeonTile.Create(tilePrefab, parent, _encounterData.DungeonCrawlerData, position);
+        private DungeonTile CreateTile(DungeonTile tilePrefab, Transform parent, Position position)
+        {
+            DungeonTile created = DungeonTile.Create(tilePrefab, parent, _encounterData.DungeonCrawlerData, position);
+            EncounterTileSelector selector = created.GetComponentInChildren<EncounterTileSelector>();
+            TileSelectors[new Vector2Int(position.X, position.Y)] = selector;
+            return created;
+        }
         private void UpdateTile(DungeonTile tile, Position position) => DungeonTile.UpdateTile(_encounterData.DungeonCrawlerData, position, tile);
 
 
@@ -98,8 +118,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         internal void SelectTactics(HeroFigurePanel heroFigurePanel)
         {
+            if (_heroTurnController.FigureController != null) { return; }
             Select(heroFigurePanel.FigureController);
-            _preperationMenu.SelectAndShow(heroFigurePanel);
+            TacticsMenu.SelectAndShow(heroFigurePanel);
         }
     }
 }
