@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Guard (Status)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Guard
+  <Effect>k__BackingField: {fileID: 11400000, guid: 905f0f70372d98d4a99b9a908a2e7c25, type: 2}

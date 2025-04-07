@@ -6,5 +6,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class StatusData : ObservableSO
     {
         [field: SerializeField] public string Name { get; private set; }
+        [field: SerializeField] public EffectData Effect { get; private set; }
     }
 }

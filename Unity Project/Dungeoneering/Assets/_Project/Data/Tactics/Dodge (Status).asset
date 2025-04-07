@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Dodge (Status)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Dodge
+  <Effect>k__BackingField: {fileID: 11400000, guid: 97ecbad896bef074db1a4479ddab0b0d, type: 2}

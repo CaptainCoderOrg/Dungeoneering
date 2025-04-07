@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Encounter;
 
 [Serializable]
-public class SetStatusTacticEffect : ITacticEffect
+public class SetStatusTacticEffect : ITacticEffect, IOnTurnStart
 {
     public string Name = "Set Status";
     [field: SerializeField] public StatusData Status { get; private set; }
@@ -15,6 +15,8 @@ public class SetStatusTacticEffect : ITacticEffect
     {
         figure.Attacks++;
     }
+
+    public void OnTurnStart(FigureData figure) => figure.EntityData.AddEffect(Status.Effect);
 
     public bool TryValidate(FigureData figure, IEnumerable<ITacticEffect> others, out string message)
     {

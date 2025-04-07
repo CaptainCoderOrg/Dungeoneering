@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Rest (Status)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Rest
+  <Effect>k__BackingField: {fileID: 11400000, guid: c836e302df9a0024e83cdb26be30f06f, type: 2}

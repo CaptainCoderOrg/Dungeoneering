@@ -553,6 +553,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: inventory-icon
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87b255829a0e2354388329ea81e77617
+      internalID: 899793662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -577,6 +599,7 @@ TextureImporter:
       dodge-icon: 1839679803
       expand-icon: 1779691692
       health-icon: -847683159
+      inventory-icon: 899793662
       magic-icon: -107443293
       melee-icon: 2128984309
       minimize-icon: -20374960

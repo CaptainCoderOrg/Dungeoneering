@@ -15,6 +15,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private SelectTacticsMenu _preperationMenu;
         [AssertIsSet][SerializeField] private EncounterSettingsData _encounterSettingsData;
         [AssertIsSet][SerializeField] private EncounterInitializer _initializer;
+        [AssertIsSet][SerializeField] private HeroTurnController _heroTurnController;
         [AssertIsSet][field: SerializeField] public EncounterCamera EncounterCamera { get; private set; }
         [AssertIsSet][SerializeField] private EncounterData _encounterData;
         private readonly DungeonBuilder _builder = new();
@@ -24,6 +25,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public EncounterFigureController Selected => _selected;
         private EncounterState _state;
         public EncounterState State { get => _state ??= new(); }
+        public HeroTurnController HeroTurnController => _heroTurnController;
 
         public void Select(EncounterFigureController selected)
         {
@@ -98,11 +100,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             Select(heroFigurePanel.FigureController);
             _preperationMenu.SelectAndShow(heroFigurePanel);
-        }
-
-        internal void BeginTurn(EncounterFigureController figureController, IEnumerable<TacticData> enumerable)
-        {
-            throw new NotImplementedException();
         }
     }
 }

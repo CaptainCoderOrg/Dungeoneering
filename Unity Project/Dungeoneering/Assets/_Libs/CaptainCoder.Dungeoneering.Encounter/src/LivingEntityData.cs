@@ -99,11 +99,22 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             return StringBuilder.ToString();
         }
+
+        internal void AddEffect(EffectData effect)
+        {
+            Effects.Add(effect);
+            OnChanged.Invoke(StatusChangedEvent.Instance);
+        }
     }
 
     public abstract record class LivingEntityChangeEvent;
     public sealed record class EquipmentChangedEvent : LivingEntityChangeEvent
     {
         public static readonly EquipmentChangedEvent Instance = new();
+    }
+
+    public sealed record class StatusChangedEvent : LivingEntityChangeEvent
+    {
+        public static readonly StatusChangedEvent Instance = new();
     }
 }

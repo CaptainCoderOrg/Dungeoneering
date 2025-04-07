@@ -11,7 +11,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private Image _icon;
         public void Render(EffectData data)
         {
-            if (data == null) { Hide(); }
+            if (data == null) { Hide(); return; }
             _icon.sprite = data.Icon;
             _simpleTooltip.Tooltip = data.Description;
             _canvasGroup.alpha = 1;

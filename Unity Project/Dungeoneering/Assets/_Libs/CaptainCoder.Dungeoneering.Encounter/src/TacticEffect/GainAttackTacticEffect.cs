@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CaptainCoder.Dungeoneering.Encounter;
 
 [Serializable]
-public class GainAttackTacticEffect : ITacticEffect
+public class GainAttackTacticEffect : ITacticEffect, IOnTurnStart
 {
     const string Effect = "+1 Attack";
     public string Name = "Gain Attack";
@@ -12,6 +12,8 @@ public class GainAttackTacticEffect : ITacticEffect
     {
         figure.Attacks++;
     }
+
+    public void OnTurnStart(FigureData figure) => figure.Attacks += 1;
 
     public bool TryValidate(FigureData figure, IEnumerable<ITacticEffect> others, out string message)
     {

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Aim (Status)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Aim
+  <Effect>k__BackingField: {fileID: 11400000, guid: 306342cbd4065464a8cfdd4ab8f6f5ae, type: 2}

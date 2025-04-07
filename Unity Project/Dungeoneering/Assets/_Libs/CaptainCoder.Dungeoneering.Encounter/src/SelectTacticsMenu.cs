@@ -122,6 +122,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
             Hide();
         }
 
-        public void Confirm() => _encounterController.BeginTurn(_attachedPanel.FigureController, _selectedOptions.Select(o => o.TacticData));
+        public void Confirm() => _encounterController.HeroTurnController.BeginTurn(_attachedPanel.FigureController, _selectedOptions.Select(o => o.TacticData));
     }
 }

@@ -1,3 +1,5 @@
+using NaughtyAttributes;
+
 using UnityEngine;
 
 namespace CaptainCoder.Dungeoneering.Encounter
@@ -8,7 +10,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public string Name { get; private set; }
         [TextArea(3, 5)][SerializeField] private string _description;
         public string Description => _description;
-        [field: SerializeField] public Sprite Icon { get; private set; }
+        [field: ShowAssetPreview][field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public TraitEffect[] TraitEffects { get; private set; }
 
 #if UNITY_EDITOR
