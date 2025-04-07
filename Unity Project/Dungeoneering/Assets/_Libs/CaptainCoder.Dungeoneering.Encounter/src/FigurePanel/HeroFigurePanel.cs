@@ -100,13 +100,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Move() => _encounterController.HeroTurnController.ShowMove();
 
-        public void EndTurn()
-        {
+        public void EndTurn() => _encounterController.HeroTurnController.EndTurn();
 
-        }
-
+        /// <summary>
+        /// Called when any figure is starting their turn
+        /// </summary>
+        /// <param name="figureController"></param>
         internal void StartTurn(EncounterFigureController figureController)
         {
+            if (_figureController?.Figure == null) { return; }
             if (figureController == _figureController)
             {
                 _heroActionButtons.EndTurnButton.Show();
@@ -118,6 +120,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _heroActionButtons.TakeTurnButton.Enabled = false;
                 _heroActionButtons.EndTurnButton.Hide();
             }
+        }
+
+        /// <summary>
+        /// Called when any figure is ending their turn
+        /// </summary>
+        internal void TurnEnded()
+        {
+            if (_figureController?.Figure == null) { return; }
+            _heroActionButtons.TakeTurnButton.Show();
+            _heroActionButtons.EndTurnButton.Hide();
+            _heroActionButtons.TakeTurnButton.Enabled = !_figureController.Figure.HasTakenTurn;
         }
     }
 }

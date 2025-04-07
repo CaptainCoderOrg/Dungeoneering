@@ -9,6 +9,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class HeroTurnController : MonoBehaviour
     {
+        private static readonly Facing[] Facings = new[] { Facing.North, Facing.East, Facing.South, Facing.West };
         private EncounterController _controller;
         private EncounterController Controller => _controller = (_controller == null ? GetComponentInParent<EncounterController>() : _controller);
         private EncounterState State => Controller.State;
@@ -48,25 +49,36 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
         }
 
+        private void ClearTiles()
+        {
+            if (_currentMoveInfo != null)
+            {
+                foreach (Vector2Int position in _currentMoveInfo.Path())
+                {
+                    if (Controller.TileSelectors.TryGetValue(position, out var selector))
+                    {
+                        selector.ClearEvents();
+                        selector.Hide();
+                    }
+                }
+            }
+            if (_possibleMoves != null)
+            {
+                foreach (MoveInfo info in _possibleMoves)
+                {
+                    if (Controller.TileSelectors.TryGetValue(info.Position, out var selector))
+                    {
+                        selector.ClearEvents();
+                        selector.Hide();
+                    }
+                }
+            }
+        }
+
         private void PerformMove(MoveInfo moveInfo)
         {
             FigureController.Figure.Movement -= moveInfo.Distance;
-            foreach (Vector2Int position in moveInfo.Path())
-            {
-                if (Controller.TileSelectors.TryGetValue(position, out var selector))
-                {
-                    selector.ClearEvents();
-                    selector.Hide();
-                }
-            }
-            foreach (MoveInfo info in _possibleMoves)
-            {
-                if (Controller.TileSelectors.TryGetValue(info.Position, out var selector))
-                {
-                    selector.ClearEvents();
-                    selector.Hide();
-                }
-            }
+            ClearTiles();
             Controller.HandleMovementEvent(new MoveFigureEvent(FigureController, moveInfo.Path().Reverse()));
         }
 
@@ -132,7 +144,19 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
             }
         }
-        private static readonly Facing[] Facings = new[] { Facing.North, Facing.East, Facing.South, Facing.West };
+
+        internal void EndTurn()
+        {
+            ClearTiles();
+            FigureController.Figure.Movement = 0;
+            FigureController.Figure.Attacks = 0;
+            FigureController.Figure.HasTakenTurn = true;
+            foreach (var panel in Controller.HeroPanels)
+            {
+                panel.TurnEnded();
+            }
+            FigureController = null;
+        }
     }
 
     record class MoveInfo(Vector2Int Position, MoveInfo PreviousSpace, int Distance)

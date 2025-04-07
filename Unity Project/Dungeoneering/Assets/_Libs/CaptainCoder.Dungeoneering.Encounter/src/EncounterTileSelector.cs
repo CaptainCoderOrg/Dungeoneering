@@ -1,5 +1,3 @@
-using System;
-
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -41,7 +39,5 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void OnClick() => OnClicked?.Invoke();
         public void OnEnter() => OnMouseEntered?.Invoke();
         public void OnExit() => OnMouseExited?.Invoke();
-
-        
     }
 }
