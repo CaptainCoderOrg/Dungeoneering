@@ -13,10 +13,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class AttackConfirmationDialogue : MonoBehaviour
     {
+        [SerializeField] private EncounterController _encounterController;
+        public EncounterController EncounterController => _encounterController ??= GetComponentInParent<EncounterController>();
         [AssertIsSet][SerializeField] private ToggleablePanel _toggleablePanel;
-        [AssertIsSet][SerializeField] private TextMeshProUGUI _selectAttackLabel;
+        [AssertIsSet][SerializeField] private ToggleablePanel _selectAttackLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _attackNameLabel;
-        [AssertIsSet][SerializeField] private TextMeshProUGUI _selectATargetLabel;
+        [AssertIsSet][SerializeField] private ToggleablePanel _selectATargetLabel;
         [AssertIsSet][SerializeField] private ToggleablePanel _attackInformation;
         [AssertIsSet][SerializeField] private ToggleablePanel _targetInformation;
         [AssertIsSet][SerializeField] private IconButton _confirmButton;
@@ -42,12 +44,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _attackData = value;
                 if (_attackData == null)
                 {
-                    _selectAttackLabel.gameObject.SetActive(true);
+                    _selectAttackLabel.Show();
                     _attackInformation.Hide();
                 }
                 else
                 {
+                    _selectAttackLabel.Hide();
                     _attackInformation.Show();
+                    EncounterController.HeroTurnController.ShowPossibleAttacks(Attacker, Attack);
                     RenderAttackDice();
                 }
             }
@@ -60,7 +64,22 @@ namespace CaptainCoder.Dungeoneering.Encounter
             set
             {
                 _targetData = value;
+                if (_targetData == null)
+                {
+                    _selectATargetLabel.Show();
+                    _targetInformation.Hide();
+                }
+                else
+                {
+                    _selectATargetLabel.Hide();
+                    _targetInformation.Show();
+                }
             }
+        }
+
+        void Awake()
+        {
+            _encounterController = GetComponentInParent<EncounterController>();
         }
 
         private void RenderAttackDice()

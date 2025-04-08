@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Melee (Attack Type)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Melee
+  <RequiresLineOfSight>k__BackingField: 0
+  <IsRanged>k__BackingField: 0
   <Sprite>k__BackingField: {fileID: 21300000, guid: cca78bba9e884cd46ba51a7a93b6018d, type: 3}
   <AttackDie>k__BackingField: {fileID: 11400000, guid: f829d025ee391e34ca58391647108064, type: 2}
   _tooltip: <b>Melee Attack</b> - Target an adjacent figure

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Magic (Attack Type)
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Magic
+  <RequiresLineOfSight>k__BackingField: 0
+  <IsRanged>k__BackingField: 1
   <Sprite>k__BackingField: {fileID: 21300000, guid: b2badd97d3d9af44594224e2d5a965ab, type: 3}
   <AttackDie>k__BackingField: {fileID: 11400000, guid: aa176604be1e7df4cafcb094a3e2ed8b, type: 2}
-  _tooltip: '<b>Magic Attack</b> - Target any figure (does not require line of sight)
+  _tooltip: '<b>Magic Attack</b> - Target any figure using indirect line of sight
 
     Automatically
     misses if the roll does not have enough <b>Aim</b>'

@@ -11,5 +11,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public AttackTypeData AttackType { get; private set; }
         [field: SerializeField] public List<DieData> PowerDice { get; private set; }
+
     }
 }
