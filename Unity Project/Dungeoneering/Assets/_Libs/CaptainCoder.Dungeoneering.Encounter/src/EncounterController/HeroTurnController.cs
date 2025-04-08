@@ -46,8 +46,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 if (Controller.TileSelectors.TryGetValue(attack.TargetPosition, out EncounterTileSelector tile))
                 {
-                    if (attack.Target == null) { tile.Highlight(); }
-                    else { tile.Selected(); }
+                    if (attack.Target == null) { tile.ShowAttackRange(); }
+                    else { tile.ValidAttackTarget(); }
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                     if (data.DungeonCrawlerData.CurrentDungeon.IntersectsWall(p.StartPosition, afterStep)) { continue; }
 
                     // If line of site is required, check to see if there is a figure in between
-                    if (attackData.AttackType.RequiresLineOfSight && state.IntersectsFigure(p.StartPosition, afterStep)) { continue; }
+                    if (attackData.AttackType.RequiresLineOfSight && state.IsFigureInBetween(p.StartPosition, afterStep)) { continue; }
 
                     if (state.Figures.TryGetValue(afterStep, out EncounterFigureController otherfigure))
                     {
@@ -280,6 +280,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
     public static class DungeonExtensions
     {
+        const float FigureRadius = 0.500f;
         public static bool IsPassable(this Dungeon dungeon, Vector2Int position, Facing facing) => dungeon.IsPassable(new Position(position.x, position.y), facing);
 
         /// <summary>
@@ -301,10 +302,35 @@ namespace CaptainCoder.Dungeoneering.Encounter
             return true;
         }
 
-        public static bool IntersectsFigure(this EncounterState state, Vector2Int start, Vector2Int end)
+        public static bool IntersectsCircle(this LineSegment segment, Vector2Int center, float radius)
+        {
+            Vector2 d = segment.End - segment.Start;
+            Vector2 f = segment.Start - center;
+
+            float a = Vector2.Dot(d, d);
+            float b = 2 * Vector2.Dot(f, d);
+            float c = Vector2.Dot(f, f) - radius * radius;
+
+            float discriminant = b * b - 4 * a * c;
+            if (discriminant < 0)
+            {
+                // No intersection
+                return false;
+            }
+
+            discriminant = MathF.Sqrt(discriminant);
+
+            float t1 = (-b - discriminant) / (2 * a);
+            float t2 = (-b + discriminant) / (2 * a);
+
+            // Check if either intersection point lies on the segment
+            return (t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1);
+        }
+
+        public static bool IsFigureInBetween(this EncounterState state, Vector2Int start, Vector2Int end)
         {
             LineSegment segment = new(start, end);
-            return segment.GetGridPositions().Where(p => p != start && p != end).Any(state.Figures.ContainsKey);
+            return segment.GetGridPositions().Where(p => p != start && p != end).Where(state.Figures.ContainsKey).Any(c => segment.IntersectsCircle(c, FigureRadius));
         }
 
         public static Vector2Int Step(this Vector2Int position, Facing f) => f switch

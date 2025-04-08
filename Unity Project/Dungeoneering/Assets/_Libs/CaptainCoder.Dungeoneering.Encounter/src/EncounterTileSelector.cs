@@ -6,6 +6,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public class EncounterTileSelector : MonoBehaviour, IClickHandler, IMouseEnteredHandler
     {
         [SerializeField] private Color _highlightColor = Color.green;
+        [SerializeField] private Color _attackRangeColor = Color.blue;
+        [SerializeField] private Color _validAttackTarget = Color.red;
         [SerializeField] private Color _selectedColor = Color.yellow;
         [AssertIsSet][SerializeField] private MeshRenderer _highlightRenderer;
         public event System.Action OnClicked;
@@ -16,6 +18,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _highlightRenderer.enabled = true;
             _highlightRenderer.material.color = _highlightColor;
+        }
+
+        public void ShowAttackRange()
+        {
+            _highlightRenderer.enabled = true;
+            _highlightRenderer.material.color = _attackRangeColor;
+        }
+
+        public void ValidAttackTarget()
+        {
+            _highlightRenderer.enabled = true;
+            _highlightRenderer.material.color = _validAttackTarget;
         }
 
         internal void Selected()

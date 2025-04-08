@@ -1586,6 +1586,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlightColor: {r: 0, g: 0.5943396, b: 0, a: 0.5254902}
+  _attackRangeColor: {r: 0, g: 0, b: 1, a: 0.5019608}
+  _validAttackTarget: {r: 1, g: 0, b: 0, a: 0.5019608}
   _selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.5019608}
   _highlightRenderer: {fileID: 508603816358642197}
 --- !u!1 &7207584568321606776
