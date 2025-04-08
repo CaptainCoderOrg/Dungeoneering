@@ -23,7 +23,7 @@ MonoBehaviour:
   - HeroEntity: {fileID: 11400000, guid: 6f7a6aa7d15bdcb4683d52c349f6a90c, type: 2}
     Position: {x: 8, y: 8}
   - HeroEntity: {fileID: 11400000, guid: c8554de155ee39547b21e84b2f7ca8e4, type: 2}
-    Position: {x: 5, y: 10}
+    Position: {x: 6, y: 10}
   <DungeonCrawlerData>k__BackingField: {fileID: 11400000, guid: 1c4fbd066f77bfb4eabe6d7d406623c7, type: 2}
   <DungeonName>k__BackingField: Encounter
   <MinX>k__BackingField: 5

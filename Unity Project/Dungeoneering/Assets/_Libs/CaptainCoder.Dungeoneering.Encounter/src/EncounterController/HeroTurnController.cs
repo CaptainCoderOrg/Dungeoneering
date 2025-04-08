@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CaptainCoder.Dungeoneering.DungeonMap;
+using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
 namespace CaptainCoder.Dungeoneering.Encounter
@@ -13,6 +14,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private EncounterController _controller;
         private EncounterController Controller => _controller = (_controller == null ? GetComponentInParent<EncounterController>() : _controller);
         private EncounterState State => Controller.State;
+        [AssertIsSet][SerializeField] private AttackConfirmationDialogue _attackConfirmationDialogue;
         [field: SerializeField] public EncounterFigureController FigureController { get; private set; }
         private MoveInfo _currentMoveInfo;
         private HashSet<MoveInfo> _possibleMoves;
@@ -156,6 +158,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 panel.TurnEnded();
             }
             FigureController = null;
+        }
+
+        internal void StartAttack()
+        {
+            _attackConfirmationDialogue.Attacker = FigureController.Figure;
+            _attackConfirmationDialogue.ClearTarget();
+            _attackConfirmationDialogue.Show();
         }
     }
 

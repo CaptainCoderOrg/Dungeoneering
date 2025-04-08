@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0463992ffb71d64c8466770b0d47a00, type: 3}
   m_Name: Wand of Missiles - Mage's Missile (Attack)
   m_EditorClassIdentifier: 
+  <AttackTypeDatabase>k__BackingField: {fileID: 11400000, guid: 91b694b450c8d3d4fbd36877a1ac8f6b, type: 2}
   <Name>k__BackingField: Mage's Missile
   <AttackType>k__BackingField: {fileID: 11400000, guid: 2df3029b40cb3df498624dc184ae9d79, type: 2}
   <PowerDice>k__BackingField:

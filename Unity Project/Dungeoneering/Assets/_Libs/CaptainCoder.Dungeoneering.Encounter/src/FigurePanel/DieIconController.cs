@@ -1,5 +1,3 @@
-using System;
-
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -11,6 +9,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private TooltipElementData _tooltipElement;
         [AssertIsSet][SerializeField] private Image _image;
         [AssertIsSet][SerializeField] private Hoverable _hoverable;
+        [AssertIsSet][field: SerializeField] public CanvasGroupHider CanvasGroupHider { get; private set; }
         private DieData _die;
         public DieData Die
         {

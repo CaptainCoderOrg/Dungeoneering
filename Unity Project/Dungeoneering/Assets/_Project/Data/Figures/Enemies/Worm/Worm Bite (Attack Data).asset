@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0463992ffb71d64c8466770b0d47a00, type: 3}
   m_Name: Worm Bite (Attack Data)
   m_EditorClassIdentifier: 
+  <AttackTypeDatabase>k__BackingField: {fileID: 11400000, guid: 91b694b450c8d3d4fbd36877a1ac8f6b, type: 2}
   <Name>k__BackingField: Bite
   <AttackType>k__BackingField: {fileID: 11400000, guid: 4e433a5879078cc47994f25e4b151f7a, type: 2}
   <PowerDice>k__BackingField:

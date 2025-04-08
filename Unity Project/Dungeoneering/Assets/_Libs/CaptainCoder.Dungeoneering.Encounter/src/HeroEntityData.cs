@@ -75,6 +75,24 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private AccessorySlotReference _accessorySlot;
         public AccessorySlotReference AccessorySlot => _accessorySlot ??= new(this);
 
+        public IEnumerable<DieData> GetDice(AttackData attack)
+        {
+            if (attack.AttackType == attack.AttackTypeDatabase.Melee)
+            {
+                return MeleeSkillDice;
+            }
+            else if (attack.AttackType == attack.AttackTypeDatabase.Range)
+            {
+                return RangeSkillDice;
+            }
+            else if (attack.AttackType == attack.AttackTypeDatabase.Magic)
+            {
+                return MagicSkillDice;
+            }
+            Debug.LogWarning($"Could not determine skill dice", attack);
+            throw new System.Exception($"Could not determin skill dice.");
+        }
+
 
         public override void OnBeforeEnterPlayMode()
         {

@@ -49,6 +49,8 @@ GameObject:
   - component: {fileID: 7132567107703668209}
   - component: {fileID: 6622377351481682264}
   - component: {fileID: -3004091237272586243}
+  - component: {fileID: 5295174213155726990}
+  - component: {fileID: 1569593350794171169}
   m_Layer: 0
   m_Name: Die Icon
   m_TagString: Untagged
@@ -169,3 +171,28 @@ MonoBehaviour:
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _image: {fileID: 7034008397562962773}
   _hoverable: {fileID: 6622377351481682264}
+  <CanvasGroupHider>k__BackingField: {fileID: 1569593350794171169}
+--- !u!225 &5295174213155726990
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2647547323705887387}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1569593350794171169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2647547323705887387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb0e71868a11dc40a02cedf328dad00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

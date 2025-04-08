@@ -102,6 +102,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void EndTurn() => _encounterController.HeroTurnController.EndTurn();
 
+        public void SelectAttack() => _encounterController.HeroTurnController.StartAttack();
+
         /// <summary>
         /// Called when any figure is starting their turn
         /// </summary>
