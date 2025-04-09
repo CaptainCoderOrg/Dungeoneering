@@ -29,6 +29,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public EncounterState State { get => _state ??= new(); }
         public HeroTurnController HeroTurnController => _heroTurnController;
         public Dictionary<Vector2Int, EncounterTileSelector> TileSelectors { get; private set; }
+        public event System.Action<EncounterFigureController> OnFigureSelected;
 
         public void Select(EncounterFigureController selected)
         {
@@ -36,6 +37,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _selected = selected;
             _selected?.Select();
             EncounterCamera.PanTo(_selected);
+            OnFigureSelected?.Invoke(selected);
         }
 
         void Awake()

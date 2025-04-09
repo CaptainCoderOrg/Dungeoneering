@@ -25,6 +25,22 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private MoveInfo _currentMoveInfo;
         private HashSet<MoveInfo> _possibleMoves;
         private HashSet<AttackInfo> _possibleAttacks;
+        private Action<EncounterFigureController> _onSelectionChanged;
+        private Action<EncounterFigureController> OnSelectionChanged
+        {
+            get => _onSelectionChanged;
+            set
+            {
+                Controller.OnFigureSelected -= _onSelectionChanged;
+                _onSelectionChanged = value;
+                if (_onSelectionChanged != null)
+                {
+                    Controller.OnFigureSelected += _onSelectionChanged;
+                }
+            }
+        }
+
+        public event System.Action<AttackTargetSelectedEvent> OnAttackTargetSelected;
 
         public void ShowPossibleAttacks(FigureData attacker, AttackData attack)
         {
@@ -37,6 +53,25 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             _possibleAttacks = FindAttackTargets(attacker, attack, State, Controller.EncounterData);
             HighlightAttacks(_possibleAttacks);
+            OnSelectionChanged = HandleAttackTargetSelected;
+        }
+
+        private void HandleAttackTargetSelected(EncounterFigureController target)
+        {
+            if (_possibleAttacks == null)
+            {
+                OnAttackTargetSelected?.Invoke(NoAttackTargetSelected.Instance);
+                return;
+            }
+            foreach (var attack in _possibleAttacks)
+            {
+                if (attack.Target == target)
+                {
+                    OnAttackTargetSelected?.Invoke(new ValidAttackTargetSelected(attack));
+                    return;
+                }
+            }
+            OnAttackTargetSelected?.Invoke(new InvalidAttackTargetSelected(target, "Invalid Target"));
         }
 
         private void HighlightAttacks(HashSet<AttackInfo> attacks)
@@ -47,7 +82,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 if (Controller.TileSelectors.TryGetValue(attack.TargetPosition, out EncounterTileSelector tile))
                 {
                     if (attack.Target == null) { tile.ShowAttackRange(); }
-                    else { tile.ValidAttackTarget(); }
+                    else
+                    {
+                        tile.ValidAttackTarget();
+                    }
                 }
             }
         }
@@ -244,6 +282,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         internal void EndTurn()
         {
+            OnSelectionChanged = null;
             ClearTiles();
             FigureController.Figure.Movement = 0;
             FigureController.Figure.Attacks = 0;
@@ -276,7 +315,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
         }
     }
 
-    record class AttackInfo(Vector2Int StartPosition, Vector2Int TargetPosition, EncounterFigureController Target, int Distance);
+    public abstract record class AttackTargetSelectedEvent;
+    public sealed record class ValidAttackTargetSelected(AttackInfo Attack) : AttackTargetSelectedEvent;
+    public sealed record class InvalidAttackTargetSelected(EncounterFigureController Target, string Reason) : AttackTargetSelectedEvent;
+    public sealed record class NoAttackTargetSelected : AttackTargetSelectedEvent
+    {
+        public static readonly NoAttackTargetSelected Instance = new();
+    }
+
+    public sealed record class AttackInfo(Vector2Int StartPosition, Vector2Int TargetPosition, EncounterFigureController Target, int Distance);
 
     public static class DungeonExtensions
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,12 +20,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private ToggleablePanel _selectAttackLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _attackNameLabel;
         [AssertIsSet][SerializeField] private ToggleablePanel _selectATargetLabel;
+        [AssertIsSet][SerializeField] private ToggleablePanel _invalidTargetLabel;
         [AssertIsSet][SerializeField] private ToggleablePanel _attackInformation;
         [AssertIsSet][SerializeField] private ToggleablePanel _targetInformation;
         [AssertIsSet][SerializeField] private IconButton _confirmButton;
         [AssertIsSet][SerializeField] private IconButton _cancelButton;
         [AssertIsSet][SerializeField] private AttackIconController _attackIcon;
         [AssertIsSet][SerializeField] private DieIconController[] _dieIcons;
+        [AssertIsSet][SerializeField] private TextMeshProUGUI _nameLabel;
+        [AssertIsSet][SerializeField] private TextMeshProUGUI _healthLabel;
+        [AssertIsSet][SerializeField] private TextMeshProUGUI _armorLabel;
+        [AssertIsSet][SerializeField] private TextMeshProUGUI _aimLabel;
         [SerializeField] private FigureData _figureData;
         public FigureData Attacker
         {
@@ -46,34 +52,60 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 {
                     _selectAttackLabel.Show();
                     _attackInformation.Hide();
+                    EncounterController.HeroTurnController.OnAttackTargetSelected -= HandleTargetChanged;
                 }
                 else
                 {
                     _selectAttackLabel.Hide();
                     _attackInformation.Show();
                     EncounterController.HeroTurnController.ShowPossibleAttacks(Attacker, Attack);
+                    EncounterController.HeroTurnController.OnAttackTargetSelected += HandleTargetChanged;
                     RenderAttackDice();
                 }
             }
         }
 
-        [SerializeField] private FigureData _targetData;
-        public FigureData Target
+        private void HandleTargetChanged(AttackTargetSelectedEvent @event) => AttackInfo = @event;
+
+        private AttackTargetSelectedEvent _attackInfo;
+        public AttackTargetSelectedEvent AttackInfo
         {
-            get => _targetData;
+            get => _attackInfo;
             set
             {
-                _targetData = value;
-                if (_targetData == null)
-                {
-                    _selectATargetLabel.Show();
-                    _targetInformation.Hide();
-                }
-                else
-                {
-                    _selectATargetLabel.Hide();
-                    _targetInformation.Show();
-                }
+                _attackInfo = value;
+                Render(_attackInfo);
+            }
+        }
+
+        private void Render(AttackTargetSelectedEvent attackInfo)
+        {
+            if (_attackInfo == null || _attackInfo is NoAttackTargetSelected)
+            {
+                _invalidTargetLabel.Hide();
+                _selectATargetLabel.Show();
+                _targetInformation.Hide();
+            }
+            else if (_attackInfo is ValidAttackTargetSelected valid)
+            {
+                _invalidTargetLabel.Hide();
+                _selectATargetLabel.Hide();
+                _targetInformation.Show();
+                LivingEntityData entity = valid.Attack.Target.Figure.EntityData;
+                _nameLabel.text = entity.Name;
+                _healthLabel.text = $"{entity.Health}/{entity.MaxHealth}";
+                _armorLabel.text = entity.Armor.ToString();
+                _aimLabel.text = valid.Attack.Distance.ToString();
+            }
+            else if (_attackInfo is InvalidAttackTargetSelected)
+            {
+                _selectATargetLabel.Show();
+                _invalidTargetLabel.Show();
+                _targetInformation.Hide();
+            }
+            else
+            {
+                throw new Exception($"Unexpected event: {attackInfo}");
             }
         }
 
@@ -149,6 +181,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         internal void Show() => _toggleablePanel.IsEnabled = true;
         internal void Hide() => _toggleablePanel.IsEnabled = false;
-        internal void ClearTarget() => Target = null;
+        internal void ClearTarget() => AttackInfo = null;
     }
 }
