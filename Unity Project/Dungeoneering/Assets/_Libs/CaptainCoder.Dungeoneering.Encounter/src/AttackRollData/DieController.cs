@@ -21,6 +21,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
         };
         [SerializeField] private Transform[] _faces;
         [AssertIsSet][SerializeField] private DieData _dieData;
+        public DieData Die
+        {
+            get => _dieData;
+            set
+            {
+                _dieData = value;
+                InitializeDie();
+            }
+        }
         [AssertIsSet][SerializeField] private MeshRenderer _dieRenderer;
         [AssertIsSet][SerializeField] private MeshRenderer _dieAlbedoRenderer;
         [AssertIsSet][SerializeField] private Transform _pivot;
@@ -30,6 +39,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private Coroutine _rollRoutine;
         [SerializeField] private float _rollDelay = 1f;
         [SerializeField] private float _rollTime = 4f;
+        public event System.Action<DieResult> OnResult;
 
         void Awake() => InitializeDie();
 
@@ -73,6 +83,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             }
             _pivot.transform.rotation = endQ;
             _pivot.transform.position = _startPosition;
+            OnResult?.Invoke(new DieResult(Die, Face));
         }
         [SerializeField] private float _rollVelocity = 20f;
         [SerializeField] private float _upForce = 20f;

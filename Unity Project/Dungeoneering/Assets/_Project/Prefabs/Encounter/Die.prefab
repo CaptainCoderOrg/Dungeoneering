@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 510922765770757258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8498400389087545887}
   - component: {fileID: 7739942208412595433}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Die
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,6 @@ MonoBehaviour:
   - {fileID: 8709287682809864345}
   - {fileID: 5656979631851545860}
   - {fileID: 9043972273738415048}
-  _materialGenerator: {fileID: 11400000, guid: 189b383d2a02ece4fa6c5226a337af19, type: 2}
   _dieData: {fileID: 11400000, guid: f829d025ee391e34ca58391647108064, type: 2}
   _dieRenderer: {fileID: 5041851076492096906}
   _dieAlbedoRenderer: {fileID: 2993018958867524861}
@@ -103,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5656979631851545860}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1613860453304921381}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +168,7 @@ GameObject:
   - component: {fileID: 5619895603991587194}
   - component: {fileID: 5041851076492096906}
   - component: {fileID: 8822085521409627972}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Faces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +495,7 @@ GameObject:
   - component: {fileID: 6352638408431810096}
   - component: {fileID: 4928089356753292659}
   - component: {fileID: 1919539615867019899}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +544,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.75, y: 0.75, z: 0.75}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1919539615867019899
 Rigidbody:
@@ -587,7 +586,7 @@ GameObject:
   - component: {fileID: 5785363722737593193}
   - component: {fileID: 2993018958867524861}
   - component: {fileID: 3816757761491550946}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8709287682809864345}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -943,7 +942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5572779822938896121}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9043972273738415048}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face5
   m_TagString: Untagged
   m_Icon: {fileID: 0}

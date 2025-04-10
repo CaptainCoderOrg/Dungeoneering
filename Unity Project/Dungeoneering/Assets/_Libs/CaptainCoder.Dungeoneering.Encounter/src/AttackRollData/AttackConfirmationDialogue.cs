@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CaptainCoder.Dungeoneering.Encounter
 {
@@ -32,6 +33,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private TextMeshProUGUI _armorLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _aimLabel;
         [SerializeField] private FigureData _figureData;
+        private readonly List<DieData> _attackDice = new();
         public FigureData Attacker
         {
             get => _figureData;
@@ -60,7 +62,9 @@ namespace CaptainCoder.Dungeoneering.Encounter
                     _attackInformation.Show();
                     EncounterController.HeroTurnController.ShowPossibleAttacks(Attacker, Attack);
                     EncounterController.HeroTurnController.OnAttackTargetSelected += HandleTargetChanged;
-                    RenderAttackDice();
+                    _attackDice.Clear();
+                    _attackDice.AddRange(CalculateAttackDice((HeroEntityData)Attacker.EntityData, _attackData));
+                    RenderAttackDice(_attackDice);
                 }
             }
         }
@@ -85,6 +89,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _invalidTargetLabel.Hide();
                 _selectATargetLabel.Show();
                 _targetInformation.Hide();
+                _confirmButton.Enabled = false;
             }
             else if (_attackInfo is ValidAttackTargetSelected valid)
             {
@@ -96,17 +101,20 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _healthLabel.text = $"{entity.Health}/{entity.MaxHealth}";
                 _armorLabel.text = entity.Armor.ToString();
                 _aimLabel.text = valid.Attack.Distance.ToString();
+                _confirmButton.Enabled = true;
             }
             else if (_attackInfo is InvalidAttackTargetSelected)
             {
                 _selectATargetLabel.Show();
                 _invalidTargetLabel.Show();
                 _targetInformation.Hide();
+                _confirmButton.Enabled = false;
             }
             else
             {
                 throw new Exception($"Unexpected event: {attackInfo}");
             }
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         }
 
         void Awake()
@@ -114,21 +122,25 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _encounterController = GetComponentInParent<EncounterController>();
         }
 
-        private void RenderAttackDice()
+        private static IEnumerable<DieData> CalculateAttackDice(HeroEntityData attacker, AttackData attack)
+        {
+            yield return attack.AttackType.AttackDie;
+            foreach (var die in attack.PowerDice)
+            {
+                yield return die;
+            }
+            foreach (var die in attacker.GetDice(attack))
+            {
+                yield return die;
+            }
+        }
+
+        private void RenderAttackDice(IEnumerable<DieData> dice)
         {
             _attackNameLabel.text = Attack.Name;
             _attackIcon.AttackType = Attack.AttackType;
-            _dieIcons[0].Die = Attack.AttackType.AttackDie;
-            _dieIcons[0].CanvasGroupHider.Show();
-            int ix = 1;
-            foreach (var die in Attack.PowerDice)
-            {
-                _dieIcons[ix].Die = die;
-                _dieIcons[ix].CanvasGroupHider.Show();
-                ix++;
-            }
-            HeroEntityData hero = (HeroEntityData)Attacker.EntityData;
-            foreach (var die in hero.GetDice(Attack))
+            int ix = 0;
+            foreach (var die in dice)
             {
                 _dieIcons[ix].Die = die;
                 _dieIcons[ix].CanvasGroupHider.Show();
@@ -182,5 +194,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
         internal void Show() => _toggleablePanel.IsEnabled = true;
         internal void Hide() => _toggleablePanel.IsEnabled = false;
         internal void ClearTarget() => AttackInfo = null;
+
+        public void CancelAttack()
+        {
+            Hide();
+            EncounterController.HeroTurnController.CancelAttack();
+        }
+
+        public void ConfirmAttack()
+        {
+            Hide();
+            EncounterController.HeroTurnController.ConfirmAttack(Attacker, Attack, AttackInfo, _attackDice);
+        }
     }
 }

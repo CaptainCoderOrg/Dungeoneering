@@ -37,7 +37,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _layoutElement.ignoreLayout = false;
             OnChange?.Invoke();
-            StartCoroutine(ShowAtEndOfFrame());
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(ShowAtEndOfFrame());
+            }
         }
 
         public IEnumerator ShowAtEndOfFrame()

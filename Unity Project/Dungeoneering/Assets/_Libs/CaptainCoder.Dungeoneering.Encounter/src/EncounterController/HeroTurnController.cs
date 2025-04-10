@@ -42,6 +42,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public event System.Action<AttackTargetSelectedEvent> OnAttackTargetSelected;
 
+        public void CancelAttack()
+        {
+            ClearTiles();
+            OnSelectionChanged = null;
+        }
+
         public void ShowPossibleAttacks(FigureData attacker, AttackData attack)
         {
             if (attacker == null || attack == null)
@@ -292,6 +298,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 panel.TurnEnded();
             }
             FigureController = null;
+            _diceHUD.Hide();
         }
 
         internal void StartAttack()
@@ -299,6 +306,14 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _attackConfirmationDialogue.Attacker = FigureController.Figure;
             _attackConfirmationDialogue.ClearTarget();
             _attackConfirmationDialogue.Show();
+        }
+
+        [AssertIsSet][SerializeField] private DiceHUD _diceHUD;
+        internal void ConfirmAttack(FigureData attacker, AttackData attack, AttackTargetSelectedEvent attackInfo, List<DieData> attackDice)
+        {
+            _diceHUD.SetDice(attackDice);
+            _diceHUD.Show();
+            _diceHUD.Roll();
         }
     }
 

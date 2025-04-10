@@ -575,6 +575,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: power-icon
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7da3da3835d4564793f0404a2d3c7a7
+      internalID: 239999350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: split-icon
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd1957af88f10f54c85eb083c92dc8a7
+      internalID: -1676379231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -604,10 +648,12 @@ TextureImporter:
       melee-icon: 2128984309
       minimize-icon: -20374960
       move-icon: -942551176
+      power-icon: 239999350
       range-icon: 1911308298
       rest-icon: 1689757341
       select-icon: 1710078805
       speed-icon: 2116316112
+      split-icon: -1676379231
       stamina-icon: -2040212635
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

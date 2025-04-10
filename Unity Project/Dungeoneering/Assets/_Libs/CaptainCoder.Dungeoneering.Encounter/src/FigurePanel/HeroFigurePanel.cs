@@ -38,7 +38,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void HandleFigureChanged(FigureDataChangedEvent _)
         {
-            Debug.Log("Handling changes");
             _heroActionButtons.UpdateButtons(_figureData);
         }
 
