@@ -584,7 +584,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -606,7 +606,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -615,6 +615,50 @@ TextureImporter:
       bones: []
       spriteID: dd1957af88f10f54c85eb083c92dc8a7
       internalID: -1676379231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: increase-icon
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86e4b9c7df6afa349abcf9557bf624ce
+      internalID: -1187969905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: decrease-icon
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 224
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b4ef7d2a778cb40b2471b7ad709997
+      internalID: -332507179
       vertices: []
       indices: 
       edges: []
@@ -639,10 +683,12 @@ TextureImporter:
       cancel-icon: -2064945092
       coin-icon: 1004036206
       confirm-icon: 1471589045
+      decrease-icon: -332507179
       die-icon: -138248448
       dodge-icon: 1839679803
       expand-icon: 1779691692
       health-icon: -847683159
+      increase-icon: -1187969905
       inventory-icon: 899793662
       magic-icon: -107443293
       melee-icon: 2128984309
