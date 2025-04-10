@@ -309,8 +309,13 @@ namespace CaptainCoder.Dungeoneering.Encounter
         }
 
         [AssertIsSet][SerializeField] private DiceHUD _diceHUD;
-        internal void ConfirmAttack(FigureData attacker, AttackData attack, AttackTargetSelectedEvent attackInfo, List<DieData> attackDice)
+        internal void ConfirmAttack(FigureData attacker, AttackData attack, AttackInfo attackInfo, List<DieData> attackDice)
         {
+            if (attacker.Attacks < 1) { return; }
+            attacker.Attacks--;
+            _diceHUD.Attack = attack;
+            _diceHUD.Attacker = attacker;
+            _diceHUD.AttackInfo = attackInfo;
             _diceHUD.SetDice(attackDice);
             _diceHUD.Show();
             _diceHUD.Roll();

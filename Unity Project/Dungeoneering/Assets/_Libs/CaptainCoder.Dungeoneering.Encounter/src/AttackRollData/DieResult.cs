@@ -5,4 +5,5 @@ public record struct DieResult(DieData Die, int Face)
     public readonly int Accuracy => Die.Faces[Face].IsSplit ? 0 : Die.Faces[Face].Aim;
     public readonly int Power => Die.Faces[Face].Power;
     public readonly int Split => Die.Faces[Face].IsSplit ? 1 : 0;
+    public bool IsMiss => Die.Faces[Face].IsMiss;
 }

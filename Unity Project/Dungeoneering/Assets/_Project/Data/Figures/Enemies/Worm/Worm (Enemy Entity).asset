@@ -17,8 +17,9 @@ MonoBehaviour:
   <Portrait>k__BackingField: {fileID: 21300000, guid: 2d205952d31107b4b83c5775f50bdc87, type: 3}
   <BaseHealth>k__BackingField: 12
   <Wounds>k__BackingField: 0
-  <Speed>k__BackingField: 3
-  <Armor>k__BackingField: 2
+  <BaseSpeed>k__BackingField: 0
+  <BaseArmor>k__BackingField: 4
+  <Effects>k__BackingField: []
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: 703297e134030604095b1c915e5d7f36, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 5feaeee0bc46e8d46929b9c8c2bba3f0, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: d438562b5b84a3a409bc3f293c09a7c3, type: 2}

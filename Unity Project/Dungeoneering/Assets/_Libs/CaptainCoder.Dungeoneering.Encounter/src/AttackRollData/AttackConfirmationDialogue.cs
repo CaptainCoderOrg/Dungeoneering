@@ -71,28 +71,31 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void HandleTargetChanged(AttackTargetSelectedEvent @event) => AttackInfo = @event;
 
-        private AttackTargetSelectedEvent _attackInfo;
+        private AttackInfo _attackInfo;
+
+        private AttackTargetSelectedEvent _lastAttackEvent;
         public AttackTargetSelectedEvent AttackInfo
         {
-            get => _attackInfo;
+            get => _lastAttackEvent;
             set
             {
-                _attackInfo = value;
-                Render(_attackInfo);
+                _lastAttackEvent = value;
+                Render(_lastAttackEvent);
             }
         }
 
         private void Render(AttackTargetSelectedEvent attackInfo)
         {
-            if (_attackInfo == null || _attackInfo is NoAttackTargetSelected)
+            if (_lastAttackEvent == null || _lastAttackEvent is NoAttackTargetSelected)
             {
                 _invalidTargetLabel.Hide();
                 _selectATargetLabel.Show();
                 _targetInformation.Hide();
                 _confirmButton.Enabled = false;
             }
-            else if (_attackInfo is ValidAttackTargetSelected valid)
+            else if (_lastAttackEvent is ValidAttackTargetSelected valid)
             {
+                _attackInfo = valid.Attack;
                 _invalidTargetLabel.Hide();
                 _selectATargetLabel.Hide();
                 _targetInformation.Show();
@@ -103,7 +106,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _aimLabel.text = valid.Attack.Distance.ToString();
                 _confirmButton.Enabled = true;
             }
-            else if (_attackInfo is InvalidAttackTargetSelected)
+            else if (_lastAttackEvent is InvalidAttackTargetSelected)
             {
                 _selectATargetLabel.Show();
                 _invalidTargetLabel.Show();
@@ -204,7 +207,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void ConfirmAttack()
         {
             Hide();
-            EncounterController.HeroTurnController.ConfirmAttack(Attacker, Attack, AttackInfo, _attackDice);
+            EncounterController.HeroTurnController.ConfirmAttack(Attacker, Attack, _attackInfo, _attackDice);
         }
     }
 }

@@ -12269,6 +12269,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1273491591}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddAccuracyBonus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Encounter.DiceHUD, DungeonCrawler.Encounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7520311088042297408, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -12289,6 +12317,34 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1692338697, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1273491591}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveAccuracyBonus
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Encounter.DiceHUD, DungeonCrawler.Encounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12310,6 +12366,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &489579552 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2185739458305178651, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+  m_PrefabInstance: {fileID: 489579549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &496344277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16190,7 +16251,7 @@ GameObject:
   - component: {fileID: 773324087}
   - component: {fileID: 773324086}
   m_Layer: 0
-  m_Name: Scores
+  m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23302,14 +23363,14 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 1
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1273491591
 MonoBehaviour:
@@ -23342,6 +23403,12 @@ MonoBehaviour:
   _accuracyLabel: {fileID: 489579551}
   _powerLabel: {fileID: 2090512218}
   _splitLabel: {fileID: 940835436}
+  _resultLabel: {fileID: 1537759501}
+  _attackingLabel: {fileID: 1815370113}
+  _increaseAttackButton: {fileID: 8675952509449541268}
+  _decreaseAttackButton: {fileID: 8675952509449541267}
+  _increaseAccuracyButton: {fileID: 1440231635}
+  _decreaseAccuracyButton: {fileID: 489579552}
 --- !u!114 &1273491592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24440,6 +24507,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8498400389087545887, guid: 45e6ad9a545721f4d9d210caa1d23bc3, type: 3}
   m_PrefabInstance: {fileID: 1431949396}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1440231635 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4780429624402005597, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+  m_PrefabInstance: {fileID: 489579549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1463005487 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1448583158158163521, guid: 775939d8c1191934ca58ca347f503c84, type: 3}
@@ -24845,7 +24917,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1202267432343799494, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_Name
-      value: Info Text(Azure Text)
+      value: Results Label (Azure Text)
       objectReference: {fileID: 0}
     - target: {fileID: 2165923018173073166, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_Pivot.x
@@ -24929,7 +25001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203869756132139069, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_text
-      value: '5<sprite name="melee"/> - 2<sprite name="armor"> = 3 Damage
+      value: '5<sprite name="melee"/> - 2<sprite name="armor"> = 3 Wounds
 
 '
       objectReference: {fileID: 0}
@@ -24965,6 +25037,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &1537759501 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3203869756132139069, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
+  m_PrefabInstance: {fileID: 1537759497}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537759499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1545249391
 Mesh:
   m_ObjectHideFlags: 0
@@ -28848,6 +28931,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &1815370113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3203869756132139069, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
+  m_PrefabInstance: {fileID: 1815370109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815370111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1819747916
 GameObject:
   m_ObjectHideFlags: 0
@@ -32307,6 +32401,7 @@ GameObject:
   - component: {fileID: 2124456978}
   - component: {fileID: 2124456980}
   - component: {fileID: 2124456979}
+  - component: {fileID: 2124456981}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -32372,6 +32467,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124456977}
   m_CullTransparentMesh: 1
+--- !u!114 &2124456981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124456977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1273491591}
+          m_TargetAssemblyTypeName: CaptainCoder.Dungeoneering.Encounter.DiceHUD,
+            DungeonCrawler.Encounter
+          m_MethodName: Confirm
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &2126318971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36011,6 +36136,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1273491591}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddDamageBonus
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Encounter.DiceHUD, DungeonCrawler.Encounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364886974286126714, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7520311088042297408, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -36027,11 +36180,49 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1273491591}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveDamageBonus
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CaptainCoder.Dungeoneering.Encounter.DiceHUD, DungeonCrawler.Encounter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921695965816788615, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+--- !u!225 &8675952509449541267 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2185739458305178651, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+  m_PrefabInstance: {fileID: 8675952509449541266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8675952509449541268 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4780429624402005597, guid: 487afe8d71b034d48bb74b97f324b4e4, type: 3}
+  m_PrefabInstance: {fileID: 8675952509449541266}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8755744517114159775
 GameObject:
   m_ObjectHideFlags: 0

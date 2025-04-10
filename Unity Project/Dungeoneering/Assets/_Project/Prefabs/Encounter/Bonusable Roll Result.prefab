@@ -193,6 +193,8 @@ GameObject:
   - component: {fileID: 8001124463367264914}
   - component: {fileID: 5041660281663120107}
   - component: {fileID: 6066493516213380776}
+  - component: {fileID: 8921695965816788615}
+  - component: {fileID: 2185739458305178651}
   m_Layer: 0
   m_Name: Decrease Icon
   m_TagString: Untagged
@@ -293,7 +295,7 @@ MonoBehaviour:
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _tooltip: '<u>Bonus</u>
 
-    Reclaim a bonus die'
+    Reclaim a <sprite name="bonus-die">'
 --- !u!114 &6066493516213380776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +316,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8921695965816788615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2660242841688366900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+--- !u!225 &2185739458305178651
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2660242841688366900}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5347075731871632150
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +394,8 @@ GameObject:
   - component: {fileID: 3033684503013668947}
   - component: {fileID: 8999066370520501890}
   - component: {fileID: 3570147031062871437}
+  - component: {fileID: 7364886974286126714}
+  - component: {fileID: 4780429624402005597}
   m_Layer: 0
   m_Name: Increase Icon
   m_TagString: Untagged
@@ -463,7 +496,7 @@ MonoBehaviour:
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _tooltip: '<u>Bonus</u>
 
-    Spend a bonus die'
+    Spend a <sprite name="bonus-die">'
 --- !u!114 &3570147031062871437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +517,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7364886974286126714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5509068695424363124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+--- !u!225 &4780429624402005597
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5509068695424363124}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7174123878801249160
 GameObject:
   m_ObjectHideFlags: 0
