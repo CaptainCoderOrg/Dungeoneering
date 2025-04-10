@@ -15,6 +15,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class DiceHUD : MonoBehaviour
     {
+        [AssertIsSet][SerializeField] private DieData _bonusDie;
         [AssertIsSet][SerializeField] private DiceBoxController _diceBoxController;
         [AssertIsSet][SerializeField] private ToggleablePanel _toggleablePanel;
         [AssertIsSet][SerializeField] private DieFaceRenderer[] _dieFaceRenderers;
@@ -24,6 +25,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private TextMeshProUGUI _splitLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _resultLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _attackingLabel;
+        [AssertIsSet][SerializeField] private TextMeshProUGUI _staminaLabel;
+        [AssertIsSet][SerializeField] private CanvasGroup _staminaButton;
         [AssertIsSet][SerializeField] private CanvasGroup _increaseAttackButton;
         [AssertIsSet][SerializeField] private CanvasGroup _decreaseAttackButton;
         [AssertIsSet][SerializeField] private CanvasGroup _increaseAccuracyButton;
@@ -38,6 +41,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private int _powerSpent;
         private int _bonusTotal;
         private int RemainingBonus => _bonusTotal - _accuracyBonus - _damageBonus;
+        private readonly List<DieResult> _dice = new();
         private AttackInfo _attackInfo;
         public AttackInfo AttackInfo
         {
@@ -67,6 +71,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _attack = value;
             }
         }
+        public bool CanExert => _attacker.EntityData is HeroEntityData hero && hero.Stamina > 0 && _dice.Count < 11;
+        public HeroEntityData HeroAttacker => (HeroEntityData)_attacker.EntityData;
 
 
         void Awake()
@@ -76,6 +82,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void HandleDiceResults(IEnumerable<DieResult> result)
         {
+            _dice.Clear();
+            _dice.AddRange(result);
             _damage = 0;
             _damageBonus = 0;
             _accuracy = 0;
@@ -96,6 +104,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _powerLabel.text = $"{_power - _powerSpent}/{_power}";
             _splitLabel.text = $"{RemainingBonus}/{_bonusTotal}";
             _resultLabel.text = CalculateResultLabel();
+            if (_attacker.EntityData is HeroEntityData)
+            {
+                _staminaLabel.text = $"{HeroAttacker.Stamina}";
+                _staminaButton.alpha = CanExert ? 1 : 0.5f;
+            }
+            else
+            {
+                Debug.LogWarning("TODO: Hide stamina element when not a hero");
+            }
 
             if (RemainingBonus > 0)
             {
@@ -216,7 +233,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Exert()
         {
-
+            if (CanExert)
+            {
+                HeroAttacker.Exertion++;
+                _diceBoxController.AddDie(_bonusDie);
+                UpdateLabels();
+            }
         }
 
         public void Confirm()

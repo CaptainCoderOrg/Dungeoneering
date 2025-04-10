@@ -20,12 +20,31 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public event System.Action<IEnumerable<DieResult>> OnResult;
 
-        public void SetDice(IEnumerable<DieData> dice)
+        private void CenterCamera()
         {
             float minX = float.PositiveInfinity;
             float minZ = float.PositiveInfinity;
             float maxX = float.NegativeInfinity;
             float maxZ = float.NegativeInfinity;
+
+            foreach (DieController dieController in _dice.Where(d => d.gameObject.activeInHierarchy))
+            {
+                maxX = Mathf.Max(maxX, dieController.transform.position.x);
+                maxZ = Mathf.Max(maxZ, dieController.transform.position.z);
+                minX = Mathf.Min(minX, dieController.transform.position.x);
+                minZ = Mathf.Min(minZ, dieController.transform.position.z);
+            }
+
+            _diceCameraPivot.transform.position = new Vector3(
+            ((maxX - minX) * 0.5f) + minX,
+            _diceCameraPivot.transform.position.y,
+            ((maxZ - minZ) * 0.5f) + minZ
+        );
+        }
+
+        public void SetDice(IEnumerable<DieData> dice)
+        {
+
             int ix = 0;
             _count = 0;
             _results.Clear();
@@ -37,10 +56,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 dieController.gameObject.SetActive(true);
                 dieController.OnResult -= HandleDieResult;
                 dieController.OnResult += HandleDieResult;
-                maxX = Mathf.Max(maxX, dieController.transform.position.x);
-                maxZ = Mathf.Max(maxZ, dieController.transform.position.z);
-                minX = Mathf.Min(minX, dieController.transform.position.x);
-                minZ = Mathf.Min(minZ, dieController.transform.position.z);
+
             }
 
             for (; ix < _dice.Length; ix++)
@@ -50,12 +66,25 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 dieController.OnResult -= HandleDieResult;
             }
 
+            CenterCamera();
+        }
 
-            _diceCameraPivot.transform.position = new Vector3(
-                ((maxX - minX) * 0.5f) + minX,
-                _diceCameraPivot.transform.position.y,
-                ((maxZ - minZ) * 0.5f) + minZ
-            );
+        public void AddDie(DieData die)
+        {
+            DieController next = _dice[_count];
+            next.Die = die;
+            next.gameObject.SetActive(true);
+            next.OnResult -= HandleDieResult;
+            next.OnResult += HandleSingleDieResult;
+            next.Roll();
+            _count++;
+            CenterCamera();
+        }
+
+        private void HandleSingleDieResult(DieResult result)
+        {
+            _results.Add(result);
+            OnResult?.Invoke(_results);
         }
 
         private void HandleDieResult(DieResult result)

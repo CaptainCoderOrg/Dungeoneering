@@ -1955,7 +1955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -864
+      value: -865
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5762,7 +5762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -864
+      value: -865
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8381,7 +8381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -864
+      value: -865
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23384,6 +23384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2079c88fb86fc4a8b3a329347486bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bonusDie: {fileID: 11400000, guid: 76a51ee6611969e41be91e50d857bc90, type: 2}
   _diceBoxController: {fileID: 1823597425}
   _toggleablePanel: {fileID: 1273491582}
   _dieFaceRenderers:
@@ -23405,6 +23406,8 @@ MonoBehaviour:
   _splitLabel: {fileID: 940835436}
   _resultLabel: {fileID: 1537759501}
   _attackingLabel: {fileID: 1815370113}
+  _staminaLabel: {fileID: 1384117315}
+  _staminaButton: {fileID: 1866927769}
   _increaseAttackButton: {fileID: 8675952509449541268}
   _decreaseAttackButton: {fileID: 8675952509449541267}
   _increaseAccuracyButton: {fileID: 1440231635}
@@ -23941,7 +23944,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1202267432343799494, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_Name
-      value: Accuracy Value(Azure Text) (1)
+      value: Stamina Value(Azure Text) (1)
       objectReference: {fileID: 0}
     - target: {fileID: 2165923018173073166, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
       propertyPath: m_Pivot.x
@@ -24059,6 +24062,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &1384117315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3203869756132139069, guid: d3717c91129e7da4ab740df6ce584a4d, type: 3}
+  m_PrefabInstance: {fileID: 1384117311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384117313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1389248257
 GameObject:
   m_ObjectHideFlags: 0
@@ -29532,8 +29546,10 @@ GameObject:
   - component: {fileID: 1866927765}
   - component: {fileID: 1866927764}
   - component: {fileID: 1866927763}
+  - component: {fileID: 1866927769}
+  - component: {fileID: 1866927768}
   m_Layer: 0
-  m_Name: Confirm Ability
+  m_Name: Exert Ability Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29594,7 +29610,10 @@ MonoBehaviour:
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _tooltip: '<u>Exhert</u>
 
-    Spend 1 stamina to roll an additional <b>Bonus Die</b>'
+    Spend 1<sprite name="stamina"> => Roll a <sprite
+    name="bonus-die">
+
+    <b>Note</b>: You can never roll more than 9 dice'
 --- !u!114 &1866927765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29653,6 +29672,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866927761}
   m_CullTransparentMesh: 1
+--- !u!114 &1866927768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866927761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1273491591}
+          m_TargetAssemblyTypeName: CaptainCoder.Dungeoneering.Encounter.DiceHUD,
+            DungeonCrawler.Encounter
+          m_MethodName: Exert
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!225 &1866927769
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866927761}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1901139958
 GameObject:
   m_ObjectHideFlags: 0
@@ -33868,7 +33929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -864
+      value: -865
       objectReference: {fileID: 0}
     - target: {fileID: 3268797906096883850, guid: be003efddfc644e449de6cf44cd98b3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -35383,7 +35444,10 @@ MonoBehaviour:
   _tooltipElement: {fileID: 11400000, guid: 329256dbe6d30274c8a765bde07135d6, type: 2}
   _tooltip: '<u>Exhert</u>
 
-    You may spend 1 stamina to roll 1 <b>Bonus Die</b>'
+    Spend 1<sprite name="stamina"> => Roll a <sprite
+    name="bonus-die">
+
+    <b>Note</b>: You can never roll more than 9 dice'
 --- !u!114 &7912704646667948446
 MonoBehaviour:
   m_ObjectHideFlags: 0

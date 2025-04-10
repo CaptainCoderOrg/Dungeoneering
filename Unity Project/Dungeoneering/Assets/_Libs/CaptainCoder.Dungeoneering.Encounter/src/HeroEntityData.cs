@@ -9,7 +9,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public sealed class HeroEntityData : LivingEntityData
     {
         [field: SerializeField] public int BaseStamina { get; private set; }
-        [field: SerializeField] public int Exertion { get; private set; }
+        [field: SerializeField] public int Exertion { get; set; }
         public int MaxStamina => BaseStamina + TraitEffects().Where(te => te.TraitType == TraitDatabase.StaminaTrait).Sum(te => te.Value);
         public override IEnumerable<TraitEffect> TraitEffects() => base.TraitEffects().Concat(Equipped().SelectMany(e => e.WornTraitEffects));
         public IEnumerable<EquipmentData> Equipped()
