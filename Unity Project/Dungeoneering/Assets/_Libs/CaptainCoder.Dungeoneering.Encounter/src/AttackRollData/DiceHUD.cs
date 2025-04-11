@@ -32,6 +32,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private CanvasGroup _decreaseAttackButton;
         [AssertIsSet][SerializeField] private CanvasGroup _increaseAccuracyButton;
         [AssertIsSet][SerializeField] private CanvasGroup _decreaseAccuracyButton;
+        [AssertIsSet][SerializeField] private AttackAbilityRenderer[] _attackAbilityRenderers;
 
         private bool _isMiss = false;
         private int _damage;
@@ -40,6 +41,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private int _accuracyBonus;
         public int TotalAccuracy => _accuracy + _accuracyBonus;
         private int _power;
+        private int PowerRemaining => _power - _powerSpent;
         private int _powerSpent;
         private int _bonusTotal;
         private int RemainingBonus => _bonusTotal - _accuracyBonus - _damageBonus;
@@ -101,18 +103,28 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _bonusTotal = 0;
             _isMiss = false;
             RenderDice(result);
-            UpdateLabels();
+            UpdateResults();
+            UpdateAbilities();
             Rebuild();
         }
 
         private void UpdateLabels()
         {
-            _attackResult = CalculateResult();
             _damageLabel.text = $"{_damage + _damageBonus}";
             _accuracyLabel.text = $"{_accuracy + _accuracyBonus}";
-            _powerLabel.text = $"{_power - _powerSpent}/{_power}";
+            _powerLabel.text = $"{PowerRemaining}/{_power}";
             _splitLabel.text = $"{RemainingBonus}/{_bonusTotal}";
             _resultLabel.text = _attackResult.Message;
+
+            _increaseAccuracyButton.alpha = CanAddAccuracyBonus ? 1 : 0.5f;
+            _increaseAttackButton.alpha = CanAddDamageBonus ? 1 : 0.5f;
+            _decreaseAttackButton.alpha = CanRemoveDamageBonus ? 1 : 0.5f;
+            _decreaseAccuracyButton.alpha = CanRemoveAccuracyBonus ? 1 : 0.5f;
+        }
+
+
+        private void UpdateAbilities()
+        {
             if (_attacker.EntityData is HeroEntityData)
             {
                 _staminaLabel.text = $"{HeroAttacker.Stamina}";
@@ -123,10 +135,43 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 Debug.LogWarning("TODO: Hide stamina element when not a hero");
             }
 
-            _increaseAccuracyButton.alpha = CanAddAccuracyBonus ? 1 : 0.5f;
-            _increaseAttackButton.alpha = CanAddDamageBonus ? 1 : 0.5f;
-            _decreaseAttackButton.alpha = CanRemoveDamageBonus ? 1 : 0.5f;
-            _decreaseAccuracyButton.alpha = CanRemoveAccuracyBonus ? 1 : 0.5f;
+            AttackAbilityData[] attackAbilities = _attacker.EntityData.GetAttackAbilities().ToHashSet().ToArray();
+            for (int ix = 0; ix < _attackAbilityRenderers.Length; ix++)
+            {
+                AttackAbilityRenderer renderer = _attackAbilityRenderers[ix];
+                renderer.OnSelected -= ApplyAbility;
+                if (attackAbilities.Length > ix)
+                {
+                    AttackAbilityData attackAbility = attackAbilities[ix];
+                    renderer.AttackAbility = attackAbilities[ix];
+                    renderer.IsEnabled = true;
+                    renderer.IsAvailable = !_isMiss && attackAbility.PowerCost <= PowerRemaining;
+                    renderer.OnSelected += ApplyAbility;
+                }
+                else
+                {
+                    renderer.IsEnabled = false;
+                }
+            }
+        }
+
+        private void ApplyAbility(AttackAbilityData attackAbility)
+        {
+            Debug.Log("ApplyAbility");
+            if (attackAbility.PowerCost > PowerRemaining) { return; }
+            _powerSpent += attackAbility.PowerCost;
+            _damage += attackAbility.DamageBonus;
+            _accuracy += attackAbility.AccuracyBonus;
+            Debug.Log("Ability Applied");
+            UpdateResults();
+        }
+
+        private void UpdateResults()
+        {
+            _attackResult = CalculateResult();
+            UpdateLabels();
+            UpdateAbilities();
+
         }
 
         private AttackResult CalculateResult()
@@ -195,6 +240,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void Hide() => _toggleablePanel.IsEnabled = false;
         internal void Roll()
         {
+            UpdateAbilities();
             _resultLabel.text = "Rolling...";
             _damageLabel.text = "?";
             _accuracyLabel.text = $"?";
@@ -207,28 +253,28 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             if (!CanAddDamageBonus) { return; }
             _damageBonus++;
-            UpdateLabels();
+            UpdateResults();
         }
 
         public void RemoveDamageBonus()
         {
             if (!CanRemoveDamageBonus) { return; }
             _damageBonus--;
-            UpdateLabels();
+            UpdateResults();
         }
 
         public void AddAccuracyBonus()
         {
             if (!CanAddAccuracyBonus) { return; }
             _accuracyBonus++;
-            UpdateLabels();
+            UpdateResults();
         }
 
         public void RemoveAccuracyBonus()
         {
             if (!CanRemoveAccuracyBonus) { return; }
             _accuracyBonus--;
-            UpdateLabels();
+            UpdateResults();
         }
 
         public void Exert()
@@ -237,7 +283,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             {
                 HeroAttacker.Exertion++;
                 _diceBoxController.AddDie(_bonusDie);
-                UpdateLabels();
+                UpdateResults();
             }
         }
 

@@ -156,5 +156,37 @@ namespace CaptainCoder.Dungeoneering.Encounter
             Debug.LogError($"Entity {this} does not have the trait {traitTypeData}", this);
             return null;
         }
+
+        internal override IEnumerable<AttackAbilityData> GetAttackAbilities()
+        {
+            if (_leftHand != null)
+            {
+                foreach (var ability in _leftHand.AttackAbilities)
+                {
+                    yield return ability;
+                }
+            }
+            if (_rightHand != null)
+            {
+                foreach (var ability in _rightHand.AttackAbilities)
+                {
+                    yield return ability;
+                }
+            }
+            if (_wornArmor != null)
+            {
+                foreach (var ability in _wornArmor.AttackAbilities)
+                {
+                    yield return ability;
+                }
+            }
+            if (_accessory != null)
+            {
+                foreach (var ability in _accessory.AttackAbilities)
+                {
+                    yield return ability;
+                }
+            }
+        }
     }
 }

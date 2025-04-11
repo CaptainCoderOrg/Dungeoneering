@@ -26,7 +26,7 @@ MonoBehaviour:
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 220226c753d546d4f980132e28516dae, type: 2}
   <BaseStamina>k__BackingField: 3
-  _exertion: 0
+  _exertion: 3
   _leftHand: {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
   _rightHand: {fileID: 11400000, guid: f19ae697ad791dc42bc89b3ba6bf0594, type: 2}
   _wornArmor: {fileID: 11400000, guid: 21a3804b2ed493d4a9667071b885f2ec, type: 2}
