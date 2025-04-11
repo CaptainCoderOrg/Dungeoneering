@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,11 +61,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 {
                     _selectAttackLabel.Hide();
                     _attackInformation.Show();
-                    EncounterController.HeroTurnController.ShowPossibleAttacks(Attacker, Attack);
-                    EncounterController.HeroTurnController.OnAttackTargetSelected += HandleTargetChanged;
                     _attackDice.Clear();
                     _attackDice.AddRange(CalculateAttackDice((HeroEntityData)Attacker.EntityData, _attackData));
                     RenderAttackDice(_attackDice);
+                    EncounterController.HeroTurnController.OnAttackTargetSelected += HandleTargetChanged;
+                    EncounterController.HeroTurnController.ShowPossibleAttacks(Attacker, Attack);
                 }
             }
         }
@@ -86,18 +87,17 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void Render(AttackTargetSelectedEvent attackInfo)
         {
-            if (_lastAttackEvent == null || _lastAttackEvent is NoAttackTargetSelected)
+            _invalidTargetLabel.Hide();
+            _selectATargetLabel.Hide();
+            _targetInformation.Hide();
+            if (attackInfo == null || attackInfo is NoAttackTargetSelected)
             {
-                _invalidTargetLabel.Hide();
                 _selectATargetLabel.Show();
-                _targetInformation.Hide();
                 _confirmButton.Enabled = false;
             }
-            else if (_lastAttackEvent is ValidAttackTargetSelected valid)
+            else if (attackInfo is ValidAttackTargetSelected valid)
             {
                 _attackInfo = valid.Attack;
-                _invalidTargetLabel.Hide();
-                _selectATargetLabel.Hide();
                 _targetInformation.Show();
                 LivingEntityData entity = valid.Attack.Target.Figure.EntityData;
                 _nameLabel.text = entity.Name;
@@ -106,19 +106,25 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _aimLabel.text = valid.Attack.Distance.ToString();
                 _confirmButton.Enabled = true;
             }
-            else if (_lastAttackEvent is InvalidAttackTargetSelected)
+            else if (attackInfo is InvalidAttackTargetSelected)
             {
                 _selectATargetLabel.Show();
                 _invalidTargetLabel.Show();
-                _targetInformation.Hide();
                 _confirmButton.Enabled = false;
             }
             else
             {
                 throw new Exception($"Unexpected event: {attackInfo}");
             }
+            Rebuild();
+        }
+
+        [Button]
+        private void Rebuild()
+        {
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         }
+
 
         void Awake()
         {

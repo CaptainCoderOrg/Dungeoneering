@@ -35,6 +35,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Show()
         {
+            StopAllCoroutines();
             _layoutElement.ignoreLayout = false;
             OnChange?.Invoke();
             if (gameObject.activeInHierarchy)
@@ -48,10 +49,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
             yield return null;
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
+            _layoutElement.ignoreLayout = false;
         }
 
         public void Hide()
         {
+            StopAllCoroutines();
             _canvasGroup.alpha = 0;
             _canvasGroup.blocksRaycasts = false;
             _layoutElement.ignoreLayout = true;

@@ -60,6 +60,10 @@ namespace CaptainCoder.Dungeoneering.Encounter
             _possibleAttacks = FindAttackTargets(attacker, attack, State, Controller.EncounterData);
             HighlightAttacks(_possibleAttacks);
             OnSelectionChanged = HandleAttackTargetSelected;
+            if (Controller.Selected != null)
+            {
+                HandleAttackTargetSelected(Controller.Selected);
+            }
         }
 
         private void HandleAttackTargetSelected(EncounterFigureController target)
@@ -303,8 +307,8 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         internal void StartAttack()
         {
-            _attackConfirmationDialogue.Attacker = FigureController.Figure;
             _attackConfirmationDialogue.ClearTarget();
+            _attackConfirmationDialogue.Attacker = FigureController.Figure;
             _attackConfirmationDialogue.Show();
         }
 
