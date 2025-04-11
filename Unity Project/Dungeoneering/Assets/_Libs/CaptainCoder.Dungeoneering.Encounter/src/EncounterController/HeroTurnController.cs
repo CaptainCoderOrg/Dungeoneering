@@ -42,7 +42,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public event System.Action<AttackTargetSelectedEvent> OnAttackTargetSelected;
 
-        public void CancelAttack()
+        public void CloseAttackPanel()
         {
             ClearTiles();
             OnSelectionChanged = null;

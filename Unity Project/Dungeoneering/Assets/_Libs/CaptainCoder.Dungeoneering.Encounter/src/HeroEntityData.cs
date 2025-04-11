@@ -9,7 +9,16 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public sealed class HeroEntityData : LivingEntityData
     {
         [field: SerializeField] public int BaseStamina { get; private set; }
-        [field: SerializeField] public int Exertion { get; set; }
+        [SerializeField] private int _exertion;
+        public int Exertion
+        {
+            get => _exertion;
+            set
+            {
+                _exertion = value;
+                Notify(TraitChangedEvent.Instance);
+            }
+        }
         public int MaxStamina => BaseStamina + TraitEffects().Where(te => te.TraitType == TraitDatabase.StaminaTrait).Sum(te => te.Value);
         public override IEnumerable<TraitEffect> TraitEffects() => base.TraitEffects().Concat(Equipped().SelectMany(e => e.WornTraitEffects));
         public IEnumerable<EquipmentData> Equipped()
@@ -19,7 +28,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
             if (WornArmor != null) yield return WornArmor;
             if (Accessory != null) yield return Accessory;
         }
-        public int Stamina => MaxStamina - Exertion;
+        public int Stamina => MaxStamina - _exertion;
         [field: SerializeField] private HeldEquipmentData _leftHand;
         public HeldEquipmentData LeftHand
         {

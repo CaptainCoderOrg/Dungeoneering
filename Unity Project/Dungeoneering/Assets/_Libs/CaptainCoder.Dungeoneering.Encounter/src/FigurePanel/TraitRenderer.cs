@@ -25,7 +25,6 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void Draw(LivingEntityChangeEvent @event)
         {
-            if (@event is not EquipmentChangedEvent) { return; }
             _traitLabel.text = _entity.TraitValueText(_traitTypeData);
             _simpleTooltip.Tooltip = _entity.TraitDetails(_traitTypeData);
         }

@@ -10,11 +10,22 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [AssertIsSet][SerializeField] private TextMeshProUGUI _healthLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _armorLabel;
         [AssertIsSet][SerializeField] private TextMeshProUGUI _speedLabel;
+        private FigureData _figure;
         public void Render(FigureData data)
         {
-            _healthLabel.text = $"{data.EntityData.Health}/{data.EntityData.BaseHealth}";
-            _armorLabel.text = data.EntityData.BaseArmor.ToString();
-            _speedLabel.text = data.EntityData.BaseSpeed.ToString();
+            if (_figure != null) { _figure.EntityData.OnChanged -= HandleTraitsChanged; }
+            _figure = data;
+            _figure.EntityData.OnChanged += HandleTraitsChanged;
+            Render();
+        }
+
+        private void HandleTraitsChanged(LivingEntityChangeEvent @event) => Render();
+
+        private void Render()
+        {
+            _healthLabel.text = $"{_figure.EntityData.Health}/{_figure.EntityData.BaseHealth}";
+            _armorLabel.text = _figure.EntityData.BaseArmor.ToString();
+            _speedLabel.text = _figure.EntityData.BaseSpeed.ToString();
         }
     }
 }

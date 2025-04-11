@@ -16,7 +16,7 @@ MonoBehaviour:
   <Name>k__BackingField: Argil the Swift
   <Portrait>k__BackingField: {fileID: 21300000, guid: c38c033bc81f0be4bb1f1934706e94f0, type: 3}
   <BaseHealth>k__BackingField: 8
-  <Wounds>k__BackingField: 0
+  _wounds: 0
   <BaseSpeed>k__BackingField: 4
   <BaseArmor>k__BackingField: 0
   <Effects>k__BackingField:
@@ -26,7 +26,7 @@ MonoBehaviour:
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: 82d56031713ffcb4cbe0ca40011a7ec5, type: 2}
   <BaseStamina>k__BackingField: 10
-  <Exertion>k__BackingField: 0
+  _exertion: 4
   _leftHand: {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
   _rightHand: {fileID: 11400000, guid: 8854412d913fcb4499d0c247298de2d3, type: 2}
   _wornArmor: {fileID: 11400000, guid: 593fce6b49fecfa43bd8d7547ba4b0b3, type: 2}

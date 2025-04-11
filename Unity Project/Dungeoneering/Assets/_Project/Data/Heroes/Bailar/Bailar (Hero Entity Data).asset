@@ -16,7 +16,7 @@ MonoBehaviour:
   <Name>k__BackingField: Bailar the Wise
   <Portrait>k__BackingField: {fileID: 21300000, guid: 60eb1e66118ba2942bfc880f7e596352, type: 3}
   <BaseHealth>k__BackingField: 8
-  <Wounds>k__BackingField: 0
+  _wounds: 0
   <BaseSpeed>k__BackingField: 4
   <BaseArmor>k__BackingField: 0
   <Effects>k__BackingField:
@@ -25,15 +25,15 @@ MonoBehaviour:
   <SpawnAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <AttackAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
   <IdleAnimation>k__BackingField: {fileID: 11400000, guid: ecc8c7daf5de0b343b17c84d88b48209, type: 2}
-  <BaseStamina>k__BackingField: 3
-  <Exertion>k__BackingField: 0
-  _leftHand: {fileID: 0}
-  _rightHand: {fileID: 0}
+  <BaseStamina>k__BackingField: 10
+  _exertion: 7
+  _leftHand: {fileID: 11400000, guid: 061830f8bd4d8754eb6207025ffa744c, type: 2}
+  _rightHand: {fileID: 11400000, guid: 061830f8bd4d8754eb6207025ffa744c, type: 2}
   _wornArmor: {fileID: 11400000, guid: 070ebd9bebcef8f44bc3801c48e58538, type: 2}
   _accessory: {fileID: 0}
   <Inventory>k__BackingField:
-  - {fileID: 11400000, guid: 061830f8bd4d8754eb6207025ffa744c, type: 2}
-  - {fileID: 11400000, guid: fb49bbf683db59441962c15f4497f0c8, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: bf2fb0c2ad0b2e544b1aacc17cf6dc45, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: b1ba5b8d21d0f2b4b841231a5a67b090, type: 2}
   <MeleeSkillDice>k__BackingField: []

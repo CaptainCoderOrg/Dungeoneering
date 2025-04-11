@@ -1,3 +1,5 @@
+using System;
+
 using CaptainCoder.Unity.Assertions;
 
 using UnityEngine;
@@ -23,6 +25,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 }
                 EncounterFigureController controller = Instantiate(_enemyFigurePrefab, _enemyFigureParent);
                 controller.Figure = FigureData.CopyEnemyAndCreate(f.EnemyEntityTemplate, f.Position);
+                controller.Figure.EntityData.OnChanged += @event => HandleEntityChanged(controller, @event);
 
                 State.Figures[f.Position] = controller;
                 controller.OnSelected.AddListener(() => _enemyFigurePanel.Render(controller.Figure));
@@ -52,6 +55,15 @@ namespace CaptainCoder.Dungeoneering.Encounter
             for (; ix < Controller.HeroPanels.Length; ix++)
             {
                 Controller.HeroPanels[ix].gameObject.SetActive(false);
+            }
+        }
+
+        private void HandleEntityChanged(EncounterFigureController controller, LivingEntityChangeEvent @event)
+        {
+            if (@event is EntityDeathEvent)
+            {
+                State.Figures.Remove(controller.Figure.Position);
+                Destroy(controller.gameObject);
             }
         }
     }

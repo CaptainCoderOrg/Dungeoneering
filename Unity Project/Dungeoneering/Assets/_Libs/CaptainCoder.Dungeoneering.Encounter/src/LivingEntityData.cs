@@ -14,7 +14,28 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public Sprite Portrait { get; private set; }
         [field: SerializeField] public int BaseHealth { get; private set; }
         public int MaxHealth => BaseHealth + TraitEffects().Where(te => te.TraitType == TraitDatabase.HealthTrait).Sum(te => te.Value);
-        [field: SerializeField] public int Wounds { get; private set; }
+        [SerializeField] private int _wounds;
+        public int Wounds
+        {
+            get => _wounds;
+            set
+            {
+                int previous = _wounds;
+                _wounds = Mathf.Clamp(value, 0, MaxHealth);
+                if (_wounds == MaxHealth)
+                {
+                    Notify(EntityDeathEvent.Instance);
+                }
+                else if (previous < _wounds)
+                {
+                    Notify(new EntityDamagedEvent(_wounds - previous));
+                }
+                else if (previous > _wounds)
+                {
+                    Notify(new EntityHealedEvent(previous - _wounds));
+                }
+            }
+        }
         public int Health => MaxHealth - Wounds;
         [field: SerializeField] public int BaseSpeed { get; private set; }
         public int Speed => BaseSpeed + TraitEffects().Where(te => te.TraitType == TraitDatabase.SpeedTrait).Sum(te => te.Value);
@@ -116,5 +137,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
     public sealed record class StatusChangedEvent : LivingEntityChangeEvent
     {
         public static readonly StatusChangedEvent Instance = new();
+    }
+
+    public sealed record class TraitChangedEvent : LivingEntityChangeEvent
+    {
+        public static readonly TraitChangedEvent Instance = new();
+    }
+
+    public sealed record class EntityDamagedEvent(int Amount) : LivingEntityChangeEvent;
+    public sealed record class EntityHealedEvent(int Amount) : LivingEntityChangeEvent;
+
+    public sealed record class EntityDeathEvent : LivingEntityChangeEvent
+    {
+        public static readonly EntityDeathEvent Instance = new();
     }
 }

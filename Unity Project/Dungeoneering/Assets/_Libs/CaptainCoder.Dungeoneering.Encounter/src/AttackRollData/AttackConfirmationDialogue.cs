@@ -201,7 +201,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         public void CancelAttack()
         {
             Hide();
-            EncounterController.HeroTurnController.CancelAttack();
+            EncounterController.HeroTurnController.CloseAttackPanel();
         }
 
         public void ConfirmAttack()

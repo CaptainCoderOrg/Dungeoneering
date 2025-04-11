@@ -15,6 +15,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 {
     public class DiceHUD : MonoBehaviour
     {
+        [SerializeField] private EncounterController _encounterController;
         [AssertIsSet][SerializeField] private DieData _bonusDie;
         [AssertIsSet][SerializeField] private DiceBoxController _diceBoxController;
         [AssertIsSet][SerializeField] private ToggleablePanel _toggleablePanel;
@@ -37,6 +38,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         private int _damageBonus;
         private int _accuracy;
         private int _accuracyBonus;
+        public int TotalAccuracy => _accuracy + _accuracyBonus;
         private int _power;
         private int _powerSpent;
         private int _bonusTotal;
@@ -71,12 +73,18 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 _attack = value;
             }
         }
-        public bool CanExert => _attacker.EntityData is HeroEntityData hero && hero.Stamina > 0 && _dice.Count < 11;
+        public bool CanExert => !_isMiss && _attacker.EntityData is HeroEntityData hero && hero.Stamina > 0 && _dice.Count < 12;
         public HeroEntityData HeroAttacker => (HeroEntityData)_attacker.EntityData;
 
+        public bool CanAddDamageBonus => !_isMiss && RemainingBonus > 0;
+        public bool CanRemoveDamageBonus => !_isMiss && _damageBonus > 0;
+        public bool CanAddAccuracyBonus => !_isMiss && RemainingBonus > 0;
+        public bool CanRemoveAccuracyBonus => !_isMiss && _accuracyBonus > 0;
+        private AttackResult _attackResult;
 
         void Awake()
         {
+            _encounterController = GetComponentInParent<EncounterController>();
             _diceBoxController.OnResult += HandleDiceResults;
         }
 
@@ -84,12 +92,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
         {
             _dice.Clear();
             _dice.AddRange(result);
-            _damage = 0;
             _damageBonus = 0;
-            _accuracy = 0;
             _accuracyBonus = 0;
-            _power = 0;
             _powerSpent = 0;
+            _damage = 0;
+            _accuracy = 0;
+            _power = 0;
             _bonusTotal = 0;
             _isMiss = false;
             RenderDice(result);
@@ -99,11 +107,12 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         private void UpdateLabels()
         {
+            _attackResult = CalculateResult();
             _damageLabel.text = $"{_damage + _damageBonus}";
             _accuracyLabel.text = $"{_accuracy + _accuracyBonus}";
             _powerLabel.text = $"{_power - _powerSpent}/{_power}";
             _splitLabel.text = $"{RemainingBonus}/{_bonusTotal}";
-            _resultLabel.text = CalculateResultLabel();
+            _resultLabel.text = _attackResult.Message;
             if (_attacker.EntityData is HeroEntityData)
             {
                 _staminaLabel.text = $"{HeroAttacker.Stamina}";
@@ -114,35 +123,26 @@ namespace CaptainCoder.Dungeoneering.Encounter
                 Debug.LogWarning("TODO: Hide stamina element when not a hero");
             }
 
-            if (RemainingBonus > 0)
-            {
-                _increaseAttackButton.alpha = 1;
-                _increaseAccuracyButton.alpha = 1;
-            }
-            else
-            {
-                _increaseAttackButton.alpha = 0.5f;
-                _increaseAccuracyButton.alpha = 0.5f;
-            }
-
-            _decreaseAttackButton.alpha = _damageBonus > 0 ? 1 : 0.5f;
-            _decreaseAccuracyButton.alpha = _accuracyBonus > 0 ? 1 : 0.5f;
+            _increaseAccuracyButton.alpha = CanAddAccuracyBonus ? 1 : 0.5f;
+            _increaseAttackButton.alpha = CanAddDamageBonus ? 1 : 0.5f;
+            _decreaseAttackButton.alpha = CanRemoveDamageBonus ? 1 : 0.5f;
+            _decreaseAccuracyButton.alpha = CanRemoveAccuracyBonus ? 1 : 0.5f;
         }
 
-        private string CalculateResultLabel()
+        private AttackResult CalculateResult()
         {
             if (_isMiss)
             {
-                return "X = MISS!";
+                return new AttackResult("X = MISS!", 0);
             }
-            if (_accuracy < _attackInfo.Distance)
+            if (TotalAccuracy < _attackInfo.Distance)
             {
-                return $"MISS - Requires {_attackInfo.Distance}<sprite name=\"accuracy\">";
+                return new AttackResult($"MISS - Requires {_attackInfo.Distance}<sprite name=\"accuracy\">", 0);
             }
             int armor = _attackInfo.Target.Figure.EntityData.Armor;
             int totalDamage = _damage + _damageBonus;
             int wounds = Mathf.Max(0, totalDamage - armor);
-            return $"{totalDamage}<sprite name=\"melee\"/> - {armor}<sprite name=\"armor\"> = {wounds} WOUNDS";
+            return new AttackResult($"{totalDamage}<sprite name=\"melee\"/> - {armor}<sprite name=\"armor\"> = {wounds} WOUNDS", wounds);
         }
 
         private void RenderDice(IEnumerable<DieResult> result)
@@ -205,28 +205,28 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void AddDamageBonus()
         {
-            if (RemainingBonus <= 0) { return; }
+            if (!CanAddDamageBonus) { return; }
             _damageBonus++;
             UpdateLabels();
         }
 
         public void RemoveDamageBonus()
         {
-            if (_damageBonus <= 0) { return; }
+            if (!CanRemoveDamageBonus) { return; }
             _damageBonus--;
             UpdateLabels();
         }
 
         public void AddAccuracyBonus()
         {
-            if (RemainingBonus <= 0) { return; }
+            if (!CanAddAccuracyBonus) { return; }
             _accuracyBonus++;
             UpdateLabels();
         }
 
         public void RemoveAccuracyBonus()
         {
-            if (_accuracyBonus <= 0) { return; }
+            if (!CanRemoveAccuracyBonus) { return; }
             _accuracyBonus--;
             UpdateLabels();
         }
@@ -243,8 +243,11 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Confirm()
         {
-            Debug.LogWarning("Confirm not implemented!");
+            _attackInfo.Target.Figure.EntityData.Wounds += _attackResult.Wounds;
+            _encounterController.HeroTurnController.CloseAttackPanel();
             Hide();
         }
     }
+
+    public record struct AttackResult(string Message, int Wounds);
 }

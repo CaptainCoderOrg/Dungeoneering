@@ -17,15 +17,26 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [SerializeField] private ILivingEntityRenderer[] _entityRenderers;
         [AssertIsSet][SerializeField] private CanvasGroup _canvasGroup;
         [AssertIsSet][SerializeField] private CanvasRebuilder _rebuilder;
+        [AssertIsSet][SerializeField] private CanvasGroupHider _deadIndicator;
 
         public FigureData FigureData
         {
             get => _figureData;
             set
             {
+                if (_figureData != null) { _figureData.EntityData.OnChanged -= HandleEnityChanged; }
                 _figureData = value;
+                _figureData.EntityData.OnChanged += HandleEnityChanged;
                 FindAllRenderers();
                 UpdateRenderers();
+            }
+        }
+
+        private void HandleEnityChanged(LivingEntityChangeEvent @event)
+        {
+            if (@event is EntityDeathEvent)
+            {
+                _deadIndicator.Show();
             }
         }
 
@@ -62,6 +73,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
 
         public void Show()
         {
+            _deadIndicator.Hide();
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
             _layoutElement.ignoreLayout = false;
