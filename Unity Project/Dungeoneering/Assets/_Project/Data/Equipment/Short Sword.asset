@@ -17,5 +17,7 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 21300000, guid: 12d10e3c2b6822c49a36895617062a5f, type: 3}
   <Value>k__BackingField: 50
   <WornTraitEffects>k__BackingField: []
+  <AttackAbilities>k__BackingField:
+  - {fileID: 11400000, guid: 6a8255ad23d378e4abbf6dcf86e881c6, type: 2}
   <IsTwoHanded>k__BackingField: 0
   <Attack>k__BackingField: {fileID: 11400000, guid: b0944b0bb916afb4cba807ab04fd4bf0, type: 2}

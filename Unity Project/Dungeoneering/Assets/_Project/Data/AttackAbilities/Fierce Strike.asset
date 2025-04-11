@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b211af77eab055449b0b8984b2655638, type: 3}
+  m_Name: Fierce Strike
+  m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 21300000, guid: 31e3874b210183f46b40fc1769971397, type: 3}
+  <Name>k__BackingField: Fierce Strike
+  <Description>k__BackingField: '<u>Fierce Strike</u>
+
+    Spend 1<sprite name="power">
+    to add 1<sprite name="melee"> to your attack'
+  <PowerCost>k__BackingField: 1
+  <DamageBonus>k__BackingField: 1
+  <AccuracyBonus>k__BackingField: 0

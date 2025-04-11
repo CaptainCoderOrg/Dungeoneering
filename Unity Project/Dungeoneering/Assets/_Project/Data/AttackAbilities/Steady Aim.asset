@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b211af77eab055449b0b8984b2655638, type: 3}
+  m_Name: Steady Aim
+  m_EditorClassIdentifier: 
+  <Icon>k__BackingField: {fileID: 21300000, guid: d113cfb27e75f444a88f10f029b060a6, type: 3}
+  <Name>k__BackingField: Steady Aim
+  <Description>k__BackingField: '<u>Steady Aim</u>
+
+    Spend 1<sprite name="power">
+    to add 1<sprite name="accuracy"> to your attack'
+  <PowerCost>k__BackingField: 1
+  <DamageBonus>k__BackingField: 0
+  <AccuracyBonus>k__BackingField: 1

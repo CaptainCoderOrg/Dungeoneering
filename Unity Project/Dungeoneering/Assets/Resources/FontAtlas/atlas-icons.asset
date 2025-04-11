@@ -135,6 +135,11 @@ MonoBehaviour:
     m_GlyphIndex: 10
     m_Scale: 1
     m_Name: bonus-die
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 11
+    m_Scale: 1
+    m_Name: power
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -305,6 +310,22 @@ MonoBehaviour:
       m_HorizontalAdvance: 16
     m_GlyphRect:
       m_X: 80
+      m_Y: 224
+      m_Width: 16
+      m_Height: 16
+    m_Scale: 1.5
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -847683159, guid: 66ceb6ab667df55438a1c63c42873b72, type: 3}
+  - m_Index: 11
+    m_Metrics:
+      m_Width: 16
+      m_Height: 16
+      m_HorizontalBearingX: -0
+      m_HorizontalBearingY: 13
+      m_HorizontalAdvance: 16
+    m_GlyphRect:
+      m_X: 64
       m_Y: 224
       m_Width: 16
       m_Height: 16

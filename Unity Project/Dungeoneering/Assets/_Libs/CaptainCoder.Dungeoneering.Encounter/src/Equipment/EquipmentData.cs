@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text;
 
@@ -27,6 +26,7 @@ namespace CaptainCoder.Dungeoneering.Encounter
         [field: SerializeField] public Sprite Sprite { get; private set; }
         [field: SerializeField] public int Value { get; private set; }
         [field: SerializeField] public TraitEffect[] WornTraitEffects { get; private set; }
+        [field: Expandable][field: SerializeField] public AttackAbilityData[] AttackAbilities { get; private set; }
         public string TooltipText { get; private set; }
         public string PanelText { get; private set; }
 
